@@ -21,7 +21,7 @@
 # See man bash for more options...
 
 # Don't wait for job termination notification
-# set -o notify
+set -o notify
 
 # Don't use ^D to exit
 # set -o ignoreeof
@@ -62,7 +62,7 @@
 # ###############
 
 # Don't put duplicate lines in the history.
-# export HISTCONTROL="ignoredups"
+export HISTCONTROL="ignoredups"
 
 # Ignore some controlling instructions
 # export HISTIGNORE="[   ]*:&:bg:fg:exit"
@@ -81,7 +81,7 @@
 # \rm will call the real rm not the alias.
 
 # Interactive operation...
-# alias rm='rm -i'
+alias rm='rm -i'
 # alias cp='cp -i'
 # alias mv='mv -i'
 
@@ -90,17 +90,29 @@
 # alias du='du -h'
 
 # Misc :)
-# alias less='less -r'                          # raw control characters
-# alias whence='type -a'                        # where, of a sort
+alias less='less -r'                          # raw control characters
+alias whence='type -a'                        # where, of a sort
 # alias grep='grep --color'                     # show differences in colour
 
 # Some shortcuts for different directory listings
-# alias ls='ls -hF --color=tty'                 # classify files in colour
-# alias dir='ls --color=auto --format=vertical'
-# alias vdir='ls --color=auto --format=long'
-# alias ll='ls -l'                              # long list
-# alias la='ls -A'                              # all but . and ..
-# alias l='ls -CF'                              #
+alias ls='ls -hF --color=tty'                 # classify files in colour
+alias dir='ls --color=auto --format=vertical'
+alias vdir='ls --color=auto --format=long'
+alias ll='ls -l'                              # long list
+alias la='ls -A'                              # all but . and ..
+alias l='ls -CF'                              #
+
+alias cp='cp -i'
+alias mv='mv -i'
+alias c:='cd /cygdrive/c'
+alias grep='grep --color'
+alias vi='vim'
+alias cls='clear'
+
+#A function to pipe any command to less:
+function so {
+eval "$@" |less -I~
+}
 
 #alias python='/cygdrive/c/Python26/python.exe'
 alias gvim='/cygdrive/c/Program\ Files/Vim/vim72/gvim.exe --remote-tab-silent'
