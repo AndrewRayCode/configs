@@ -64,6 +64,9 @@ set -o notify
 # Don't put duplicate lines in the history.
 export HISTCONTROL="ignoredups"
 
+#Fix shitty characters in RXVT
+export LANG=C.ASCII
+
 # Ignore some controlling instructions
 # export HISTIGNORE="[   ]*:&:bg:fg:exit"
 
@@ -115,7 +118,7 @@ eval "$@" |less -I~
 }
 
 #alias python='/cygdrive/c/Python26/python.exe'
-alias gvim='/cygdrive/c/Program\ Files/Vim/vim72/gvim.exe --remote-tab-silent'
+alias gvim='/cygdrive/g/Program\ Files/Vim/vim72/gvim.exe --remote-tab-silent'
 alias 'diff'='git diff --color'
 alias 'log'='git log --color'
 alias here='explorer.exe .'
@@ -129,5 +132,5 @@ alias st='git status'
 
 export PATH=/cygdrive/c/Python26/:/cygdrive/c/Program\ Files/Apache\ Software\ Foundation/Apache2.2/bin/:/usr/local/bin/:/usr/bin/git:/cygdrive/c/Program\ Files/MySQL/MySQL\ Server\ 5.5/bin:$PATH
 
-alias ls="ls -CF --color"
+#alias ls="ls -CF --color"
 
