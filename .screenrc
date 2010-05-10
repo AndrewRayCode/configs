@@ -1,0 +1,9 @@
+#The way screens/windows look
+fit
+#Makes screen go back to where u weer after closing vim
+altscreen
+term "xterm-color"
+startup_message off
+hardstatus alwayslastline " %{= gK}%-w%{+b W}%n %t%{-}%+w%=%{+b W}%h%{= dd} "
+defscrollback 5000
+autodetach on
