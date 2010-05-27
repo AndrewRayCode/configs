@@ -38,6 +38,8 @@ au BufRead, BufNewFile *.djhtml setfiletype html
 autocmd! bufwritepost _vimrc source %
 nmap ,s :source $VIM/_vimrc<cr>
 nmap ,v :tabe $VIM/_vimrc<cr>
+nmap ,h :tabe C:\Windows\System32\drivers\etc\hosts<cr>
+nmap cd :cd %:h<cr>
 
 " Nerd Tree mapping
 nmap <LocalLeader>nt :NERDTreeToggle<cr>
@@ -65,4 +67,6 @@ set smarttab
 set nocindent
 set autoindent
 set lbr
-
+set shell=G:/cygwin/bin/bash
+set shellcmdflag=--login\ -c
+set shellxquote=\"
