@@ -132,5 +132,21 @@ alias st='git status'
 
 export PATH=/cygdrive/c/Python26/:/cygdrive/c/Program\ Files/Apache\ Software\ Foundation/Apache2.2/bin/:/usr/local/bin/:/usr/bin/git:/cygdrive/c/Program\ Files/MySQL/MySQL\ Server\ 5.5/bin:$PATH
 
-#alias ls="ls -CF --color"
+function parse_git_branch {
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+  echo " ("${ref#refs/heads/}")"
+}
 
+function num_git_commits_ahead {
+    num=$(git status | grep "Your branch is ahead of" | awk '{split($0,a," "); print a[9];}' 2> /dev/null) || return
+    if [[ "$num" != "" ]]; then
+        echo "+$num"
+    fi
+}
+
+RED="\[\033[0;31m\]"
+YELLOW="\[\033[0;33m\]"
+GREEN="\[\033[0;32m\]"
+WHITE="\[\033[0;37m\]"
+RESET="\[\033[0;00m\]"
+PS1="\n$YELLOW\u@$GREEN\w$YELLOW\$(parse_git_branch)$RESET \$ "

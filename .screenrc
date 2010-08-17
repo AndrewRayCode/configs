@@ -7,3 +7,5 @@ startup_message off
 hardstatus alwayslastline " %{= gK}%-w%{+b W}%n %t%{-}%+w%=%{+b W}%h%{= dd} "
 defscrollback 5000
 autodetach on
+vbell_msg "beep"
+shell -bash
