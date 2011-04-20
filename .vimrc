@@ -73,3 +73,16 @@ set is
 " set bottom indicator
 set ruler
 set sc
+
+
+" * and # search for next/previous of selected text when used in visual mode
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
+
+function! s:VSetSearch()
+  let old = @"
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@", '\'), '\n', '\\n', 'g')
+  let @" = old
+endfunction
+
