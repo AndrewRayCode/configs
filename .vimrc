@@ -3,6 +3,7 @@
 " Gundo
 " NERDCommenter
 " Fugitive
+" Matchit
 
 set nocompatible
 filetype plugin indent on
@@ -15,7 +16,7 @@ au BufRead, BufNewFile *.djhtml setfiletype html
 nmap ,s :source ~/.vimrc<cr>
 nmap ,v :tabe ~/.vimrc<cr>
 nmap ,h :tabe /etc/hosts<cr>
-nmap cd :cd %:h<cr>
+nmap cd :cd %:h<cr>:pwd<cr>
 
 " Don't want no lousy .swp files in my directoriez
 set backupdir=~
