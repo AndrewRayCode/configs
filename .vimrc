@@ -1,25 +1,55 @@
 " Plugins installed:
+" Pathogen!
+" Surround (cs"' to repla"ce " with '
 " Command-T
 " Gundo
+" Repeat (lets plugins access . for repeat)
 " NERDCommenter
 " Fugitive
-" Matchit
+" Matchit (Match more than (, [, etc with %)
 
 set nocompatible
+
+" Pathogen loading
+filetype off
+call pathogen#helptags()
+call pathogen#runtime_append_all_bundles() 
 filetype plugin indent on
+
+" change the mapleader from \ to ,
+let mapleader=","
+
+" lets you do w!! to sudo write the file
+cmap w!! w !sudo tee % >/dev/null
+
+" experimental: remap ; to :
+" nnoremap ; :
 
 " Make .tal files have HTML syntax
 au BufRead, BufNewFile *.tal setfiletype html
 au BufRead, BufNewFile *.djhtml setfiletype html
 
 " Source vim when this file is updated (although it doesn't work since it thinks we're in cygwin, dammit)
-nmap ,s :source ~/.vimrc<cr>
-nmap ,v :tabe ~/.vimrc<cr>
+nmap ,s :source $MYVIMRC<cr>
+nmap ,v :tabe $MYVIMRC<cr>
 nmap ,h :tabe /etc/hosts<cr>
 nmap cd :cd %:h<cr>:pwd<cr>
 
+" Surround mappings, switch " and ' with c
+nmap c' cs'"
+nmap c" cs"'
+
 " Don't want no lousy .swp files in my directoriez
 set backupdir=~
+
+" hide buffers instead of closing, can do :e on an unsaved buffer
+set hidden
+
+" wildignore all of these when autocompleting
+set wig=*.swp,*.bak,*.pyc,*.class
+
+" shiftround, always snap to multiples of shiftwidth when using > and <
+set sr
 
 nnoremap <LocalLeader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
@@ -86,4 +116,3 @@ function! s:VSetSearch()
   let @/ = '\V' . substitute(escape(@", '\'), '\n', '\\n', 'g')
   let @" = old
 endfunction
-
