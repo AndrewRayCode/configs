@@ -23,6 +23,9 @@
 # Don't wait for job termination notification
 set -o notify
 
+# vim bindings in terminal
+set -o vi
+
 # Don't use ^D to exit
 # set -o ignoreeof
 
@@ -61,12 +64,6 @@ set -o notify
 # History Options
 # ###############
 
-# Don't put duplicate lines in the history.
-export HISTCONTROL="ignoredups"
-
-#Fix shitty characters in RXVT
-export LANG=C.ASCII
-
 # Ignore some controlling instructions
 # export HISTIGNORE="[   ]*:&:bg:fg:exit"
 
@@ -83,54 +80,33 @@ export LANG=C.ASCII
 # application.  To override the alias instruction use a \ before, ie
 # \rm will call the real rm not the alias.
 
-# Interactive operation...
-alias rm='rm -i'
 # alias cp='cp -i'
 # alias mv='mv -i'
 
 # Default to human readable figures
 # alias df='df -h'
 # alias du='du -h'
-
-# Misc :)
-alias less='less -r'                          # raw control characters
-alias whence='type -a'                        # where, of a sort
 # alias grep='grep --color'                     # show differences in colour
 
 # Some shortcuts for different directory listings
-alias ls='ls -hF --color=tty'                 # classify files in colour
-alias dir='ls --color=auto --format=vertical'
-alias vdir='ls --color=auto --format=long'
-alias ll='ls -l'                              # long list
-alias la='ls -A'                              # all but . and ..
-alias l='ls -CF'                              #
+alias vim='mvim'
 
-alias cp='cp -i'
-alias mv='mv -i'
-alias c:='cd /cygdrive/c'
-alias grep='grep --color'
-alias vi='vim'
-alias cls='clear'
+# Git aliases
+alias 'dff'='git diff --color'
+alias 'lg'='git log --color'
+alias ga='git add'
+alias gp='git push'
+alias gc='git commit -m'
+alias gca='git commit -am'
+alias gb='git branch'
+alias gco='git checkout'
+alias gra='git remote add'
+alias grr='git remote rm'
+alias gpu='git pull'
+alias gcl='git clone'
 
-#A function to pipe any command to less:
-function so {
-eval "$@" |less -I~
-}
-
-#alias python='/cygdrive/c/Python26/python.exe'
-alias gvim='/cygdrive/g/Program\ Files/Vim/vim72/gvim.exe --remote-tab-silent'
-alias 'diff'='git diff --color'
-alias 'log'='git log --color'
-alias here='explorer.exe .'
+alias here='open .'
 alias st='git status'
-
-# Functions
-# #########
-
-# Some example functions
-# function settitle() { echo -ne "\e]2;$@\a\e]1;$@\a"; }
-
-export PATH=/cygdrive/c/Python26/:/cygdrive/c/Program\ Files/Apache\ Software\ Foundation/Apache2.2/bin/:/usr/local/bin/:/usr/bin/git:/cygdrive/c/Program\ Files/MySQL/MySQL\ Server\ 5.5/bin:$PATH
 
 function parse_git_branch {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
