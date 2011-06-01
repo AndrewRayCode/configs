@@ -126,6 +126,7 @@ function num_git_commits_ahead {
     fi
 }
 
+# https://bitbucket.org/sjl/hg-prompt/src
 function hg_ps1 {
     ref=$(hg prompt "{branch}" 2> /dev/null) || return
     echo " (${ref})"
