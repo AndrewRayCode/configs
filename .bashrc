@@ -93,44 +93,26 @@ alias rm='rm -i'
 # alias du='du -h'
 
 # Misc :)
-alias less='less -r'                          # raw control characters
-alias whence='type -a'                        # where, of a sort
 # alias grep='grep --color'                     # show differences in colour
 
 # Some shortcuts for different directory listings
-alias ls='ls -hF --color=tty'                 # classify files in colour
-alias dir='ls --color=auto --format=vertical'
-alias vdir='ls --color=auto --format=long'
-alias ll='ls -l'                              # long list
-alias la='ls -A'                              # all but . and ..
-alias l='ls -CF'                              #
-
-alias cp='cp -i'
-alias mv='mv -i'
-alias c:='cd /cygdrive/c'
-alias grep='grep --color'
-alias vi='vim'
-alias cls='clear'
-
-#A function to pipe any command to less:
 function so {
 eval "$@" |less -I~
 }
 
 #alias python='/cygdrive/c/Python26/python.exe'
-alias gvim='/cygdrive/g/Program\ Files/Vim/vim72/gvim.exe --remote-tab-silent'
-alias 'diff'='git diff --color'
-alias 'log'='git log --color'
-alias here='explorer.exe .'
-alias st='git status'
-
 # Functions
 # #########
 
 # Some example functions
 # function settitle() { echo -ne "\e]2;$@\a\e]1;$@\a"; }
 
-export PATH=/cygdrive/c/Python26/:/cygdrive/c/Program\ Files/Apache\ Software\ Foundation/Apache2.2/bin/:/usr/local/bin/:/usr/bin/git:/cygdrive/c/Program\ Files/MySQL/MySQL\ Server\ 5.5/bin:$PATH
+RED="\[\033[0;31m\]"
+YELLOW="\[\033[0;33m\]"
+PURPLE="\[\033[0;35m\]"
+GREEN="\[\033[0;32m\]"
+WHITE="\[\033[0;37m\]"
+RESET="\[\033[0;00m\]"
 
 function parse_git_branch {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
@@ -144,9 +126,21 @@ function num_git_commits_ahead {
     fi
 }
 
-RED="\[\033[0;31m\]"
-YELLOW="\[\033[0;33m\]"
-GREEN="\[\033[0;32m\]"
-WHITE="\[\033[0;37m\]"
-RESET="\[\033[0;00m\]"
-PS1="\n$YELLOW\u@$GREEN\w$YELLOW\$(parse_git_branch)$RESET \$ "
+function hg_ps1 {
+    ref=$(hg prompt "{branch}" 2> /dev/null) || return
+    echo " (${ref})"
+}
+
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/Cellar/python/2.7/bin/:$PATH
+set -o vi
+
+# bitbucket setup
+export WORKON_HOME="$HOME/Envs"
+export PIP_RESPECT_VIRTUALENV=true \
+       PIP_VIRTUALENV_BASE="$WORKON_HOME" \
+       VIRTUALENV_USE_DISTRIBUTE=1
+
+[[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
+
+
+PS1="\n$YELLOW\u@$GREEN\w$PURPLE\$(hg_ps1)$YELLOW\$(parse_git_branch)$RESET \$ "
