@@ -107,6 +107,9 @@ eval "$@" |less -I~
 # Some example functions
 # function settitle() { echo -ne "\e]2;$@\a\e]1;$@\a"; }
 
+# TODO: hack for iterm2's shitty pane dimming
+# defaults write com.googlecode.iterm2 SplitPaneDimmingAmount -float 0.75
+
 RED="\[\033[0;31m\]"
 YELLOW="\[\033[0;33m\]"
 PURPLE="\[\033[0;35m\]"
@@ -142,6 +145,5 @@ export PIP_RESPECT_VIRTUALENV=true \
        VIRTUALENV_USE_DISTRIBUTE=1
 
 [[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
-
 
 PS1="\n$YELLOW\u@$GREEN\w$PURPLE\$(hg_ps1)$YELLOW\$(parse_git_branch)$RESET \$ "
