@@ -7,6 +7,7 @@
 " NERDCommenter
 " Fugitive
 " Matchit (Match more than (, [, etc with %)
+" Unimpared
 
 set nocompatible
 
@@ -30,9 +31,11 @@ au BufRead, BufNewFile *.tal setfiletype html
 au BufRead, BufNewFile *.djhtml setfiletype html
 
 " Source vim when this file is updated (although it doesn't work since it thinks we're in cygwin, dammit)
-nmap ,s :source $MYVIMRC<cr>
-nmap ,v :tabe $MYVIMRC<cr>
-nmap ,h :tabe /etc/hosts<cr>
+nmap <Leader>s :source $MYVIMRC<cr>
+nmap <Leader>v :tabe $MYVIMRC<cr>
+nmap <Leader>h :tabe /etc/hosts<cr>
+
+" Change to working directory of current file and echo new location
 nmap cd :cd %:h<cr>:pwd<cr>
 
 " Surround mappings, switch " and ' with c
@@ -46,7 +49,7 @@ set backupdir=~
 set hidden
 
 " wildignore all of these when autocompleting
-set wig=*.swp,*.bak,*.pyc,*.class
+set wig=*.swp,*.bak,*.pyc,*.class,node_modules*
 
 " shiftround, always snap to multiples of shiftwidth when using > and <
 set sr
@@ -54,20 +57,22 @@ set sr
 nnoremap <LocalLeader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " Command-T file finder
-nnoremap <silent> ,t :CommandT<cr>
+nnoremap <silent> <Leader>t :CommandT<cr>
+let g:CommandTAcceptSelectionMap = '<C-o>'
+let g:CommandTAcceptSelectionTabMap = '<CR>'
 
 " Gundo tree viewer
-nnoremap ,u :GundoToggle<CR>
+nnoremap <Leader>u :GundoToggle<CR>
 
 " Insert item at end of list
 nmap <LocalLeader>i [{%kA,<Esc>o
 
 " Clear search highlighting so you don't have to search for /asdfasdf
-nmap <silent> ,/ :nohlsearch<CR>
+nmap <silent> <Leader>/ :nohlsearch<CR>
 
 " Jump backwards to previous function, assumes code is indented (useful when inside function)
 " Jump to top level function
-nmap ,f ?^func\\|^[a-zA-Z].*func<CR>,/
+nmap <Leader>f ?^func\\|^[a-zA-Z].*func<CR>,/
 " Jump to start of whatever function we're inside
 " nmap bf ?^\s*func<CR>,/
 
@@ -76,9 +81,10 @@ nmap <C-l> gt
 nmap <C-h> gT
 
 " Fugitive
-nmap ,gs :Gstatus<CR>
-nmap ,gc :Gcommit<CR>
-nmap ,gd :Gdiff<CR>
+nmap <Leader>gs :Gstatus<CR>
+nmap <Leader>gc :Gcommit<CR>
+nmap <Leader>gd :Gdiff<CR>
+nmap <Leader>gl :tabe %<cr>:Glog<cr><cr>:copen<cr>
 
 set ff=unix
 colorscheme vividchalk
@@ -104,7 +110,6 @@ set is
 " set bottom indicator
 set ruler
 set sc
-
 
 " * and # search for next/previous of selected text when used in visual mode
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
