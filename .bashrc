@@ -21,13 +21,15 @@ alias gcl='git clone'
 alias here='open .'
 alias st='git status'
 
-export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/Cellar/python/2.7/bin/:$PATH
+# export PATH=/usr/local/share/python:/usr/local/Cellar/python/2.7.1/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=/Users/aray/apache-maven-2.1.0/bin:/usr/local/share/python:/usr/local/bin:/usr/local/sbin:$PATH
 
 #Fix shitty characters in RXVT
-export LANG=C.ASCII
+export LANG=US.UTF-8
+export LC_ALL=C
 
 # bitbucket setup
-export WORKON_HOME="$HOME/Envs"
+export WORKON_HOME="$HOME/Documents/Envs"
 export PIP_RESPECT_VIRTUALENV=true \
        PIP_VIRTUALENV_BASE="$WORKON_HOME" \
        VIRTUALENV_USE_DISTRIBUTE=1
@@ -61,4 +63,11 @@ function hg_ps1 {
     echo " (${ref})"
 }
 
-PS1="\n$YELLOW\u@$GREEN\w$PURPLE\$(hg_ps1)$YELLOW\$(parse_git_branch)$RESET \$ "
+function hg_conflicts {
+    ref=$(hg resolve -l 2> /dev/null | grep "U " | awk '{split($0,a," "); print a[2];}' 2> /dev/null) || return
+    if [[ "$ref" != "" ]]; then
+        echo -e " \033[0;31m(\033[0;33m\xE2\x98\xA0 \033[0;31m${ref})"
+    fi
+}
+
+PS1="\n$YELLOW\u@$GREEN\w$PURPLE\$(hg_ps1)$YELLOW\$(parse_git_branch)$RED\$(hg_conflicts)$RESET \$ "
