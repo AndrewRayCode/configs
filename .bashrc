@@ -8,7 +8,7 @@ set -o vi
 # git config --global color.ui "auto"
 
 # Uncomment the appropriate
-source ~/.machine_loaner
+# source ~/.machine_loaner
 # source ~/.machine_work
 
 alias here='open .'
@@ -145,6 +145,12 @@ function dvcs_prompt {
         # Get branch
         ref=$(hg prompt "{branch}" 2> /dev/null)
         prompt=$prompt"$PURPLE (${ref})"
+
+        # How many local commits do you have ahead of origin?
+        num=$(hg summary | grep "update:" | wc -l | sed -e 's/^ *//') || return
+        if [[ "$num" != "" ]]; then
+            prompt=$prompt"$LIGHTBLUE +$num"
+        fi
 
         # Conflicts?
         files=$(hg resolve -l 2> /dev/null | grep "U " | awk '{split($0,a," "); print a[2];}' 2> /dev/null) || return
