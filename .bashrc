@@ -110,54 +110,51 @@ WHITE="\033[0;37m"
 RESET="\033[0;00m"
 
 # Needs hg-prompt from https://bitbucket.org/sjl/hg-prompt/src
+function dvcs_prompt {
+    # Figure out what repo we are in
+    gitTest=""
+    hgTest=`hg summary 2> /dev/null`
 
-# Command to get current git branch if it exists
-function parse_branch {
-    source ~/which_repo.sh
+    # Done for speed reasons. Feel free to swap
+    if [[ "$hgTest" == "" ]]; then
+        gitTest=`git status 2> /dev/null`
+    fi
 
-    if [[ "$IS_GIT_DIR" == "true" ]]; then
+    # Build the prompt
+    prompt=""
+    files=""
+
+    # If we are in git ...
+    if [[ "$gitTest" != "" ]]; then
+        # find current branch
         ref=$(git symbolic-ref HEAD)
-        echo -e " $YELLOW("${ref#refs/heads/}")"
-    fi
+        prompt=$prompt"$YELLOW ("${ref#refs/heads/}")$RESET"
 
-    if [[ "$IS_HG_DIR" == "true" ]]; then
-        ref=$(hg prompt "{branch}")
-        echo -e " $PURPLE(${ref})"
-    fi
-}
-
-function num_commits_ahead {
-    source ~/which_repo.sh
-
-    if [[ "$IS_GIT_DIR" == "true" ]]; then
+        # How many local commits do you have ahead of origin?
         num=$(git status | grep "Your branch is ahead of" | awk '{split($0,a," "); print a[9];}' 2> /dev/null) || return
         if [[ "$num" != "" ]]; then
-            echo -e "$LIGHTBLUE+$num"
+            prompt=$prompt"$LIGHTBLUE +$num"
         fi
+
+        # any conflicts?
+        files=$(git ls-files -u | cut -f 2 | sort -u | sed -e :a -e '$!N;s/\n/, /;ta' -e 'P;D')
     fi
 
-    if [[ "$IS_HG_DIR" == "true" ]]; then
-        # TODO
-        echo ""
+    # If we are in mercurial ...
+    if [[ "$hgTest" != "" ]]; then
+        # Get branch
+        ref=$(hg prompt "{branch}" 2> /dev/null)
+        prompt=$prompt"$PURPLE (${ref})"
+
+        # Conflicts?
+        files=$(hg resolve -l 2> /dev/null | grep "U " | awk '{split($0,a," "); print a[2];}' 2> /dev/null) || return
     fi
 
+    if [[ "$files" != "" ]]; then
+        prompt=$prompt" $RED($YELLOW\xE2\x98\xA0 $RED${files})"
+    fi
+
+    echo -e $prompt
 }
 
-# Mercurial conflicts
-function conflicts {
-    source ~/which_repo.sh
-
-    if [[ "$IS_GIT_DIR" == "true" ]]; then
-        # TODO
-        echo ""
-    fi
-
-    if [[ "$IS_HG_DIR" == "true" ]]; then
-        ref=$(hg resolve -l 2> /dev/null | grep "U " | awk '{split($0,a," "); print a[2];}' 2> /dev/null) || return
-        if [[ "$ref" != "" ]]; then
-            echo -e " $YELLOW($RED\xE2\x98\xA0 $YELLOW${ref})"
-        fi
-    fi
-}
-
-PS1="\n$YELLOW\u@$GREEN\w\$(parse_branch)\$(num_commits_ahead)\$(conflicts)$RESET \$ "
+PS1="\n$YELLOW\u@$GREEN\w\$(dvcs_prompt)$RESET \$ "
