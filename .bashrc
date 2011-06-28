@@ -29,7 +29,8 @@ function dvcs_diff {
     source ~/which_repo.sh
     if [[ "$IS_GIT_DIR" == "true" ]]; then
         git diff --color "$@"
-    else
+    fi
+    if [[ "$IS_HG_DIR" == "true" ]]; then
         hg diff "$@"
     fi
 }
@@ -73,9 +74,9 @@ function dvcs_commit {
 function dvcs_sts {
     source ~/which_repo.sh
     if [[ "$IS_GIT_DIR" == "true" ]]; then
-        git log --color "$@"
+        git status
     else
-        hg st "$@"
+        hg status
     fi
 }
 
@@ -94,6 +95,9 @@ export PATH=/Users/aray/apache-maven-2.1.0/bin:/usr/local/share/python:/usr/loca
 #Fix shitty characters in RXVT
 export LANG=US.UTF-8
 export LC_ALL=C
+
+# TODO: need file specific to work environment
+export FISHEYE_INST=/Users/aray/fecru-2.6.0/fecru-home/
 
 # bitbucket setup
 export WORKON_HOME="$HOME/Documents/Envs"
