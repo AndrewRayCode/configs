@@ -15,7 +15,7 @@ alias lg=dvcs_lg
 alias add=dvcs_add
 alias push=dvcs_push
 alias ct=dvcs_commit
-alias cta=dvcs_commit_all
+alias ca=dvcs_commit_all
 alias st=dvcs_sts
 alias gca='git commit -am'
 alias gb='git branch'
@@ -57,7 +57,8 @@ function dvcs_push {
     source ~/which_repo.sh
     if [[ "$IS_GIT_DIR" == "true" ]]; then
         git push "$@"
-    else
+    fi
+    if [[ "$IS_HG_DIR" == "true" ]]; then
         hg push "$@"
     fi
 }

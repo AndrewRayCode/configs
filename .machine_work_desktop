@@ -1,0 +1,9 @@
+# export PATH=/usr/local/share/python:/usr/local/Cellar/python/2.7.1/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=/Users/aray/apache-maven-2.1.0/bin:/usr/local/share/python:/usr/local/bin:/usr/local/sbin:$PATH
+
+# bitbucket setup
+export WORKON_HOME="$HOME/Documents/Envs"
+export PIP_RESPECT_VIRTUALENV=true \
+       PIP_VIRTUALENV_BASE="$WORKON_HOME" \
+       VIRTUALENV_USE_DISTRIBUTE=1
+[[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
