@@ -109,32 +109,55 @@ GREEN="\033[0;32m"
 WHITE="\033[0;37m"
 RESET="\033[0;00m"
 
-# Command to get current git branch if it exists
-function parse_git_branch {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-  echo -e " $YELLOW("${ref#refs/heads/}")"
-}
+# Needs hg-prompt from https://bitbucket.org/sjl/hg-prompt/src
 
-# NOT USED: function to show how many local commits you have ahead of upstream
-function num_git_commits_ahead {
-    num=$(git status | grep "Your branch is ahead of" | awk '{split($0,a," "); print a[9];}' 2> /dev/null) || return
-    if [[ "$num" != "" ]]; then
-        echo "$BLUE+$num"
+# Command to get current git branch if it exists
+function parse_branch {
+    source ~/which_repo.sh
+
+    if [[ "$IS_GIT_DIR" == "true" ]]; then
+        ref=$(git symbolic-ref HEAD)
+        echo -e " $YELLOW("${ref#refs/heads/}")"
+    fi
+
+    if [[ "$IS_HG_DIR" == "true" ]]; then
+        ref=$(hg prompt "{branch}")
+        echo -e " $PURPLE(${ref})"
     fi
 }
 
-# Function to get mercurial branch, needs hg-prompt from https://bitbucket.org/sjl/hg-prompt/src
-function hg_ps1 {
-    ref=$(hg prompt "{branch}" 2> /dev/null) || return
-    echo " $PURPLE(${ref})"
+function num_commits_ahead {
+    source ~/which_repo.sh
+
+    if [[ "$IS_GIT_DIR" == "true" ]]; then
+        num=$(git status | grep "Your branch is ahead of" | awk '{split($0,a," "); print a[9];}' 2> /dev/null) || return
+        if [[ "$num" != "" ]]; then
+            echo -e "$LIGHTBLUE+$num"
+        fi
+    fi
+
+    if [[ "$IS_HG_DIR" == "true" ]]; then
+        # TODO
+        echo ""
+    fi
+
 }
 
 # Mercurial conflicts
-function hg_conflicts {
-    ref=$(hg resolve -l 2> /dev/null | grep "U " | awk '{split($0,a," "); print a[2];}' 2> /dev/null) || return
-    if [[ "$ref" != "" ]]; then
-        echo -e " $YELLOW($RED\xE2\x98\xA0 \033[0;31m${ref})"
+function conflicts {
+    source ~/which_repo.sh
+
+    if [[ "$IS_GIT_DIR" == "true" ]]; then
+        # TODO
+        echo ""
+    fi
+
+    if [[ "$IS_HG_DIR" == "true" ]]; then
+        ref=$(hg resolve -l 2> /dev/null | grep "U " | awk '{split($0,a," "); print a[2];}' 2> /dev/null) || return
+        if [[ "$ref" != "" ]]; then
+            echo -e " $YELLOW($RED\xE2\x98\xA0 $YELLOW${ref})"
+        fi
     fi
 }
 
-PS1="\n$YELLOW\u@$GREEN\w\$(hg_ps1)\$(parse_git_branch)\$(num_git_commits_ahead)\$(hg_conflicts)$RESET \$ "
+PS1="\n$YELLOW\u@$GREEN\w\$(parse_branch)\$(num_commits_ahead)\$(conflicts)$RESET \$ "

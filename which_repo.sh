@@ -1,3 +1,6 @@
+IS_GIT_DIR=false
+IS_HG_DIR=false
+
 gitTest=`git status 2> /dev/null`
 hgTest=`hg status 2> /dev/null`
 
