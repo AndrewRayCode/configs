@@ -142,7 +142,7 @@ function dvcs_prompt {
         gitStatus=$(git status)
 
         # changed files in local directory?
-        change=$(echo $gitStatus | grep 'added to commit' 2> /dev/null)
+        change=$(echo $gitStatus | ack 'modified:|deleted:' 2> /dev/null)
         if [[ "$change" != "" ]]; then
             change=" "$DELTA_CHAR
         fi
@@ -178,9 +178,11 @@ function dvcs_prompt {
     if [[ "$svnInfo" != "" ]]; then
 
         # changed files in local directory?
-        svnChange=$(svn status | wc -l)
-        if [[ "$svnChange" != "" ]]; then
+        svnChange=$(svn status | ack "^M|^!" | wc -l)
+        if [[ "$svnChange" != "       0" ]]; then
             svnChange=" "$DELTA_CHAR
+        else
+            svnChange=""
         fi
 
         # http://www.codeography.com/2009/05/26/speedy-bash-prompt-git-and-subversion-integration.html
