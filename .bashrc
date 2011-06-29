@@ -109,15 +109,27 @@ GREEN="\033[0;32m"
 WHITE="\033[0;37m"
 RESET="\033[0;00m"
 
+DELTA_CHAR="༇ "
+#DELTA_CHAR="△"
+
+#CONFLICT_CHAR="☠"
+CONFLICT_CHAR="௰"
+
 # Needs hg-prompt from https://bitbucket.org/sjl/hg-prompt/src
 function dvcs_prompt {
     # Figure out what repo we are in
     gitBranch=""
+    svnInfo=""
     hgBranch=$(hg prompt "{branch}" 2> /dev/null)
 
     # Done for speed reasons. Feel free to swap
     if [[ "$hgBranch" == "" ]]; then
         gitBranch=$(git symbolic-ref HEAD 2> /dev/null)
+
+        # Svn?
+        if [[ "$gitBranch" == "" ]]; then
+            svnInfo=$(svn info 2> /dev/null)
+        fi
     fi
 
     # Build the prompt
@@ -127,10 +139,18 @@ function dvcs_prompt {
     # If we are in git ...
     if [[ "$gitBranch" != "" ]]; then
         # find current branch
-        prompt=$prompt"$YELLOW ("${gitBranch#refs/heads/}")$RESET"
+        gitStatus=$(git status)
+
+        # changed files in local directory?
+        change=$(echo $gitStatus | grep 'added to commit' 2> /dev/null)
+        if [[ "$change" != "" ]]; then
+            change=" "$DELTA_CHAR
+        fi
+
+        prompt=$prompt"$YELLOW ("${gitBranch#refs/heads/}"$change)$RESET"
 
         # How many local commits do you have ahead of origin?
-        num=$(git status | grep "Your branch is ahead of" | awk '{split($0,a," "); print a[9];}' 2> /dev/null) || return
+        num=$(echo "$gitStatus" | grep "Your branch is ahead of" | awk '{split($0,a," "); print a[9];}' 2> /dev/null) || return
         if [[ "$num" != "" ]]; then
             prompt=$prompt"$LIGHTBLUE +$num"
         fi
@@ -144,20 +164,33 @@ function dvcs_prompt {
         # Get branch
         prompt=$prompt"$PURPLE (${hgBranch})"
 
-        # How many local changes are there. This isn't exactly acurate because it doesn't contact the server, but 
-        # I'm using it as an at-a-glance thing
-        num=$(hg summary | grep "update:" | wc -l | sed -e 's/^ *//')
-        if [[ "$num" != "" ]]; then
-            prompt=$prompt"$LIGHTBLUE +$num"
-        fi
+        # I guess we don't want this (better version?)
+        #num=$(hg summary | grep "update:" | wc -l | sed -e 's/^ *//')
+        #if [[ "$num" != "" ]]; then
+            #prompt=$prompt"$LIGHTBLUE +$num"
+        #fi
 
         # Conflicts?
         files=$(hg resolve -l 2> /dev/null | grep "U " | awk '{split($0,a," "); print a[2];}' 2> /dev/null) || return
     fi
 
+    # If we are in subversion ...
+    if [[ "$svnInfo" != "" ]]; then
+
+        # changed files in local directory?
+        svnChange=$(svn status | wc -l)
+        if [[ "$svnChange" != "" ]]; then
+            svnChange=" "$DELTA_CHAR
+        fi
+
+        # http://www.codeography.com/2009/05/26/speedy-bash-prompt-git-and-subversion-integration.html
+        s=$(echo "$svnInfo" | sed -n -e '/^Revision: \([0-9]*\).*$/s//\1/p')
+        prompt=$prompt$LIGHTBLUE" (svn:$s$svnChange)"
+    fi
+
     # Show conflicted files if any
     if [[ "$files" != "" ]]; then
-        prompt=$prompt" $RED($YELLOW\xE2\x98\xA0 $RED${files})"
+        prompt=$prompt" $RED($YELLOW$CONFLICT_CHAR $RED${files})"
     fi
 
     echo -e $prompt
