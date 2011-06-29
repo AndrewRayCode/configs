@@ -115,8 +115,12 @@ DELTA_CHAR="༇ "
 #CONFLICT_CHAR="☠"
 CONFLICT_CHAR="௰"
 
-# Needs hg-prompt from https://bitbucket.org/sjl/hg-prompt/src
+# Requirements (other than git, svn and hg):
+#   hg-prompt: https://bitbucket.org/sjl/hg-prompt/src
+#   ack
+# props to http://www.codeography.com/2009/05/26/speedy-bash-prompt-git-and-subversion-integration.html
 function dvcs_prompt {
+
     # Figure out what repo we are in
     gitBranch=""
     svnInfo=""
@@ -132,7 +136,7 @@ function dvcs_prompt {
         fi
     fi
 
-    # Build the prompt
+    # Build the prompt!
     prompt=""
     files=""
 
@@ -142,27 +146,36 @@ function dvcs_prompt {
         gitStatus=$(git status)
 
         # changed files in local directory?
-        change=$(echo $gitStatus | ack 'modified:|deleted:' 2> /dev/null)
+        change=$(echo $gitStatus | ack 'modified:|deleted:')
         if [[ "$change" != "" ]]; then
             change=" "$DELTA_CHAR
         fi
 
+        # output the branch and changed character if present
         prompt=$prompt"$YELLOW ("${gitBranch#refs/heads/}"$change)$RESET"
 
         # How many local commits do you have ahead of origin?
-        num=$(echo "$gitStatus" | grep "Your branch is ahead of" | awk '{split($0,a," "); print a[9];}' 2> /dev/null) || return
+        num=$(echo "$gitStatus" | grep "Your branch is ahead of" | awk '{split($0,a," "); print a[9];}') || return
         if [[ "$num" != "" ]]; then
             prompt=$prompt"$LIGHTBLUE +$num"
         fi
 
-        # any conflicts?
+        # any conflicts? (sed madness is to remove line breaks)
         files=$(git ls-files -u | cut -f 2 | sort -u | sed -e :a -e '$!N;s/\n/, /;ta' -e 'P;D')
     fi
 
     # If we are in mercurial ...
     if [[ "$hgBranch" != "" ]]; then
-        # Get branch
-        prompt=$prompt"$PURPLE (${hgBranch})"
+        # changed files in local directory?
+        hgChange=$(hg status | ack '^M|^!')
+        if [[ "$hgChange" != "" ]]; then
+            hgChange=" "$DELTA_CHAR
+        else
+            hgChange=""
+        fi
+
+        # output branch and changed character if present
+        prompt=$prompt"$PURPLE (${hgBranch}$hgChange)"
 
         # I guess we don't want this (better version?)
         #num=$(hg summary | grep "update:" | wc -l | sed -e 's/^ *//')
@@ -171,7 +184,7 @@ function dvcs_prompt {
         #fi
 
         # Conflicts?
-        files=$(hg resolve -l 2> /dev/null | grep "U " | awk '{split($0,a," "); print a[2];}' 2> /dev/null) || return
+        files=$(hg resolve -l | grep "U " | awk '{split($0,a," "); print a[2];}') || return
     fi
 
     # If we are in subversion ...
@@ -185,9 +198,9 @@ function dvcs_prompt {
             svnChange=""
         fi
 
-        # http://www.codeography.com/2009/05/26/speedy-bash-prompt-git-and-subversion-integration.html
-        s=$(echo "$svnInfo" | sed -n -e '/^Revision: \([0-9]*\).*$/s//\1/p')
-        prompt=$prompt$LIGHTBLUE" (svn:$s$svnChange)"
+        # revision number (instead of branch name, silly svn)
+        revNo=$(echo "$svnInfo" | sed -n -e '/^Revision: \([0-9]*\).*$/s//\1/p')
+        prompt=$prompt$LIGHTBLUE" (svn:$revNo$svnChange)"
     fi
 
     # Show conflicted files if any
