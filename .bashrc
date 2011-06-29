@@ -112,12 +112,12 @@ RESET="\033[0;00m"
 # Needs hg-prompt from https://bitbucket.org/sjl/hg-prompt/src
 function dvcs_prompt {
     # Figure out what repo we are in
-    gitTest=""
-    hgTest=`hg summary 2> /dev/null`
+    gitBranch=""
+    hgBranch=$(hg prompt "{branch}" 2> /dev/null)
 
     # Done for speed reasons. Feel free to swap
-    if [[ "$hgTest" == "" ]]; then
-        gitTest=`git status 2> /dev/null`
+    if [[ "$hgBranch" == "" ]]; then
+        gitBranch=$(git symbolic-ref HEAD 2> /dev/null)
     fi
 
     # Build the prompt
@@ -125,10 +125,9 @@ function dvcs_prompt {
     files=""
 
     # If we are in git ...
-    if [[ "$gitTest" != "" ]]; then
+    if [[ "$gitBranch" != "" ]]; then
         # find current branch
-        ref=$(git symbolic-ref HEAD)
-        prompt=$prompt"$YELLOW ("${ref#refs/heads/}")$RESET"
+        prompt=$prompt"$YELLOW ("${gitBranch#refs/heads/}")$RESET"
 
         # How many local commits do you have ahead of origin?
         num=$(git status | grep "Your branch is ahead of" | awk '{split($0,a," "); print a[9];}' 2> /dev/null) || return
@@ -141,13 +140,13 @@ function dvcs_prompt {
     fi
 
     # If we are in mercurial ...
-    if [[ "$hgTest" != "" ]]; then
+    if [[ "$hgBranch" != "" ]]; then
         # Get branch
-        ref=$(hg prompt "{branch}" 2> /dev/null)
-        prompt=$prompt"$PURPLE (${ref})"
+        prompt=$prompt"$PURPLE (${hgBranch})"
 
-        # How many local commits do you have ahead of origin?
-        num=$(hg summary | grep "update:" | wc -l | sed -e 's/^ *//') || return
+        # How many local changes are there. This isn't exactly acurate because it doesn't contact the server, but 
+        # I'm using it as an at-a-glance thing
+        num=$(hg summary | grep "update:" | wc -l | sed -e 's/^ *//')
         if [[ "$num" != "" ]]; then
             prompt=$prompt"$LIGHTBLUE +$num"
         fi
@@ -156,6 +155,7 @@ function dvcs_prompt {
         files=$(hg resolve -l 2> /dev/null | grep "U " | awk '{split($0,a," "); print a[2];}' 2> /dev/null) || return
     fi
 
+    # Show conflicted files if any
     if [[ "$files" != "" ]]; then
         prompt=$prompt" $RED($YELLOW\xE2\x98\xA0 $RED${files})"
     fi
