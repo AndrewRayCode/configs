@@ -8,7 +8,7 @@ set -o vi
 # git config --global color.ui "auto"
 
 # Uncomment the appropriate
-# source ~/.machine_loaner
+source ~/.machine_loaner
 # source ~/.machine_work
 
 alias here='open .'

@@ -8,6 +8,8 @@
 " Fugitive
 " Matchit (Match more than (, [, etc with %)
 " Unimpared
+" Matrix
+" snipMate
 
 set nocompatible
 
