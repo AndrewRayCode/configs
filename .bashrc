@@ -106,6 +106,7 @@ YELLOW="\033[0;33m"
 LIGHTBLUE="\033[0;36m"
 PURPLE="\033[0;35m"
 GREEN="\033[0;32m"
+LIGHTGREEN="\033[1;32m"
 WHITE="\033[0;37m"
 RESET="\033[0;00m"
 
@@ -190,7 +191,7 @@ function dvcs_prompt {
     # If we are in subversion ...
     if [[ "$svnInfo" != "" ]]; then
 
-        # changed files in local directory?
+        # changed files in local directory? NOTE: This command is the slowest of the bunch
         svnChange=$(svn status | ack "^M|^!" | wc -l)
         if [[ "$svnChange" != "       0" ]]; then
             svnChange=" "$DELTA_CHAR
@@ -211,4 +212,4 @@ function dvcs_prompt {
     echo -e $prompt
 }
 
-PS1="\n$YELLOW\u@$GREEN\w\$(dvcs_prompt)$RESET \$ "
+PS1="\n$YELLOW\u\`if [[ \$? = "0" ]]; then echo "\\[\\033[1\\\;32m\\]"; else echo "\\[\\033[1\\\;31m\\]"; fi\`@$GREEN\w\$(dvcs_prompt)$RESET \$ "
