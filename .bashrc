@@ -45,7 +45,8 @@ function dvcs_lg {
     source ~/which_repo.sh
     if [[ "$IS_GIT_DIR" == "true" ]]; then
         git log --color "$@"
-    else
+    fi
+    if [[ "$IS_HG_DIR" == "true" ]]; then
         hg log "$@"
     fi
 }
@@ -54,7 +55,9 @@ function dvcs_add {
     source ~/which_repo.sh
     if [[ "$IS_GIT_DIR" == "true" ]]; then
         git add "$@"
-    else
+    fi
+    if [[ "$IS_HG_DIR" == "true" ]]; then
+
         hg add "$@"
     fi
 }
@@ -73,7 +76,8 @@ function dvcs_commit {
     source ~/which_repo.sh
     if [[ "$IS_GIT_DIR" == "true" ]]; then
         git commit -m "$@"
-    else
+    fi
+    if [[ "$IS_HG_DIR" == "true" ]]; then
         hg ci -m "$@"
     fi
 }
@@ -82,7 +86,8 @@ function dvcs_sts {
     source ~/which_repo.sh
     if [[ "$IS_GIT_DIR" == "true" ]]; then
         git status
-    else
+    fi
+    if [[ "$IS_HG_DIR" == "true" ]]; then
         hg status
     fi
 }
@@ -91,7 +96,8 @@ function dvcs_commit_all {
     source ~/which_repo.sh
     if [[ "$IS_GIT_DIR" == "true" ]]; then
         git commit -am "$@"
-    else
+    fi
+    if [[ "$IS_HG_DIR" == "true" ]]; then
         hg ci -m "$@"
     fi
 }
