@@ -113,6 +113,7 @@ LIGHTBLUE="\033[0;36m"
 PURPLE="\033[0;35m"
 GREEN="\033[0;32m"
 LIGHTGREEN="\033[1;32m"
+LIGHTRED="\033[1;31m"
 WHITE="\033[0;37m"
 RESET="\033[0;00m"
 
@@ -218,4 +219,12 @@ function dvcs_prompt {
     echo -e $prompt
 }
 
-PS1="\n$YELLOW\u\`if [[ \$? = "0" ]]; then echo "\\[\\033[1\\\;32m\\]"; else echo "\\[\\033[1\\\;31m\\]"; fi\`@$GREEN\w\$(dvcs_prompt)$RESET \$ "
+function error_test {
+    if [[ $? = "0" ]]; then
+        echo -e "$LIGHTGREEN"
+    else
+        echo -e "$LIGHTRED"
+    fi
+}
+
+PS1="\n$YELLOW\u\$(error_test)@$GREEN\w\$(dvcs_prompt)$RESET \$ "
