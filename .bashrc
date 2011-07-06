@@ -123,7 +123,7 @@ WHITE="\033[0;37m"
 RESET="\033[0;00m"
 
 DELTA_CHAR="༇ "
-#DELTA_CHAR="△"
+#DELTA_CHAR="△ "
 
 #CONFLICT_CHAR="☠"
 CONFLICT_CHAR="௰"
@@ -158,8 +158,8 @@ function dvcs_prompt {
         # find current branch
         gitStatus=$(git status)
 
-        # changed files in local directory?
-        change=$(echo $gitStatus | ack 'modified:|deleted:')
+        # changed *tracked* files in local directory?
+        change=$(echo $gitStatus | ack 'modified:|deleted:|new file:')
         if [[ "$change" != "" ]]; then
             change=" "$DELTA_CHAR
         fi
