@@ -39,6 +39,9 @@ function dvcs_diff {
     if [[ "$IS_HG_DIR" == "true" ]]; then
         hg diff "$@"
     fi
+    if [[ "$IS_SVN_DIR" == "true" ]]; then
+        svn diff "$@" | colordiff | less -R
+    fi
 }
 
 function dvcs_lg {
@@ -57,7 +60,6 @@ function dvcs_add {
         git add "$@"
     fi
     if [[ "$IS_HG_DIR" == "true" ]]; then
-
         hg add "$@"
     fi
 }
@@ -85,10 +87,13 @@ function dvcs_commit {
 function dvcs_sts {
     source ~/which_repo.sh
     if [[ "$IS_GIT_DIR" == "true" ]]; then
-        git status
+        git status "$@"
     fi
     if [[ "$IS_HG_DIR" == "true" ]]; then
-        hg status
+        hg status "$@"
+    fi
+    if [[ "$IS_SVN_DIR" == "true" ]]; then
+        svn status "$@"
     fi
 }
 
