@@ -10,6 +10,8 @@
 " Unimpared
 " Matrix
 " snipMate
+" MRU (most recently used files)
+" Bufexplorer
 
 set nocompatible
 
@@ -44,6 +46,11 @@ nmap cd :cd %:h<cr>:pwd<cr>
 nmap c' cs'"
 nmap c" cs"'
 
+" MRU mappings, open most recent files list
+nmap <Leader>ml :MRU<cr>
+" Opens mru which lets files autocomplete
+nmap <Leader>me :MRU 
+
 " Don't want no lousy .swp files in my directoriez
 set backupdir=~
 
@@ -75,6 +82,7 @@ nmap <silent> <Leader>/ :nohlsearch<CR>
 " Jump backwards to previous function, assumes code is indented (useful when inside function)
 " Jump to top level function
 nmap <Leader>f ?^func\\|^[a-zA-Z].*func<CR>,/
+
 " Jump to start of whatever function we're inside
 " nmap bf ?^\s*func<CR>,/
 
