@@ -12,6 +12,7 @@
 " snipMate
 " MRU (most recently used files)
 " Bufexplorer
+" Ack.vim
 
 set nocompatible
 
