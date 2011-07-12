@@ -46,6 +46,9 @@ nmap cd :cd %:h<cr>:pwd<cr>
 nmap c' cs'"
 nmap c" cs"'
 
+" Swap two parameters in a function
+nmap ,s 0%%ldf %%i, phxx
+
 " MRU mappings, open most recent files list
 nmap <Leader>ml :MRU<cr>
 " Opens mru which lets files autocomplete
