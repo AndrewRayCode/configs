@@ -111,16 +111,6 @@ function dvcs_commit_all {
 export LANG=US.UTF-8
 export LC_ALL=C
 
-# Colors for prompt
-RED="\033[0;31m"
-YELLOW="\033[0;33m"
-LIGHTBLUE="\033[0;36m"
-PURPLE="\033[0;35m"
-GREEN="\033[0;32m"
-LIGHTGREEN="\033[1;32m"
-LIGHTRED="\033[1;31m"
-WHITE="\033[0;37m"
-RESET="\033[0;00m"
 
 DELTA_CHAR="༇ "
 #DELTA_CHAR="△ "
@@ -132,99 +122,109 @@ CONFLICT_CHAR="௰"
 #   hg-prompt: https://bitbucket.org/sjl/hg-prompt/src
 #   ack
 # props to http://www.codeography.com/2009/05/26/speedy-bash-prompt-git-and-subversion-integration.html
-function dvcs_prompt {
 
+# Colors for prompt
+COLOR_RED=$(tput sgr0 && tput setaf 1)
+COLOR_GREEN=$(tput sgr0 && tput setaf 2)
+COLOR_YELLOW=$(tput sgr0 && tput setaf 3)
+COLOR_BLUE=$(tput sgr0 && tput setaf 6)
+COLOR_PURPLE=$(tput sgr0 && tput setaf 5)
+COLOR_LIGHT_GREEN=$(tput sgr0 && tput bold && tput setaf 2)
+COLOR_LIGHT_RED=$(tput sgr0 && tput bold && tput setaf 1)
+COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
+COLOR_RESET=$(tput sgr0)
+
+dvcs_function="
     # Figure out what repo we are in
-    gitBranch=""
-    svnInfo=""
-    hgBranch=$(hg prompt "{branch}" 2> /dev/null)
+    gitBranch=\"\"
+    svnInfo=\"\"
+    hgBranch=\$(hg prompt \"{branch}\" 2> /dev/null)
 
     # Done for speed reasons. Feel free to swap
-    if [[ "$hgBranch" == "" ]]; then
-        gitBranch=$(git symbolic-ref HEAD 2> /dev/null)
+    if [[ \"\$hgBranch\" == \"\" ]]; then
+        gitBranch=\$(git symbolic-ref HEAD 2> /dev/null)
 
         # Svn?
-        if [[ "$gitBranch" == "" ]]; then
-            svnInfo=$(svn info 2> /dev/null)
+        if [[ \"\$gitBranch\" == \"\" ]]; then
+            svnInfo=\$(svn info 2> /dev/null)
         fi
     fi
 
     # Build the prompt!
-    prompt=""
-    files=""
+    prompt=\"\"
+    files=\"\"
 
     # If we are in git ...
-    if [[ "$gitBranch" != "" ]]; then
+    if [[ \"\$gitBranch\" != \"\" ]]; then
         # find current branch
-        gitStatus=$(git status)
+        gitStatus=\$(git status)
 
         # changed *tracked* files in local directory?
-        change=$(echo $gitStatus | ack 'modified:|deleted:|new file:')
-        if [[ "$change" != "" ]]; then
-            change=" "$DELTA_CHAR
+        change=\$(echo \$gitStatus | ack 'modified:|deleted:|new file:')
+        if [[ \"\$change\" != \"\" ]]; then
+            change=\" \"\[\$DELTA_CHAR\]
         fi
 
         # output the branch and changed character if present
-        prompt=$prompt"$YELLOW ("${gitBranch#refs/heads/}"$change)$RESET"
+        prompt=\$prompt\"\\[\$COLOR_YELLOW\\] (\"\${gitBranch#refs/heads/}\"\$change)\\[\$COLOR_RESET\\]\"
 
         # How many local commits do you have ahead of origin?
-        num=$(echo "$gitStatus" | grep "Your branch is ahead of" | awk '{split($0,a," "); print a[9];}') || return
-        if [[ "$num" != "" ]]; then
-            prompt=$prompt"$LIGHTBLUE +$num"
+        num=\$(echo \"\$gitStatus\" | grep \"Your branch is ahead of\" | awk '{split(\$0,a,\" \"); print a[9];}') || return
+        if [[ \"\$num\" != \"\" ]]; then
+            prompt=\$prompt\"\\[\$COLOR_LIGHT_CYAN\\] +\$num\"
         fi
 
         # any conflicts? (sed madness is to remove line breaks)
-        files=$(git ls-files -u | cut -f 2 | sort -u | sed -e :a -e '$!N;s/\n/, /;ta' -e 'P;D')
+        files=\$(git ls-files -u | cut -f 2 | sort -u | sed -e :a -e '\$!N;s/\\\n/, /;ta' -e 'P;D')
     fi
 
     # If we are in mercurial ...
-    if [[ "$hgBranch" != "" ]]; then
+    if [[ \"\$hgBranch\" != \"\" ]]; then
         # changed files in local directory?
-        hgChange=$(hg status | ack '^M|^!')
-        if [[ "$hgChange" != "" ]]; then
-            hgChange=" "$DELTA_CHAR
+        hgChange=\$(hg status | ack '^M|^!')
+        if [[ \"\$hgChange\" != \"\" ]]; then
+            hgChange=\" \"\$DELTA_CHAR
         else
-            hgChange=""
+            hgChange=\"\"
         fi
 
         # output branch and changed character if present
-        prompt=$prompt"$PURPLE (${hgBranch}$hgChange)"
+        prompt=\$prompt\"\[\$PURPLE\] (\${hgBranch}\$hgChange)\"
 
         # I guess we don't want this (better version?)
-        #num=$(hg summary | grep "update:" | wc -l | sed -e 's/^ *//')
-        #if [[ "$num" != "" ]]; then
-            #prompt=$prompt"$LIGHTBLUE +$num"
+        #num=\$(hg summary | grep \"update:\" | wc -l | sed -e 's/^ *//')
+        #if [[ \"\$num\" != \"\" ]]; then
+            #prompt=\$prompt\"\[\$COLOR_LIGHT_CYAN\] +\$num\"
         #fi
 
         # Conflicts?
-        files=$(hg resolve -l | grep "U " | awk '{split($0,a," "); print a[2];}') || return
+        files=\$(hg resolve -l | grep \"U \" | awk '{split(\$0,a,\" \"); print a[2];}') || return
     fi
 
     # If we are in subversion ...
-    if [[ "$svnInfo" != "" ]]; then
+    if [[ \"\$svnInfo\" != \"\" ]]; then
 
         # changed files in local directory? NOTE: This command is the slowest of the bunch
-        svnChange=$(svn status | ack "^M|^!" | wc -l)
-        if [[ "$svnChange" != "       0" ]]; then
-            svnChange=" "$DELTA_CHAR
+        svnChange=\$(svn status | ack \"^M|^!\" | wc -l)
+        if [[ \"\$svnChange\" != \"       0\" ]]; then
+            svnChange=\" \"\$DELTA_CHAR
         else
-            svnChange=""
+            svnChange=\"\"
         fi
 
         # revision number (instead of branch name, silly svn)
-        revNo=$(echo "$svnInfo" | sed -n -e '/^Revision: \([0-9]*\).*$/s//\1/p')
-        prompt=$prompt$LIGHTBLUE" (svn:$revNo$svnChange)"
+        revNo=\$(echo \"\$svnInfo\" | sed -n -e '/^Revision: \([0-9]*\).*\$/s//\1/p')
+        prompt=\$prompt\[\$COLOR_BLUE\]\" (svn:\$revNo\$svnChange)\"
     fi
 
     # Show conflicted files if any
-    if [[ "$files" != "" ]]; then
-        prompt=$prompt" $RED($YELLOW$CONFLICT_CHAR $RED${files})"
+    if [[ \"\$files\" != \"\" ]]; then
+        prompt=\$prompt\" \[\$COLOR_RED\](\[\$COLOR_YELLOW\]\[\$CONFLICT_CHAR\] \[\$COLOR_RED\]\${files})\"
     fi
 
-    echo -e $prompt
-}
+    echo -e \$prompt"
 
-function error_test {
+function error_test() {
     if [[ $? = "0" ]]; then
         echo -e "$LIGHTGREEN"
     else
@@ -232,4 +232,4 @@ function error_test {
     fi
 }
 
-PS1="\n$YELLOW\u\$(error_test)@$GREEN\w\$(dvcs_prompt)$RESET \$ "
+PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_function})\[$COLOR_RESET\] \$ "
