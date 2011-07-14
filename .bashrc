@@ -105,6 +105,9 @@ function dvcs_commit_all {
     if [[ "$IS_HG_DIR" == "true" ]]; then
         hg ci -m "$@"
     fi
+    if [[ "$IS_SVN_DIR" == "true" ]]; then
+        svn ci --message "$@"
+    fi
 }
 
 #Fix shitty characters in RXVT
