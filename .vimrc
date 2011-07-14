@@ -13,6 +13,7 @@
 " MRU (most recently used files)
 " Bufexplorer
 " Ack.vim
+" NerdTree
 
 set nocompatible
 
@@ -40,6 +41,9 @@ nmap <Leader>s :source $MYVIMRC<cr>
 nmap <Leader>v :tabe $MYVIMRC<cr>
 nmap <Leader>h :tabe /etc/hosts<cr>
 
+" NerdTree
+nmap <Leader>nt :NERDTreeToggle<cr>
+
 " Change to working directory of current file and echo new location
 nmap cd :cd %:h<cr>:pwd<cr>
 
@@ -48,7 +52,7 @@ nmap c' cs'"
 nmap c" cs"'
 
 " Swap two parameters in a function
-nmap ,s 0%%ldf %%i, phxx
+nmap <Leader>- lF(ldWf)i, pF,dt)
 
 " MRU mappings, open most recent files list
 nmap <Leader>ml :MRU<cr>
