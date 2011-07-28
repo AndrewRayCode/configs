@@ -7,9 +7,7 @@ set -o vi
 # Do this on first load stupid:
 # git config --global color.ui "auto"
 
-# Uncomment the appropriate
-source ~/.machine_loaner
-# source ~/.machine_work
+source ~/.bash_config
 
 alias here='open .'
 
@@ -192,7 +190,7 @@ dvcs_function="
         fi
 
         # output branch and changed character if present
-        prompt=\$prompt\"\[\$PURPLE\] (\${hgBranch}\$hgChange)\"
+        prompt=\$prompt\"\[\$COLOR_PURPLE\] (\${hgBranch}\$hgChange)\"
 
         # I guess we don't want this (better version?)
         #num=\$(hg summary | grep \"update:\" | wc -l | sed -e 's/^ *//')
