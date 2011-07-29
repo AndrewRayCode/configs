@@ -32,9 +32,10 @@ cmap w!! w !sudo tee % >/dev/null
 " experimental: remap ; to :
 " nnoremap ; :
 
-" Make .tal files have HTML syntax
+" Custom file type syntax highlighting
 au BufRead, BufNewFile *.tal setfiletype html
 au BufRead, BufNewFile *.djhtml setfiletype html
+au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 
 " Source vim when this file is updated (although it doesn't work since it thinks we're in cygwin, dammit)
 nmap <Leader>s :source $MYVIMRC<cr>
