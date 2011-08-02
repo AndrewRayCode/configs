@@ -60,6 +60,9 @@ nmap <Leader>ml :MRU<cr>
 " Opens mru which lets files autocomplete
 nmap <Leader>me :MRU 
 
+" Alphabetize CSS rules if on mulitple lines
+nmap <Leader>rs vi{:sort<cr>
+
 " Don't want no lousy .swp files in my directoriez
 set backupdir=~
 
