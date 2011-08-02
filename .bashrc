@@ -184,7 +184,7 @@ dvcs_function="
         # changed files in local directory?
         hgChange=\$(hg status | ack '^M|^!')
         if [[ \"\$hgChange\" != \"\" ]]; then
-            hgChange=\" \"\$DELTA_CHAR
+            hgChange=\" \"\[\$DELTA_CHAR\]
         else
             hgChange=\"\"
         fi
@@ -208,7 +208,7 @@ dvcs_function="
         # changed files in local directory? NOTE: This command is the slowest of the bunch
         svnChange=\$(svn status | ack \"^M|^!\" | wc -l)
         if [[ \"\$svnChange\" != \"       0\" ]]; then
-            svnChange=\" \"\$DELTA_CHAR
+            svnChange=\" \"\[\$DELTA_CHAR\]
         else
             svnChange=\"\"
         fi
