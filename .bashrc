@@ -50,6 +50,9 @@ function dvcs_lg {
     if [[ "$IS_HG_DIR" == "true" ]]; then
         hg log "$@"
     fi
+    if [[ "$IS_SVN_DIR" == "true" ]]; then
+        svn log -v --limit 50 "$@" | colordiff | less -R
+    fi
 }
 
 function dvcs_add {
@@ -113,8 +116,8 @@ export LANG=US.UTF-8
 export LC_ALL=C
 
 
-DELTA_CHAR="༇ "
-#DELTA_CHAR="△ "
+#DELTA_CHAR="༇"
+DELTA_CHAR="△"
 
 #CONFLICT_CHAR="☠"
 CONFLICT_CHAR="௰"
@@ -161,13 +164,13 @@ dvcs_function="
         gitStatus=\$(git status)
 
         # changed *tracked* files in local directory?
-        change=\$(echo \$gitStatus | ack 'modified:|deleted:|new file:')
-        if [[ \"\$change\" != \"\" ]]; then
-            change=\" \"\[\$DELTA_CHAR\]
+        gitChange=\$(echo \$gitStatus | ack 'modified:|deleted:|new file:')
+        if [[ \"\$gitChange\" != \"\" ]]; then
+            gitChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
         fi
 
         # output the branch and changed character if present
-        prompt=\$prompt\"\\[\$COLOR_YELLOW\\] (\"\${gitBranch#refs/heads/}\"\$change)\\[\$COLOR_RESET\\]\"
+        prompt=\$prompt\"\\[\$COLOR_YELLOW\\] (\"\${gitBranch#refs/heads/}\"\$gitChange)\\[\$COLOR_RESET\\]\"
 
         # How many local commits do you have ahead of origin?
         num=\$(echo \"\$gitStatus\" | grep \"Your branch is ahead of\" | awk '{split(\$0,a,\" \"); print a[9];}') || return
@@ -184,18 +187,18 @@ dvcs_function="
         # changed files in local directory?
         hgChange=\$(hg status | ack '^M|^!')
         if [[ \"\$hgChange\" != \"\" ]]; then
-            hgChange=\" \"\[\$DELTA_CHAR\]
+            hgChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
         else
             hgChange=\"\"
         fi
 
         # output branch and changed character if present
-        prompt=\$prompt\"\[\$COLOR_PURPLE\] (\${hgBranch}\$hgChange)\"
+        prompt=\$prompt\"\\[\$COLOR_PURPLE\\] (\${hgBranch}\$hgChange)\"
 
         # I guess we don't want this (better version?)
         #num=\$(hg summary | grep \"update:\" | wc -l | sed -e 's/^ *//')
         #if [[ \"\$num\" != \"\" ]]; then
-            #prompt=\$prompt\"\[\$COLOR_LIGHT_CYAN\] +\$num\"
+            #prompt=\$prompt\"\\[\$COLOR_LIGHT_CYAN\\] +\$num\"
         #fi
 
         # Conflicts?
@@ -208,28 +211,30 @@ dvcs_function="
         # changed files in local directory? NOTE: This command is the slowest of the bunch
         svnChange=\$(svn status | ack \"^M|^!\" | wc -l)
         if [[ \"\$svnChange\" != \"       0\" ]]; then
-            svnChange=\" \"\[\$DELTA_CHAR\]
+            svnChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
         else
             svnChange=\"\"
         fi
 
         # revision number (instead of branch name, silly svn)
         revNo=\$(echo \"\$svnInfo\" | sed -n -e '/^Revision: \([0-9]*\).*\$/s//\1/p')
-        prompt=\$prompt\[\$COLOR_BLUE\]\" (svn:\$revNo\$svnChange)\"
+        prompt=\$prompt\"\\[\$COLOR_BLUE\\] (svn:\$revNo\$svnChange)\\[\$COLOR_RESET\\]\"
     fi
 
     # Show conflicted files if any
     if [[ \"\$files\" != \"\" ]]; then
-        prompt=\$prompt\" \[\$COLOR_RED\](\[\$COLOR_YELLOW\]\[\$CONFLICT_CHAR\] \[\$COLOR_RED\]\${files})\"
+        prompt=\$prompt\" \\[\$COLOR_RED\\](\\[\$COLOR_YELLOW\\]\"
+        prompt=\$prompt\"\\[`tput sc`\\]  \\[`tput rc`\\]\\[\$CONFLICT_CHAR\\] \"
+        prompt=\$prompt\"\\[\$COLOR_RED\\]\${files})\"
     fi
 
     echo -e \$prompt"
 
 function error_test() {
     if [[ $? = "0" ]]; then
-        echo -e "$LIGHTGREEN"
+        printf "$COLOR_LIGHT_GREEN"
     else
-        echo -e "$LIGHTRED"
+        printf "$COLOR_LIGHT_RED"
     fi
 }
 
