@@ -115,17 +115,20 @@ function dvcs_commit_all {
 export LANG=US.UTF-8
 export LC_ALL=C
 
-
-#DELTA_CHAR="༇"
-DELTA_CHAR="△"
-
-#CONFLICT_CHAR="☠"
-CONFLICT_CHAR="௰"
-
 # Requirements (other than git, svn and hg):
 #   hg-prompt: https://bitbucket.org/sjl/hg-prompt/src
 #   ack
 # props to http://www.codeography.com/2009/05/26/speedy-bash-prompt-git-and-subversion-integration.html
+
+# :option-delta
+    DELTA_CHAR="༇"
+    #DELTA_CHAR="△"
+# /option-delta
+
+# :option-conflict
+    #CONFLICT_CHAR="☠"
+    CONFLICT_CHAR="௰"
+# /option-conflict
 
 # Colors for prompt
 COLOR_RED=$(tput sgr0 && tput setaf 1)
@@ -140,93 +143,139 @@ COLOR_RESET=$(tput sgr0)
 
 dvcs_function="
     # Figure out what repo we are in
-    gitBranch=\"\"
-    svnInfo=\"\"
-    hgBranch=\$(hg prompt \"{branch}\" 2> /dev/null)
 
-    # Done for speed reasons. Feel free to swap
-    if [[ \"\$hgBranch\" == \"\" ]]; then
+    # :git
+        gitBranch=\"\"
+    # /git
+
+    # :svn
+        svnInfo=\"\"
+    # /svn
+
+    # :hg
+        hgBranch=\$(hg prompt \"{branch}\" 2> /dev/null)
+
+        # Done for speed reasons. Feel free to swap
+        if [[ \"\$hgBranch\" == \"\" ]]; then
+    # /hg
+    # :git
         gitBranch=\$(git symbolic-ref HEAD 2> /dev/null)
 
-        # Svn?
         if [[ \"\$gitBranch\" == \"\" ]]; then
-            svnInfo=\$(svn info 2> /dev/null)
+    # /git
+    # :svn
+        # Svn?
+        svnInfo=\$(svn info 2> /dev/null)
+    # /svn
+
+    # :git
         fi
-    fi
+    # /git
+    # :hg
+        fi
+    # /hg
 
     # Build the prompt!
     prompt=\"\"
-    files=\"\"
 
-    # If we are in git ...
-    if [[ \"\$gitBranch\" != \"\" ]]; then
-        # find current branch
-        gitStatus=\$(git status)
+    # :conflict
+        files=\"\"
+    # /conflict
 
-        # changed *tracked* files in local directory?
-        gitChange=\$(echo \$gitStatus | ack 'modified:|deleted:|new file:')
-        if [[ \"\$gitChange\" != \"\" ]]; then
-            gitChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
+    # :git
+        # If we are in git ...
+        if [[ \"\$gitBranch\" != \"\" ]]; then
+            # find current branch
+            gitStatus=\$(git status)
+
+            # :git-modified
+                # changed *tracked* files in local directory?
+                gitChange=\$(echo \$gitStatus | ack 'modified:|deleted:|new file:')
+                if [[ \"\$gitChange\" != \"\" ]]; then
+                    gitChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
+                fi
+            # /git-modified
+
+            # :git-branch
+                # output the branch and changed character if present
+                prompt=\$prompt\"\\[\$COLOR_YELLOW\\] (\"\${gitBranch#refs/heads/}\"\$gitChange)\\[\$COLOR_RESET\\]\"
+            # /git-branch
+
+            # :git-ahead
+                # How many local commits do you have ahead of origin?
+                num=\$(echo \"\$gitStatus\" | grep \"Your branch is ahead of\" | awk '{split(\$0,a,\" \"); print a[9];}') || return
+                if [[ \"\$num\" != \"\" ]]; then
+                    prompt=\$prompt\"\\[\$COLOR_LIGHT_CYAN\\] +\$num\"
+                fi
+            # /git-ahead
+
+            # :conflicts
+                # any conflicts? (sed madness is to remove line breaks)
+                files=\$(git ls-files -u | cut -f 2 | sort -u | sed -e :a -e '\$!N;s/\\\n/, /;ta' -e 'P;D')
+            # /conflicts
         fi
-
-        # output the branch and changed character if present
-        prompt=\$prompt\"\\[\$COLOR_YELLOW\\] (\"\${gitBranch#refs/heads/}\"\$gitChange)\\[\$COLOR_RESET\\]\"
-
-        # How many local commits do you have ahead of origin?
-        num=\$(echo \"\$gitStatus\" | grep \"Your branch is ahead of\" | awk '{split(\$0,a,\" \"); print a[9];}') || return
-        if [[ \"\$num\" != \"\" ]]; then
-            prompt=\$prompt\"\\[\$COLOR_LIGHT_CYAN\\] +\$num\"
-        fi
-
-        # any conflicts? (sed madness is to remove line breaks)
-        files=\$(git ls-files -u | cut -f 2 | sort -u | sed -e :a -e '\$!N;s/\\\n/, /;ta' -e 'P;D')
-    fi
+    # /git
 
     # If we are in mercurial ...
-    if [[ \"\$hgBranch\" != \"\" ]]; then
-        # changed files in local directory?
-        hgChange=\$(hg status | ack '^M|^!')
-        if [[ \"\$hgChange\" != \"\" ]]; then
-            hgChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
-        else
-            hgChange=\"\"
+    # :hg
+        if [[ \"\$hgBranch\" != \"\" ]]; then
+
+            # :hg-modified
+                # changed files in local directory?
+                hgChange=\$(hg status | ack '^M|^!')
+                if [[ \"\$hgChange\" != \"\" ]]; then
+                    hgChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
+                else
+                    hgChange=\"\"
+                fi
+            # /hg-modified
+
+            # :hg-branch
+                # output branch and changed character if present
+                prompt=\$prompt\"\\[\$COLOR_PURPLE\\] (\${hgBranch}\$hgChange)\"
+
+                # I guess we don't want this (better version?)
+                #num=\$(hg summary | grep \"update:\" | wc -l | sed -e 's/^ *//')
+                #if [[ \"\$num\" != \"\" ]]; then
+                    #prompt=\$prompt\"\\[\$COLOR_LIGHT_CYAN\\] +\$num\"
+                #fi
+            # /hg-branch
+
+            # :conflicts
+            # Conflicts?
+                files=\$(hg resolve -l | grep \"U \" | awk '{split(\$0,a,\" \"); print a[2];}') || return
+            # /conflicts
         fi
+    # /hg
 
-        # output branch and changed character if present
-        prompt=\$prompt\"\\[\$COLOR_PURPLE\\] (\${hgBranch}\$hgChange)\"
+    # :svn
+        # If we are in subversion ...
+        if [[ \"\$svnInfo\" != \"\" ]]; then
 
-        # I guess we don't want this (better version?)
-        #num=\$(hg summary | grep \"update:\" | wc -l | sed -e 's/^ *//')
-        #if [[ \"\$num\" != \"\" ]]; then
-            #prompt=\$prompt\"\\[\$COLOR_LIGHT_CYAN\\] +\$num\"
-        #fi
+            # :svn-changed
+                # changed files in local directory? NOTE: This command is the slowest of the bunch
+                svnChange=\$(svn status | ack \"^M|^!\" | wc -l)
+                if [[ \"\$svnChange\" != \"       0\" ]]; then
+                    svnChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
+                else
+                    svnChange=\"\"
+                fi
+            # /svn-changed
 
-        # Conflicts?
-        files=\$(hg resolve -l | grep \"U \" | awk '{split(\$0,a,\" \"); print a[2];}') || return
-    fi
-
-    # If we are in subversion ...
-    if [[ \"\$svnInfo\" != \"\" ]]; then
-
-        # changed files in local directory? NOTE: This command is the slowest of the bunch
-        svnChange=\$(svn status | ack \"^M|^!\" | wc -l)
-        if [[ \"\$svnChange\" != \"       0\" ]]; then
-            svnChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
-        else
-            svnChange=\"\"
+            # revision number (instead of branch name, silly svn)
+            revNo=\$(echo \"\$svnInfo\" | sed -n -e '/^Revision: \([0-9]*\).*\$/s//\1/p')
+            prompt=\$prompt\"\\[\$COLOR_BLUE\\] (svn:\$revNo\$svnChange)\\[\$COLOR_RESET\\]\"
         fi
+    # /svn
 
-        # revision number (instead of branch name, silly svn)
-        revNo=\$(echo \"\$svnInfo\" | sed -n -e '/^Revision: \([0-9]*\).*\$/s//\1/p')
-        prompt=\$prompt\"\\[\$COLOR_BLUE\\] (svn:\$revNo\$svnChange)\\[\$COLOR_RESET\\]\"
-    fi
-
-    # Show conflicted files if any
-    if [[ \"\$files\" != \"\" ]]; then
-        prompt=\$prompt\" \\[\$COLOR_RED\\](\\[\$COLOR_YELLOW\\]\"
-        prompt=\$prompt\"\\[`tput sc`\\]  \\[`tput rc`\\]\\[\$CONFLICT_CHAR\\] \"
-        prompt=\$prompt\"\\[\$COLOR_RED\\]\${files})\"
-    fi
+    # :conflicts
+        # Show conflicted files if any
+        if [[ \"\$files\" != \"\" ]]; then
+            prompt=\$prompt\" \\[\$COLOR_RED\\](\\[\$COLOR_YELLOW\\]\"
+            prompt=\$prompt\"\\[`tput sc`\\]  \\[`tput rc`\\]\\[\$CONFLICT_CHAR\\] \"
+            prompt=\$prompt\"\\[\$COLOR_RED\\]\${files})\"
+        fi
+    # /conflicts
 
     echo -e \$prompt"
 
