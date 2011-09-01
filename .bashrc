@@ -120,6 +120,10 @@ export LC_ALL=C
 #   ack
 # props to http://www.codeography.com/2009/05/26/speedy-bash-prompt-git-and-subversion-integration.html
 
+# :option-max-conflicted-files
+    MAX_CONFLICTED_FILES=2
+# /option-max-conflicted-chars
+
 # :option-delta
     DELTA_CHAR="༇"
     #DELTA_CHAR="△"
@@ -211,7 +215,7 @@ dvcs_function="
 
             # :conflicts
                 # any conflicts? (sed madness is to remove line breaks)
-                files=\$(git ls-files -u | cut -f 2 | sort -u | sed -e :a -e '\$!N;s/\\\n/, /;ta' -e 'P;D')
+                files=\$(git ls-files -u | cut -f 2 | sort -u | sed '$(($MAX_CONFLICTED_FILES+1)),1000d' |  sed -e :a -e '\$!N;s/\\\n/, /;ta' -e 'P;D')
             # /conflicts
         fi
     # /git
@@ -243,7 +247,7 @@ dvcs_function="
 
             # :conflicts
             # Conflicts?
-                files=\$(hg resolve -l | grep \"U \" | awk '{split(\$0,a,\" \"); print a[2];}') || return
+                files=\$(hg resolve -l | grep \"U \" | sed '$(($MAX_CONFLICTED_FILES+1)),1000d' | awk '{split(\$0,a,\" \"); print a[2];}') || return
             # /conflicts
         fi
     # /hg
