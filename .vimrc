@@ -13,7 +13,8 @@
 " MRU (most recently used files)
 " Bufexplorer
 " Ack.vim
-" RainbowParentheses (https://bitbucket.org/sjl/dotfiles/src/tip/vim/bundle/rainbow/)
+" RainbowParentheses (https://bitbucket.org/sjl/dotfiles/src/tip/vim/bundle/rainbow/) (set LineNr in vividchalk to #666666)
+" TagList (brew install ctags-exuberant) (http://vim.sourceforge.net/scripts/script.php?script_id=273) (silent! setlocal norelativenumber)
 " NerdTree
 
 set nocompatible
@@ -30,9 +31,6 @@ let mapleader=","
 " lets you do w!! to sudo write the file
 cmap w!! w !sudo tee % >/dev/null
 
-" experimental: remap ; to :
-" nnoremap ; :
-
 " Custom file type syntax highlighting
 au BufRead, BufNewFile *.tal setfiletype html
 au BufRead, BufNewFile *.djhtml setfiletype html
@@ -40,18 +38,25 @@ au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 
 " sexy or silly?
 call rainbow_parentheses#Toggle()
-nmap <Leader>rp :RainbowParenthesesToggle<cr>
+nmap <silent> <Leader>rp :RainbowParenthesesToggle<cr>
 
 " Source vim when this file is updated (although it doesn't work since it thinks we're in cygwin, dammit)
-nmap <Leader>s :source $MYVIMRC<cr>
+nmap <Leader>sv :source $MYVIMRC<cr>
+nmap <silent> <Leader>so :source %<cr>
 nmap <Leader>v :tabe $MYVIMRC<cr>
 nmap <Leader>h :tabe /etc/hosts<cr>
 
 " Highlight last yanked / pasted text
 nmap <Leader>ht `[v`]
 
+" Paste toggle
+set pastetoggle=<F2>
+
 " NerdTree
 nmap <Leader>nt :NERDTreeToggle<cr>
+
+" TagList
+nmap <Leader>tl :TlistToggle<cr>
 
 " Change to working directory of current file and echo new location
 nmap cd :cd %:h<cr>:pwd<cr>
@@ -116,8 +121,8 @@ nmap <Leader>gc :Gcommit<CR>
 nmap <Leader>gd :Gdiff<CR>
 nmap <Leader>gl :tabe %<cr>:Glog<cr><cr>:copen<cr>
 
-" Testing out relative line number, don't forget to set LineNr in vividchalk to #666666 
-set relativenumber
+" Testing out relative line number
+setglobal relativenumber
 
 set ff=unix
 colorscheme vividchalk
