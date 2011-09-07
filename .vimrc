@@ -14,7 +14,7 @@
 " Bufexplorer
 " Ack.vim
 " RainbowParentheses (https://bitbucket.org/sjl/dotfiles/src/tip/vim/bundle/rainbow/) (set LineNr in vividchalk to #666666)
-" TagList (brew install ctags-exuberant) (http://vim.sourceforge.net/scripts/script.php?script_id=273) (silent! setlocal norelativenumber)
+" Tagbar (brew install ctags-exuberant) (get doctorjs)
 " NerdTree
 
 set nocompatible
@@ -91,7 +91,7 @@ set sr
 nnoremap <LocalLeader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " Command-T file finder
-nnoremap <silent> <Leader>t :CommandT<cr>
+nnoremap <silent> <Leader>T :CommandT<cr>
 let g:CommandTAcceptSelectionMap = '<C-o>'
 let g:CommandTAcceptSelectionTabMap = '<CR>'
 
@@ -159,3 +159,7 @@ function! s:VSetSearch()
   let @/ = '\V' . substitute(escape(@", '\'), '\n', '\\n', 'g')
   let @" = old
 endfunction
+
+" tagbar? http://stackoverflow.com/questions/4777366/recommended-vim-plugins-for-javascript-coding/5893600#5893600
+nnoremap <silent> <F3> :TagbarToggle<CR>
+let g:tagbar_left=1
