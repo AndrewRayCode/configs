@@ -166,3 +166,5 @@ let g:tagbar_left=1
 
 " Execute command under cursor with <⌘-e>
 nmap <D-e> yy:<C-r>"<backspace><cr>
+
+let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
