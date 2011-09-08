@@ -15,12 +15,13 @@
 " Ack.vim
 " Vividchalk (set LineNr in vividchalk to #666666)
 " RainbowParentheses (https://bitbucket.org/sjl/dotfiles/src/tip/vim/bundle/rainbow/)
-" Tagbar (brew install ctags-exuberant) (get doctorjs)
+" Tagbar (brew install ctags-exuberant) (get doctorjs) (http://stackoverflow.com/questions/4777366/recommended-vim-plugins-for-javascript-coding/5893600#5893600)
 " NerdTree
 
-" ------------
+" ---------------------------------------------------------------
 " Custom setup
-" ------------
+" ---------------------------------------------------------------
+
 colorscheme vividchalk
 set nocompatible
 
@@ -43,9 +44,9 @@ let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf
 " sexy or silly?
 call RainbowParenthesesToggle()
 
-" ---------
+" ---------------------------------------------------------------
 " Functions
-" ---------
+" ---------------------------------------------------------------
 
 function! s:VSetSearch()
   let old = @"
@@ -54,9 +55,9 @@ function! s:VSetSearch()
   let @" = old
 endfunction
 
-" ------------
+" ---------------------------------------------------------------
 " Key mappings
-" ------------
+" ---------------------------------------------------------------
 
 " lets you do w!! to sudo write the file
 cmap w!! w !sudo tee % >/dev/null
@@ -138,15 +139,15 @@ nnoremap <LocalLeader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
 
-" tagbar? http://stackoverflow.com/questions/4777366/recommended-vim-plugins-for-javascript-coding/5893600#5893600
+" tagbar?
 nnoremap <silent> <F3> :TagbarToggle<CR>
 
 " Execute command under cursor with <⌘-e>
 nmap <D-e> yy:<C-r>"<backspace><cr>
 
-" ---------
+" ------------------------------------------------------------------------------------------
 " VIM setup
-" ---------
+" ------------------------------------------------------------------------------------------
 
 " Paste toggle
 set pastetoggle=<F2>
