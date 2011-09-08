@@ -25,6 +25,8 @@ call pathogen#helptags()
 call pathogen#runtime_append_all_bundles() 
 filetype plugin indent on
 
+syntax on
+
 " change the mapleader from \ to ,
 let mapleader=","
 
@@ -44,7 +46,8 @@ nmap <silent> <Leader>rp :RainbowParenthesesToggle<cr>
 nmap <Leader>sv :source $MYVIMRC<cr>
 nmap <silent> <Leader>so :source %<cr>
 nmap <Leader>v :tabe $MYVIMRC<cr>
-nmap <Leader>h :tabe /etc/hosts<cr>
+nmap <Leader>hs :tabe /etc/hosts<cr>
+nmap <Leader>js :tabe ~/.jsl<cr>
 
 " Highlight last yanked / pasted text
 nmap <Leader>ht `[v`]
