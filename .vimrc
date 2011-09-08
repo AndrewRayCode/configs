@@ -21,6 +21,7 @@
 " ------------
 " Custom setup
 " ------------
+colorscheme vividchalk
 set nocompatible
 
 " Pathogen loading
@@ -36,8 +37,22 @@ au BufRead, BufNewFile *.tal setfiletype html
 au BufRead, BufNewFile *.djhtml setfiletype html
 au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 
+" JSLint options for custom procesing file
+let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
+
 " sexy or silly?
-call rainbow_parentheses#Toggle()
+call RainbowParenthesesToggle()
+
+" ---------
+" Functions
+" ---------
+
+function! s:VSetSearch()
+  let old = @"
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@", '\'), '\n', '\\n', 'g')
+  let @" = old
+endfunction
 
 " ------------
 " Key mappings
@@ -48,6 +63,37 @@ cmap w!! w !sudo tee % >/dev/null
 
 " change the mapleader from \ to ,
 let mapleader=","
+
+" Command-T file finder
+nnoremap <silent> <Leader>T :CommandT<cr>
+let g:CommandTAcceptSelectionMap = '<C-o>'
+let g:CommandTAcceptSelectionTabMap = '<CR>'
+
+" Gundo tree viewer
+nnoremap <Leader>u :GundoToggle<CR>
+
+" Insert item at end of list
+nmap <LocalLeader>i [{%kA,<Esc>o
+
+" Clear search highlighting so you don't have to search for /asdfasdf
+nmap <silent> <Leader>/ :nohlsearch<CR>
+
+" Jump backwards to previous function, assumes code is indented (useful when inside function)
+" Jump to top level function
+nmap <Leader>f ?^func\\|^[a-zA-Z].*func<CR>,/
+
+" Jump to start of whatever function we're inside
+" nmap bf ?^\s*func<CR>,/
+
+" faster tab switching
+nmap <C-l> gt
+nmap <C-h> gT
+
+" Fugitive
+nmap <Leader>gs :Gstatus<CR>
+nmap <Leader>gc :Gcommit<CR>
+nmap <Leader>gd :Gdiff<CR>
+nmap <Leader>gl :tabe %<cr>:Glog<cr><cr>:copen<cr>
 
 nmap <silent> <Leader>rp :RainbowParenthesesToggle<cr>
 
@@ -88,6 +134,16 @@ nmap <Leader>rs vi{:sort<cr>
 " trim trailing whitespace
 nnoremap <LocalLeader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
+" * and # search for next/previous of selected text when used in visual mode
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
+
+" tagbar? http://stackoverflow.com/questions/4777366/recommended-vim-plugins-for-javascript-coding/5893600#5893600
+nnoremap <silent> <F3> :TagbarToggle<CR>
+
+" Execute command under cursor with <⌘-e>
+nmap <D-e> yy:<C-r>"<backspace><cr>
+
 " ---------
 " VIM setup
 " ---------
@@ -107,42 +163,10 @@ set wig=*.swp,*.bak,*.pyc,*.class,node_modules*
 " shiftround, always snap to multiples of shiftwidth when using > and <
 set sr
 
-" Command-T file finder
-nnoremap <silent> <Leader>T :CommandT<cr>
-let g:CommandTAcceptSelectionMap = '<C-o>'
-let g:CommandTAcceptSelectionTabMap = '<CR>'
-
-" Gundo tree viewer
-nnoremap <Leader>u :GundoToggle<CR>
-
-" Insert item at end of list
-nmap <LocalLeader>i [{%kA,<Esc>o
-
-" Clear search highlighting so you don't have to search for /asdfasdf
-nmap <silent> <Leader>/ :nohlsearch<CR>
-
-" Jump backwards to previous function, assumes code is indented (useful when inside function)
-" Jump to top level function
-nmap <Leader>f ?^func\\|^[a-zA-Z].*func<CR>,/
-
-" Jump to start of whatever function we're inside
-" nmap bf ?^\s*func<CR>,/
-
-" faster tab switching
-nmap <C-l> gt
-nmap <C-h> gT
-
-" Fugitive
-nmap <Leader>gs :Gstatus<CR>
-nmap <Leader>gc :Gcommit<CR>
-nmap <Leader>gd :Gdiff<CR>
-nmap <Leader>gl :tabe %<cr>:Glog<cr><cr>:copen<cr>
-
 " Testing out relative line number
 setglobal relativenumber
 
 set ff=unix
-colorscheme vividchalk
 set ic
 set scs
 set guioptions=mer
@@ -166,23 +190,4 @@ set is
 set ruler
 set sc
 
-" * and # search for next/previous of selected text when used in visual mode
-vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
-vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
-
-function! s:VSetSearch()
-  let old = @"
-  norm! gvy
-  let @/ = '\V' . substitute(escape(@", '\'), '\n', '\\n', 'g')
-  let @" = old
-endfunction
-
-" tagbar? http://stackoverflow.com/questions/4777366/recommended-vim-plugins-for-javascript-coding/5893600#5893600
-nnoremap <silent> <F3> :TagbarToggle<CR>
 let g:tagbar_left=1
-
-" Execute command under cursor with <⌘-e>
-nmap <D-e> yy:<C-r>"<backspace><cr>
-
-" JSLint options for custom procesing file
-let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
