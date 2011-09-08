@@ -111,9 +111,6 @@ nmap <Leader>ht `[v`]
 " NerdTree
 nmap <Leader>nt :NERDTreeToggle<cr>
 
-" TagList
-nmap <Leader>tl :TlistToggle<cr>
-
 " Change to working directory of current file and echo new location
 nmap cd :cd %:h<cr>:pwd<cr>
 
@@ -139,10 +136,10 @@ nnoremap <LocalLeader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
 
-" tagbar?
+" tagbar open
 nnoremap <silent> <F3> :TagbarToggle<CR>
 
-" Execute command under cursor with <⌘-e>
+" Execute VIM colon command under cursor with <⌘-e>
 nmap <D-e> yy:<C-r>"<backspace><cr>
 
 " ------------------------------------------------------------------------------------------
@@ -191,4 +188,5 @@ set is
 set ruler
 set sc
 
+" tell tagbar to open on left
 let g:tagbar_left=1
