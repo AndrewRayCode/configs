@@ -20,9 +20,6 @@ function! jira_completer#omnifunc(findstart,base)
   return map(stories,'{"word": "#".matchstr(v:val,"^\\d\\+"), "menu": matchstr(v:val,"^\\d\\+\\s*.. . \\zs.*")}')
 endfunction
 
-#1
-
-
 augroup pickler
   autocmd!
   "autocmd BufRead *.git/COMMIT_EDITMSG

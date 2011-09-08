@@ -13,10 +13,14 @@
 " MRU (most recently used files)
 " Bufexplorer
 " Ack.vim
-" RainbowParentheses (https://bitbucket.org/sjl/dotfiles/src/tip/vim/bundle/rainbow/) (set LineNr in vividchalk to #666666)
+" Vividchalk (set LineNr in vividchalk to #666666)
+" RainbowParentheses (https://bitbucket.org/sjl/dotfiles/src/tip/vim/bundle/rainbow/)
 " Tagbar (brew install ctags-exuberant) (get doctorjs)
 " NerdTree
 
+" ------------
+" Custom setup
+" ------------
 set nocompatible
 
 " Pathogen loading
@@ -27,12 +31,6 @@ filetype plugin indent on
 
 syntax on
 
-" change the mapleader from \ to ,
-let mapleader=","
-
-" lets you do w!! to sudo write the file
-cmap w!! w !sudo tee % >/dev/null
-
 " Custom file type syntax highlighting
 au BufRead, BufNewFile *.tal setfiletype html
 au BufRead, BufNewFile *.djhtml setfiletype html
@@ -40,6 +38,17 @@ au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 
 " sexy or silly?
 call rainbow_parentheses#Toggle()
+
+" ------------
+" Key mappings
+" ------------
+
+" lets you do w!! to sudo write the file
+cmap w!! w !sudo tee % >/dev/null
+
+" change the mapleader from \ to ,
+let mapleader=","
+
 nmap <silent> <Leader>rp :RainbowParenthesesToggle<cr>
 
 " Source vim when this file is updated (although it doesn't work since it thinks we're in cygwin, dammit)
@@ -51,9 +60,6 @@ nmap <Leader>js :tabe ~/.jsl<cr>
 
 " Highlight last yanked / pasted text
 nmap <Leader>ht `[v`]
-
-" Paste toggle
-set pastetoggle=<F2>
 
 " NerdTree
 nmap <Leader>nt :NERDTreeToggle<cr>
@@ -79,6 +85,16 @@ nmap <Leader>me :MRU
 " Alphabetize CSS rules if on mulitple lines
 nmap <Leader>rs vi{:sort<cr>
 
+" trim trailing whitespace
+nnoremap <LocalLeader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+
+" ---------
+" VIM setup
+" ---------
+
+" Paste toggle
+set pastetoggle=<F2>
+
 " Don't want no lousy .swp files in my directoriez
 set backupdir=~
 
@@ -90,8 +106,6 @@ set wig=*.swp,*.bak,*.pyc,*.class,node_modules*
 
 " shiftround, always snap to multiples of shiftwidth when using > and <
 set sr
-
-nnoremap <LocalLeader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " Command-T file finder
 nnoremap <silent> <Leader>T :CommandT<cr>
@@ -170,4 +184,5 @@ let g:tagbar_left=1
 " Execute command under cursor with <⌘-e>
 nmap <D-e> yy:<C-r>"<backspace><cr>
 
+" JSLint options for custom procesing file
 let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'

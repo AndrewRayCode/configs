@@ -37,12 +37,10 @@ function! rainbow_parentheses#Clear()
 endfunction
 
 function! rainbow_parentheses#Toggle ()
-    if !exists('s:rainbow_paren_active')
-        call rainbow_parentheses#LoadRound()
-        call rainbow_parentheses#LoadSquare()
-        call rainbow_parentheses#LoadBraces()
-        call rainbow_parentheses#LoadChevrons()
-    endif
+    call rainbow_parentheses#LoadRound()
+    call rainbow_parentheses#LoadSquare()
+    call rainbow_parentheses#LoadBraces()
+    call rainbow_parentheses#LoadChevrons()
 
     if s:rainbow_paren_active != 0
         call rainbow_parentheses#Clear()
