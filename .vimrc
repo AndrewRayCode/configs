@@ -163,3 +163,6 @@ endfunction
 " tagbar? http://stackoverflow.com/questions/4777366/recommended-vim-plugins-for-javascript-coding/5893600#5893600
 nnoremap <silent> <F3> :TagbarToggle<CR>
 let g:tagbar_left=1
+
+" Execute command under cursor with <⌘-e>
+nmap <D-e> yy:<C-r>"<backspace><cr>
