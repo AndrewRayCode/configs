@@ -1,11 +1,13 @@
+# Do this first stupid:
+# git config --global color.ui "auto"
+# git config --global web.browser ff
+# git config --global browser.ff.cmd "open -a Firefox.app"
+
 # Don't wait for job termination notification
 set -o notify
 
 # vim bindings in terminal
 set -o vi
-
-# Do this on first load stupid:
-# git config --global color.ui "auto"
 
 source ~/.bash_config
 
