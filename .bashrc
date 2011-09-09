@@ -10,7 +10,7 @@ set -o vi
 source ~/.bash_config
 
 alias here='open .'
-alias vim='mvim -v'
+alias vim='mvim'
 
 #######################################
 # distributed version control section #
