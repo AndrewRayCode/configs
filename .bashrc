@@ -1,5 +1,6 @@
 # Do this first stupid:
 # git config --global color.ui "auto"
+# Add this to ~/.gitconfig to make browser work (look into)
 # git config --global web.browser ff
 # git config --global browser.ff.cmd "open -a Firefox.app"
 
