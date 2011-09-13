@@ -17,6 +17,7 @@
 " RainbowParentheses (https://bitbucket.org/sjl/dotfiles/src/tip/vim/bundle/rainbow/)
 " Tagbar (brew install ctags-exuberant) (get doctorjs) (http://stackoverflow.com/questions/4777366/recommended-vim-plugins-for-javascript-coding/5893600#5893600)
 " NerdTree
+" JSLint
 
 " ---------------------------------------------------------------
 " Custom setup
