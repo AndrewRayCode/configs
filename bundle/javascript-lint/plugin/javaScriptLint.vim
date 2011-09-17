@@ -25,7 +25,7 @@ endif
 
 " set up auto commands
 autocmd BufWritePost,FileWritePost *.js call JavascriptLint()
-autocmd BufWinLeave * call s:MaybeClearCursorLineColor()
+autocmd BufWinLeave * call MaybeClearCursorLineColor()
 
 " Runs the current file through javascript lint and 
 " opens a quickfix window with any warnings
@@ -99,7 +99,7 @@ endfunction
 
 " Conditionally reverts the cursor line color based on the presence
 " of the quickfix window
-function! s:MaybeClearCursorLineColor()
+function! MaybeClearCursorLineColor()
   if(exists("s:qfix_buffer") && s:qfix_buffer == bufnr("%"))
     call s:ClearCursorLineColor()
   endif

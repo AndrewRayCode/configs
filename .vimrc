@@ -41,13 +41,28 @@ au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 
 " JSLint options for custom procesing file
 let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
-
-" sexy or silly?
-call RainbowParenthesesToggle()
+let jslint_highlight_color = 'Red'
 
 " ---------------------------------------------------------------
 " Functions
 " ---------------------------------------------------------------
+
+function! ToggleJSL()
+    " I DO NOT WORK YET AND AM A PIECE OF SHIT DO NOT USE ME
+    if !exists("s:jsl_enabled")
+        let s:jsl_enabled = 0
+    endif
+    if s:jsl_enabled == 1
+        autocmd! BufWritePost *.js call JavascriptLint()
+        autocmd! FileWritePost *.js call JavascriptLint()
+        autocmd! BufWinLeave * call MaybeClearCursorLineColor()
+        let s:jsl_enabled = 0
+    else
+        autocmd BufWritePost,FileWritePost *.js call JavascriptLint()
+        autocmd BufWinLeave * call MaybeClearCursorLineColor()
+        let s:jsl_enabled = 1
+    endif
+endfunction
 
 function! s:VSetSearch()
   let old = @"
@@ -74,6 +89,8 @@ let g:CommandTAcceptSelectionTabMap = '<CR>'
 " Gundo tree viewer
 nnoremap <Leader>u :GundoToggle<CR>
 
+nmap <Leader>tjs :call ToggleJSL()<cr>
+
 " Insert item at end of list
 nmap <LocalLeader>i [{%kA,<Esc>o
 
@@ -83,9 +100,6 @@ nmap <silent> <Leader>/ :nohlsearch<CR>
 " Jump backwards to previous function, assumes code is indented (useful when inside function)
 " Jump to top level function
 nmap <Leader>f ?^func\\|^[a-zA-Z].*func<CR>,/
-
-" Jump to start of whatever function we're inside
-" nmap bf ?^\s*func<CR>,/
 
 " faster tab switching
 nmap <C-l> gt
@@ -97,7 +111,7 @@ nmap <Leader>gc :Gcommit<CR>
 nmap <Leader>gd :Gdiff<CR>
 nmap <Leader>gl :tabe %<cr>:Glog<cr><cr>:copen<cr>
 
-nmap <silent> <Leader>rp :RainbowParenthesesToggle<cr>
+nmap <Leader>rp :call rainbow_parentheses#Toggle()<cr>
 
 " Source vim when this file is updated (although it doesn't work since it thinks we're in cygwin, dammit)
 nmap <Leader>sv :source $MYVIMRC<cr>
