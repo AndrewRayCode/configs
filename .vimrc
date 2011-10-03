@@ -76,7 +76,7 @@ endfunction
 " ---------------------------------------------------------------
 
 " lets you do w!! to sudo write the file
-cmap w!! w !sudo tee % >/dev/null
+nmap ,ww :w !sudo tee % >/dev/null<cr>
 
 " change the mapleader from \ to ,
 let mapleader=","
