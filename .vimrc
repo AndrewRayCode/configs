@@ -75,11 +75,11 @@ endfunction
 " Key mappings
 " ---------------------------------------------------------------
 
-" lets you do w!! to sudo write the file
-nmap ,ww :w !sudo tee % >/dev/null<cr>
-
 " change the mapleader from \ to ,
 let mapleader=","
+
+" lets you do w!! to sudo write the file
+nmap <Leader>ww :w !sudo tee % >/dev/null<cr>
 
 " Command-T file finder
 nnoremap <silent> <Leader>T :CommandT<cr>
@@ -90,9 +90,6 @@ let g:CommandTAcceptSelectionTabMap = '<CR>'
 nnoremap <Leader>u :GundoToggle<CR>
 
 nmap <Leader>tjs :call ToggleJSL()<cr>
-
-" Insert item at end of list
-nmap <LocalLeader>i [{%kA,<Esc>o
 
 " Clear search highlighting so you don't have to search for /asdfasdf
 nmap <silent> <Leader>/ :nohlsearch<CR>
