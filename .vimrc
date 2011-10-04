@@ -168,7 +168,7 @@ set backupdir=~
 set hidden
 
 " wildignore all of these when autocompleting
-set wig=*.swp,*.bak,*.pyc,*.class,node_modules*
+set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*/target/*
 
 " shiftround, always snap to multiples of shiftwidth when using > and <
 set sr
