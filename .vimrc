@@ -117,6 +117,9 @@ nmap <Leader>v :tabe $MYVIMRC<cr>
 nmap <Leader>hs :tabe /etc/hosts<cr>
 nmap <Leader>js :tabe ~/.jsl<cr>
 
+" Copy current buffer path to system clipboard
+nmap <Leader>cf :let @*=expand("%")<cr>
+
 " Highlight last yanked / pasted text
 nmap <Leader>ht `[v`]
 
