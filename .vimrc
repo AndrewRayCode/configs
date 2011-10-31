@@ -117,8 +117,10 @@ nmap <Leader>v :tabe $MYVIMRC<cr>
 nmap <Leader>hs :tabe /etc/hosts<cr>
 nmap <Leader>js :tabe ~/.jsl<cr>
 
+" Copy current buffer path relative to root of VIM session to system clipboard
+nmap <Leader>yp :let @*=expand("%")<cr>:echo "Copied file path to clipboard"<cr>
 " Copy current buffer path to system clipboard
-nmap <Leader>cf :let @*=expand("%")<cr>
+nmap <Leader>yf :let @*=expand("%:t")<cr>:echo "Copied file name to clipboard"<cr>
 
 " Highlight last yanked / pasted text
 nmap <Leader>ht `[v`]
@@ -171,7 +173,7 @@ set backupdir=~
 set hidden
 
 " wildignore all of these when autocompleting
-set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*/target/*
+set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*/target/*,*.ipr,*.iws
 
 " shiftround, always snap to multiples of shiftwidth when using > and <
 set sr
