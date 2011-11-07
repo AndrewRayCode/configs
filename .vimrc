@@ -43,6 +43,9 @@ au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
 let jslint_highlight_color = 'Red'
 
+" tell tagbar to open on left
+let g:tagbar_left=1
+
 " ---------------------------------------------------------------
 " Functions
 " ---------------------------------------------------------------
@@ -205,5 +208,5 @@ set is
 set ruler
 set sc
 
-" tell tagbar to open on left
-let g:tagbar_left=1
+" experimental
+set wildmenu
