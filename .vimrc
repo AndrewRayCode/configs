@@ -43,8 +43,9 @@ au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
 let jslint_highlight_color = 'Red'
 
-" tell tagbar to open on left
-let g:tagbar_left=1
+let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsJumpForwardTrigger='<tab>'
+let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
 
 " ---------------------------------------------------------------
 " Functions
@@ -122,8 +123,10 @@ nmap <Leader>js :tabe ~/.jsl<cr>
 
 " Copy current buffer path relative to root of VIM session to system clipboard
 nmap <Leader>yp :let @*=expand("%")<cr>:echo "Copied file path to clipboard"<cr>
-" Copy current buffer path to system clipboard
+" Copy current filename to system clipboard
 nmap <Leader>yf :let @*=expand("%:t")<cr>:echo "Copied file name to clipboard"<cr>
+" Copy current buffer path without filename to system clipboard
+nmap <Leader>yd :let @*=expand("%:h")<cr>:echo "Copied file directory to clipboard"<cr>
 
 " Highlight last yanked / pasted text
 nmap <Leader>ht `[v`]
@@ -208,5 +211,5 @@ set is
 set ruler
 set sc
 
-" experimental
-set wildmenu
+" tell tagbar to open on left
+let g:tagbar_left=1
