@@ -21,7 +21,7 @@ snippet get "Get Elements"
 getElement${1/(T)|.*/(?1:s)/}By${1:T}${1/(T)|(I)|.*/(?1:agName)(?2:d)/}('$2')
 endsnippet
 
-snippet '':f "object method string"
+snippet 'f "object method string"
 '${1:${2:#thing}:${3:click}}': function(element){
 	$0
 }${10:,}
@@ -38,7 +38,7 @@ ${1:value_name}:${0:value},
 endsnippet
 
 snippet : "Object key key: 'value'"
-${1:key}: ${2:"${3:value}"}${4:, }
+${1:key}: ${2:'${3:value}'}${4:, }
 endsnippet
 
 snippet proto "Prototype (proto)"

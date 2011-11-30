@@ -118,6 +118,7 @@ nmap <Leader>rp :call rainbow_parentheses#Toggle()<cr>
 nmap <Leader>sv :source $MYVIMRC<cr>
 nmap <silent> <Leader>so :source %<cr>
 nmap <Leader>v :tabe $MYVIMRC<cr>
+nmap <Leader>ss :tabe ~/.vim/bundle/ultisnips/UltiSnips/javascript.snippets<cr>
 nmap <Leader>hs :tabe /etc/hosts<cr>
 nmap <Leader>js :tabe ~/.jsl<cr>
 
