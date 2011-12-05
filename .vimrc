@@ -75,6 +75,13 @@ function! s:VSetSearch()
   let @" = old
 endfunction
 
+function! s:VAck()
+  let old = @"
+  norm! gvy
+  let @z = substitute(escape(@", '\'), '\n', '\\n', 'g')
+  let @" = old
+endfunction
+
 " ---------------------------------------------------------------
 " Key mappings
 " ---------------------------------------------------------------
@@ -163,6 +170,8 @@ nnoremap <LocalLeader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 " * and # search for next/previous of selected text when used in visual mode
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
+
+vnoremap <Leader>av :<C-u>call <SID>VAck()<CR>:exe "Ack! ".@z.""<CR>
 
 " tagbar open
 nnoremap <silent> <F3> :TagbarToggle<CR>
