@@ -1,0 +1,209 @@
+*SrchRplcHiGrp.txt* Search and Replace Restricted to a Highlighting Group
+
+Author: David Fishburn					January 1, 2011
+
+
+==============================================================================
+1. Contents				*srchrplchigrp* *srchrplchigrp-contents*
+
+	1. Contents......................: |srchrplchigrp-contents|
+	2. Commands......................: |srchrplchigrp-commands|
+	   SR............................: |SR|
+	   SRDispHiGrp...................: |SRDispHiGrp|
+	   SRChooseHiGrp.................: |SRChooseHiGrp|
+	   SRHiGrp.......................: |SRHiGrp|
+	3. Examples......................: |srchrplchigrp-examples|
+
+
+==============================================================================
+2. Commands					*srchrplchigrp-commands*
+
+	SR = Search and Replace			*SR*
+ 
+	SRDispHiGrp				*SRDispHiGrp*
+		Displays the syntax id and name the of the syntax group 
+		which has been chosen.
+
+	SRChooseHiGrp[!]       			*SRChooseHiGrp*
+                Before you can run the search and replace command (:SRHiGrp),
+                you must choose which syntax group id you want to operate on.  
+                The top level syntax id of the current cursor position is
+                chosen (ie. the top-level one versus the final one).
+
+                The optional bang lets SRChooseHiGrp use the translated
+                syntax ID. This is final one versus the top-level one. 
+
+                Assuming we were using a SQL file and placed the cursor on the
+                FROM word, then using the SyntaxAttr plugin
+                (http://vim.sourceforge.net/script.php?script_id=383)
+                it displays both the top-level and translated 
+                (or final) highlight group as follows: >
+                  group: sqlKeyword->Statement guifg=#ffff00(#ffff00) 
+<
+
+		Examples: >
+		  :SRChooseHiGrp 
+<                     Will operate on only sqlKeyword syntax groups
+>
+		  :SRChooseHiGrp! 
+<                     Will operate on all Statement syntax groups.  Based on
+                      |group-name|, the Statement group will highlight the
+                      same color for the following highlight groups:
+                            Conditional	
+                            Repeat		
+                            Label		
+                            Operator	
+                            Keyword	
+                            Exception	
+                      Therefore SRChooseHiGrp! will operate over all of the
+                      above syntax groups.
+
+	SRSearch    	       			      	*SRSearch*
+                This command will perform a forward search starting at the current
+                cursor position for a specified highlight group name.  The range defaults
+                to the entire file.  It supports all visual modes, characterwise (v),
+                linewise (V) and blockwise (<C-V>).
+
+		It optionally takes takes one parameter.  You can supply a hightlight
+                group name: >
+                    :SRSearch Statement
+<
+                The command supports highlight group name completion. >
+                    :SRSearch C<Tab>
+<               Depending on which syntax groups are defined (given your filetype and
+                various plugins) this will cycle through all highlight group names
+                beginning with the letter 'C'.
+
+                Alternatively, you can use the SRChooseHiGrp or SRChooseHiGrp!
+                command to select the highlight group.  Running SRSearch
+                without a parameter will check if a valid group name was
+                selected via SRChooseHiGrp and begin the search.  If no valid
+                group name was specified, an error message will be reported.
+
+                Running SRSearch a second time will ensure the cursor is
+                positioned on the next separate highlight matched text.
+                There must be a gap between the two groups.
+
+	SRHiGrp[!] 	       			      	*SRHiGrp*
+                This command will perform a search and replace over a visual
+                range.  It works in all visual modes, characterwise (v),
+                linewise (V) and blockwise (<C-V>).
+
+		It optionally takes takes 2 parameters.
+
+                Parameter 1 controls what characters are matched.  The default
+                for this value is \(\w\+\>\).  This expression is appended to
+                the \%# which starts the match from the current cursor
+                position.  This expression must specify a submatch \(...\).
+
+		Parameter 2 controls what to do with the matched string.  The
+		default for this value is \U\1.  This expression will cause
+		the matched string to be UPPER cased.  The \1 refers to the 
+                submatch from the first parameter.
+
+		If the parameters are not supplied, the user will be prompted
+		to enter the expression(s).
+
+                The optional bang (!) works the same as SRHiGrp, but will
+                operate on all syntax groups that are NOT the chosen one
+                (SRChooseHiGrp).
+
+		Syntax: >
+		[range]SRHiGrp[!] 'from-pattern','to-string'
+<
+==============================================================================
+3. Examples					*srchrplchigrp-examples*
+
+   SRHiGrp
+   -------
+
+	First place your cursor on an item that is syntax colored the way
+	you want.  Notice the command takes an optional !.  If your first 
+        search and replace doesn't work, you can undo the change and reselect 
+        the group using the ! and try again.
+>
+		:SRChooseHiGrp
+                SRHiGrp - Group ID: 562  Name: sqlStatement
+                or
+		:SRChooseHiGrp!
+                SRHiGrp - Group ID: 51  Name: Statement
+< 
+	Next, visually select a block of text
+	(all visual modes are supported)
+>
+		:SRHiGrp
+		or
+		:SRHiGrp '\(\w\+\>\)'
+		or
+		:SRHiGrp '\(\w\+\>\)', '\U\1'
+<
+	If you had the following in a SQL file:
+>
+		if exists( select 1
+		            from sys.sysprocedure sp
+		             key join sys.sysuserperm sup
+		           where sp.proc_name = 'sp_http_course_detail'
+		             and sup.user_name = user_name()             ) then
+		    drop procedure sp_http_course_detail;
+		end if;
+<
+	Where the keywords (if, exists, select, from ...) are all 
+	highlighted yellow (based on my colorscheme).  After I visually
+	select the area and run the command taking default prompts:
+>
+		:'<,'>SRHiGrp  
+<
+	The result is:
+>
+		IF EXISTS( SELECT 1
+		            FROM sys.sysprocedure sp
+		             KEY JOIN sys.sysuserperm sup
+		           WHERE sp.proc_name = 'sp_http_course_detail'
+		             AND sup.user_name = user_name()             ) THEN
+		    DROP PROCEDURE sp_http_course_detail;
+		END IF;
+<
+	Where the keywords (if, exists, select, from ...) are all 
+	highlighted yellow (based on my colorscheme).  After I visually
+	select the area and run the command taking default prompts: >
+
+		:'<,'>SRHiGrp!
+<
+	The result is:
+>
+		if exists( select 1
+		            from SYS.SYSPROCEDURE SP
+		             key join SYS.SYSUSERPERM SUP
+		           where SP.PROC_NAME = 'SP_HTTP_COURSE_DETAIL'
+		             and SUP.USER_NAME = USER_NAME()             ) then
+		    drop procedure SP_HTTP_COURSE_DETAIL;
+		end if; 
+<
+
+   SRSearch
+   --------
+
+	SRSearch simply does a forward search for the specified highlight
+        group.  A few examples: >
+		:SRSearch sqlKeyword
+		:1,5SRSearch sqlKeyword
+		:'<,'>SRSearch sqlKeyword
+< 
+	Optionally, you can first choose the hightlight group by placing your
+        cursor on the highlight you want and: >
+		:SRChooseHiGrp
+		:SRSearch
+<
+	Using Vim's tab completion you can also: >
+		:SRSearch s<Tab>
+<
+	Each time you press tab, it will cycle through the currently defined
+        syntax highlight groups beginning with the letter 's'.
+
+        The results of the search is displayed in the command line and is
+        highlighted in the color of the syntax group.  This will remind you
+        which group was searched for. >
+            SRSearch - Match found - Group ID: 171  Name: sqlKeyword
+            SRSearch - Match NOT found - Group ID: 171  Name: sqlKeyword
+<
+vim:tw=78:ts=8:ft=help:norl:
