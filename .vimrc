@@ -112,6 +112,10 @@ nmap <Leader>gc :Gcommit<CR>
 nmap <Leader>gd :Gdiff<CR>
 nmap <Leader>gl :tabe %<cr>:Glog<cr><cr>:copen<cr>
 
+" Ack
+nmap <Leader>aw "zyiw:exe "Ack! ".@z.""<CR>
+nmap <Leader>aW "zyiW:exe "Ack! ".@z.""<CR>
+
 nmap <Leader>rp :call rainbow_parentheses#Toggle()<cr>
 
 " Source vim when this file is updated (although it doesn't work since it thinks we're in cygwin, dammit)
