@@ -156,6 +156,9 @@ nmap c" cs"'
 " Swap two parameters in a function
 nmap <Leader>- lF(ldWf)i, pF,dt)
 
+" Strip one layer of nesting
+nmap <Leader>sn [{mzjV]}k<]}dd`zdd
+
 " MRU mappings, open most recent files list
 nmap <Leader>ml :MRU<cr>
 " Opens mru which lets files autocomplete
