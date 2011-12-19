@@ -70,7 +70,7 @@ endfunction
 
 function! Refactor()
     call inputsave()
-    let @a=input("What the FUCK do you want to call it? ")
+    let @z=input("What do you want to rename '" . @z . "' to? ")
     call inputrestore()
 endfunction
 
@@ -189,7 +189,7 @@ nnoremap <silent> <F3> :TagbarToggle<CR>
 nmap <D-e> yy:<C-r>"<backspace><cr>
 
 " Locally (local to block) rename a variable
-nmap <Leader>rf :call Refactor()<cr>mzgd[{V%:s/<C-R>//<c-r>a/g<cr>`z
+nmap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[{V%:s/<C-R>//<c-r>z/g<cr>`x
 
 " ------------------------------------------------------------------------------------------
 " VIM setup
