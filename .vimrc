@@ -68,6 +68,12 @@ function! ToggleJSL()
     endif
 endfunction
 
+function! Refactor()
+    call inputsave()
+    let @a=input("What the FUCK do you want to call it? ")
+    call inputrestore()
+endfunction
+
 function! s:VSetSearch()
   let old = @"
   norm! gvy
@@ -181,6 +187,9 @@ nnoremap <silent> <F3> :TagbarToggle<CR>
 
 " Execute VIM colon command under cursor with <⌘-e>
 nmap <D-e> yy:<C-r>"<backspace><cr>
+
+" Locally (local to block) rename a variable
+nmap <Leader>rf :call Refactor()<cr>mzgd[{V%:s/<C-R>//<c-r>a/g<cr>`z
 
 " ------------------------------------------------------------------------------------------
 " VIM setup
