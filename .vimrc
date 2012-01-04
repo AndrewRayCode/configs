@@ -98,6 +98,9 @@ let mapleader=","
 " lets you do w!! to sudo write the file
 nmap <Leader>ww :w !sudo tee % >/dev/null<cr>
 
+" Ray-Frame testing thingy
+nmap ,xx :tabe a.js<cr>GVggx"*p<cr>:%s/;/;\r/g<cr>:w<cr>
+
 " Command-T file finder
 nnoremap <silent> <Leader>T :CommandT<cr>
 let g:CommandTAcceptSelectionMap = '<C-o>'
@@ -189,7 +192,7 @@ nnoremap <silent> <F3> :TagbarToggle<CR>
 nmap <D-e> yy:<C-r>"<backspace><cr>
 
 " Locally (local to block) rename a variable
-nmap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[{V%:s/<C-R>//<c-r>z/g<cr>`x
+nmap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>:silent! norm [{<cr>$V%:s/<C-R>//<c-r>z/g<cr>`x
 
 " ------------------------------------------------------------------------------------------
 " VIM setup
@@ -239,3 +242,11 @@ set sc
 
 " tell tagbar to open on left
 let g:tagbar_left=1
+
+" ------------------------------------------------------------------------------------------
+" I no spell gud
+" ------------------------------------------------------------------------------------------
+
+ab funcion function
+ab funicton function
+ab funciton function
