@@ -1,23 +1,31 @@
 " Plugins installed:
+" :read !ls ~/.vim/bundle
 " Pathogen!
-" Surround (cs"' to repla"ce " with '
-" Command-T
-" Gundo
-" Repeat (lets plugins access . for repeat)
-" NERDCommenter
-" Fugitive
-" Matchit (Match more than (, [, etc with %)
-" Unimpared
-" Matrix
-" snipMate
-" MRU (most recently used files)
-" Bufexplorer
-" Ack.vim
-" Vividchalk (set LineNr in vividchalk to #666666)
-" RainbowParentheses (https://bitbucket.org/sjl/dotfiles/src/tip/vim/bundle/rainbow/)
-" Tagbar (brew install ctags-exuberant) (get doctorjs) (http://stackoverflow.com/questions/4777366/recommended-vim-plugins-for-javascript-coding/5893600#5893600)
-" NerdTree
-" JSLint
+" Rename
+" ack.vim
+" bufexplorer
+" coffee-script
+" ctrlp.vim
+" django.vim
+" fugitive
+" gundo
+" javascript-lint
+" jira-completer
+" lusty-juggler
+" matchit
+" mru
+" nerd-tree
+" nerdcommenter
+" rainbow-parentheses
+" repeat
+" search-replace-highlight
+" surround
+" tagbar
+" ultisnips
+" vim-nerdtree-tabs
+" vim-pasta
+" vim-powerline
+" vim-unimpaired
 
 " ---------------------------------------------------------------
 " Custom setup
@@ -46,6 +54,25 @@ let jslint_highlight_color = 'Red'
 let g:UltiSnipsExpandTrigger='<tab>'
 let g:UltiSnipsJumpForwardTrigger='<tab>'
 let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
+
+" Set Ctrl-P to show match at top of list instead of at bottom, which is so
+" stupid that it's not default
+let g:ctrlp_match_window_reversed = 0
+
+" Tell Ctrl-P to keep the current VIM working directory when starting a
+" search, another really stupid non default
+let g:ctrlp_working_path_mode = 0
+
+" Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
+let g:ctrlp_custom_ignore = {'dir':  '\/target\/\'}
+
+" Open a new file in a tab by default
+let g:ctrlp_open_multi = '10t'
+
+" Powerline custom font
+if has('gui_running')
+  set guifont=Menlo\ for\ Powerline
+endif
 
 " ---------------------------------------------------------------
 " Functions
@@ -153,7 +180,7 @@ nmap <Leader>yd :let @*=expand("%:h")<cr>:echo "Copied file directory to clipboa
 nmap <Leader>ht `[v`]
 
 " NerdTree
-nmap <Leader>nt :NERDTreeToggle<cr>
+nmap <Leader>nt :NERDTreeTabsToggle<cr>
 
 " Change to working directory of current file and echo new location
 nmap cd :cd %:h<cr>:pwd<cr>
@@ -208,7 +235,7 @@ set backupdir=~
 set hidden
 
 " wildignore all of these when autocompleting
-set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*/target/*,*.ipr,*.iws
+set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws
 
 " shiftround, always snap to multiples of shiftwidth when using > and <
 set sr
@@ -242,6 +269,12 @@ set sc
 
 " tell tagbar to open on left
 let g:tagbar_left=1
+
+" Powerline symbols instead of letters
+let g:Powerline_symbols = 'fancy'
+
+" Don't open nerdtree feature expander open on startup
+let g:nerdtree_tabs_open_on_gui_startup=0
 
 " ------------------------------------------------------------------------------------------
 " I no spell gud
