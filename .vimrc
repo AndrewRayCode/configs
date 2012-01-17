@@ -273,6 +273,9 @@ let g:tagbar_left=1
 " Powerline symbols instead of letters
 let g:Powerline_symbols = 'fancy'
 
+" Always have statusline so powerline shows up on non-split windows
+set laststatus=2
+
 " Don't open nerdtree feature expander open on startup
 let g:nerdtree_tabs_open_on_gui_startup=0
 
