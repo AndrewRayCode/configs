@@ -66,7 +66,7 @@ let g:ctrlp_working_path_mode = 0
 " Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
 let g:ctrlp_custom_ignore = {'dir':  '\/target\/\'}
 
-" Open a new file in a tab by default
+" Open multiplely selected files in a tab by default
 let g:ctrlp_open_multi = '10t'
 
 " Powerline custom font
