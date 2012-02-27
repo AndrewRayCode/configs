@@ -64,7 +64,7 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_working_path_mode = 0
 
 " Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
-let g:ctrlp_custom_ignore = {'dir':  '\/target\/\'}
+let g:ctrlp_custom_ignore = {'dir': '\.git$\|\.hg$\|\.svn$|target'}
 
 " Open multiplely selected files in a tab by default
 let g:ctrlp_open_multi = '10t'
@@ -279,7 +279,10 @@ set laststatus=2
 " Don't open nerdtree feature expander open on startup
 let g:nerdtree_tabs_open_on_gui_startup=0
 
+" Include $ in varibale names
 set iskeyword=@,48-57,_,192-255,#,$
+
+"autocmd! BufWritePost,FileWritePost *.vm :silent !echo " " >> atlassian-universal-plugin-manager-plugin/src/main/java/com/atlassian/upm/PluginManagerServlet.java
 
 " ------------------------------------------------------------------------------------------
 " I no spell gud
