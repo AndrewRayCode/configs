@@ -126,7 +126,7 @@ let mapleader=","
 nmap <Leader>ww :w !sudo tee % >/dev/null<cr>
 
 " Ray-Frame testing thingy
-nmap ,xx :tabe a.js<cr>GVggx"*p<cr>:%s/;/;\r/g<cr>:w<cr>
+nmap <Leader>xx :tabe a.js<cr>GVggx"*p<cr>:%s/;/;\r/g<cr>:w<cr>
 
 " Command-T file finder
 nnoremap <silent> <Leader>T :CommandT<cr>
@@ -278,6 +278,8 @@ set laststatus=2
 
 " Don't open nerdtree feature expander open on startup
 let g:nerdtree_tabs_open_on_gui_startup=0
+
+set iskeyword=@,48-57,_,192-255,#,$
 
 " ------------------------------------------------------------------------------------------
 " I no spell gud
