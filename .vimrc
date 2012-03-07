@@ -221,6 +221,9 @@ nmap <D-e> yy:<C-r>"<backspace><cr>
 " Locally (local to block) rename a variable
 nmap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>:silent! norm [{<cr>$V%:s/<C-R>//<c-r>z/g<cr>`x
 
+" Make Y yank till end of line
+nnoremap Y y$
+
 " ------------------------------------------------------------------------------------------
 " VIM setup
 " ------------------------------------------------------------------------------------------
@@ -283,6 +286,12 @@ let g:nerdtree_tabs_open_on_gui_startup=0
 set iskeyword=@,48-57,_,192-255,#,$
 
 "autocmd! BufWritePost,FileWritePost *.vm :silent !echo " " >> atlassian-universal-plugin-manager-plugin/src/main/java/com/atlassian/upm/PluginManagerServlet.java
+
+" Jump to last known cursor position when opening file
+autocmd BufReadPost *
+    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+    \ exe "normal g'\"" |
+    \ endif
 
 " ------------------------------------------------------------------------------------------
 " I no spell gud

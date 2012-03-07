@@ -1,4 +1,9 @@
 --type-set
 velocity=.vm
 
+--type-set
+shitbags=.iml,.ipr,.iws
+
 --ignore-dir=target
+
+--noshitbags
