@@ -126,7 +126,14 @@ function! s:TemplateAck()
     let old = @"
     norm! gvy
     let list = split(@", "\\.")
-    let @z = "'^(?\\!.*namespace.*" . list[0] . ").*" . list[1] . "' --soy -1 --nocolor"
+
+    " not namespaced
+    if len(list) == 1
+        let @z = "'{template.\\." . list[0] . "}' --soy -1 --nocolor"
+    " namespaced
+    elseif
+        let @z = "'^(?\\!.*namespace.*" . list[0] . ").*" . list[1] . "' --soy -1 --nocolor"
+    end
     let @" = old
 
     redir => captured
@@ -137,6 +144,7 @@ function! s:TemplateAck()
     let lineNo = split(lines[6], ":")[0]
 
     exe ":tabe " . lines[5]
+    " Jump to line no
     exe "normal" . lineNo . "GV"
 endfunction
 
