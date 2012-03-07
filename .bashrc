@@ -138,8 +138,10 @@ NOBRANCH_TEXT="no branch!"
 COLOR_RED=$(tput sgr0 && tput setaf 1)
 COLOR_GREEN=$(tput sgr0 && tput setaf 2)
 COLOR_YELLOW=$(tput sgr0 && tput setaf 3)
+COLOR_DARK_BLUE=$(tput sgr0 && tput setaf 4)
 COLOR_BLUE=$(tput sgr0 && tput setaf 6)
 COLOR_PURPLE=$(tput sgr0 && tput setaf 5)
+COLOR_PINK=$(tput sgr0 && tput bold && tput setaf 5)
 COLOR_LIGHT_GREEN=$(tput sgr0 && tput bold && tput setaf 2)
 COLOR_LIGHT_RED=$(tput sgr0 && tput bold && tput setaf 1)
 COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
@@ -177,11 +179,17 @@ function _svn_check {
 }
 
 _git_dir=""
+_git_svn_dir=""
 function _git_check {
     _git_dir=`git rev-parse --show-toplevel 2> /dev/null`
     if [[ "$_git_dir" == "" ]]; then
         return 1
     else
+        _gsvn_check=`cd $_git_dir; ls .git/svn/.metadata 2> /dev/null`
+
+        if [[ ! -z "$_gsvn_check" ]]; then
+            _git_svn_dir=$_git_dir
+        fi
         return 0
     fi
 }
@@ -201,16 +209,20 @@ dvcs_function="
 
         # Figure out current branch, or if we are bisecting, or lost in space
         bisecting=\"\"
-        noBranch=\"\"
         if [ -z \"\$gitBranch\" ]; then
             bisect=\$(git rev-list --bisect 2> /devnull | cut -c1-7)
             if [ -z \"\$bisect\" ]; then
-            noBranch=True
-            gitBranch=\"\\[\$COLOR_RED\\]\$NOBRANCH_TEXT\\[\$COLOR_YELLOW\\]\"
-        else
-            bisecting=\"\\[\$COLOR_PURPLE\\]\$BISECTING_TEXT:\"\$bisect\"\\[\$COLOR_YELLOW\\]\"
-            gitBranch=\"\"
+                gitBranch=\"\\[\$COLOR_RED\\]\$NOBRANCH_TEXT\\[\$COLOR_YELLOW\\]\"
+            else
+                bisecting=\"\\[\$COLOR_PURPLE\\]\$BISECTING_TEXT:\"\$bisect\"\\[\$COLOR_YELLOW\\]\"
+                gitBranch=\"\"
+            fi
         fi
+        gitBranch=\${gitBranch#refs/heads/}
+        if [ -z \"\$bisect\" ]; then
+            if [ -n \"\$_git_svn_dir\" ]; then
+                gitBranch=\"\\[\$COLOR_DARK_BLUE\\]git-svn\\[\$COLOR_YELLOW\\] \$gitBranch\"
+            fi
         fi
 
         # changed *tracked* files in local directory?
@@ -222,7 +234,7 @@ dvcs_function="
         # output the branch and changed character if present
         prompt=\$prompt\"\\[\$COLOR_YELLOW\\] (\"
 
-        prompt=\$prompt\$prefix\${gitBranch#refs/heads/}\$bisecting
+        prompt=\$prompt\$prefix\$gitBranch\$bisecting
         prompt=\$prompt\"\$gitChange)\\[\$COLOR_RESET\\]\"
 
         # How many local commits do you have ahead of origin?

@@ -2,6 +2,9 @@
 velocity=.vm
 
 --type-set
+soy=.soy
+
+--type-set
 shitbags=.iml,.ipr,.iws
 
 --ignore-dir=target

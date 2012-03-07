@@ -45,6 +45,7 @@ syntax on
 " Custom file type syntax highlighting
 au BufRead, BufNewFile *.tal setfiletype html
 au BufRead, BufNewFile *.djhtml setfiletype html
+au BufRead,BufNewFile *.soy set filetype=clojure
 au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 
 " JSLint options for custom procesing file
@@ -64,7 +65,7 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_working_path_mode = 0
 
 " Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
-let g:ctrlp_custom_ignore = {'dir': '\.git$\|\.hg$\|\.svn$|target'}
+let g:ctrlp_custom_ignore = {'dir': '\.git$\|\.hg$\|\.svn$\|target$'}
 
 " Open multiplely selected files in a tab by default
 let g:ctrlp_open_multi = '10t'
@@ -113,6 +114,25 @@ function! s:VAck()
   norm! gvy
   let @z = substitute(escape(@", '\'), '\n', '\\n', 'g')
   let @" = old
+endfunction
+
+" Jump to template definition
+function! s:TemplateAck()
+    let old = @"
+    norm! gvy
+    let list = split(@", "\\.")
+    let @z = "'^(?\\!.*namespace.*" . list[0] . ").*" . list[1] . "' --soy -1 --nocolor"
+    let @" = old
+
+    redir => captured
+    exe ":silent !ack " . @z
+    redir END
+
+    let lines = split(captured)
+    let lineNo = split(lines[6], ":")[0]
+
+    exe ":tabe " . lines[5]
+    exe "normal" . lineNo . "GV"
 endfunction
 
 " ---------------------------------------------------------------
@@ -212,8 +232,10 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
 
 vnoremap <Leader>av :<C-u>call <SID>VAck()<CR>:exe "Ack! ".@z.""<CR>
 
+nnoremap <Leader>at vi":<C-u>call <SID>TemplateAck()<CR>
+
 " tagbar open
-nnoremap <silent> <F3> :TagbarToggle<CR>
+nnoremap <silent> <Leader>tb :TagbarToggle<CR>
 
 " Execute VIM colon command under cursor with <⌘-e>
 nmap <D-e> yy:<C-r>"<backspace><cr>
