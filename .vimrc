@@ -1,31 +1,36 @@
 " Plugins installed:
 " :read !ls ~/.vim/bundle
-" Pathogen!
-" Rename
-" ack.vim
-" bufexplorer
-" coffee-script
-" ctrlp.vim
-" django.vim
-" fugitive
-" gundo
-" javascript-lint
-" jira-completer
-" lusty-juggler
-" matchit
-" mru
-" nerd-tree
-" nerdcommenter
-" rainbow-parentheses
-" repeat
-" search-replace-highlight
-" surround
-" tagbar
-" ultisnips
-" vim-nerdtree-tabs
-" vim-pasta
-" vim-powerline
-" vim-unimpaired
+"Rename
+"ack.vim
+"bufexplorer
+"coffee-script
+"ctrlp.vim
+"django.vim
+"easymotion
+"fugitive
+"gundo
+"indexed-search
+"javascript-lint
+"jira-completer
+"lusty-explorer
+"lusty-juggler
+"matchit
+"mru
+"neocomplete
+"nerd-tree
+"nerdcommenter
+"rainbow-parentheses
+"repeat
+"scala
+"search-replace-highlight
+"surround
+"tagbar
+"ultisnips
+"vim-clojure
+"vim-nerdtree-tabs
+"vim-pasta
+"vim-powerline
+"vim-unimpaired
 
 " ---------------------------------------------------------------
 " Custom setup
@@ -143,10 +148,10 @@ endfunction
 let mapleader=","
 
 " lets you do w!! to sudo write the file
-nmap <Leader>ww :w !sudo tee % >/dev/null<cr>
+nnoremap <Leader>ww :w !sudo tee % >/dev/null<cr>
 
 " Ray-Frame testing thingy
-nmap <Leader>xx :tabe a.js<cr>GVggx"*p<cr>:%s/;/;\r/g<cr>:w<cr>
+nnoremap <Leader>xx :tabe a.js<cr>GVggx"*p<cr>:%s/;/;\r/g<cr>:w<cr>
 
 " Command-T file finder
 nnoremap <silent> <Leader>T :CommandT<cr>
@@ -156,72 +161,72 @@ let g:CommandTAcceptSelectionTabMap = '<CR>'
 " Gundo tree viewer
 nnoremap <Leader>u :GundoToggle<CR>
 
-nmap <Leader>tjs :call ToggleJSL()<cr>
+nnoremap <Leader>tjs :call ToggleJSL()<cr>
 
 " Clear search highlighting so you don't have to search for /asdfasdf
-nmap <silent> <Leader>/ :nohlsearch<CR>
+nnoremap <silent> <Leader>/ :nohlsearch<CR>
 
 " Jump backwards to previous function, assumes code is indented (useful when inside function)
 " Jump to top level function
-nmap <Leader>f ?^func\\|^[a-zA-Z].*func<CR>,/
+nnoremap <Leader>f ?^func\\|^[a-zA-Z].*func<CR>,/
 
 " faster tab switching
-nmap <C-l> gt
-nmap <C-h> gT
+nnoremap <C-l> gt
+nnoremap <C-h> gT
 
 " Fugitive
-nmap <Leader>gs :Gstatus<CR>
-nmap <Leader>gc :Gcommit<CR>
-nmap <Leader>gd :Gdiff<CR>
-nmap <Leader>gl :tabe %<cr>:Glog<cr><cr>:copen<cr>
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gc :Gcommit<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gl :tabe %<cr>:Glog<cr><cr>:copen<cr>
 
 " Ack
-nmap <Leader>aw "zyiw:exe "Ack! ".@z.""<CR>
-nmap <Leader>aW "zyiW:exe "Ack! ".@z.""<CR>
+nnoremap <Leader>aw "zyiw:exe "Ack! ".@z.""<CR>
+nnoremap <Leader>aW "zyiW:exe "Ack! ".@z.""<CR>
 
-nmap <Leader>rp :call rainbow_parentheses#Toggle()<cr>
+nnoremap <Leader>rp :call rainbow_parentheses#Toggle()<cr>
 
 " Source vim when this file is updated (although it doesn't work since it thinks we're in cygwin, dammit)
-nmap <Leader>sv :source $MYVIMRC<cr>
-nmap <silent> <Leader>so :source %<cr>
-nmap <Leader>v :tabe $MYVIMRC<cr>
-nmap <Leader>ss :tabe ~/.vim/bundle/ultisnips/UltiSnips/javascript.snippets<cr>
-nmap <Leader>hs :tabe /etc/hosts<cr>
-nmap <Leader>js :tabe ~/.jsl<cr>
+nnoremap <Leader>sv :source $MYVIMRC<cr>
+nnoremap <silent> <Leader>so :source %<cr>
+nnoremap <Leader>v :tabe $MYVIMRC<cr>
+nnoremap <Leader>ss :tabe ~/.vim/bundle/ultisnips/UltiSnips/javascript.snippets<cr>
+nnoremap <Leader>hs :tabe /etc/hosts<cr>
+nnoremap <Leader>js :tabe ~/.jsl<cr>
 
 " Copy current buffer path relative to root of VIM session to system clipboard
-nmap <Leader>yp :let @*=expand("%")<cr>:echo "Copied file path to clipboard"<cr>
+nnoremap <Leader>yp :let @*=expand("%")<cr>:echo "Copied file path to clipboard"<cr>
 " Copy current filename to system clipboard
-nmap <Leader>yf :let @*=expand("%:t")<cr>:echo "Copied file name to clipboard"<cr>
+nnoremap <Leader>yf :let @*=expand("%:t")<cr>:echo "Copied file name to clipboard"<cr>
 " Copy current buffer path without filename to system clipboard
-nmap <Leader>yd :let @*=expand("%:h")<cr>:echo "Copied file directory to clipboard"<cr>
+nnoremap <Leader>yd :let @*=expand("%:h")<cr>:echo "Copied file directory to clipboard"<cr>
 
 " Highlight last yanked / pasted text
-nmap <Leader>ht `[v`]
+nnoremap <Leader>ht `[v`]
 
 " NerdTree
-nmap <Leader>nt :NERDTreeTabsToggle<cr>
+nnoremap <Leader>nt :NERDTreeTabsToggle<cr>
 
 " Change to working directory of current file and echo new location
-nmap cd :cd %:h<cr>:pwd<cr>
+nnoremap cd :cd %:h<cr>:pwd<cr>
 
 " Surround mappings, switch " and ' with c
-nmap c' cs'"
-nmap c" cs"'
+nnoremap c' cs'"
+nnoremap c" cs"'
 
 " Swap two parameters in a function
-nmap <Leader>- lF(ldWf)i, pF,dt)
+nnoremap <Leader>- lF(ldWf)i, pF,dt)
 
 " Strip one layer of nesting
-nmap <Leader>sn [{mzjV]}k<]}dd`zdd
+nnoremap <Leader>sn [{mzjV]}k<]}dd`zdd
 
 " MRU mappings, open most recent files list
-nmap <Leader>ml :MRU<cr>
+nnoremap <Leader>ml :MRU<cr>
 " Opens mru which lets files autocomplete
-nmap <Leader>me :MRU 
+nnoremap <Leader>me :MRU 
 
 " Alphabetize CSS rules if on mulitple lines
-nmap <Leader>rs vi{:sort<cr>
+nnoremap <Leader>rs vi{:sort<cr>
 
 " trim trailing whitespace
 nnoremap <LocalLeader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
@@ -238,10 +243,13 @@ nnoremap <Leader>at vi":<C-u>call <SID>TemplateAck()<CR>
 nnoremap <silent> <Leader>tb :TagbarToggle<CR>
 
 " Execute VIM colon command under cursor with <⌘-e>
-nmap <D-e> yy:<C-r>"<backspace><cr>
+nnoremap <D-e> yy:<C-r>"<backspace><cr>
 
 " Locally (local to block) rename a variable
-nmap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>:silent! norm [{<cr>$V%:s/<C-R>//<c-r>z/g<cr>`x
+nnoremap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>:silent! norm [{<cr>$V%:s/<C-R>//<c-r>z/g<cr>`x
+
+" Close the quickfix window from anywhere
+nnoremap <Leader>cl :ccl<cr>
 
 " Make Y yank till end of line
 nnoremap Y y$
