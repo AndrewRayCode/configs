@@ -148,6 +148,22 @@ function! s:TemplateAck()
     exe "normal" . lineNo . "GV"
 endfunction
 
+" Jump to template definition
+function! s:SSPAck()
+    let old = @"
+    norm! gvy
+
+    " not namespaced
+    let @z = '. -regex ".*' . @" . '.ssp"'
+    let @" = old
+
+    redir => captured
+    exe ":silent !find " . @z
+    redir END
+
+    exe ":tabe " . split(captured)[4]
+endfunction
+
 " ---------------------------------------------------------------
 " Key mappings
 " ---------------------------------------------------------------
@@ -246,6 +262,8 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
 vnoremap <Leader>av :<C-u>call <SID>VAck()<CR>:exe "Ack! ".@z.""<CR>
 
 nnoremap <Leader>at vi":<C-u>call <SID>TemplateAck()<CR>
+
+nnoremap <Leader>as vi":<C-u>call <SID>SSPAck()<CR>
 
 " tagbar open
 nnoremap <silent> <Leader>tb :TagbarToggle<CR>
