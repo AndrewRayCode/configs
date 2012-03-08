@@ -259,7 +259,10 @@ nnoremap <LocalLeader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
 
+" Ack for visual selection
 vnoremap <Leader>av :<C-u>call <SID>VAck()<CR>:exe "Ack! ".@z.""<CR>
+" Ack for word under cursor
+nnoremap <Leader>av :Ack!<cr>
 
 nnoremap <Leader>at vi":<C-u>call <SID>TemplateAck()<CR>
 
