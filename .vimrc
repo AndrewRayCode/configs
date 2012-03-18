@@ -235,8 +235,8 @@ nnoremap <Leader>nt :NERDTreeTabsToggle<cr>
 nnoremap cd :cd %:h<cr>:pwd<cr>
 
 " Surround mappings, switch " and ' with c
-nnoremap c' cs'"
-nnoremap c" cs"'
+nmap c' cs'"
+nmap c" cs"'
 
 " Swap two parameters in a function
 nnoremap <Leader>- lF(ldWf)i, pF,dt)
@@ -278,7 +278,7 @@ nnoremap <D-e> yy:<C-r>"<backspace><cr>
 nnoremap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>:silent! norm [{<cr>$V%:s/<C-R>//<c-r>z/g<cr>`x
 
 " Close the quickfix window from anywhere
-nnoremap <Leader>cl :ccl<cr>
+nnoremap <Leader>cc :ccl<cr>
 
 " Make Y yank till end of line
 nnoremap Y y$
