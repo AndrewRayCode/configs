@@ -283,6 +283,12 @@ nnoremap <Leader>cc :ccl<cr>
 " Make Y yank till end of line
 nnoremap Y y$
 
+" In command line mode use ctrl-direction to move instead of arrow keys
+cnoremap <C-j> <t_kd>
+cnoremap <C-k> <t_ku>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+
 " ------------------------------------------------------------------------------------------
 " VIM setup
 " ------------------------------------------------------------------------------------------
