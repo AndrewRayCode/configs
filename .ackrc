@@ -5,6 +5,9 @@ velocity=.vm
 soy=.soy
 
 --type-set
+ssp=.ssp
+
+--type-set
 shitbags=.iml,.ipr,.iws
 
 --ignore-dir=target
