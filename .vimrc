@@ -278,7 +278,7 @@ nnoremap <D-e> yy:<C-r>"<backspace><cr>
 nnoremap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>:silent! norm [{<cr>$V%:s/<C-R>//<c-r>z/g<cr>`x
 
 " Close the quickfix window from anywhere
-nnoremap <Leader>cc :ccl<cr>
+nmap <Leader>cl :ccl<cr>
 
 " Make Y yank till end of line
 nnoremap Y y$
