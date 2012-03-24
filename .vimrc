@@ -84,23 +84,6 @@ endif
 " Functions
 " ---------------------------------------------------------------
 
-function! ToggleJSL()
-    " I DO NOT WORK YET AND AM A PIECE OF SHIT DO NOT USE ME
-    if !exists("s:jsl_enabled")
-        let s:jsl_enabled = 0
-    endif
-    if s:jsl_enabled == 1
-        autocmd! BufWritePost *.js call JavascriptLint()
-        autocmd! FileWritePost *.js call JavascriptLint()
-        autocmd! BufWinLeave * call MaybeClearCursorLineColor()
-        let s:jsl_enabled = 0
-    else
-        autocmd BufWritePost,FileWritePost *.js call JavascriptLint()
-        autocmd BufWinLeave * call MaybeClearCursorLineColor()
-        let s:jsl_enabled = 1
-    endif
-endfunction
-
 function! Refactor()
     call inputsave()
     let @z=input("What do you want to rename '" . @z . "' to? ")
@@ -184,8 +167,6 @@ let g:CommandTAcceptSelectionTabMap = '<CR>'
 
 " Gundo tree viewer
 nnoremap <Leader>u :GundoToggle<CR>
-
-nnoremap <Leader>tjs :call ToggleJSL()<cr>
 
 " Clear search highlighting so you don't have to search for /asdfasdf
 nnoremap <silent> <Leader>/ :nohlsearch<CR>
@@ -349,6 +330,9 @@ let g:nerdtree_tabs_open_on_gui_startup=0
 
 " Include $ in varibale names
 set iskeyword=@,48-57,_,192-255,#,$
+
+" Ignore syntastic warnings
+" let g:syntastic_quiet_warnings=1
 
 "autocmd! BufWritePost,FileWritePost *.vm :silent !echo " " >> atlassian-universal-plugin-manager-plugin/src/main/java/com/atlassian/upm/PluginManagerServlet.java
 
