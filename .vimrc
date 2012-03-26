@@ -352,6 +352,14 @@ set iskeyword=@,48-57,_,192-255,#,$
 
 "autocmd! BufWritePost,FileWritePost *.vm :silent !echo " " >> atlassian-universal-plugin-manager-plugin/src/main/java/com/atlassian/upm/PluginManagerServlet.java
 
+" Highlight trailing whitespace in vim on non empty lines, but not while
+" typing in insert mode!
+highlight ExtraWhitespace ctermbg=red guibg=Brown
+au ColorScheme * highlight ExtraWhitespace guibg=red
+au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
+au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+au InsertLeave * match ExtraWhiteSpace /\S\zs\s\+$/
+
 " Jump to last known cursor position when opening file
 autocmd BufReadPost *
     \ if line("'\"") > 0 && line ("'\"") <= line("$") |
