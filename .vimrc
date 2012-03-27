@@ -83,6 +83,14 @@ endif
 " ---------------------------------------------------------------
 " Functions
 " ---------------------------------------------------------------
+"
+function! ToggleRelativeAbsoluteNumber()
+    if &number
+    set relativenumber
+    else
+    set number
+    endif
+endfunction
 
 function! Refactor()
     call inputsave()
@@ -270,6 +278,9 @@ cnoremap <C-k> <t_ku>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
+" Toggle relative / line number
+nnoremap <leader>rl :call ToggleRelativeAbsoluteNumber()<CR>
+
 " ------------------------------------------------------------------------------------------
 " VIM setup
 " ------------------------------------------------------------------------------------------
@@ -332,7 +343,7 @@ let g:nerdtree_tabs_open_on_gui_startup=0
 set iskeyword=@,48-57,_,192-255,#,$
 
 " Ignore syntastic warnings
-" let g:syntastic_quiet_warnings=1
+let g:syntastic_quiet_warnings=1
 
 "autocmd! BufWritePost,FileWritePost *.vm :silent !echo " " >> atlassian-universal-plugin-manager-plugin/src/main/java/com/atlassian/upm/PluginManagerServlet.java
 
