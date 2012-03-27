@@ -341,7 +341,7 @@ set iskeyword=@,48-57,_,192-255,#,$
 highlight ExtraWhitespace ctermbg=red guibg=Brown
 au ColorScheme * highlight ExtraWhitespace guibg=red
 au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
-au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+au InsertEnter * match ExtraWhitespace /\S\zs\s\+\%#\@<!$/
 au InsertLeave * match ExtraWhiteSpace /\S\zs\s\+$/
 
 " Jump to last known cursor position when opening file
