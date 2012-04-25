@@ -2,14 +2,18 @@
 velocity=.vm
 
 --type-set
-soy=.soy
+pm=.pm
 
 --type-set
-ssp=.ssp
+tt=.tt
+
+--type-set
+soy=.soy
 
 --type-set
 shitbags=.iml,.ipr,.iws
 
 --ignore-dir=target
+--ignore-dir=built
 
 --noshitbags

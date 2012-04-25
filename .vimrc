@@ -48,8 +48,8 @@ filetype plugin indent on
 syntax on
 
 " Custom file type syntax highlighting
-au BufRead, BufNewFile *.tal setfiletype html
-au BufRead, BufNewFile *.djhtml setfiletype html
+au BufRead,BufNewFile *.tt setfiletype html
+au BufRead,BufNewFile *.djhtml setfiletype html
 au BufRead,BufNewFile *.soy set filetype=clojure
 au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 
@@ -70,7 +70,7 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_working_path_mode = 0
 
 " Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
-let g:ctrlp_custom_ignore = {'dir': '\.git$\|\.hg$\|\.svn$\|target$'}
+let g:ctrlp_custom_ignore = {'dir': '\.git$\|\.hg$\|\.svn$\|target$|built$'}
 
 " Open multiplely selected files in a tab by default
 let g:ctrlp_open_multi = '10t'
@@ -166,7 +166,9 @@ let mapleader=","
 nnoremap <Leader>ww :w !sudo tee % >/dev/null<cr>
 
 " Ray-Frame testing thingy
-nnoremap <Leader>xx :tabe a.js<cr>GVggx"*p<cr>:%s/;/;\r/g<cr>:w<cr>
+" nnoremap <Leader>x:tabe a.js<cr>GVggx"*p<cr>:%s/;/;\r/g<cr>:w<cr>
+
+nnoremap <Leader>x :tabcl<cr>
 
 " Command-T file finder
 nnoremap <silent> <Leader>T :CommandT<cr>
@@ -191,7 +193,10 @@ nnoremap <C-h> gT
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gc :Gcommit<CR>
 nnoremap <Leader>gd :Gdiff<CR>
-nnoremap <Leader>gl :tabe %<cr>:Glog<cr><cr>:copen<cr>
+
+" Extradite
+nnoremap <Leader>gl :Extradite!<CR>
+nnoremap <Leader>df :tabe<cr>:Explore .<cr>:Git! diff<CR>
 
 " Ack
 nnoremap <Leader>aw "zyiw:exe "Ack! ".@z.""<CR>
@@ -281,6 +286,10 @@ cnoremap <C-e> <End>
 " Toggle relative / line number
 nnoremap <leader>rl :call ToggleRelativeAbsoluteNumber()<CR>
 
+" use space to cycle between splits
+nmap <Space> <C-w>w
+nmap <S-Space> <C-w>W
+
 " ------------------------------------------------------------------------------------------
 " VIM setup
 " ------------------------------------------------------------------------------------------
@@ -295,7 +304,7 @@ set backupdir=~
 set hidden
 
 " wildignore all of these when autocompleting
-set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws
+set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws,built
 
 " shiftround, always snap to multiples of shiftwidth when using > and <
 set sr
