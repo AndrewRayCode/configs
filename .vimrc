@@ -52,15 +52,7 @@ au BufRead,BufNewFile *.tt set filetype=html
 au BufRead,BufNewFile *.djhtml set filetype=html
 au BufRead,BufNewFile *.soy set filetype=clojure
 au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
-"au BufRead,BufNewFile *.js call LoadStupidRainbows()
-
-function! LoadStupidRainbows()
-   call rainbow_parentheses#LoadSquare()
-   call rainbow_parentheses#LoadRound()
-   call rainbow_parentheses#LoadBraces()
-   call rainbow_parentheses#LoadChevrons()
-   call rainbow_parentheses#Toggle()
-endfunction
+au BufRead,BufNewFile *.js call rainbow_parentheses#toggleall()
 
 " JSLint options for custom procesing file
 let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
