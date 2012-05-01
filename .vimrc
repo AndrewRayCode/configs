@@ -42,16 +42,25 @@ set nocompatible
 " Pathogen loading
 filetype off
 call pathogen#helptags()
-call pathogen#runtime_append_all_bundles() 
+call pathogen#runtime_append_all_bundles()
 filetype plugin indent on
 
 syntax on
 
 " Custom file type syntax highlighting
-au BufRead,BufNewFile *.tt setfiletype html
-au BufRead,BufNewFile *.djhtml setfiletype html
+au BufRead,BufNewFile *.tt set filetype=html
+au BufRead,BufNewFile *.djhtml set filetype=html
 au BufRead,BufNewFile *.soy set filetype=clojure
 au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
+"au BufRead,BufNewFile *.js call LoadStupidRainbows()
+
+function! LoadStupidRainbows()
+   call rainbow_parentheses#LoadSquare()
+   call rainbow_parentheses#LoadRound()
+   call rainbow_parentheses#LoadBraces()
+   call rainbow_parentheses#LoadChevrons()
+   call rainbow_parentheses#Toggle()
+endfunction
 
 " JSLint options for custom procesing file
 let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
@@ -174,6 +183,9 @@ nnoremap <Leader>x :tabcl<cr>
 nnoremap <silent> <Leader>T :CommandT<cr>
 let g:CommandTAcceptSelectionMap = '<C-o>'
 let g:CommandTAcceptSelectionTabMap = '<CR>'
+
+" New tab
+nnoremap <Leader>te :tabe 
 
 " Gundo tree viewer
 nnoremap <Leader>u :GundoToggle<CR>
@@ -363,7 +375,7 @@ au ColorScheme * highlight ExtraWhitespace guibg=red
 au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
 au InsertEnter * match ExtraWhitespace /\S\zs\s\+\%#\@<!$/
 au InsertLeave * match ExtraWhiteSpace /\S\zs\s\+$/
-
+ 
 " Jump to last known cursor position when opening file
 autocmd BufReadPost *
     \ if line("'\"") > 0 && line ("'\"") <= line("$") |
