@@ -52,12 +52,13 @@ au BufRead,BufNewFile *.tt set filetype=html
 au BufRead,BufNewFile *.djhtml set filetype=html
 au BufRead,BufNewFile *.soy set filetype=clojure
 au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
+au BufRead,BufNewFile .jshintrc set ft=javascript
 
 " Fuck everything about rainbow parentheses
 au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+au Syntax javascript RainbowParenthesesLoadRound
+au Syntax javascript RainbowParenthesesLoadSquare
+au Syntax javascript RainbowParenthesesLoadBraces
 
 " JSLint options for custom procesing file
 let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
@@ -256,7 +257,7 @@ nnoremap <Leader>me :MRU
 nnoremap <Leader>rs vi{:sort<cr>
 
 " trim trailing whitespace
-nnoremap <LocalLeader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+nnoremap <LocalLeader>sw :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " * and # search for next/previous of selected text when used in visual mode
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
@@ -266,6 +267,8 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
 vnoremap <Leader>av :<C-u>call <SID>VAck()<CR>:exe "Ack! ".@z.""<CR>
 " Ack for word under cursor
 nnoremap <Leader>av :Ack!<cr>
+" Open Ack
+nnoremap <Leader>ao :Ack! -i 
 
 nnoremap <Leader>at vi":<C-u>call <SID>TemplateAck()<CR>
 
@@ -302,6 +305,8 @@ nmap <S-Space> <C-w>W
 " ------------------------------------------------------------------------------------------
 " VIM setup
 " ------------------------------------------------------------------------------------------
+
+set sessionoptions+=winpos
 
 " Paste toggle
 set pastetoggle=<F2>
@@ -362,6 +367,11 @@ set iskeyword=@,48-57,_,192-255,#,$
 
 " Ignore syntastic warnings
 let g:syntastic_quiet_warnings=1
+
+" Vim-script-runner
+let g:script_runner_map = "<Leader>sx"
+let g:script_runner_perl = "perl -Ilib -MData::Dumper"
+let g:script_runner_javascript = "node"
 
 "autocmd! BufWritePost,FileWritePost *.vm :silent !echo " " >> atlassian-universal-plugin-manager-plugin/src/main/java/com/atlassian/upm/PluginManagerServlet.java
 
