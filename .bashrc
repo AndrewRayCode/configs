@@ -11,9 +11,20 @@ set -o notify
 set -o vi
 
 source ~/.bash_config
+source ~/perl5/perlbrew/etc/bashrc
 
 alias here='open .'
 alias vim='mvim'
+
+pullreq() {
+    [ -z $BRANCH ] && BRANCH="dev"
+    HEAD=$(git symbolic-ref HEAD 2> /dev/null)
+    [ -z $HEAD ] && return # Return if no head
+    REMOTE=`cat .git/config | grep "remote \"origin\"" -A 2 | tail -n1 | sed 's/.*:\([^\/]*\).*/\1/'`
+    MSG=`git log -n1 --pretty=%s`
+
+    hub pull-request -b $BRANCH -h $REMOTE:${HEAD#refs/heads/} "$MSG" $1
+}
 
 #######################################
 # distributed version control section #
