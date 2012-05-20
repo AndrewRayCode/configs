@@ -124,4 +124,11 @@ while ($1) {
 
 endsnippet
 
+snippet dump "dump"
+use Data::Dumper;
+print STDERR "========\n";
+print STDERR Dumper ${1};
+print STDERR "========\n";
+endsnippet
+
 # vim:ft=snippets:

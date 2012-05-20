@@ -47,12 +47,18 @@ filetype plugin indent on
 
 syntax on
 
+" Highlight column 80 and don't make it bright red like an idiot would (needs
+" to be done after syntax set)
+highlight ColorColumn guibg=#220000
+set colorcolumn=80
+
 " Custom file type syntax highlighting
-au BufRead,BufNewFile *.tt set filetype=html
 au BufRead,BufNewFile *.djhtml set filetype=html
 au BufRead,BufNewFile *.soy set filetype=clojure
 au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 au BufRead,BufNewFile .jshintrc set ft=javascript
+au BufRead,BufNewFile *.tt2 setf tt2html
+au BufRead,BufNewFile *.tt setf tt2html
 
 " Fuck everything about rainbow parentheses
 au VimEnter * RainbowParenthesesToggle
@@ -90,7 +96,17 @@ endif
 " ---------------------------------------------------------------
 " Functions
 " ---------------------------------------------------------------
-"
+
+function! HandleURI()
+  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
+  echo s:uri
+  if s:uri != ""
+	  exec "!open \"" . s:uri . "\""
+  else
+	  echo "No URI found in line."
+  endif
+endfunction
+
 function! ToggleRelativeAbsoluteNumber()
     if &number
     set relativenumber
@@ -187,6 +203,8 @@ nnoremap <Leader>te :tabe
 
 " Gundo tree viewer
 nnoremap <Leader>u :GundoToggle<CR>
+
+nnoremap <Leader>op :call HandleURI()<CR>
 
 " Clear search highlighting so you don't have to search for /asdfasdf
 nnoremap <silent> <Leader>/ :nohlsearch<CR>
@@ -302,6 +320,9 @@ nnoremap <leader>rl :call ToggleRelativeAbsoluteNumber()<CR>
 nmap <Space> <C-w>w
 nmap <S-Space> <C-w>W
 
+" Delete unnamed buffers
+nmap <Leader>da :bufdo if expand("%") == "" \| bd! \| endif<cr>
+
 " ------------------------------------------------------------------------------------------
 " VIM setup
 " ------------------------------------------------------------------------------------------
@@ -370,7 +391,7 @@ let g:syntastic_quiet_warnings=1
 
 " Vim-script-runner
 let g:script_runner_map = "<Leader>sx"
-let g:script_runner_perl = "perl -Ilib -MData::Dumper"
+let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10 -MClass::Autouse=:superloader"
 let g:script_runner_javascript = "node"
 
 "autocmd! BufWritePost,FileWritePost *.vm :silent !echo " " >> atlassian-universal-plugin-manager-plugin/src/main/java/com/atlassian/upm/PluginManagerServlet.java
@@ -398,3 +419,18 @@ ab funicton function
 ab funciton function
 ab updateable updatable
 ab Updateable Updatable
+
+" ------------------------------------------------------------------------------------------
+" Text objects?
+" ------------------------------------------------------------------------------------------
+
+call textobj#user#plugin('horesshit', {
+\   'regex_a': {
+\     'select': 'a/',
+\     '*pattern*': '\/.*\/[gicm]\{0,}'
+\   },
+\   'regex_i': {
+\     'select': 'i/',
+\     '*pattern*': '\/\zs.\+\ze\/'
+\   },
+\ })

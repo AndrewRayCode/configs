@@ -1,0 +1,13 @@
+:TextobjCommentDefaultKeyMappings	textobj-comment.txt	/*:TextobjCommentDefaultKeyMappings*
+<Plug>(textobj-comment-a)	textobj-comment.txt	/*<Plug>(textobj-comment-a)*
+<Plug>(textobj-comment-i)	textobj-comment.txt	/*<Plug>(textobj-comment-i)*
+g:textobj_comment_no_default_key_mappings	textobj-comment.txt	/*g:textobj_comment_no_default_key_mappings*
+textobj-comment	textobj-comment.txt	/*textobj-comment*
+textobj-comment-bugs	textobj-comment.txt	/*textobj-comment-bugs*
+textobj-comment-changelog	textobj-comment.txt	/*textobj-comment-changelog*
+textobj-comment-contents	textobj-comment.txt	/*textobj-comment-contents*
+textobj-comment-customizing	textobj-comment.txt	/*textobj-comment-customizing*
+textobj-comment-interface	textobj-comment.txt	/*textobj-comment-interface*
+textobj-comment-introduction	textobj-comment.txt	/*textobj-comment-introduction*
+textobj-comment-key-mappings	textobj-comment.txt	/*textobj-comment-key-mappings*
+textobj-comment.txt	textobj-comment.txt	/*textobj-comment.txt*

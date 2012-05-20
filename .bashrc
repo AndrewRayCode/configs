@@ -22,8 +22,14 @@ pullreq() {
     [ -z $HEAD ] && return # Return if no head
     REMOTE=`cat .git/config | grep "remote \"origin\"" -A 2 | tail -n1 | sed 's/.*:\([^\/]*\).*/\1/'`
     MSG=`git log -n1 --pretty=%s`
+    CUR_BRANCH=${HEAD#refs/heads/}
 
-    hub pull-request -b $BRANCH -h $REMOTE:${HEAD#refs/heads/} "$MSG" $1
+    if [[ "$CUR_BRANCH" == "dev" || "$CUR_BRANCH" == "master" ]]; then
+        echo "You can't push directly to $CUR_BRANCH, thicky"
+        return
+    fi
+    git push origin $CUR_BRANCH
+    hub pull-request -b $BRANCH -h $REMOTE:$CUR_BRANCH "$MSG" $1
 }
 
 #######################################
