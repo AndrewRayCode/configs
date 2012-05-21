@@ -1,16 +1,20 @@
 " Plugins installed:
-" :read !ls ~/.vim/bundle
+":read !ls ~/.vim/bundle
+"NrrwRgn
 "Rename
+"ZoomWin
 "ack.vim
 "bufexplorer
 "coffee-script
 "ctrlp.vim
+"delvarworld-javascript
 "django.vim
 "easymotion
+"extradite
 "fugitive
 "gundo
+"indent-anything
 "indexed-search
-"javascript-lint
 "jira-completer
 "lusty-explorer
 "lusty-juggler
@@ -19,17 +23,25 @@
 "neocomplete
 "nerd-tree
 "nerdcommenter
+"powerline
 "rainbow-parentheses
 "repeat
 "scala
 "search-replace-highlight
+"supertab
 "surround
+"syntastic
 "tagbar
 "ultisnips
 "vim-clojure
 "vim-nerdtree-tabs
-"vim-pasta
-"vim-powerline
+"vim-perl
+"vim-script-runner
+"vim-session
+"vim-textobj-comment
+"vim-textobj-function-javascript
+"vim-textobj-function-perl
+"vim-textobj-user
 "vim-unimpaired
 
 " ---------------------------------------------------------------
