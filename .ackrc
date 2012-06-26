@@ -15,5 +15,10 @@ shitbags=.iml,.ipr,.iws
 
 --ignore-dir=target
 --ignore-dir=built
+--ignore-dir=.build
+--ignore-dir=Crowdtilt-Public-Site-0.048
+--ignore-dir=Crowdtilt-Public-Site-0.047
+--ignore-dir=Crowdtilt-Public-Site-0.049
+--ignore-dir=Crowdtilt-Public-Site-0.050
 
 --noshitbags

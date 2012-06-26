@@ -95,7 +95,7 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_working_path_mode = 0
 
 " Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
-let g:ctrlp_custom_ignore = {'dir': '\.git$\|\.hg$\|\.svn$\|target$|built$'}
+let g:ctrlp_custom_ignore = {'dir': '\.git$\|\.hg$\|\.svn$\|target$|built$|.build$'}
 
 " Open multiplely selected files in a tab by default
 let g:ctrlp_open_multi = '10t'
@@ -233,6 +233,7 @@ nnoremap <C-h> gT
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gc :Gcommit<CR>
 nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gb :Gblame<CR>
 
 " Extradite
 nnoremap <Leader>gl :Extradite!<CR>
@@ -444,5 +445,25 @@ call textobj#user#plugin('horesshit', {
 \   'regex_i': {
 \     'select': 'i/',
 \     '*pattern*': '\/\zs.\+\ze\/'
+\   },
+\   'regex_r': {
+\     'select': 'ir',
+\     '*pattern*': ':\zs.\+\ze;'
+\   },
+\   'regex_h': {
+\     'select': 'ih',
+\     '*pattern*': '[a-zA-Z-\/]\+'
+\   },
+\   'regex_v': {
+\     'select': 'iv',
+\     '*pattern*': '[0-9a-zA-Z-\/-]\+'
+\   },
+\   'regex_in': {
+\     'select': 'in',
+\     '*pattern*': '\-\?[0-9\.]\+'
+\   },
+\   'regex_an': {
+\     'select': 'an',
+\     '*pattern*': '\-\?[\#0-9.a-z]\+'
 \   },
 \ })
