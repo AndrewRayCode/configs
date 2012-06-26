@@ -436,33 +436,49 @@ ab Updateable Updatable
 " ------------------------------------------------------------------------------------------
 " Text objects?
 " ------------------------------------------------------------------------------------------
+" Fuck you uncommentable text objects
+" regex_a:
+"      Select around a regex `/bob/gi` with a/
+" regex_i:
+"      Select inside a regex /`bob`/gi with i/
+" regex_r:
+"       Select a css rule margin:`0 10px`; with ir
+" regex_h:
+"       I have no idea what this one was for
+" regex_v:
+"       Select a value?
+" regex_in:
+"       Select inside a number `-0.1`em with in
+" regex_an:
+"       Select around a number `-0.1em` with an
+
 
 call textobj#user#plugin('horesshit', {
-\   'regex_a': { " Select around a regex `/bob/gi` with a/
+\   'regex_a': {
 \     'select': 'a/',
-\     '*pattern*': '\/.*\/[gicm]\{0,}'
+\     '*pattern*': '\/.*\/[gicm]\{0,}',
 \   },
-\   'regex_i': { " Select inside a regex /`bob`/gi with i/
+\   'regex_i': {
 \     'select': 'i/',
 \     '*pattern*': '\/\zs.\+\ze\/'
 \   },
-\   'regex_r': { " Select a css rule margin:`0 10px`; with ir
+\   'regex_r': {
 \     'select': 'ir',
 \     '*pattern*': ':\zs.\+\ze;'
 \   },
-\   'regex_h': { " I have no idea what this one was for
+\   'regex_h': {
 \     'select': 'ih',
 \     '*pattern*': '[a-zA-Z-\/]\+'
 \   },
-\   'regex_v': { " Select a value?
+\   'regex_v': {
 \     'select': 'iv',
 \     '*pattern*': '[0-9a-zA-Z-\/-]\+'
 \   },
-\   'regex_in': { " Select inside a number `-0.1`em with in
+\   'regex_in': {
 \     'select': 'in',
 \     '*pattern*': '\-\?[0-9\.]\+'
 \   },
-\   'regex_an': { " Select around a number `-0.1em` with an
+\   'regex_an': {
 \     'select': 'an',
 \     '*pattern*': '\-\?[\#0-9.a-z]\+'
 \   },
