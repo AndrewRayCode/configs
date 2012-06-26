@@ -438,31 +438,31 @@ ab Updateable Updatable
 " ------------------------------------------------------------------------------------------
 
 call textobj#user#plugin('horesshit', {
-\   'regex_a': {
+\   'regex_a': { " Select around a regex `/bob/gi` with a/
 \     'select': 'a/',
 \     '*pattern*': '\/.*\/[gicm]\{0,}'
 \   },
-\   'regex_i': {
+\   'regex_i': { " Select inside a regex /`bob`/gi with i/
 \     'select': 'i/',
 \     '*pattern*': '\/\zs.\+\ze\/'
 \   },
-\   'regex_r': {
+\   'regex_r': { " Select a css rule margin:`0 10px`; with ir
 \     'select': 'ir',
 \     '*pattern*': ':\zs.\+\ze;'
 \   },
-\   'regex_h': {
+\   'regex_h': { " I have no idea what this one was for
 \     'select': 'ih',
 \     '*pattern*': '[a-zA-Z-\/]\+'
 \   },
-\   'regex_v': {
+\   'regex_v': { " Select a value?
 \     'select': 'iv',
 \     '*pattern*': '[0-9a-zA-Z-\/-]\+'
 \   },
-\   'regex_in': {
+\   'regex_in': { " Select inside a number `-0.1`em with in
 \     'select': 'in',
 \     '*pattern*': '\-\?[0-9\.]\+'
 \   },
-\   'regex_an': {
+\   'regex_an': { " Select around a number `-0.1em` with an
 \     'select': 'an',
 \     '*pattern*': '\-\?[\#0-9.a-z]\+'
 \   },
