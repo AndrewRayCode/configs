@@ -1,2 +1,5 @@
 .DS\_Store
 *.sw?
+.netrwhist
+.VimballRecord
+.vim/sessions
