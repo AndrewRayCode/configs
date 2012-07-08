@@ -129,6 +129,11 @@ ln -s -f ${pw}which_repo.sh ${HOME}/which_repo.sh
 let "symlinks+=2"
 
 # Color git
+if [ -z "`which node`" ]; then echo "${COLOR_LIGHT_RED}node not installed. Suggest ${COLOR_LIGHT_BLUE}brew install node$COLOR_RESET"; fi
+if [ -z "`which npm`" ]; then echo "${COLOR_LIGHT_RED}npm not installed. Suggest ${COLOR_LIGHT_BLUE}curl http://npmjs.org/install.sh | sh$COLOR_RESET"; fi
+if [ -z "`which jshint`" ]; then echo "${COLOR_LIGHT_RED}npm not installed. Suggest ${COLOR_LIGHT_BLUE}npm install -g jshint$COLOR_RESET"; fi
+
+echo $COLOR_GREEN"Making git color by default...$COLOR_RESET"
 git config --global color.ui "auto"
 
 # Toilets!
