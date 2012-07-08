@@ -10,7 +10,6 @@ set -o notify
 set -o vi
 
 source ~/.bash_config
-source ~/perl5/perlbrew/etc/bashrc
 
 alias here='open .'
 alias vim='mvim'
