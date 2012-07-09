@@ -5,3 +5,4 @@ export NODE_PATH=/usr/local/lib/node_modules:/usr/local/lib/jsctags/:$NODE_PATH
 export JAVA_OPTS='-Xmx1024M -XX:MaxPermSize=256M'
 export MAVEN_OPTS="-Xmx2048M -XX:MaxPermSize=512M"
 export JAVA_HOME=/Library/Java/Home
+source ~/perl5/perlbrew/etc/bashrc
