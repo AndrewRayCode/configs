@@ -46,11 +46,23 @@
 "
 "   let g:syntastic_c_compiler_options = ' -ansi'
 "
+" Additionally the setting 'g:syntastic_c_config_file' allows you to define a
+" file that contains additional compiler arguments like include directories or
+" CFLAGS. The file is expected to contain one option per line. If none is
+" given the filename defaults to '.syntastic_c_config':
+"
+"   let g:syntastic_c_config_file = '.config'
+"
 " Using the global variable 'g:syntastic_c_remove_include_errors' you can
 " specify whether errors of files included via the g:syntastic_c_include_dirs'
 " setting are removed from the result set:
 "
 "   let g:syntastic_c_remove_include_errors = 1
+"
+" Use the variable 'g:syntastic_c_errorformat' to override the default error
+" format:
+"
+"   let g:syntastic_c_errorformat = '%f:%l:%c: %trror: %m'
 
 if exists('loaded_c_syntax_checker')
     finish
@@ -68,12 +80,22 @@ if !exists('g:syntastic_c_compiler_options')
     let g:syntastic_c_compiler_options = '-std=gnu99'
 endif
 
+if !exists('g:syntastic_c_config_file')
+    let g:syntastic_c_config_file = '.syntastic_c_config'
+endif
+
 function! SyntaxCheckers_c_GetLocList()
     let makeprg = 'gcc -fsyntax-only '
     let errorformat = '%-G%f:%s:,%-G%f:%l: %#error: %#(Each undeclared '.
                \ 'identifier is reported only%.%#,%-G%f:%l: %#error: %#for '.
                \ 'each function it appears%.%#,%-GIn file included%.%#,'.
-               \ '%-G %#from %f:%l\,,%f:%l:%c: %m,%f:%l: %trror: %m,%f:%l: %m'
+               \ '%-G %#from %f:%l\,,%f:%l:%c: %trror: %m,%f:%l:%c: '.
+               \ '%tarning: %m,%f:%l:%c: %m,%f:%l: %trror: %m,'.
+               \ '%f:%l: %tarning: %m,%f:%l: %m'
+
+    if exists('g:syntastic_c_errorformat')
+        let errorformat = g:syntastic_c_errorformat
+    endif
 
     " add optional user-defined compiler options
     let makeprg .= g:syntastic_c_compiler_options
@@ -112,6 +134,9 @@ function! SyntaxCheckers_c_GetLocList()
         " use the user-defined cflags
         let makeprg .= b:syntastic_c_cflags
     endif
+
+    " add optional config file parameters
+    let makeprg .= ' '.syntastic#c#ReadConfig(g:syntastic_c_config_file)
 
     " process makeprg
     let errors = SyntasticMake({ 'makeprg': makeprg,

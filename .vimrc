@@ -416,7 +416,7 @@ au ColorScheme * highlight ExtraWhitespace guibg=red
 au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
 au InsertEnter * match ExtraWhitespace /\S\zs\s\+\%#\@<!$/
 au InsertLeave * match ExtraWhiteSpace /\S\zs\s\+$/
- 
+
 " Jump to last known cursor position when opening file
 autocmd BufReadPost *
     \ if line("'\"") > 0 && line ("'\"") <= line("$") |

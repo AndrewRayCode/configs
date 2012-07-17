@@ -225,7 +225,7 @@ dvcs_function="
         # Figure out current branch, or if we are bisecting, or lost in space
         bisecting=\"\"
         if [ -z \"\$gitBranch\" ]; then
-            bisect=\$(git rev-list --bisect 2> /devnull | cut -c1-7)
+            bisect=\$(git rev-list --bisect 2> /dev/null | cut -c1-7)
             if [ -z \"\$bisect\" ]; then
                 gitBranch=\"\\[\$COLOR_RED\\]\$NOBRANCH_TEXT\\[\$COLOR_YELLOW\\]\"
             else
