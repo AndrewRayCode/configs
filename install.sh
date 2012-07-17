@@ -137,5 +137,9 @@ if [ -z "`which hub`" ]; then echo "${COLOR_LIGHT_RED}hub not installed. Suggest
 echo $COLOR_GREEN"Making git color by default...$COLOR_RESET"
 git config --global color.ui "auto"
 
+echo $COLOR_GREEN"Running $COLOR_LIGHT_GREEN.osx$COLOR_GREEN (give me passwords)..."
+sudo ./.osx
+echo $COLOR_RESET
+
 # Toilets!
 echo $COLOR_GREEN"Done!"$COLOR_LIGHT_GREEN $symlinks$COLOR_GREEN symlinks were created.$COLOR_RESET
