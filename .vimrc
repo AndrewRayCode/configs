@@ -69,8 +69,8 @@ au BufRead,BufNewFile *.djhtml set filetype=html
 au BufRead,BufNewFile *.soy set filetype=clojure
 au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 au BufRead,BufNewFile .jshintrc set ft=javascript
-au BufRead,BufNewFile *.tt2 setf tt2html
-au BufRead,BufNewFile *.tt setf tt2html
+au BufRead,BufNewFile *.tt2 setf html
+au BufRead,BufNewFile *.tt setf html
 
 " Fuck everything about rainbow parentheses
 au VimEnter * RainbowParenthesesToggle
@@ -288,7 +288,7 @@ nnoremap <Leader>me :MRU
 nnoremap <Leader>rs vi{:sort<cr>
 
 " trim trailing whitespace
-nnoremap <LocalLeader>sw :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+nnoremap <Leader>sw :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " * and # search for next/previous of selected text when used in visual mode
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
@@ -407,8 +407,6 @@ let g:script_runner_map = "<Leader>sx"
 let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10 -MClass::Autouse=:superloader"
 let g:script_runner_javascript = "node"
 
-"autocmd! BufWritePost,FileWritePost *.vm :silent !echo " " >> atlassian-universal-plugin-manager-plugin/src/main/java/com/atlassian/upm/PluginManagerServlet.java
-
 " Highlight trailing whitespace in vim on non empty lines, but not while
 " typing in insert mode!
 highlight ExtraWhitespace ctermbg=red guibg=Brown
@@ -422,6 +420,12 @@ autocmd BufReadPost *
     \ if line("'\"") > 0 && line ("'\"") <= line("$") |
     \ exe "normal g'\"" |
     \ endif
+
+" Show Git diff in window split when commiting
+autocmd FileType gitcommit DiffGitCached | wincmd p
+
+" Make ⌘-v repeatable
+inoremenu Edit.Paste <C-r>*
 
 " ------------------------------------------------------------------------------------------
 " I no spell gud
