@@ -484,6 +484,6 @@ call textobj#user#plugin('horesshit', {
 \   },
 \   'regex_an': {
 \     'select': 'an',
-\     '*pattern*': '\-\?[\#0-9.a-z]\+'
+\     '*pattern*': '\-\?[\#0-9.a-z%]\+'
 \   },
 \ })

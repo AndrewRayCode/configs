@@ -20,5 +20,9 @@ shitbags=.iml,.ipr,.iws
 --ignore-dir=Crowdtilt-Public-Site-0.047
 --ignore-dir=Crowdtilt-Public-Site-0.049
 --ignore-dir=Crowdtilt-Public-Site-0.050
+--ignore-dir=Crowdtilt-Public-Site-0.069
+--ignore-dir=Crowdtilt-Public-Site-0.070
+--ignore-dir=Crowdtilt-Public-Site-0.080
+--ignore-dir=Crowdtilt-Public-Site-0.081
 
 --noshitbags
