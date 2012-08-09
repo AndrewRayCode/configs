@@ -5,6 +5,7 @@
 "ZoomWin
 "ack.vim
 "bufexplorer
+"bundle
 "coffee-script
 "ctrlp.vim
 "delvarworld-javascript
@@ -352,7 +353,7 @@ set backupdir=~
 set hidden
 
 " wildignore all of these when autocompleting
-set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws,built
+set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws,built,Crowdtilt\-Public\-Site*
 
 " shiftround, always snap to multiples of shiftwidth when using > and <
 set sr
