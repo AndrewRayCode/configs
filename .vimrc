@@ -4,8 +4,8 @@
 "Rename
 "ZoomWin
 "ack.vim
+"autocomplpop
 "bufexplorer
-"bundle
 "coffee-script
 "ctrlp.vim
 "delvarworld-javascript
@@ -32,9 +32,11 @@
 "supertab
 "surround
 "syntastic
+"tabular
 "tagbar
 "ultisnips
 "vim-clojure
+"vim-l9
 "vim-nerdtree-tabs
 "vim-perl
 "vim-script-runner
