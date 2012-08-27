@@ -96,7 +96,7 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_working_path_mode = 0
 
 " Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
-let g:ctrlp_custom_ignore = {'dir': '\.git$\|\.hg$\|\.svn$\|target$|built$|.build$'}
+let g:ctrlp_custom_ignore = {'dir': '\.git$\|\.hg$\|\.svn$\|target$|built$|.build$|node_modules'}
 
 " Open multiplely selected files in a tab by default
 let g:ctrlp_open_multi = '10t'
@@ -403,8 +403,7 @@ set iskeyword=@,48-57,_,192-255,#,$
 " Ignore syntastic warnings
 let g:syntastic_quiet_warnings=1
 
-" Vim-script-runner
-let g:script_runner_map = "<Leader>sx"
+" Vim-script-unner
 let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10 -MClass::Autouse=:superloader"
 let g:script_runner_javascript = "node"
 
@@ -422,8 +421,9 @@ autocmd BufReadPost *
     \ exe "normal g'\"" |
     \ endif
 
-" Show Git diff in window split when commiting
-autocmd FileType gitcommit DiffGitCached | wincmd p
+" In commit edit turn on spell check, make diff bigger, and switch to other
+" window in insertmode
+au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | DiffGitCached | resize +20 | call feedkeys("\<C-w>p")
 
 " Make ⌘-v repeatable
 inoremenu Edit.Paste <C-r>*

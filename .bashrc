@@ -168,7 +168,7 @@ function _hg_check {
     base_dir="."
     while [ -d "$base_dir/../.hg" ]; do base_dir="$base_dir/.."; done
     if [ -d "$base_dir/.hg" ]; then
-        _hg_dir=`cd $base_dir; pwd`
+        _hg_dir=`cd "$base_dir"; pwd`
         return 0
     else
         return 1
@@ -186,7 +186,7 @@ function _svn_check {
     done
 
     if [ ! -z "$parent" ]; then
-        _svn_dir=`cd $parent; pwd`
+        _svn_dir=`cd "$parent"; pwd`
         return 0
     else
         return 1
@@ -200,7 +200,7 @@ function _git_check {
     if [[ "$_git_dir" == "" ]]; then
         return 1
     else
-        _gsvn_check=`cd $_git_dir; ls .git/svn/.metadata 2> /dev/null`
+        _gsvn_check=`cd "$_git_dir"; ls .git/svn/.metadata 2> /dev/null`
 
         if [[ ! -z "$_gsvn_check" ]]; then
             _git_svn_dir=$_git_dir
@@ -208,6 +208,10 @@ function _git_check {
         return 0
     fi
 }
+
+if [ -z "`echo $(hg prompt \"abort\" 2>&1) | grep abort`" ]; then
+    echo "hg-prompt not installed. Suggest http://sjl.bitbucket.org/hg-prompt/installation/"
+fi
 
 dvcs_function="
     # Figure out what repo we are in
@@ -278,7 +282,7 @@ dvcs_function="
 
         hgm=\${promptOptions[0]:1}
         if [ -n \"\$hgm\" ]; then
-            hgChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\]\"
+            hgChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
         fi
 
         # output branch and changed character if present

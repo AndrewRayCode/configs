@@ -1,4 +1,4 @@
-export PATH=/usr/local/sbin:/Users/delvarworld/maven/bin:/Users/delvarworld/doctorjs/bin/:$PATH
+export PATH=/usr/local/sbin:/Users/delvarworld/maven/bin:/Users/delvarworld/doctorjs/bin/:/usr/local/bin:$PATH
 export GIT_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim -f -g '
 export SVN_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim -f -g '
 export NODE_PATH=/usr/local/lib/node_modules:/usr/local/lib/jsctags/:$NODE_PATH
