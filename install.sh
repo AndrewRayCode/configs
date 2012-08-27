@@ -134,7 +134,7 @@ if [ -z "`which npm`" ]; then echo "${COLOR_LIGHT_RED}npm not installed. Suggest
 if [ -z "`which jshint`" ]; then echo "${COLOR_LIGHT_RED}npm not installed. Suggest ${COLOR_LIGHT_BLUE}npm install -g jshint$COLOR_RESET"; fi
 if [ -z "`which hub`" ]; then echo "${COLOR_LIGHT_RED}hub not installed. Suggest ${COLOR_LIGHT_BLUE}brew install hub$COLOR_RESET"; fi
 if [ -z "`echo $(hg prompt 2>&1) | grep abort`" ]; then echo "${COLOR_LIGHT_RED}hg-prompt not installed. Suggest ${COLOR_LIGHT_BLUE}http://sjl.bitbucket.org/hg-prompt/installation/$COLOR_RESET"; fi
-if [ -z "`echo $(ctags --version 2>&1) | grep Exuberant`" ]; then echo "${COLOR_LIGHT_RED}Your ctags aren't exuberant. Suggest this awful bullshit: ${COLOR_LIGHT_BLUE}http://ctags.sourceforge.net/ ; ./configure ; make ; make install$COLOR_RESET"; fi
+if [ -z "`echo $(ctags --version 2>&1) | grep Exuberant`" ]; then echo "${COLOR_LIGHT_RED}Your ctags aren't exuberant. Suggest this awful bullshit: ${COLOR_LIGHT_BLUE}http://ctags.sourceforge.net/ ; ./configure ; make ; make install ; add /usr/local/bin to PATH$COLOR_RESET"; fi
 
 echo $COLOR_GREEN"Making git color by default...$COLOR_RESET"
 git config --global color.ui "auto"

@@ -309,6 +309,11 @@ nnoremap <Leader>as vi":<C-u>call <SID>SSPAck()<CR>
 " tagbar open
 nnoremap <silent> <Leader>tb :TagbarToggle<CR>
 
+" tabularize around : or =
+vnoremap <silent> <Leader>tt :Tabularize /:\zs<CR>
+vnoremap <silent> <Leader>t= :Tabularize /=<cr>
+nnoremap <silent> <Leader>tt :Tabularize<CR>
+
 " Execute VIM colon command under cursor with <⌘-e>
 nnoremap <D-e> yy:<C-r>"<backspace><cr>
 
