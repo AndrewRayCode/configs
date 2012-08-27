@@ -5,8 +5,7 @@ IS_SVN_DIR=false
 gitTest=`git status 2> /dev/null`
 if [[ "$gitTest" != "" ]]; then
     IS_GIT_DIR=true
-
-else 
+else
     hgTest=`hg summary 2> /dev/null`
     if [[ "$hgTest" != "" ]]; then
         IS_HG_DIR=true
