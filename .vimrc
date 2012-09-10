@@ -74,6 +74,7 @@ au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 au BufRead,BufNewFile .jshintrc set ft=javascript
 au BufRead,BufNewFile *.tt2 setf html
 au BufRead,BufNewFile *.tt setf html
+au BufRead,BufNewFile *.js.tt set filetype=javascript
 
 " Fuck everything about rainbow parentheses
 au VimEnter * RainbowParenthesesToggle
@@ -314,6 +315,7 @@ nnoremap <silent> <Leader>tb :TagbarToggle<CR>
 " tabularize around : or =
 vnoremap <silent> <Leader>tt :Tabularize /:\zs<CR>
 vnoremap <silent> <Leader>t= :Tabularize /=<cr>
+vnoremap <silent> <Leader>t. :Tabularize /=><cr>
 nnoremap <silent> <Leader>tt :Tabularize<CR>
 
 " Execute VIM colon command under cursor with <⌘-e>
@@ -360,7 +362,7 @@ set backupdir=~
 set hidden
 
 " wildignore all of these when autocompleting
-set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws,built,Crowdtilt\-Public\-Site*
+set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws,built
 
 " shiftround, always snap to multiples of shiftwidth when using > and <
 set sr
@@ -451,7 +453,7 @@ let g:neocomplcache_enable_camel_case_completion = 1
 " Use underbar completion.
 let g:neocomplcache_enable_underbar_completion = 1
 " Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 1
+let g:neocomplcache_min_syntax_length = 2
 let g:neocomplcache_max_list = 5
 let g:neocomplcache_enable_fuzzy_completion = 1
 let g:neocomplcache_fuzzy_completion_start_length = 3

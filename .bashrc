@@ -147,6 +147,7 @@ MAX_CONFLICTED_FILES=2
 DELTA_CHAR="✎"
 CONFLICT_CHAR="☢"
 BISECTING_TEXT="ϟ"
+REBASE_TEXT="✂ ʀebase"
 NOBRANCH_TEXT="no branch!"
 
 # Colors for prompt
@@ -226,15 +227,25 @@ dvcs_function="
         gitBranch=\$(git symbolic-ref HEAD 2> /dev/null)
         gitStatus=\`git status\`
 
+        # Figure out if we are rebasing
+        is_rebase=\"\"
+        if [[ -d \"\$_git_dir/.git/rebase-apply\" || -d \"\$_git_dir/.git/rebase-merge\" ]]; then
+            is_rebase=1
+        fi
+
         # Figure out current branch, or if we are bisecting, or lost in space
         bisecting=\"\"
         if [ -z \"\$gitBranch\" ]; then
-            bisect=\$(git rev-list --bisect 2> /dev/null | cut -c1-7)
-            if [ -z \"\$bisect\" ]; then
-                gitBranch=\"\\[\$COLOR_RED\\]\$NOBRANCH_TEXT\\[\$COLOR_YELLOW\\]\"
+            if [ -n \"\$is_rebase\" ]; then
+                rebase_prompt=\"\\[\$COLOR_LIGHT_CYAN\\]\$REBASE_TEXT\\[\$COLOR_YELLOW\\]\"
             else
-                bisecting=\"\\[\$COLOR_PURPLE\\]\$BISECTING_TEXT:\"\$bisect\"\\[\$COLOR_YELLOW\\]\"
-                gitBranch=\"\"
+                bisect=\$(git rev-list --bisect 2> /dev/null | cut -c1-7)
+                if [ -z \"\$bisect\" ]; then
+                    gitBranch=\"\\[\$COLOR_RED\\]\$NOBRANCH_TEXT\\[\$COLOR_YELLOW\\]\"
+                else
+                    bisecting=\"\\[\$COLOR_PURPLE\\]\$BISECTING_TEXT:\"\$bisect\"\\[\$COLOR_YELLOW\\]\"
+                    gitBranch=\"\"
+                fi
             fi
         fi
         gitBranch=\${gitBranch#refs/heads/}
@@ -244,16 +255,18 @@ dvcs_function="
             fi
         fi
 
-        # changed *tracked* files in local directory?
-        gitChange=\$(echo \$gitStatus | ack 'modified:|deleted:|new file:')
-        if [ -n \"\$gitChange\" ]; then
-            gitChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
+        if [ -z \"\$is_rebase\" ]; then
+            # changed *tracked* files in local directory?
+            gitChange=\$(echo \$gitStatus | ack 'modified:|deleted:|new file:')
+            if [ -n \"\$gitChange\" ]; then
+                gitChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
+            fi
         fi
 
         # output the branch and changed character if present
         prompt=\$prompt\"\\[\$COLOR_YELLOW\\] (\"
 
-        prompt=\$prompt\$prefix\$gitBranch\$bisecting
+        prompt=\$prompt\$prefix\$gitBranch\$bisecting\$rebase_prompt
         prompt=\$prompt\"\$gitChange)\\[\$COLOR_RESET\\]\"
 
         # How many local commits do you have ahead of origin?

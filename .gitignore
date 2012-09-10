@@ -4,3 +4,4 @@
 .VimballRecord
 .vim/sessions
 *.swo
+.swo

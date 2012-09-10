@@ -16,23 +16,6 @@ shitbags=.iml,.ipr,.iws
 --ignore-dir=target
 --ignore-dir=built
 --ignore-dir=.build
---ignore-dir=Crowdtilt-Public-Site-0.048
---ignore-dir=Crowdtilt-Public-Site-0.047
---ignore-dir=Crowdtilt-Public-Site-0.049
---ignore-dir=Crowdtilt-Public-Site-0.050
---ignore-dir=Crowdtilt-Public-Site-0.069
---ignore-dir=Crowdtilt-Public-Site-0.070
---ignore-dir=Crowdtilt-Public-Site-0.071
---ignore-dir=Crowdtilt-Public-Site-0.072
---ignore-dir=Crowdtilt-Public-Site-0.073
---ignore-dir=Crowdtilt-Public-Site-0.074
---ignore-dir=Crowdtilt-Public-Site-0.075
---ignore-dir=Crowdtilt-Public-Site-0.076
---ignore-dir=Crowdtilt-Public-Site-0.077
---ignore-dir=Crowdtilt-Public-Site-0.078
---ignore-dir=Crowdtilt-Public-Site-0.079
---ignore-dir=Crowdtilt-Public-Site-0.080
---ignore-dir=Crowdtilt-Public-Site-0.081
---ignore-dir=Crowdtilt-Public-Site-0.081
+--ignore-dir=node_modules
 
 --noshitbags
