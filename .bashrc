@@ -30,6 +30,32 @@ pullreq() {
     hub pull-request -b $BRANCH -h $REMOTE:$CUR_BRANCH "$MSG" $1
 }
 
+#Git ProTip - Delete all local branches that have been merged into HEAD
+git_purge_local_branches() {
+    [ -z $1 ] && return
+    #git branch -d `git branch --merged $1 | grep -v '^*' | grep -v 'master' | grep -v 'dev' | tr -d '\n'`
+    BRANCHES=`git branch --merged $1 | grep -v '^*' | grep -v 'master' | grep -v 'dev' | grep -v "/$1$" | tr -d '\n'`
+    echo "Running: git branch -d $BRANCHES"
+    git branch -d $BRANCHES
+}
+
+#Bonus - Delete all remote branches that are merged into HEAD (thanks +Kyle Neath)
+git_purge_remote_branches() {
+    [ -z $1 ] && return
+    git remote prune origin
+
+    BRANCHES=`git branch -r --merged $1 | grep 'origin' | grep -v '/master$' | grep -v '/dev$' | grep -v "/$1$" | sed 's/origin\//:/g' | tr -d '\n'`
+    echo "Running: git push origin $BRANCHES"
+    git push origin $BRANCHES
+}
+
+git_purge() {
+    branch=$1
+    [ -z $branch ] && branch="dev"
+    git_purge_local_branches $branch
+    git_purge_remote_branches $branch
+}
+
 #######################################
 # distributed version control section #
 #######################################
