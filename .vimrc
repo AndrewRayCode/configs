@@ -4,9 +4,9 @@
 "Rename
 "ZoomWin
 "ack.vim
-"autocomplpop
 "bufexplorer
 "coffee-script
+"complete-helper
 "ctrlp.vim
 "delvarworld-javascript
 "django.vim
@@ -19,24 +19,24 @@
 "jira-completer
 "lusty-explorer
 "lusty-juggler
+"match-tag
 "matchit
 "mru
-"neocomplete
+"neocomplcache
 "nerd-tree
 "nerdcommenter
+"pattern-complete
 "powerline
 "rainbow-parentheses
 "repeat
 "scala
 "search-replace-highlight
-"supertab
 "surround
 "syntastic
 "tabular
 "tagbar
 "ultisnips
 "vim-clojure
-"vim-l9
 "vim-nerdtree-tabs
 "vim-perl
 "vim-script-runner
@@ -277,6 +277,9 @@ nnoremap cd :cd %:h<cr>:pwd<cr>
 nmap c' cs'"
 nmap c" cs"'
 
+" K is one of the dumber things in vim
+map K k
+
 " Swap two parameters in a function
 nnoremap <Leader>- lF(ldWf)i, pF,dt)
 
@@ -435,7 +438,8 @@ autocmd BufReadPost *
 au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | DiffGitCached | resize +20 | call feedkeys("\<C-w>p")
 
 " Make ⌘-v repeatable
-inoremenu Edit.Paste <C-r>*
+nnoremenu Edit.Paste :set paste<cr>i<C-r>*<esc>:set nopaste<cr>
+inoremenu Edit.Paste <esc>:set paste<cr>a<C-r>*<esc>:set nopaste<cr>a
 
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------

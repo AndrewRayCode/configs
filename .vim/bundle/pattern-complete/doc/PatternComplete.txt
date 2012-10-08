@@ -1,0 +1,109 @@
+*PatternComplete.txt*	Insert mode completion for matches of queried / last search pattern.
+
+		      PATTERN COMPLETE    by Ingo Karkat
+							 *PatternComplete.vim*
+description			|PatternComplete-description|
+usage				|PatternComplete-usage|
+installation			|PatternComplete-installation|
+configuration			|PatternComplete-configuration|
+limitations			|PatternComplete-limitations|
+known problems			|PatternComplete-known-problems|
+todo				|PatternComplete-todo|
+history				|PatternComplete-history|
+
+==============================================================================
+DESCRIPTION					 *PatternComplete-description*
+
+This plugin offers completions that either use the last search pattern or
+query for a regular expression, and then offer all matches for completion.
+No completion base is used.
+
+Without this plugin, you can just directly insert the contents of the last
+search pattern register via CTRL-R /, but the register can contain \<word\>
+boundary characters from a |star| search or other non-literal regexp atoms
+like \V, .*, etc., which you usually don't want inserted into the text.
+
+SEE ALSO								     *
+
+- Check out the |CompleteHelper.vim| plugin page (vimscript #3914) for a full
+  list of insert mode completions powered by it.
+
+==============================================================================
+USAGE						       *PatternComplete-usage*
+								  *i_CTRL-X_/*
+CTRL-X /		The completion first queries for {pattern} (press
+			<Enter> to conclude), then finds matches for
+			{pattern}.
+							       *i_CTRL-X_star*
+CTRL-X *		The completion first queries for {pattern} (press
+			<Enter> to conclude), then finds matches for
+			\<{pattern}\>, or {pattern} surrounded by whitespace
+			as a fallback.
+								  *i_CTRL-X_&*
+CTRL-X &		Find matches for the last search pattern, |quote/|.
+								  *c_CTRL-R_&*
+CTRL-R &		Insert first match for the last search pattern
+			|quote/| into the command-line.
+
+==============================================================================
+INSTALLATION					*PatternComplete-installation*
+
+This script is packaged as a |vimball|. If you have the "gunzip" decompressor
+in your PATH, simply edit the *.vmb.gz package in Vim; otherwise, decompress
+the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
+vimball or via the |:UseVimball| command. >
+    vim PatternComplete*.vmb.gz
+    :so %
+To uninstall, use the |:RmVimball| command.
+
+DEPENDENCIES					*PatternComplete-dependencies*
+
+- Requires Vim 7.0 or higher.
+- Requires the |CompleteHelper.vim| plugin (vimscript #3914).
+
+==============================================================================
+CONFIGURATION				       *PatternComplete-configuration*
+
+For a permanent configuration, put the following commands into your |vimrc|:
+
+		     *b:PatternComplete_complete* *g:PatternComplete_complete*
+Analoguous to the 'complete' option, you can specify which buffers will be
+scanned for completion candidates. Currently, '.' (current buffer), 'w'
+(buffers from other windows), and 'b' (other listed buffers) are supported. >
+    let g:PatternComplete_complete = '.,w,b'
+The global setting can be overridden for a particular buffer
+(b:PatternComplete_complete).
+						       *PatternComplete-remap*
+If you want to use different mappings, map your keys to the
+<Plug>(PatternComplete) mapping targets _before_ sourcing the script (e.g.
+in your |vimrc|): >
+    imap <C-x>/ <Plug>(PatternCompleteInput)
+    imap <C-x>* <Plug>(PatternCompleteWordInput)
+    imap <C-x>& <Plug>(PatternCompleteSearch)
+    cmap <C-r>& <Plug>(PatternCompleteSearchMatch)
+<
+==============================================================================
+LIMITATIONS					 *PatternComplete-limitations*
+
+KNOWN PROBLEMS				      *PatternComplete-known-problems*
+
+TODO							*PatternComplete-todo*
+
+IDEAS						       *PatternComplete-ideas*
+
+==============================================================================
+HISTORY						     *PatternComplete-history*
+
+1.00	01-Oct-2012
+First published version.
+
+0.01	03-Oct-2011
+Started development.
+
+==============================================================================
+Copyright: (C) 2011-2012 Ingo Karkat
+The VIM LICENSE applies to this script; see |copyright|.
+
+Maintainer:	Ingo Karkat <ingo@karkat.de>
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:

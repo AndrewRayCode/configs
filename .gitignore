@@ -5,3 +5,4 @@
 .vim/sessions
 *.swo
 .swo
+Rexfile.lock

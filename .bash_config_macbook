@@ -6,3 +6,4 @@ export JAVA_OPTS='-Xmx1024M -XX:MaxPermSize=256M'
 export MAVEN_OPTS="-Xmx2048M -XX:MaxPermSize=512M"
 export JAVA_HOME=/Library/Java/Home
 source ~/perl5/perlbrew/etc/bashrc
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
