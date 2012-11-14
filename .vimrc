@@ -498,6 +498,12 @@ ab funicton function
 ab funciton function
 ab updateable updatable
 ab Updateable Updatable
+ab conosle console
+ab campaing campaign
+ab camapign campaign
+ab campigan campaign
+ab campagn campaign
+ab campiagn campaign
 
 " ------------------------------------------------------------------------------------------
 " Text objects?
