@@ -75,6 +75,7 @@ au BufRead,BufNewFile .jshintrc set ft=javascript
 au BufRead,BufNewFile *.tt2 setf html
 au BufRead,BufNewFile *.tt setf html
 au BufRead,BufNewFile *.js.tt set filetype=javascript
+au BufRead,BufNewFile Rexfile set filetype=perl
 
 " Fuck everything about rainbow parentheses
 au VimEnter * RainbowParenthesesToggle
@@ -480,7 +481,7 @@ inoremap <expr><C-y>  neocomplcache#close_popup()
 inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
 " AutoComplPop like behavior.
-let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_enable_auto_select = 0
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -488,6 +489,9 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Don't let me bd in nerdtree
+autocmd FileType nerdtree cnoreabbrev <buffer> bd :echo "No you don't!"<cr>
 
 " ------------------------------------------------------------------------------------------
 " I no spell gud
@@ -504,6 +508,7 @@ ab camapign campaign
 ab campigan campaign
 ab campagn campaign
 ab campiagn campaign
+ab closeset closest
 
 " ------------------------------------------------------------------------------------------
 " Text objects?

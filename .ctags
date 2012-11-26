@@ -1,8 +1,14 @@
---regex-JavaScript=/([A-Za-z0-9._$]+)[ \t]*[:=][ \t]*new[ \t]+Object\(/\1/o,object/
---regex-JavaScript=/([A-Za-z0-9._$]+)[ \t]*[:=][ \t]*\{/\1/o,object/
---regex-JavaScript=/([A-Za-z0-9._$()]+)[ \t]*[:=][ \t]*function[ \t]*\(/\1/f,function/
---regex-JavaScript=/function[ \t]+([A-Za-z0-9._$]+)[ \t]*\([^\]\)]*\)/\1/f,function/
---regex-JavaScript=/([A-Za-z0-9._$]+)[ \t]*[:=][ \t]*new[ \t]+Array\(/\1/a,array/
---regex-JavaScript=/([A-Za-z0-9._$]+)[ \t]*[:=][ \t]*\[/\1/a,array/
---regex-JavaScript=/([^= ]+)[ \t]*=[ \t]*[^""]'[^'']*/\1/s,string/
---regex-JavaScript=/([^= ]+)[ \t]*=[ \t]*[^'']"[^""]*/\1/s,string/
+--langdef=js
+--langmap=js:.js
+--regex-js=/([A-Za-z0-9._$]+)[ \t]*[:=][ \t]*\{/\1/,object/
+--regex-js=/([A-Za-z0-9._$()]+)[ \t]*[:=][ \t]*function[ \t]*\(/\1/,function/
+--regex-js=/function[ \t]+([A-Za-z0-9._$]+)[ \t]*\(([^)])\)/\1/,function/
+--regex-js=/([A-Za-z0-9._$]+)[ \t]*[:=][ \t]*\[/\1/,array/
+--regex-js=/([^= ]+)[ \t]*=[ \t]*[^"]'[^']*/\1/,string/
+--regex-js=/([^= ]+)[ \t]*=[ \t]*[^']"[^"]*/\1/,string/
+
+--langdef=markdown
+--langmap=markdown:.mkd
+--regex-markdown=/^#[ \t]+(.*)/\1/h,Heading_L1/
+--regex-markdown=/^##[ \t]+(.*)/\1/i,Heading_L2/
+--regex-markdown=/^###[ \t]+(.*)/\1/k,Heading_L3/
