@@ -56,8 +56,7 @@ set nocompatible
 
 " Pathogen loading
 filetype off
-call pathogen#helptags()
-call pathogen#runtime_append_all_bundles()
+call pathogen#infect()
 filetype plugin indent on
 
 syntax on
@@ -414,7 +413,8 @@ let g:nerdtree_tabs_open_on_gui_startup=0
 set iskeyword=@,48-57,_,192-255,#,$
 
 " Ignore syntastic warnings
-let g:syntastic_quiet_warnings=1
+" let g:syntastic_quiet_warnings=1
+let g:syntastic_enable_signs=1
 
 " Vim-script-unner
 let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10 -MClass::Autouse=:superloader"
@@ -497,6 +497,7 @@ autocmd FileType nerdtree cnoreabbrev <buffer> bd :echo "No you don't!"<cr>
 " I no spell gud
 " ------------------------------------------------------------------------------------------
 
+ab bototm bottom
 ab funcion function
 ab funicton function
 ab funciton function
