@@ -8,6 +8,12 @@ pm=.pm
 tt=.tt
 
 --type-set
+sass=.scss
+
+--type-set
+scss=.scss
+
+--type-set
 soy=.soy
 
 --type-set
@@ -18,5 +24,6 @@ shitbags=.iml,.ipr,.iws
 --ignore-dir=.build
 --ignore-dir=node_modules
 --ignore-dir=.sass-cache
+--ignore-dir=sass/libs/bourbon
 
 --noshitbags
