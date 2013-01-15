@@ -11,6 +11,10 @@ set -o vi
 
 source ~/.bash_config
 
+if [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
+fi
+
 alias here='open .'
 alias vim='mvim'
 

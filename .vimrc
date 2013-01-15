@@ -510,6 +510,7 @@ ab campigan campaign
 ab campagn campaign
 ab campiagn campaign
 ab closeset closest
+ab camapaign campaign
 
 " ------------------------------------------------------------------------------------------
 " Text objects?
