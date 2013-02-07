@@ -112,6 +112,30 @@ endif
 " ---------------------------------------------------------------
 " Functions
 " ---------------------------------------------------------------
+"
+function! GuiTabLabel()
+    let label = ''
+    let bufnrlist = tabpagebuflist(v:lnum)
+
+    " Add '+' if one of the buffers in the tab page is modified
+    for bufnr in bufnrlist
+    if getbufvar(bufnr, "&modified")
+        let label = '+'
+        break
+    endif
+    endfor
+
+    " Append the number of windows in the tab page if more than one
+    let wincount = tabpagewinnr(v:lnum, '$')
+    if wincount > 1
+    let label .= '('.wincount.') '
+    endif
+
+    " Append the buffer name
+    return label . fnamemodify(bufname(bufnrlist[tabpagewinnr(v:lnum) - 1]), ':t')
+endfunction
+
+set guitablabel=%{GuiTabLabel()}
 
 function! HandleURI()
   let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
