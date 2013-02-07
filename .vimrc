@@ -168,6 +168,7 @@ function! s:VSetSearch()
   let @" = old
 endfunction
 
+" Visual ack, used to ack for highlighted text
 function! s:VAck()
   let old = @"
   norm! gvy
