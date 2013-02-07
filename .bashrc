@@ -48,6 +48,14 @@ t() {
     tail -f $1 | perl -pe "s/$2/\e[1;31;43m$&\e[0m/g"
 }
 
+shc() {
+    ssh -t bastion1 "ssh -t $1";
+}
+
+prod() {
+    osascript ~/prod.applescript
+}
+
 pullreq() {
     [ -z $BRANCH ] && BRANCH="dev"
     HEAD=$(git symbolic-ref HEAD 2> /dev/null)

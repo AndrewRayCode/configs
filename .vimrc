@@ -99,7 +99,10 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_working_path_mode = 0
 
 " Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
-let g:ctrlp_custom_ignore = {'dir': '\.git$\|\.hg$\|\.svn$\|target$\|built$\|.build$\|node_modules\|\.sass-cache'}
+let g:ctrlp_custom_ignore = {
+    \ 'dir': '\.git$\|\.hg$\|\.svn$\|target$\|built$\|.build$\|node_modules\|\.sass-cache',
+    \ 'file': '\.ttc$',
+    \ }
 
 " Open multiplely selected files in a tab by default
 let g:ctrlp_open_multi = '10t'
