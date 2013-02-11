@@ -5,8 +5,6 @@
 "ZoomWin
 "ack.vim
 "bufexplorer
-"coffee-script
-"complete-helper
 "ctrlp.vim
 "delvarworld-javascript
 "django.vim
@@ -16,7 +14,6 @@
 "gundo
 "indent-anything
 "indexed-search
-"jira-completer
 "lusty-explorer
 "lusty-juggler
 "match-tag
@@ -25,27 +22,31 @@
 "neocomplcache
 "nerd-tree
 "nerdcommenter
-"pattern-complete
 "powerline
 "rainbow-parentheses
 "repeat
-"scala
-"search-replace-highlight
 "surround
 "syntastic
 "tabular
 "tagbar
 "ultisnips
-"vim-clojure
 "vim-nerdtree-tabs
 "vim-perl
 "vim-script-runner
-"vim-session
 "vim-textobj-comment
 "vim-textobj-function-javascript
 "vim-textobj-function-perl
 "vim-textobj-user
 "vim-unimpaired
+
+" Dead plugins I have removed:
+"vim-session
+"scala
+"vim-clojure
+"coffee-script
+"jira-completer
+"pattern-complete " offers completions for last search pattern
+"complete-helper
 
 " ---------------------------------------------------------------
 " Custom setup
