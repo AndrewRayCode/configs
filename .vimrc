@@ -25,11 +25,13 @@
 "powerline
 "rainbow-parentheses
 "repeat
+"snipmate-snippets
 "surround
 "syntastic
 "tabular
 "tagbar
 "ultisnips
+"ultisnips-snips
 "vim-nerdtree-tabs
 "vim-perl
 "vim-script-runner
@@ -66,6 +68,11 @@ syntax on
 " to be done after syntax set)
 highlight ColorColumn guibg=#220000
 set colorcolumn=80
+
+" Experimental and possibly terrible
+highlight Cursor guibg=#FF92BB guifg=#fff
+highlight iCursor guibg=red
+set guicursor=n-c:ver30-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-iCursor/lCursor,r-cr:hor20-Cursor/lCursor,v-sm:block-Cursor
 
 " Custom file type syntax highlighting
 au BufRead,BufNewFile *.djhtml set filetype=html
@@ -116,7 +123,7 @@ endif
 " ---------------------------------------------------------------
 " Functions
 " ---------------------------------------------------------------
-"
+
 function! GuiTabLabel()
     let label = ''
     let bufnrlist = tabpagebuflist(v:lnum)
@@ -278,7 +285,7 @@ nnoremap <Leader>aW "zyiW:exe "Ack! ".@z.""<CR>
 
 nnoremap <Leader>rp :call rainbow_parentheses#Toggle()<cr>
 
-" Source vim when this file is updated (although it doesn't work since it thinks we're in cygwin, dammit)
+" Source vim when this file is updated
 nnoremap <Leader>sv :source $MYVIMRC<cr>
 nnoremap <silent> <Leader>so :source %<cr>
 nnoremap <Leader>v :tabe $MYVIMRC<cr>
