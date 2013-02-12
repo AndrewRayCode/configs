@@ -124,6 +124,32 @@ endif
 " Functions
 " ---------------------------------------------------------------
 
+"" Move current tab into the specified direction.
+" @param direction -1 for left, 1 for right.
+function! TabMove(direction)
+    " get number of tab pages.
+    let ntp=tabpagenr("$")
+    " move tab, if necessary.
+    if ntp > 1
+        " get number of current tab page.
+        let ctpn=tabpagenr()
+        " move left.
+        if a:direction < 0
+            let index=((ctpn-1+ntp-1)%ntp)
+        else
+            let index=(ctpn%ntp)
+        endif
+
+        " move tab page.
+        execute "tabmove ".index
+    endif
+endfunction
+After this you can bind keys, for example like this in your .vimrc:
+
+map <F9> :call TabMove(-1)<CR>
+map <F10> :call TabMove(1)<CR>
+
+" Count number of splits in current buffer, ignoring nerd tree
 function! GuiTabLabel()
     let label = ''
     let bufnrlist = tabpagebuflist(v:lnum)
@@ -136,17 +162,23 @@ function! GuiTabLabel()
     endif
     endfor
 
+    let panes = map(range(1, winnr('$')), '[v:val, bufname(winbufnr(v:val))]')
+    let wincount = 0
+
+    for pane in panes
+        if empty(matchstr(pane[1], 'NERD'))
+            let wincount += 1
+        endif
+    endfor
+
     " Append the number of windows in the tab page if more than one
-    let wincount = tabpagewinnr(v:lnum, '$')
     if wincount > 1
-    let label .= '('.wincount.') '
+        let label .= '('.wincount.') '
     endif
 
     " Append the buffer name
     return label . fnamemodify(bufname(bufnrlist[tabpagewinnr(v:lnum) - 1]), ':t')
 endfunction
-
-set guitablabel=%{GuiTabLabel()}
 
 function! HandleURI()
   let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
@@ -528,6 +560,8 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Don't let me bd in nerdtree
 autocmd FileType nerdtree cnoreabbrev <buffer> bd :echo "No you don't!"<cr>
+
+set guitablabel=%{GuiTabLabel()}
 
 " ------------------------------------------------------------------------------------------
 " I no spell gud
