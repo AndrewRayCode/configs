@@ -146,8 +146,9 @@ function! TabMove(direction)
 endfunction
 After this you can bind keys, for example like this in your .vimrc:
 
-map <F9> :call TabMove(-1)<CR>
-map <F10> :call TabMove(1)<CR>
+" Move tab left or right
+map <D-H> :call TabMove(-1)<CR>
+map <D-L> :call TabMove(1)<CR>
 
 " Count number of splits in current buffer, ignoring nerd tree
 function! GuiTabLabel()
