@@ -144,7 +144,6 @@ function! TabMove(direction)
         execute "tabmove ".index
     endif
 endfunction
-After this you can bind keys, for example like this in your .vimrc:
 
 " Move tab left or right
 map <D-H> :call TabMove(-1)<CR>
@@ -163,12 +162,13 @@ function! GuiTabLabel()
     endif
     endfor
 
-    let panes = map(range(1, winnr('$')), '[v:val, bufname(winbufnr(v:val))]')
-    let wincount = 0
+    let panes = map(range(1, tabpagenr('$')), '[v:val, bufname(winbufnr(v:val))]')
+    let wincount = tabpagewinnr(v:lnum, '$')
+    echo join(panes, ':')
 
     for pane in panes
-        if empty(matchstr(pane[1], 'NERD'))
-            let wincount += 1
+        if !empty(matchstr(pane[1], 'NERD\|/runtime/doc/')) || empty(pane[1])
+            let wincount -= 1
         endif
     endfor
 
@@ -269,6 +269,8 @@ endfunction
 
 " change the mapleader from \ to ,
 let mapleader=","
+" Replace leader. This doesn't work, needs investigating
+noremap \ ,
 
 " lets you do w!! to sudo write the file
 nnoremap <Leader>ww :w !sudo tee % >/dev/null<cr>
@@ -415,6 +417,9 @@ nnoremap <leader>rl :call ToggleRelativeAbsoluteNumber()<CR>
 nmap <Space> <C-w>w
 nmap <S-Space> <C-w>W
 
+" From vimtips, 'easy expansion of active file directory'
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+
 " Delete unnamed buffers
 nmap <Leader>da :bufdo if expand("%") == "" \| bd! \| endif<cr>
 
@@ -511,6 +516,9 @@ au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | DiffGitCached | resize +20
 nnoremenu Edit.Paste :set paste<cr>i<C-r>*<esc>:set nopaste<cr>
 inoremenu Edit.Paste <esc>:set paste<cr>a<C-r>*<esc>:set nopaste<cr>a
 
+" More commands in q: q/ etc
+set history=200
+
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
@@ -546,8 +554,8 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplcache#close_popup()
-inoremap <expr><C-e>  neocomplcache#cancel_popup()
+inoremap <expr><C-y> neocomplcache#close_popup()
+inoremap <expr><C-e> neocomplcache#cancel_popup()
 
 " AutoComplPop like behavior.
 let g:neocomplcache_enable_auto_select = 0
@@ -562,7 +570,7 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 " Don't let me bd in nerdtree
 autocmd FileType nerdtree cnoreabbrev <buffer> bd :echo "No you don't!"<cr>
 
-set guitablabel=%{GuiTabLabel()}
+"set guitablabel=%{GuiTabLabel()}
 
 " ------------------------------------------------------------------------------------------
 " I no spell gud

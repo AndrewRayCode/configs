@@ -68,8 +68,8 @@ pullreq() {
         echo "You can't push directly to $CUR_BRANCH, thicky"
         return
     fi
-    echo "push origin $CUR_BRANCH"
-    echo "hub pull-request -b $BRANCH -h $REMOTE:$CUR_BRANCH"
+    push origin $CUR_BRANCH
+    hub pull-request -b $BRANCH -h $REMOTE:$CUR_BRANCH
 }
 
 #Git ProTip - Delete all local branches that have been merged into HEAD
