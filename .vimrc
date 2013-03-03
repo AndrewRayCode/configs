@@ -1,8 +1,6 @@
 " Plugins installed:
 ":read !ls ~/.vim/bundle
-"NrrwRgn
-"Rename
-"ZoomWin
+"abolish
 "ack.vim
 "bufexplorer
 "ctrlp.vim
@@ -22,14 +20,18 @@
 "neocomplcache
 "nerd-tree
 "nerdcommenter
+"nrrwrgn
 "powerline
 "rainbow-parentheses
+"rename
 "repeat
 "snipmate-snippets
 "surround
 "syntastic
 "tabular
 "tagbar
+"textobj-entire
+"textobj-lastpat
 "ultisnips
 "ultisnips-snips
 "vim-nerdtree-tabs
@@ -40,6 +42,7 @@
 "vim-textobj-function-perl
 "vim-textobj-user
 "vim-unimpaired
+"zoomwin
 
 " Dead plugins I have removed:
 "vim-session
@@ -613,11 +616,11 @@ ab camapaign campaign
 
 call textobj#user#plugin('horesshit', {
 \   'regex_a': {
-\     'select': 'a/',
+\     'select': 'ax',
 \     '*pattern*': '\/.*\/[gicm]\{0,}',
 \   },
 \   'regex_i': {
-\     'select': 'i/',
+\     'select': 'ix',
 \     '*pattern*': '\/\zs.\+\ze\/'
 \   },
 \   'regex_r': {

@@ -49,7 +49,7 @@ t() {
 }
 
 shc() {
-    ssh -t bastion1 "ssh -t $1";
+    ssh -t ct "ssh -t $1";
 }
 
 prod() {
