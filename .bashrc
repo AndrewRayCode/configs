@@ -10,6 +10,7 @@ set -o notify
 set -o vi
 
 source ~/.bash_config
+source ~/configs/z.sh
 
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
@@ -68,8 +69,12 @@ pullreq() {
         echo "You can't push directly to $CUR_BRANCH, thicky"
         return
     fi
-    push origin $CUR_BRANCH
+    git push origin $CUR_BRANCH
     hub pull-request -b $BRANCH -h $REMOTE:$CUR_BRANCH
+}
+
+psg() {
+    ps axu | grep -v grep | grep "$@" -i --color=auto;
 }
 
 #Git ProTip - Delete all local branches that have been merged into HEAD
