@@ -1,6 +1,6 @@
 *unimpaired.txt*  Pairs of handy bracket mappings
 
-Author:  Tim Pope <vimNOSPAM@tpope.org>         *unimpaired-author*
+Author:  Tim Pope <http://tpo.pe/>
 License: Same terms as Vim itself (see |license|)
 
 This plugin is only available if 'compatible' is not set.
@@ -15,30 +15,46 @@ The following maps all correspond to normal mode commands.  If a count is
 given, it becomes an argument to the command.  A mnemonic for the "a" commands
 is "args" and for the "q" commands is "quickfix".
 
-*[a* |:previous|
-*]a* |:next|
-*[A* |:first|
-*]A* |:last|
-*[b* |:bprevious|
-*]b* |:bnext|
-*[B* |:bfirst|
-*]B* |:blast|
-*[l* |:lprevious|
-*]l* |:lnext|
-*[L* |:lfirst|
-*]L* |:llast|
-*[q* |:cprevious|
-*]q* |:cnext|
-*[Q* |:cfirst|
-*]Q* |:clast|
+*[a*     |:previous|
+*]a*     |:next|
+*[A*     |:first|
+*]A*     |:last|
+*[b*     |:bprevious|
+*]b*     |:bnext|
+*[B*     |:bfirst|
+*]B*     |:blast|
+*[l*     |:lprevious|
+*]l*     |:lnext|
+*[L*     |:lfirst|
+*]L*     |:llast|
+*[<C-L>* |:lpfile|
+*]<C-L>* |:lnfile|
+*[q*     |:cprevious|
+*]q*     |:cnext|
+*[Q*     |:cfirst|
+*]Q*     |:clast|
+*[<C-Q>* |:cpfile| (Note that <C-Q> only works in a terminal if you disable
+*]<C-Q>* |:cnfile| flow control: stty -ixon)
+*[t*     |:tprevious|
+*]t*     |:tnext|
+*[T*     |:tfirst|
+*]T*     |:tlast|
 
-                                                *[o*
-[o                      Go to the file preceding the current one
+                                                *[f*
+[f                      Go to the file preceding the current one
                         alphabetically in the current file's directory.
 
-                                                *]o*
-]o                      Go to the file succeeding the current one
+                                                *]f*
+]f                      Go to the file succeeding the current one
                         alphabetically in the current file's directory.
+
+                                                *[n*
+[n                      Go to the previous SCM conflict marker.  Try d[n
+                        inside a conflict.
+
+                                                *]n*
+]n                      Go to the next SCM conflict marker.  Try d]n inside a
+                        conflict.
 
 LINE OPERATIONS                                 *unimpaired-lines*
 
@@ -53,6 +69,21 @@ LINE OPERATIONS                                 *unimpaired-lines*
 
                                                 *]e* *v_]e*
 ]e                      Exchange the current line with [count] lines below it.
+
+OPTION TOGGLING                                 *unimpaired-toggling*
+
+On	Off	Toggle	Option
+*[oc*	*]oc*	*coc*	'cursorline'
+*[od*	*]od*	*cod*	'diff' (actually |:diffthis| / |:diffoff|)
+*[oh*	*]oh*	*coh*	'hlsearch'
+*[oi*	*]oi*	*coi*	'ignorecase'
+*[ol*	*]ol*	*col*	'list'
+*[on*	*]on*	*con*	'number'
+*[or*	*]or*	*cor*	'relativenumber'
+*[os*	*]os*	*cos*	'spell'
+*[ou*	*]ou*	*cou*	'cursorcolumn'
+*[ow*	*]ow*	*cow*	'wrap'
+*[ox*	*]ox*	*cox*	'cursorline' 'cursorcolumn' (mnemonic: crosshairs)
 
 ENCODING AND DECODING                           *unimpaired-encoding*
 
