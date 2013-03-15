@@ -97,9 +97,12 @@ au Syntax javascript RainbowParenthesesLoadBraces
 let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
 let jslint_highlight_color = 'Red'
 
-let g:UltiSnipsExpandTrigger='<tab>'
-let g:UltiSnipsJumpForwardTrigger='<tab>'
-let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
+" let c-x c-k autocomplete dictionary words
+set dictionary+=/usr/share/dict/words
+
+"let g:UltiSnipsExpandTrigger='<tab>'
+"let g:UltiSnipsJumpForwardTrigger='<tab>'
+"let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
 
 " Set Ctrl-P to show match at top of list instead of at bottom, which is so
 " stupid that it's not default
@@ -278,10 +281,20 @@ noremap \ ,
 " lets you do w!! to sudo write the file
 nnoremap <Leader>ww :w !sudo tee % >/dev/null<cr>
 
+" delete a line, but only copy a whitespace-trimmed version to " register
+nnoremap <Leader>dd _yg_"_dd
+
 " Ray-Frame testing thingy
 " nnoremap <Leader>x:tabe a.js<cr>GVggx"*p<cr>:%s/;/;\r/g<cr>:w<cr>
 
 nnoremap <Leader>x :tabcl<cr>
+
+" zg is the stupid fucking shortcut and I hit it all the time
+nmap zg z=
+
+" underline a line with dashes or equals
+nnoremap <Leader>r- :t.<cr>:norm 0vg_r-<cr>
+nnoremap <Leader>r= :t.<cr>:norm 0vg_r=<cr>
 
 " Command-T file finder
 nnoremap <silent> <Leader>T :CommandT<cr>
@@ -544,10 +557,21 @@ let g:neocomplcache_enable_fuzzy_completion = 1
 let g:neocomplcache_fuzzy_completion_start_length = 3
 
 " Plugin key-mappings.
-imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-inoremap <expr><C-g>     neocomplcache#undo_completion()
-inoremap <expr><C-l>     neocomplcache#complete_common_string()
+"imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+"smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+"inoremap <expr><C-g>     neocomplcache#undo_completion()
+"inoremap <expr><C-l>     neocomplcache#complete_common_string()
+
+
+" this is all experimental for neosnippet, which doesn't work at all
+let g:neosnippet#snippets_directory='~/.vim/bundle/ultisnips-snips'
+
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
@@ -562,6 +586,8 @@ inoremap <expr><C-e> neocomplcache#cancel_popup()
 
 " AutoComplPop like behavior.
 let g:neocomplcache_enable_auto_select = 0
+
+autocmd BufWritePost *.scss silent! exec "!rex build-css"
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
