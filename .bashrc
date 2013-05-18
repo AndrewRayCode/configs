@@ -20,7 +20,11 @@ alias here='open .'
 alias vim='mvim'
 
 # Compact, colorized git log
-alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gl="git log --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+achrome () {
+    /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files&
+}
 
 # Exctract annnnything
 extract () {
@@ -50,7 +54,18 @@ t() {
 }
 
 shc() {
-    ssh -t ct "ssh -t $1";
+    # If no inputs, ssh to main
+    if [ -z $1 ]; then
+        ssh ct
+    else
+        # If it's in config file, ssh to it regularly
+        if [ -n "$(cat ~/.ssh/config | grep "Host $1")" ]; then
+            ssh $1
+        # Otherwise tunnel to it
+        else
+            ssh -t ct "ssh -t $1";
+        fi
+    fi
 }
 
 prod() {
@@ -79,9 +94,7 @@ psg() {
 
 #Git ProTip - Delete all local branches that have been merged into HEAD
 git_purge_local_branches() {
-    [ -z $1 ] && return
-    #git branch -d `git branch --merged $1 | grep -v '^*' | grep -v 'master' | grep -v 'dev' | tr -d '\n'`
-    BRANCHES=`git branch --merged $1 | grep -v '^*' | grep -v 'master' | grep -v 'dev' | grep -v "/$1$" | tr -d '\n'`
+    BRANCHES=`git branch --merged | grep -v '^*' | grep -v 'master' | grep -v 'dev' | tr -d '\n'`
     echo "Running: git branch -d $BRANCHES"
     git branch -d $BRANCHES
 }

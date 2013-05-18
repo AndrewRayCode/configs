@@ -1,6 +1,6 @@
 {
     // Settings
-    "passfail" : false, // Stop on first error.
+    "passfail" : true, // Stop on first error.
     "maxerr" : 100, // Maximum errors before stopping.
 
 
@@ -13,7 +13,7 @@
 
     "jquery" : true,
     "prototypejs" : false,
-    "mootools" : false,
+    "mootools" : true,
     "dojo" : false,
 
     "predef" : [ // Extra globals.
@@ -22,6 +22,7 @@
         "describe",
         "before",
         "after",
+        "afterEach",
         "google",
         // crowdtilt globals
         "CT",
@@ -35,7 +36,17 @@
         "fn_vidyard_GheqoUY7tjf9Sq1mRJSFPA", // :(
         "TDFriendSelector",
         "Jemplate",
-        "_gaq"
+        "_gaq",
+
+        // bash prompt builder
+        "ko",
+        "MooDialog",
+
+        // Three
+        "THREE",
+        "Mousetrap",
+        "Q"
+
     ],
 
 
