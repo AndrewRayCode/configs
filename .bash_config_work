@@ -1,5 +1,5 @@
 # export PATH=/usr/local/share/python:/usr/local/Cellar/python/2.7.1/bin:/usr/local/bin:/usr/local/sbin:$PATH
-export PATH=/Users/aray/apache-maven-2.1.0/bin:/usr/local/share/python:/usr/local/bin:/usr/local/sbin:/Users/aray/doctorjs/bin/:$PATH
+export PATH=/Users/aray/apache-maven-2.1.0/bin:/usr/local/share/python:/usr/local/bin:/usr/local/share/npm/bin:/usr/local/sbin:/Users/aray/doctorjs/bin:$PATH
 export MAVEN_OPTS="-Xmx512m"
 export GIT_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim -f -g '
 

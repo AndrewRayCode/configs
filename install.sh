@@ -130,6 +130,7 @@ let "symlinks+=2"
 
 # Color git
 if [ -z "`which node`" ]; then echo "${COLOR_LIGHT_RED}node not installed. Suggest ${COLOR_LIGHT_BLUE}brew install node$COLOR_RESET"; fi
+if [ -z "`which ack`" ]; then echo "${COLOR_LIGHT_RED}ack not installed. Suggest ${COLOR_LIGHT_BLUE}brew install ack$COLOR_RESET"; fi
 if [ -z "`which npm`" ]; then echo "${COLOR_LIGHT_RED}npm not installed. Suggest ${COLOR_LIGHT_BLUE}curl http://npmjs.org/install.sh | sh$COLOR_RESET"; fi
 if [ -z "`which jshint`" ]; then echo "${COLOR_LIGHT_RED}npm not installed. Suggest ${COLOR_LIGHT_BLUE}npm install -g jshint$COLOR_RESET"; fi
 if [ -z "`which hub`" ]; then echo "${COLOR_LIGHT_RED}hub not installed. Suggest ${COLOR_LIGHT_BLUE}brew install hub$COLOR_RESET"; fi

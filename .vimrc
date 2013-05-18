@@ -541,20 +541,20 @@ set history=200
 " ----------------------------------------------------------------------
 
 " Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 2
-let g:neocomplcache_max_list = 5
-let g:neocomplcache_enable_fuzzy_completion = 1
-let g:neocomplcache_fuzzy_completion_start_length = 3
+"let g:acp_enableAtStartup = 0
+"" Use neocomplcache.
+"let g:neocomplcache_enable_at_startup = 1
+"" Use smartcase.
+"let g:neocomplcache_enable_smart_case = 1
+"" Use camel case completion.
+"let g:neocomplcache_enable_camel_case_completion = 1
+"" Use underbar completion.
+"let g:neocomplcache_enable_underbar_completion = 1
+"" Set minimum syntax keyword length.
+"let g:neocomplcache_min_syntax_length = 2
+"let g:neocomplcache_max_list = 5
+"let g:neocomplcache_enable_fuzzy_completion = 1
+"let g:neocomplcache_fuzzy_completion_start_length = 3
 
 " Plugin key-mappings.
 "imap <C-k>     <Plug>(neocomplcache_snippets_expand)
@@ -564,28 +564,28 @@ let g:neocomplcache_fuzzy_completion_start_length = 3
 
 
 " this is all experimental for neosnippet, which doesn't work at all
-let g:neosnippet#snippets_directory='~/.vim/bundle/ultisnips-snips'
+"let g:neosnippet#snippets_directory='~/.vim/bundle/ultisnips-snips'
 
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+"imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+"smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 
 " SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+"smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
-inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplcache#close_popup()
-inoremap <expr><C-e> neocomplcache#cancel_popup()
+"inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+"" <TAB>: completion.
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"" <C-h>, <BS>: close popup and delete backword char.
+"inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+"inoremap <expr><C-y> neocomplcache#close_popup()
+"inoremap <expr><C-e> neocomplcache#cancel_popup()
 
 " AutoComplPop like behavior.
-let g:neocomplcache_enable_auto_select = 0
+"let g:neocomplcache_enable_auto_select = 0
 
 autocmd BufWritePost *.scss silent! exec "!rex build-css"
 
