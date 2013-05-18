@@ -97,8 +97,9 @@ au Syntax javascript RainbowParenthesesLoadBraces
 let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
 let jslint_highlight_color = 'Red'
 
+" TODO: Does this slow down the fuck out of vim?
 " let c-x c-k autocomplete dictionary words
-set dictionary+=/usr/share/dict/words
+" set dictionary+=/usr/share/dict/words
 
 "let g:UltiSnipsExpandTrigger='<tab>'
 "let g:UltiSnipsJumpForwardTrigger='<tab>'
@@ -278,28 +279,28 @@ let mapleader=","
 " Replace leader. This doesn't work, needs investigating
 noremap \ ,
 
+" Title case a line or selection (better)
+vnoremap <Leader>ti :s/\%V\<\(\w\)\(\w*\)\>/\u\1\L\2/ge<cr>
+nnoremap <Leader>ti :s/.*/\L&/<bar>:s/\<./\u&/g<cr>
+
 " lets you do w!! to sudo write the file
 nnoremap <Leader>ww :w !sudo tee % >/dev/null<cr>
 
 " delete a line, but only copy a whitespace-trimmed version to " register
 nnoremap <Leader>dd _yg_"_dd
+nnoremap <Leader>yy _yg_
 
 " Ray-Frame testing thingy
 " nnoremap <Leader>x:tabe a.js<cr>GVggx"*p<cr>:%s/;/;\r/g<cr>:w<cr>
 
 nnoremap <Leader>x :tabcl<cr>
 
-" zg is the stupid fucking shortcut and I hit it all the time
+" zg is the stupidest fucking shortcut and I hit it all the time
 nmap zg z=
 
 " underline a line with dashes or equals
 nnoremap <Leader>r- :t.<cr>:norm 0vg_r-<cr>
 nnoremap <Leader>r= :t.<cr>:norm 0vg_r=<cr>
-
-" Command-T file finder
-nnoremap <silent> <Leader>T :CommandT<cr>
-let g:CommandTAcceptSelectionMap = '<C-o>'
-let g:CommandTAcceptSelectionTabMap = '<CR>'
 
 " New tab
 nnoremap <Leader>te :tabe 
@@ -562,7 +563,6 @@ set history=200
 "inoremap <expr><C-g>     neocomplcache#undo_completion()
 "inoremap <expr><C-l>     neocomplcache#complete_common_string()
 
-
 " this is all experimental for neosnippet, which doesn't work at all
 "let g:neosnippet#snippets_directory='~/.vim/bundle/ultisnips-snips'
 
@@ -587,7 +587,7 @@ set history=200
 " AutoComplPop like behavior.
 "let g:neocomplcache_enable_auto_select = 0
 
-autocmd BufWritePost *.scss silent! exec "!rex build-css"
+"autocmd BufWritePost *.scss silent! exec "!rex build-css"
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -596,8 +596,10 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" Don't let me bd in nerdtree
-autocmd FileType nerdtree cnoreabbrev <buffer> bd :echo "No you don't!"<cr>
+" If typing bd in nerdtree, switch to main file and close that instead
+autocmd FileType nerdtree cnoreabbrev <buffer> bd wincmd l<bar>bd
+" If typing bd in quickfix, close it then close the main tab
+autocmd FileType qf cnoreabbrev <buffer> bd bd<bar>bd
 
 "set guitablabel=%{GuiTabLabel()}
 
@@ -619,6 +621,9 @@ ab campagn campaign
 ab campiagn campaign
 ab closeset closest
 ab camapaign campaign
+ab contribuiton contribution
+ab contribuiton contribution
+ab contribuiotn contribution
 
 " ------------------------------------------------------------------------------------------
 " Text objects?
