@@ -20,8 +20,8 @@ defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 # Automatically hide and show the Dock
 # defaults write com.apple.dock autohide -bool true
 
-echo "Make Dock icons of hidden applications translucent"
-defaults write com.apple.dock showhidden -bool false
+#echo "Make Dock icons of hidden applications translucent"
+#defaults write com.apple.dock showhidden -bool false
 
 echo "Enable iTunes track notifications in the Dock"
 defaults write com.apple.dock itunes-notifications -bool true
@@ -36,8 +36,8 @@ defaults write com.apple.dock itunes-notifications -bool true
 # echo "Always show scrollbars"
 # defaults write NSGlobalDomain AppleShowScrollBars -string "Auto"
 
-echo "Allow quitting Finder via ⌘ + Q; doing so will also hide desktop icons"
-defaults write com.apple.finder QuitMenuItem -bool true
+#echo "Allow quitting Finder via ⌘ + Q; doing so will also hide desktop icons"
+#defaults write com.apple.finder QuitMenuItem -bool true
 
 # Disable window animations and Get Info animations in Finder
 # defaults write com.apple.finder DisableAllAnimations -bool true

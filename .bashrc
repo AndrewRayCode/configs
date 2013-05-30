@@ -76,7 +76,6 @@ pullreq() {
     [ -z $BRANCH ] && BRANCH="dev"
     HEAD=$(git symbolic-ref HEAD 2> /dev/null)
     [ -z $HEAD ] && return # Return if no head
-    REMOTE=`cat .git/config | grep "remote \"origin\"" -A 2 | tail -n1 | sed 's/.*:\([^\/]*\).*/\1/'`
     MSG=`git log -n1 --pretty=%s`
     CUR_BRANCH=${HEAD#refs/heads/}
 
@@ -85,7 +84,7 @@ pullreq() {
         return
     fi
     git push origin $CUR_BRANCH
-    hub pull-request -b $BRANCH -h $REMOTE:$CUR_BRANCH
+    hub pull-request -b $BRANCH -h Crowdtilt:$CUR_BRANCH
 }
 
 psg() {

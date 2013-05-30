@@ -3,7 +3,7 @@ export PATH=/Users/aray/apache-maven-2.1.0/bin:/usr/local/share/python:/usr/loca
 export MAVEN_OPTS="-Xmx512m"
 export GIT_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim -f -g '
 
-export NODE_PATH=/usr/local/lib/node_modules:/usr/local/lib/jsctags/:$NODE_PATH
+export NODE_PATH=/usr/local/lib/node_modules:/usr/local/lib/jsctags:$NODE_PATH
 
 # bitbucket setup
 export WORKON_HOME="$HOME/Documents/Envs"
@@ -11,3 +11,5 @@ export PIP_RESPECT_VIRTUALENV=true \
        PIP_VIRTUALENV_BASE="$WORKON_HOME" \
        VIRTUALENV_USE_DISTRIBUTE=1
 [[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
+
+source ~/perl5/perlbrew/etc/bashrc
