@@ -23,6 +23,7 @@
         "before",
         "after",
         "afterEach",
+        "beforeEach",
         "google",
         // crowdtilt globals
         "CT",
@@ -45,8 +46,26 @@
         // Three
         "THREE",
         "Mousetrap",
-        "Q"
-
+        "Q",
+        "xyz",
+        "World",
+        "Mixin",
+        "Game",
+        "Level",
+        "Player",
+        "Camera",
+        "Utils",
+        "Factory",
+        "Thing",
+        "Graph",
+        "GraphNode",
+        "Zig",
+        "Bend",
+        "Chamfer",
+        "Stairs",
+        "Transition",
+        "GraphBuilder",
+        "Stairs"
     ],
 
 

@@ -11,6 +11,9 @@ tt=.tt
 sass=.scss
 
 --type-set
+chatlog=.chatlog
+
+--type-set
 scss=.scss
 
 --type-set
@@ -25,5 +28,12 @@ shitbags=.iml,.ipr,.iws
 --ignore-dir=node_modules
 --ignore-dir=.sass-cache
 --ignore-dir=sass/libs/bourbon
+
+--ignore-file=match:Jemplates.js
+--ignore-file=match:mobile-jems.js
+--ignore-file=match:mobile-jems.js
+--ignore-file=match:main.css
+--ignore-file=match:mobile.css
+--ignore-file=match:filepicker.css
 
 --noshitbags
