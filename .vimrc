@@ -556,6 +556,9 @@ if has('conceal')
   set conceallevel=2 concealcursor=i
 endif
 
+" YouCompleteMe?
+let g:used_javascript_libs = 'underscore,backbone,jquery'
+
 "===============================================================================
 " Unite
 "===============================================================================
