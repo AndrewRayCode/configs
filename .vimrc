@@ -1,9 +1,10 @@
 " Plugins installed:
 ":read !ls ~/.vim/bundle
+"Rename
+"ZoomWin
 "abolish
 "ack.vim
 "bufexplorer
-"ctrlp.vim
 "delvarworld-javascript
 "django.vim
 "easymotion
@@ -13,17 +14,16 @@
 "indent-anything
 "indexed-search
 "lusty-explorer
-"lusty-juggler
 "match-tag
 "matchit
 "mru
-"neocomplcache
+"neocomplcache.vim
+"neosnippet.vim
 "nerd-tree
 "nerdcommenter
-"nrrwrgn
 "powerline
+"qargs
 "rainbow-parentheses
-"rename
 "repeat
 "snipmate-snippets
 "surround
@@ -32,8 +32,10 @@
 "tagbar
 "textobj-entire
 "textobj-lastpat
-"ultisnips
 "ultisnips-snips
+"unimpaired
+"unite.vim
+"vim-expand-region
 "vim-nerdtree-tabs
 "vim-perl
 "vim-script-runner
@@ -41,8 +43,9 @@
 "vim-textobj-function-javascript
 "vim-textobj-function-perl
 "vim-textobj-user
-"vim-unimpaired
-"zoomwin
+"vim-unite-history
+"vimproc.vim
+"vimshell.vim
 
 " Dead plugins I have removed:
 "vim-session
@@ -97,14 +100,6 @@ au Syntax javascript RainbowParenthesesLoadBraces
 let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
 let jslint_highlight_color = 'Red'
 
-" TODO: Does this slow down the fuck out of vim?
-" let c-x c-k autocomplete dictionary words
-" set dictionary+=/usr/share/dict/words
-
-"let g:UltiSnipsExpandTrigger='<tab>'
-"let g:UltiSnipsJumpForwardTrigger='<tab>'
-"let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
-
 " Set Ctrl-P to show match at top of list instead of at bottom, which is so
 " stupid that it's not default
 let g:ctrlp_match_window_reversed = 0
@@ -118,6 +113,13 @@ let g:ctrlp_custom_ignore = {
     \ 'dir': '\.git$\|\.hg$\|\.svn$\|target$\|built$\|.build$\|node_modules\|\.sass-cache',
     \ 'file': '\.ttc$',
     \ }
+
+" Set up some custom ignores
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      \ 'ignore_pattern', join([
+      \ '\.git\|\.hg\|\.svn\|target\|built\|.build\|node_modules\|\.sass-cache',
+      \ '\.ttc$',
+      \ ], '\|'))
 
 " Open multiplely selected files in a tab by default
 let g:ctrlp_open_multi = '10t'
@@ -440,6 +442,9 @@ cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 " Delete unnamed buffers
 nmap <Leader>da :bufdo if expand("%") == "" \| bd! \| endif<cr>
 
+" Delete current buffer
+nmap <Leader>db :bdelete<CR>
+
 " ------------------------------------------------------------------------------------------
 " VIM setup
 " ------------------------------------------------------------------------------------------
@@ -463,6 +468,10 @@ set sr
 
 " Testing out relative line number
 setglobal relativenumber
+
+" from http://jeffkreeftmeijer.com/2012/relative-line-numbers-in-vim-for-super-fast-movement/
+au FocusLost * :set number
+au FocusGained * :set relativenumber
 
 set ff=unix
 set ic
@@ -488,6 +497,9 @@ set is
 set ruler
 set sc
 
+" Give one virtual space at end of line
+set virtualedit=onemore
+
 " tell tagbar to open on left
 let g:tagbar_left=1
 
@@ -510,6 +522,93 @@ let g:syntastic_enable_signs=1
 " Vim-script-unner
 let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10 -MClass::Autouse=:superloader"
 let g:script_runner_javascript = "node"
+
+" +/-: Increment number
+nnoremap + <c-a>
+nnoremap - <c-x>
+
+" Backspace: Act like normal backspace
+nnoremap <bs> X
+
+" Vimshell plugin settings
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+let g:vimshell_prompt =  '$ '
+
+"===============================================================================
+" Neosnippet :(
+"===============================================================================
+
+" Plugin key-mappings.
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: "\<TAB>"
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
+"===============================================================================
+" Unite
+"===============================================================================
+
+" Use the fuzzy matcher for everything
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+" Use the rank sorter for everything
+call unite#filters#sorter_default#use(['sorter_rank'])
+
+" Quickly switch lcd
+nmap <c-f><c-d> [unite]d
+nnoremap <silent> [unite]d
+      \ :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory_mru<CR>
+
+" General fuzzy search
+nnoremap <silent> [unite]<space> :<C-u>Unite
+      \ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
+
+nnoremap <space>s :Unite -quick-match buffer<cr>
+nnoremap <C-p> :Unite file_rec/async<cr>
+
+nmap <c-y> [unite]y
+" Quick yank history
+nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
+
+" Quick snippet
+nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
+
+" Quick file search
+nmap <c-f><c-a> [unite]f
+nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async file/new<CR>
+
+" Quick MRU search
+nmap <c-m> [unite]m
+nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
+
+" Quick commands
+nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
+
+" Quick bookmarks
+nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
+
+let g:unite_source_history_yank_enable = 1
+let g:unite_split_rule = "botright"
+let g:unite_update_time = 200
+let g:unite_enable_start_insert = 1
+
+autocmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()
+    " Overwrite settings.
+    nmap <buffer> <ESC>      <Plug>(unite_exit)
+endfunction
 
 " Highlight trailing whitespace in vim on non empty lines, but not while
 " typing in insert mode!
@@ -541,10 +640,8 @@ set history=200
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
 
-" Disable AutoComplPop.
-"let g:acp_enableAtStartup = 0
-"" Use neocomplcache.
-"let g:neocomplcache_enable_at_startup = 1
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
 "" Use smartcase.
 "let g:neocomplcache_enable_smart_case = 1
 "" Use camel case completion.
@@ -562,32 +659,6 @@ set history=200
 "smap <C-k>     <Plug>(neocomplcache_snippets_expand)
 "inoremap <expr><C-g>     neocomplcache#undo_completion()
 "inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-" this is all experimental for neosnippet, which doesn't work at all
-"let g:neosnippet#snippets_directory='~/.vim/bundle/ultisnips-snips'
-
-"imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-"smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-
-" SuperTab like snippets behavior.
-"imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-"smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-"inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-"" <TAB>: completion.
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"" <C-h>, <BS>: close popup and delete backword char.
-"inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-"inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-"inoremap <expr><C-y> neocomplcache#close_popup()
-"inoremap <expr><C-e> neocomplcache#cancel_popup()
-
-" AutoComplPop like behavior.
-"let g:neocomplcache_enable_auto_select = 0
-
-"autocmd BufWritePost *.scss silent! exec "!rex build-css"
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS

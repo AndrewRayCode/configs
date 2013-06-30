@@ -64,6 +64,7 @@
         "Chamfer",
         "Stairs",
         "Transition",
+        "Transitions",
         "GraphBuilder",
         "Stairs"
     ],
