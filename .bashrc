@@ -19,8 +19,12 @@ fi
 alias here='open .'
 alias vim='mvim'
 
+alias vc="mvim -c 'call ConflictEdit()' \$(git diff --name-only --diff-filter=U)"
+
 # Compact, colorized git log
 alias gl="git log --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+alias ios="open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app"
 
 achrome () {
     /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files&

@@ -115,11 +115,11 @@ let g:ctrlp_custom_ignore = {
     \ }
 
 " Set up some custom ignores
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.git\|\.hg\|\.svn\|target\|built\|.build\|node_modules\|\.sass-cache',
-      \ '\.ttc$',
-      \ ], '\|'))
+"call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      "\ 'ignore_pattern', join([
+      "\ '\.git\|\.hg\|\.svn\|target\|built\|.build\|node_modules\|\.sass-cache',
+      "\ '\.ttc$',
+      "\ ], '\|'))
 
 " Open multiplely selected files in a tab by default
 let g:ctrlp_open_multi = '10t'
@@ -132,6 +132,51 @@ endif
 " ---------------------------------------------------------------
 " Functions
 " ---------------------------------------------------------------
+
+" Experimental function to load vim with all conflicted files
+function! ConflictEdit()
+    " These will be conflict files to edit
+    let conflicts = []
+
+    " Read git attributes file into a string
+    let gitignore = join(readfile('.gitattributes'), '')
+
+    " Loop over each file in the arglist (passed in to vim from bash)
+    for conflict in argv()
+
+        " If this file is not ignored in gitattributes (this could be improved)
+        if gitignore !~ conflict
+
+            " Grep each file for the starting error marker
+            redir @z
+            silent execute "!grep -n '<<<<<<<' ".conflict
+            redir END
+
+            " Split the grep result on a line break, and split that result on a
+            " colon, because vim is a piece of shit
+            let spl = split( split( @z, '\r' )[1], ':' )
+
+            " Get the line number by removing the white space around it, because
+            " vim is a piece of shit
+            let line = substitute(spl[0], '\_s\+', '', 'g')
+            
+            " Add this file to the list with the data format for the quickfix
+            " window
+            call add( conflicts, {'filename': conflict, 'lnum': line, 'text': spl[1]} )
+        endif
+        
+    endfor
+
+    " Set the quickfix files and open the list
+    call setqflist( conflicts )
+    execute 'copen'
+    execute 'cfirst'
+
+    " Highlight diff markers and then party until you shit
+    highlight Conflict guifg=white guibg=red
+    match Conflict /^=\{7}.*\|^>\{7}.*\|^<\{7}.*/
+    let @/ = '>>>>>>>\|=======\|<<<<<<<'
+endfunction
 
 "" Move current tab into the specified direction.
 " @param direction -1 for left, 1 for right.
@@ -194,9 +239,9 @@ function! HandleURI()
   let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
   echo s:uri
   if s:uri != ""
-	  exec "!open \"" . s:uri . "\""
+      exec "!open \"" . s:uri . "\""
   else
-	  echo "No URI found in line."
+      echo "No URI found in line."
   endif
 endfunction
 
@@ -317,7 +362,7 @@ nnoremap <silent> <Leader>/ :nohlsearch<CR>
 
 " Jump backwards to previous function, assumes code is indented (useful when inside function)
 " Jump to top level function
-nnoremap <Leader>f ?^func\\|^[a-zA-Z].*func<CR>,/
+" nnoremap <Leader>f ?^func\\|^[a-zA-Z].*func<CR>,/
 
 " faster tab switching
 nnoremap <C-l> gt
@@ -436,9 +481,6 @@ nnoremap <leader>rl :call ToggleRelativeAbsoluteNumber()<CR>
 nmap <Space> <C-w>w
 nmap <S-Space> <C-w>W
 
-" From vimtips, 'easy expansion of active file directory'
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-
 " Delete unnamed buffers
 nmap <Leader>da :bufdo if expand("%") == "" \| bd! \| endif<cr>
 
@@ -539,68 +581,85 @@ let g:vimshell_prompt =  '$ '
 "===============================================================================
 
 " Plugin key-mappings.
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xmap <C-k> <Plug>(neosnippet_expand_target)
+"imap <C-k> <Plug>(neosnippet_expand_or_jump)
+"smap <C-k> <Plug>(neosnippet_expand_or_jump)
+"xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
+"imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+"\ "\<Plug>(neosnippet_expand_or_jump)"
+"\: pumvisible() ? "\<C-n>" : "\<TAB>"
+"smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+"\ "\<Plug>(neosnippet_expand_or_jump)"
+"\: "\<TAB>"
 
 " For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
+"if has('conceal')
+  "set conceallevel=2 concealcursor=i
+"endif
 
 " YouCompleteMe?
 let g:used_javascript_libs = 'underscore,backbone,jquery'
+
+" Tern?
+let g:tern_map_keys = 1
+let g:tern_show_argument_hints='on_hold'
+let g:tern#command = ['node', '/Users/DelvarWorld/configs/.vim/bundle/tern_for_vim/autoload/../node_modules/tern/bin/tern', '--verbose']
+
+" Project?
+set rtp+=~/.vim/bundle/vim-project/
+let g:project_disable_tab_title = 1
+"let g:project_enable_welcome = 0
+let g:project_use_nerdtree = 1
+" custom starting path
+call project#rc("~/")
+Project  '~/big-bubble' , 'bubble'
+Project  '~/crowdtilt/crowdtilt-public-site',   'public-site'
+Project  '~/crowdtilt/crowdtilt-internal-api',  'internal-api'
+" default starting path (the home directory)
+call project#rc()
 
 "===============================================================================
 " Unite
 "===============================================================================
 
 " Use the fuzzy matcher for everything
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
+"call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
 " Use the rank sorter for everything
-call unite#filters#sorter_default#use(['sorter_rank'])
+"call unite#filters#sorter_default#use(['sorter_rank'])
+
+"nnoremap    [unite]   <Nop>
 
 " Quickly switch lcd
-nmap <c-f><c-d> [unite]d
-nnoremap <silent> [unite]d
-      \ :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory_mru<CR>
+"nnoremap <c-f><c-d> :Unite -buffer-name=change-cwd -default-action=lcd directory_mru<CR>
 
 " General fuzzy search
-nnoremap <silent> [unite]<space> :<C-u>Unite
-      \ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
+"nnoremap <silent> [unite]<space> :<C-u>Unite
+      "\ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
 
-nnoremap <space>s :Unite -quick-match buffer<cr>
-nnoremap <C-p> :Unite file_rec/async<cr>
+"nnoremap <C-p> :Unite file_rec/async<cr>
 
-nmap <c-y> [unite]y
 " Quick yank history
-nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
+"nmap <c-y> [unite]y
+"nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
 
 " Quick snippet
-nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
+"nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
 
 " Quick file search
-nmap <c-f><c-a> [unite]f
-nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async file/new<CR>
+"nmap <c-f><c-a> [unite]f
+"nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async file/new<CR>
 
 " Quick MRU search
-nmap <c-m> [unite]m
-nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
+"nmap <c-m> [unite]m
+"nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
 
 " Quick commands
-nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
+"nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
 
 " Quick bookmarks
-nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
+"nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 
 let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = "botright"
@@ -717,9 +776,13 @@ ab contribuiotn contribution
 "       Select inside a number `-0.1`em with in
 " regex_an:
 "       Select around a number `-0.1em` with an
-
+"
 
 call textobj#user#plugin('horesshit', {
+\   'regex_j': {
+\     'select': 'aj',
+\     '*pattern*': '^\s*"\?\w\+"\?\s*:\s*{\_[^}]*}.*\n\?',
+\   },
 \   'regex_a': {
 \     'select': 'ax',
 \     '*pattern*': '\/.*\/[gicm]\{0,}',
