@@ -110,7 +110,7 @@ let g:ctrlp_working_path_mode = 0
 
 " Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
 let g:ctrlp_custom_ignore = {
-    \ 'dir': '\.git$\|\.hg$\|\.svn$\|target$\|built$\|.build$\|node_modules\|\.sass-cache',
+    \ 'dir': '\.git$\|\.hg$\|\.svn$\|target$\|built$\|.build$\|node_modules\|\.sass-cache\|locallib$',
     \ 'file': '\.ttc$',
     \ }
 
@@ -126,7 +126,7 @@ let g:ctrlp_open_multi = '10t'
 
 " Powerline custom font
 if has('gui_running')
-  set guifont=Menlo\ for\ Powerline
+    "set guifont=Menlo\ for\ Powerline
 endif
 
 " ---------------------------------------------------------------
@@ -503,7 +503,7 @@ set backupdir=~
 set hidden
 
 " wildignore all of these when autocompleting
-set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws,built
+set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws,built,locallib
 
 " shiftround, always snap to multiples of shiftwidth when using > and <
 set sr
@@ -517,7 +517,7 @@ au FocusGained * :set relativenumber
 
 set ff=unix
 set ic
-set scs
+set smartcase
 set guioptions=mer
 
 set tabstop=4
@@ -559,6 +559,7 @@ set iskeyword=@,48-57,_,192-255,#,$
 
 " Ignore syntastic warnings
 " let g:syntastic_quiet_warnings=1
+" Place error visual marker in gutter
 let g:syntastic_enable_signs=1
 
 " Vim-script-unner
@@ -616,6 +617,8 @@ call project#rc("~/")
 Project  '~/big-bubble' , 'bubble'
 Project  '~/crowdtilt/crowdtilt-public-site',   'public-site'
 Project  '~/crowdtilt/crowdtilt-internal-api',  'internal-api'
+Project  '~/dickbot',  'dickbot'
+Project  '~/blag',  'blag'
 " default starting path (the home directory)
 call project#rc()
 
@@ -730,9 +733,9 @@ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " If typing bd in nerdtree, switch to main file and close that instead
-autocmd FileType nerdtree cnoreabbrev <buffer> bd wincmd l<bar>bd
+autocmd FileType nerdtree cnoreabbrev <buffer> bd :echo "No you don't"<cr>
 " If typing bd in quickfix, close it then close the main tab
-autocmd FileType qf cnoreabbrev <buffer> bd bd<bar>bd
+autocmd FileType qf cnoreabbrev <buffer> bd :echo "No you don't"<cr>
 
 "set guitablabel=%{GuiTabLabel()}
 
@@ -744,6 +747,7 @@ ab bototm bottom
 ab funcion function
 ab funicton function
 ab funciton function
+ab fucntion function
 ab updateable updatable
 ab Updateable Updatable
 ab conosle console

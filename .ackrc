@@ -24,10 +24,12 @@ shitbags=.iml,.ipr,.iws
 
 --ignore-dir=target
 --ignore-dir=built
+--ignore-dir=locallib
 --ignore-dir=.build
 --ignore-dir=node_modules
 --ignore-dir=.sass-cache
 --ignore-dir=sass/libs/bourbon
+--ignore-dir=formValidator.2.5.5.1
 
 --ignore-file=match:Jemplates.js
 --ignore-file=match:mobile-jems.js
@@ -35,5 +37,8 @@ shitbags=.iml,.ipr,.iws
 --ignore-file=match:main.css
 --ignore-file=match:mobile.css
 --ignore-file=match:filepicker.css
+--ignore-file=match:forms.css
+--ignore-file=match:_validationEngine.jquery.scss
+--ignore-file=match:validationEngine.jquery.css
 
 --noshitbags

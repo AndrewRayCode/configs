@@ -74,3 +74,4 @@ set output-meta On
 set convert-meta Off
 
 "\C-v": paste-from-clipboard
+set editing-mode vi
