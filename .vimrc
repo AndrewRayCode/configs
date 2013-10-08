@@ -133,36 +133,79 @@ endif
 " Functions
 " ---------------------------------------------------------------
 
+" When switching tabs, attempt to move cursor to a file and out of nerdtree,
+" quickfix and help windows
+function! FuckAllOfVim()
+
+    for i in [1, 2, 3]
+        let s:_ft = &filetype
+        if s:_ft == "nerdtree" || s:_ft == "help" || s:_ft == "qf"
+            execute "wincmd w"
+        else
+            break
+        endif
+    endfor
+
+endfunction
+
+autocmd FileType nerdtree cnoreabbrev <buffer> bd :echo "No you don't"<cr>
+" If typing bd in quickfix, close it then close the main tab
+autocmd FileType qf cnoreabbrev <buffer> bd :echo "No you don't"<cr>
+
+function! EditConflictFiles()
+    let filter = system('git diff --name-only --diff-filter=U')
+    let conflicted = split( filter, '\r')
+    let massaged = []
+
+    for conflict in conflicted
+        let tmp = substitute(conflict, '\_s\+', '', 'g')
+        if len( tmp ) > 0
+            call add( massaged, tmp )
+        endif
+    endfor
+
+    call ProcessConflictFiles( massaged )
+endfunction
+
 " Experimental function to load vim with all conflicted files
-function! ConflictEdit()
+function! ProcessConflictFiles( files )
     " These will be conflict files to edit
     let conflicts = []
 
     " Read git attributes file into a string
     let gitignore = join(readfile('.gitattributes'), '')
 
+    let conflictFiles = len( a:files ) ? a:files : argv()
+
     " Loop over each file in the arglist (passed in to vim from bash)
-    for conflict in argv()
+    for conflict in conflictFiles
 
         " If this file is not ignored in gitattributes (this could be improved)
         if gitignore !~ conflict
 
             " Grep each file for the starting error marker
-            redir @z
-            silent execute "!grep -n '<<<<<<<' ".conflict
-            redir END
+            let cmd = system("grep -n '<<<<<<<' ".conflict)
 
-            " Split the grep result on a line break, and split that result on a
-            " colon, because vim is a piece of shit
-            let spl = split( split( @z, '\r' )[1], ':' )
+            " Remove the first line (grep command) and split on linebreak
+            let markers = split( cmd, '\r' )
 
-            " Get the line number by removing the white space around it, because
-            " vim is a piece of shit
-            let line = substitute(spl[0], '\_s\+', '', 'g')
-            
-            " Add this file to the list with the data format for the quickfix
-            " window
-            call add( conflicts, {'filename': conflict, 'lnum': line, 'text': spl[1]} )
+            for marker in markers
+                let spl = split( marker, ':' )
+                echo spl
+
+                " If this line had a colon in it (otherwise it's an empty line
+                " from command output)
+                if len( spl ) == 2
+
+                    " Get the line number by removing the white space around it,
+                    " because vim is a piece of shit
+                    let line = substitute(spl[0], '\_s\+', '', 'g')
+                    
+                    " Add this file to the list with the data format for the quickfix
+                    " window
+                    call add( conflicts, {'filename': conflict, 'lnum': line, 'text': spl[1]} )
+                endif
+            endfor
         endif
         
     endfor
@@ -724,6 +767,8 @@ let g:neocomplcache_enable_at_startup = 1
 "smap <C-k>     <Plug>(neocomplcache_snippets_expand)
 "inoremap <expr><C-g>     neocomplcache#undo_completion()
 "inoremap <expr><C-l>     neocomplcache#complete_common_string()
+"
+autocmd TabLeave * call FuckAllOfVim()
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS

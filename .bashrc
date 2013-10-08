@@ -3,6 +3,19 @@
 # git config --global web.browser ff
 # git config --global browser.ff.cmd "open -a Firefox.app"
 
+# Colors for prompt
+COLOR_RED=$(tput sgr0 && tput setaf 1)
+COLOR_GREEN=$(tput sgr0 && tput setaf 2)
+COLOR_YELLOW=$(tput sgr0 && tput setaf 3)
+COLOR_DARK_BLUE=$(tput sgr0 && tput setaf 4)
+COLOR_BLUE=$(tput sgr0 && tput setaf 6)
+COLOR_PURPLE=$(tput sgr0 && tput setaf 5)
+COLOR_PINK=$(tput sgr0 && tput bold && tput setaf 5)
+COLOR_LIGHT_GREEN=$(tput sgr0 && tput bold && tput setaf 2)
+COLOR_LIGHT_RED=$(tput sgr0 && tput bold && tput setaf 1)
+COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
+COLOR_RESET=$(tput sgr0)
+
 # Don't wait for job termination notification
 set -o notify
 
@@ -23,7 +36,17 @@ function fack() {
     find . -name "*$1*"
 }
 
+# vim conflicted files
 alias vc="mvim -c 'call ConflictEdit()' \$(git diff --name-only --diff-filter=U)"
+
+# safe checkout
+sco () {
+    if [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]]; then
+        echo "${COLOR_RED}Cannot safe checkout with ${COLOR_LIGHT_RED}dirty files${COLOR_RED} (you naughty boy).$COLOR_RESET"
+        return 1
+    fi
+    git fetch origin && git checkout $1 && git reset --hard origin/$1
+}
 
 alias pstart="pg_ctl -D /usr/local/var/postgres/data -l /usr/local/var/postgres/data/server.log start"
 alias pstop="pg_ctl -D /usr/local/var/postgres/data stop -s -m fast"
@@ -246,19 +269,6 @@ CONFLICT_CHAR="☢"
 BISECTING_TEXT="ϟ"
 REBASE_TEXT="✂ ʀebase"
 NOBRANCH_TEXT="no branch!"
-
-# Colors for prompt
-COLOR_RED=$(tput sgr0 && tput setaf 1)
-COLOR_GREEN=$(tput sgr0 && tput setaf 2)
-COLOR_YELLOW=$(tput sgr0 && tput setaf 3)
-COLOR_DARK_BLUE=$(tput sgr0 && tput setaf 4)
-COLOR_BLUE=$(tput sgr0 && tput setaf 6)
-COLOR_PURPLE=$(tput sgr0 && tput setaf 5)
-COLOR_PINK=$(tput sgr0 && tput bold && tput setaf 5)
-COLOR_LIGHT_GREEN=$(tput sgr0 && tput bold && tput setaf 2)
-COLOR_LIGHT_RED=$(tput sgr0 && tput bold && tput setaf 1)
-COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
-COLOR_RESET=$(tput sgr0)
 
 _hg_dir=""
 function _hg_check {

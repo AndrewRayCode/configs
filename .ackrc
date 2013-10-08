@@ -40,5 +40,6 @@ shitbags=.iml,.ipr,.iws
 --ignore-file=match:forms.css
 --ignore-file=match:_validationEngine.jquery.scss
 --ignore-file=match:validationEngine.jquery.css
+--ignore-file=match:three.js
 
 --noshitbags
