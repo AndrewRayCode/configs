@@ -44,8 +44,25 @@ sco () {
     if [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]]; then
         echo "${COLOR_RED}Cannot safe checkout with ${COLOR_LIGHT_RED}dirty files${COLOR_RED} (you naughty boy).$COLOR_RESET"
         return 1
+    HEAD=$(git symbolic-ref HEAD 2> /dev/null)
+    [ -z $HEAD ] && return # Return if no head
+    MSG=`git log -n1 --pretty=%s`
+    CUR_BRANCH=${HEAD#refs/heads/}
     fi
     git fetch origin && git checkout $1 && git reset --hard origin/$1
+}
+
+gpf () {
+    HEAD=$(git symbolic-ref HEAD 2> /dev/null)
+    [ -z $HEAD ] && return 1 # Return if no head
+    CUR_BRANCH=${HEAD#refs/heads/}
+
+    if [[ "$CUR_BRANCH" == "dev" || "$CUR_BRANCH" == "master" ]]; then
+        echo "${COLOR_RED}Cannot push to ${COLOR_LIGHT_RED}dev${COLOR_RED} nor ${COLOR_LIGHT_RED}master${COLOR_RED} (you naughty boy).$COLOR_RESET"
+        return 1
+    fi
+
+    git push -f origin $CUR_BRANCH
 }
 
 alias pstart="pg_ctl -D /usr/local/var/postgres/data -l /usr/local/var/postgres/data/server.log start"
