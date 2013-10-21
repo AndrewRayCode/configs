@@ -154,7 +154,7 @@ autocmd FileType qf cnoreabbrev <buffer> bd :echo "No you don't"<cr>
 
 function! EditConflictFiles()
     let filter = system('git diff --name-only --diff-filter=U')
-    let conflicted = split( filter, '\r')
+    let conflicted = split( filter, '\n')
     let massaged = []
 
     for conflict in conflicted
@@ -167,27 +167,39 @@ function! EditConflictFiles()
     call ProcessConflictFiles( massaged )
 endfunction
 
+function! EditConflitedArgs()
+    call ProcessConflictFiles( argv() )
+endfunction
+
 " Experimental function to load vim with all conflicted files
-function! ProcessConflictFiles( files )
+function! ProcessConflictFiles( conflictFiles )
     " These will be conflict files to edit
     let conflicts = []
 
     " Read git attributes file into a string
-    let gitignore = join(readfile('.gitattributes'), '')
-
-    let conflictFiles = len( a:files ) ? a:files : argv()
+    let gitignore = readfile('.gitattributes')
+    let ignored = []
+    for ig in gitignore
+        " Remove any extra things like -diff (this could be improved to
+        " actually use some syntax to know which files ot ignore, like check
+        " if [1] == 'diff' ?
+        let spl = split( ig, ' ' )
+        if len( spl ) > 0
+            call add( ignored, spl[0] )
+        endif
+    endfor
 
     " Loop over each file in the arglist (passed in to vim from bash)
-    for conflict in conflictFiles
+    for conflict in a:conflictFiles
 
         " If this file is not ignored in gitattributes (this could be improved)
-        if gitignore !~ conflict
+        if index( ignored, conflict ) < 0
 
             " Grep each file for the starting error marker
             let cmd = system("grep -n '<<<<<<<' ".conflict)
 
             " Remove the first line (grep command) and split on linebreak
-            let markers = split( cmd, '\r' )
+            let markers = split( cmd, '\n' )
 
             for marker in markers
                 let spl = split( marker, ':' )
@@ -385,7 +397,7 @@ nnoremap <Leader>yy _yg_
 nnoremap <Leader>x :tabcl<cr>
 
 " zg is the stupidest fucking shortcut and I hit it all the time
-nmap zg z=
+nnoremap zg z=
 
 " underline a line with dashes or equals
 nnoremap <Leader>r- :t.<cr>:norm 0vg_r-<cr>
@@ -612,8 +624,10 @@ let g:script_runner_javascript = "node"
 nnoremap + <c-a>
 nnoremap - <c-x>
 
-" Backspace: Act like normal backspace
-nnoremap <bs> X
+" Backspace: Act like normal backspace and go into insert mode
+nnoremap <bs> i<bs>
+
+nnoremap z= z=1<cr><cr>
 
 " Vimshell plugin settings
 let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'

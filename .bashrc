@@ -37,7 +37,7 @@ function fack() {
 }
 
 # vim conflicted files
-alias vc="mvim -c 'call ConflictEdit()' \$(git diff --name-only --diff-filter=U)"
+alias vc="mvim -c 'call EditConflitedArgs()' \$(git diff --name-only --diff-filter=U)"
 
 # safe checkout
 sco () {
