@@ -37,6 +37,7 @@ pw=`pwd`/
 # for empty string)...
 if [ -z "$1" ]; then
     echo "Which config would you like to install? Available configs:"
+    echo " ${COLOR_PURPLE}0$COLOR_RESET:  ${COLOR_BLUE}None$COLOR_RESET (run rest of script only)"
 
     # Save array of files and a counter
     declare -a files
@@ -57,12 +58,12 @@ if [ -z "$1" ]; then
     read profile
 
     # If they entered a nubmer, look up that file in the array
-    if [[ "$profile" =~ ^[0-9]+$ ]] ; then
+    if [[ "$profile" =~ ^[1-9]+$ ]] ; then
         let "profile+=-1"
         config=${files[@]:$profile:1}
         # If not a number, set it to .bash_config_whatever. Regex out
         # bash_config first in case dumb user typed it
-    else
+    elif [[ "$profile" -ne "0" ]] ; then
         config=".bash_config_${profile/.bash_config/}"
     fi
 else
@@ -74,16 +75,18 @@ echo
 
 # Create the config file if it doesn't exist, and add it to git. Without adding,
 # as it's a dotfile, it won't show up in git status by default. Let user commit
-if [[ ! -f $config ]]; then
+if [[ -n "$config" && ! -f $config ]]; then
     echo $COLOR_GREEN"Creating $COLOR_LIGHT_GREEN$config $COLOR_GREEN..."
     touch $config
     git add $config
 fi
 
-# Link ~/.bash_config to the specified one in our dir
-echo $COLOR_GREEN"Linking $COLOR_LIGHT_GREEN$config $COLOR_GREEN...$COLOR_RESET"
-ln -s -f $pw$config ${HOME}/.bash_config
-let "symlinks+=1"
+if [[ -n "$config" ]]; then
+    # Link ~/.bash_config to the specified one in our dir
+    echo $COLOR_GREEN"Linking $COLOR_LIGHT_GREEN$config $COLOR_GREEN...$COLOR_RESET"
+    ln -s -f $pw$config ${HOME}/.bash_config
+    let "symlinks+=1"
+fi
 
 # Loop through all dotfiles...
 for f in `find . -type f -depth 1 -name ".*" | grep -v .swp`
@@ -141,8 +144,8 @@ if [ -z "`which jsctags`" ]; then echo "${COLOR_LIGHT_RED}jsctags not installed.
 echo $COLOR_GREEN"Making git color by default...$COLOR_RESET"
 git config --global color.ui "auto"
 
-echo $COLOR_GREEN"Running $COLOR_LIGHT_GREEN.osx$COLOR_GREEN (give me passwords)..."
-sudo ./.osx
+#echo $COLOR_GREEN"Running $COLOR_LIGHT_GREEN.osx$COLOR_GREEN (give me passwords)..."
+#sudo ./.osx
 echo $COLOR_RESET
 
 # Toilets!
