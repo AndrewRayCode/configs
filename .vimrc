@@ -620,10 +620,6 @@ let g:syntastic_enable_signs=1
 let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10 -MClass::Autouse=:superloader"
 let g:script_runner_javascript = "node"
 
-" +/-: Increment number
-nnoremap + <c-a>
-nnoremap - <c-x>
-
 " Backspace: Act like normal backspace and go into insert mode
 nnoremap <bs> i<bs>
 
@@ -638,22 +634,28 @@ let g:vimshell_prompt =  '$ '
 "===============================================================================
 
 " Plugin key-mappings.
-"imap <C-k> <Plug>(neosnippet_expand_or_jump)
-"smap <C-k> <Plug>(neosnippet_expand_or_jump)
-"xmap <C-k> <Plug>(neosnippet_expand_target)
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " SuperTab like snippets behavior.
-"imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-"\ "\<Plug>(neosnippet_expand_or_jump)"
-"\: pumvisible() ? "\<C-n>" : "\<TAB>"
-"smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-"\ "\<Plug>(neosnippet_expand_or_jump)"
-"\: "\<TAB>"
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: "\<TAB>"
 
 " For snippet_complete marker.
-"if has('conceal')
-  "set conceallevel=2 concealcursor=i
-"endif
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
+" Enable snipMate compatibility feature.
+let g:neosnippet#enable_snipmate_compatibility = 1
+
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/bundle/snippets/'
 
 " YouCompleteMe?
 let g:used_javascript_libs = 'underscore,backbone,jquery'
@@ -670,9 +672,9 @@ let g:project_disable_tab_title = 1
 let g:project_use_nerdtree = 1
 " custom starting path
 call project#rc("~/")
-Project  '~/big-bubble' , 'bubble'
 Project  '~/crowdtilt/crowdtilt-public-site',   'public-site'
 Project  '~/crowdtilt/crowdtilt-internal-api',  'internal-api'
+Project  '~/big-bubble' , 'bubble'
 Project  '~/dickbot',  'dickbot'
 Project  '~/blag',  'blag'
 " default starting path (the home directory)

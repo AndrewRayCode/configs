@@ -12,6 +12,11 @@
 # would be benifitial to all, please feel free to send
 # a patch to the cygwin mailing list.
 
+# Bind the up arrow to history search, instead of history step
+"\e[A": history-search-backward
+# And the reverse (down)
+"\e[B": history-search-forward
+
 # the following line is actually
 # equivalent to "\C-?": delete-char
 "\e[3~": delete-char
