@@ -680,6 +680,12 @@ Project  '~/blag',  'blag'
 " default starting path (the home directory)
 call project#rc()
 
+vmap  <expr>  <LEFT>   DVB_Drag('left')
+vmap  <expr>  <RIGHT>  DVB_Drag('right')
+vmap  <expr>  <DOWN>   DVB_Drag('down')
+vmap  <expr>  <UP>     DVB_Drag('up')
+vmap  <expr>  D        DVB_Duplicate()
+
 "===============================================================================
 " Unite
 "===============================================================================
@@ -821,6 +827,7 @@ ab camapaign campaign
 ab contribuiton contribution
 ab contribuiton contribution
 ab contribuiotn contribution
+ab positon position
 
 " ------------------------------------------------------------------------------------------
 " Text objects?

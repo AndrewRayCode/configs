@@ -32,12 +32,97 @@ fi
 alias here='open .'
 alias vim='mvim'
 
+function audiosize() {
+    newFile=`ls -dt ~/Downloads/*.{mp3,flac,mp4,m4a} 2> /dev/null | head -1`
+
+    if [[ ! -f "$newFile" ]]; then
+        echo "${COLOR_PINK}Nothing here, ${COLOR_RED}asshole!!!${COLOR_RESET}"
+        return 1
+    fi
+    baseFile=`basename $newFile`
+    exiftool -filename -AudioBitrate "$newFile"
+
+    echo -e "$COLOR_BLUE\nWhere you wanna move this?\n$COLOR_RESET"
+
+    # Save array of files and a counter
+    declare -a files
+    let xx=0
+
+    mroot="/Users/DelvarWorld/Music/Extended Mixes"
+    # Find all system config files that aren't vim swap files and loop through them
+    for file in `ls "$mroot"`
+    do
+        # Show them in a list with a counter
+        xx=`expr $xx + 1`
+        files=("${files[@]}" "$file")
+        subs=$COLOR_YELLOW`ls -F "$mroot/$file" | grep -v \/ | head -1`$COLOR_RESET
+        if [[ -z "$subs" ]]; then
+            subs="${COLOR_BLUE}None${COLOR_RED}"
+        fi
+        echo " $COLOR_PURPLE$xx$COLOR_RESET:  $COLOR_BLUE$file$COLOR_RESET ($subs)"
+    done
+
+    # Prompt user for file. -n means no line break after echo
+    echo -n "$COLOR_YELLOW?$COLOR_RESET "
+    read dirSet
+
+    # If they entered a nubmer, look up that file in the array
+    if [[ "$dirSet" =~ ^[1-9]+$ ]]; then
+        let "dirSet+=-1"
+        config=${files[@]:$dirSet:1}
+        mv "$newFile" "$mroot/$config"
+        echo -ne "\n${COLOR_GREEN}Moved to '${COLOR_PINK}$mroot/$config/"
+        # Without this, filenames with spaces are broken across multiple lines???
+        echo -n $baseFile
+        echo -ne "${COLOR_GREEN}'!$COLOR_RESET\n"
+    fi
+}
+
 function fack() {
     find . -name "*$1*"
 }
 
 # vim conflicted files
 alias vc="mvim -c 'call EditConflitedArgs()' \$(git diff --name-only --diff-filter=U)"
+
+# Generate git format string on the fly to get the right top level directory
+_gen_format_string() {
+    echo "<a href=\"https://github.com/Crowdtilt/`basename $(git rev-parse --show-toplevel)`/commit/%h\" style='font-family:\"Courier new\"; color:red; font-weight:bold; text-decoration:none'>%h</a> %s <span style=\"color:green\">(%cr)</span> &lt;<span style=\"color:blue; font-weight:bold;\">%an</span>&gt;<br />"
+}
+
+# Generate the html output for this repo's deploy commits
+_gen_html_output() {
+    (
+        cd $2
+        git fetch origin
+        format=`_gen_format_string`
+        output=`git log --no-merges origin/master..origin/dev --pretty=format:"$format" --abbrev-commit`
+        if [ -n "$output" ]; then
+            echo "<b style=\"font-size:16px;\">$3:</b><br /> <div class=\"anchor\"> <br />" >> $1
+            echo $output >> $file
+            echo "</div><br /><br />" >> $file
+        fi
+    )
+}
+
+gen_deploy_email () {
+    if [ -z $1 ]; then
+        echo "Usage: gen_deploy_email /path/to/crowdtilt/root"
+        return 1
+    fi
+
+    file="/tmp/deploys.html"
+    echo "<div style=\"font-family:sans-serif; font-size:13px;\">" > $file
+
+    # Start format
+    _gen_html_output "$file" "$1/crowdtilt-public-site" "Public Site"
+    _gen_html_output "$file" "$1/crowdtilt-internal-api" "API"
+    _gen_html_output "$file" "$1/crowdtilt-internal-admin-site" "Admin Site"
+
+    echo "</div>" >> $file
+
+    open $file
+}
 
 # safe checkout
 sco () {
