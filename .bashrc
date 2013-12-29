@@ -33,14 +33,16 @@ alias here='open .'
 alias vim='mvim'
 
 function audiosize() {
-    newFile=`ls -dt ~/Downloads/*.{mp3,flac,mp4,m4a} 2> /dev/null | head -1`
+    latestAudio=`ls -dt ~/Downloads/*.{wav,mp3,flac,mp4,m4a} 2> /dev/null | head -1`
 
-    if [[ ! -f "$newFile" ]]; then
+    ext=`echo $latestAudio | awk -F . '{print $NF}'`
+
+    if [[ ! -f "$latestAudio" ]]; then
         echo "${COLOR_PINK}Nothing here, ${COLOR_RED}asshole!!!${COLOR_RESET}"
         return 1
     fi
-    baseFile=`basename $newFile`
-    exiftool -filename -AudioBitrate "$newFile"
+    baseFile=`basename $latestAudio`
+    exiftool -filename -AudioBitrate "$latestAudio"
 
     echo -e "$COLOR_BLUE\nWhere you wanna move this?\n$COLOR_RESET"
 
@@ -70,11 +72,21 @@ function audiosize() {
     if [[ "$dirSet" =~ ^[1-9]+$ ]]; then
         let "dirSet+=-1"
         config=${files[@]:$dirSet:1}
-        mv "$newFile" "$mroot/$config"
+
+        if [[ "$ext" == "wav" ]]; then
+            echo "${COLOR_BLUE}Converting ${COLOR_YELLOW}wav${COLOR_BLUE} to ${COLOR_PINK}mp3${COLOR_BLUE}...${COLOR_RESET}"
+            lame -S --preset insane "$latestAudio"
+            rm "$latestAudio"
+            latestAudio=`ls -dt *.mp3 2> /dev/null | head -1`
+            baseFile=`basename $latestAudio`
+        fi
+
+        mv "$latestAudio" "$mroot/$config"
         echo -ne "\n${COLOR_GREEN}Moved to '${COLOR_PINK}$mroot/$config/"
         # Without this, filenames with spaces are broken across multiple lines???
         echo -n $baseFile
         echo -ne "${COLOR_GREEN}'!$COLOR_RESET\n"
+        open "$mroot/$config"
     fi
 }
 
