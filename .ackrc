@@ -25,6 +25,7 @@ shitbags=.iml,.ipr,.iws
 --ignore-dir=target
 --ignore-dir=built
 --ignore-dir=locallib
+--ignore-dir=locallib2
 --ignore-dir=.build
 --ignore-dir=node_modules
 --ignore-dir=.sass-cache
@@ -32,6 +33,7 @@ shitbags=.iml,.ipr,.iws
 --ignore-dir=formValidator.2.5.5.1
 
 --ignore-file=match:Jemplates.js
+--ignore-file=match:dictionary_eng_json.js
 --ignore-file=match:mobile-jems.js
 --ignore-file=match:mobile-jems.js
 --ignore-file=match:main.css
