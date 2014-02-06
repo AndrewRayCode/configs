@@ -41,6 +41,10 @@
         "Jemplate",
         "_gaq",
 
+        // threejs testing
+        "test",
+        "ok",
+
         // bash prompt builder
         "ko",
         "MooDialog",

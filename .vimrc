@@ -207,6 +207,9 @@ endfunction
 nnoremap <silent> } :<C-U>call ParagraphMove( 1, 0, v:count)<CR>
 nnoremap <silent> { :<C-U>call ParagraphMove(-1, 0, v:count)<CR>
 
+" Make all searches very magic
+nnoremap / /\v
+
 " When switching tabs, attempt to move cursor to a file and out of nerdtree,
 " quickfix and help windows
 function! FuckAllOfVim()
@@ -612,9 +615,15 @@ nmap <S-Space> <C-w>W
 " Delete current buffer
 nmap <Leader>db :bdelete<CR>
 
+" :W is now :w (http://stackoverflow.com/questions/3878692/aliasing-a-command-in-vim)
+cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
+
 " ------------------------------------------------------------------------------------------
 " VIM setup
 " ------------------------------------------------------------------------------------------
+
+" Make all line substituions /g
+set gdefault
 
 set sessionoptions+=winpos
 
@@ -828,8 +837,7 @@ autocmd BufReadPost *
 " window in insertmode
 au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | DiffGitCached | resize +20 | call feedkeys("\<C-w>p")
 
-" Make ⌘-v repeatable
-nnoremenu Edit.Paste :set paste<cr>i<C-r>*<esc>:set nopaste<cr>
+" Make ⌘-v repeatable. Does not work
 inoremenu Edit.Paste <esc>:set paste<cr>a<C-r>*<esc>:set nopaste<cr>a
 
 " More commands in q: q/ etc
@@ -875,6 +883,29 @@ autocmd FileType nerdtree cnoreabbrev <buffer> bd :echo "No you don't"<cr>
 autocmd FileType qf cnoreabbrev <buffer> bd :echo "No you don't"<cr>
 
 "set guitablabel=%{GuiTabLabel()}
+ 
+function! s:DimInactiveWindows()
+  for i in range(1, tabpagewinnr(tabpagenr(), '$'))
+    let l:range = "80"
+    if i != winnr()
+      if &wrap
+        " HACK: when wrapping lines is enabled, we use the maximum number
+        " of columns getting highlighted. This might get calculated by
+        " looking for the longest visible line and using a multiple of
+        " winwidth().
+        let l:width=256 " max
+      else
+        let l:width=winwidth(i)
+      endif
+      let l:range = join(range(1, l:width), ',')
+    endif
+    call setwinvar(i, '&colorcolumn', l:range)
+  endfor
+endfunction
+augroup DimInactiveWindows
+  au!
+  au WinEnter * call s:DimInactiveWindows()
+augroup END
 
 " ------------------------------------------------------------------------------------------
 " I no spell gud
@@ -899,6 +930,7 @@ ab contribuiton contribution
 ab contribuiton contribution
 ab contribuiotn contribution
 ab positon position
+ab animaiton animation
 
 " ------------------------------------------------------------------------------------------
 " Text objects?
@@ -918,6 +950,8 @@ ab positon position
 "       Select inside a number `-0.1`em with in
 " regex_an:
 "       Select around a number `-0.1em` with an
+" regex_aa:
+"       Select around attribute a="stuff"
 "
 
 call textobj#user#plugin('horesshit', {
@@ -952,5 +986,9 @@ call textobj#user#plugin('horesshit', {
 \   'regex_an': {
 \     'select': 'an',
 \     '*pattern*': '\-\?[\#0-9.a-z%]\+'
+\   },
+\   'regex_aa': {
+\     'select': 'aa',
+\     '*pattern*': '\v(\w|-)+\=".{-}"'
 \   },
 \ })

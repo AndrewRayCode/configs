@@ -69,7 +69,7 @@ function audiosize() {
     read dirSet
 
     # If they entered a nubmer, look up that file in the array
-    if [[ "$dirSet" =~ ^[1-9]+$ ]]; then
+    if [[ "$dirSet" =~ ^[0-9]+$ ]]; then
         let "dirSet+=-1"
         config=${files[@]:$dirSet:1}
 
@@ -86,7 +86,7 @@ function audiosize() {
         # Without this, filenames with spaces are broken across multiple lines???
         echo -n $baseFile
         echo -ne "${COLOR_GREEN}'!$COLOR_RESET\n"
-        open "$mroot/$config"
+        open -R "$mroot/$config/$baseFile"
     fi
 }
 
