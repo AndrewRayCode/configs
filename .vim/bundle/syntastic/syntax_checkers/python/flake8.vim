@@ -5,24 +5,65 @@
 "             kstep <me@kstep.me>
 "
 "============================================================================
-function! SyntaxCheckers_python_GetHighlightRegex(i)
-    if match(a:i['text'], 'is assigned to but never used') > -1
-                \ || match(a:i['text'], 'imported but unused') > -1
-                \ || match(a:i['text'], 'undefined name') > -1
-                \ || match(a:i['text'], 'redefinition of') > -1
-                \ || match(a:i['text'], 'referenced before assignment') > -1
-                \ || match(a:i['text'], 'duplicate argument') > -1
-                \ || match(a:i['text'], 'after other statements') > -1
-                \ || match(a:i['text'], 'shadowed by loop variable') > -1
 
-        let term = split(a:i['text'], "'", 1)[1]
-        return '\V\<'.term.'\>'
-    endif
-    return ''
+if exists("g:loaded_syntastic_python_flake8_checker")
+    finish
+endif
+let g:loaded_syntastic_python_flake8_checker = 1
+
+let s:save_cpo = &cpo
+set cpo&vim
+
+function! SyntaxCheckers_python_flake8_GetHighlightRegex(item)
+    return SyntaxCheckers_python_pyflakes_GetHighlightRegex(a:item)
 endfunction
 
-function! SyntaxCheckers_python_GetLocList()
-    let makeprg = 'flake8 '.g:syntastic_python_checker_args.' '.shellescape(expand('%'))
-    let errorformat = '%E%f:%l: could not compile,%-Z%p^,%E%f:%l:%c: %m,%E%f:%l: %m,%-G%.%#'
-    return SyntasticMake({ 'makeprg': makeprg, 'errorformat': errorformat })
+function! SyntaxCheckers_python_flake8_GetLocList() dict
+    let makeprg = self.makeprgBuild({})
+
+    let errorformat =
+        \ '%E%f:%l: could not compile,%-Z%p^,' .
+        \ '%A%f:%l:%c: %t%n %m,' .
+        \ '%A%f:%l: %t%n %m,' .
+        \ '%-G%.%#'
+
+    let loclist = SyntasticMake({
+        \ 'makeprg': makeprg,
+        \ 'errorformat': errorformat })
+
+    for e in loclist
+        " E*** and W*** are pep8 errors
+        " F*** are PyFlakes codes
+        " C*** are McCabe complexity messages
+        " N*** are naming conventions from pep8-naming
+
+        if has_key(e, 'nr')
+            let e['text'] .= printf(' [%s%03d]', e['type'], e['nr'])
+            " E901 are syntax errors
+            " E902 are I/O errors
+            if e['type'] ==? 'E' && e['nr'] !~ '\m^9'
+                let e['subtype'] = 'Style'
+            endif
+            call remove(e, 'nr')
+        endif
+
+        if e['type'] =~? '\m^[CNW]'
+            let e['subtype'] = 'Style'
+        endif
+
+        let e['type'] = e['type'] =~? '\m^[EFC]' ? 'E' : 'W'
+    endfor
+
+    return loclist
 endfunction
+
+runtime! syntax_checkers/python/pyflakes.vim
+
+call g:SyntasticRegistry.CreateAndRegisterChecker({
+    \ 'filetype': 'python',
+    \ 'name': 'flake8'})
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
+
+" vim: set et sts=4 sw=4:

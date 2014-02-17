@@ -695,6 +695,7 @@ set iskeyword=@,48-57,_,192-255,#,$
 " let g:syntastic_quiet_warnings=1
 " Place error visual marker in gutter
 let g:syntastic_enable_signs=1
+let g:syntastic_perl_lib_path = [ './locallib/lib/perl5' ]
 
 " Vim-script-unner
 let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10 -MClass::Autouse=:superloader"

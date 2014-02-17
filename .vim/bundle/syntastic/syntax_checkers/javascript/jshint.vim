@@ -8,14 +8,53 @@
 "             Want To Public License, Version 2, as published by Sam Hocevar.
 "             See http://sam.zoy.org/wtfpl/COPYING for more details.
 "============================================================================
-if !exists("g:syntastic_javascript_jshint_conf")
-    let g:syntastic_javascript_jshint_conf = ""
+
+if exists('g:loaded_syntastic_javascript_jshint_checker')
+    finish
+endif
+let g:loaded_syntastic_javascript_jshint_checker = 1
+
+if !exists('g:syntastic_jshint_exec')
+    let g:syntastic_jshint_exec = 'jshint'
 endif
 
-function! SyntaxCheckers_javascript_GetLocList()
-    " node-jshint uses .jshintrc as config unless --config arg is present
-    let args = !empty(g:syntastic_javascript_jshint_conf) ? ' --config ' . g:syntastic_javascript_jshint_conf : ''
-    let makeprg = 'jshint ' . shellescape(expand("%")) . args
-    let errorformat = '%ELine %l:%c,%Z\\s%#Reason: %m,%C%.%#,%f: line %l\, col %c\, %m,%-G%.%#'
-    return SyntasticMake({ 'makeprg': makeprg, 'errorformat': errorformat, 'defaults': {'bufnr': bufnr('')} })
+if !exists('g:syntastic_javascript_jshint_conf')
+    let g:syntastic_javascript_jshint_conf = ''
+endif
+
+let s:save_cpo = &cpo
+set cpo&vim
+
+function! SyntaxCheckers_javascript_jshint_IsAvailable() dict
+    return executable(expand(g:syntastic_jshint_exec))
 endfunction
+
+function! SyntaxCheckers_javascript_jshint_GetLocList() dict
+    if !exists('s:jshint_new')
+        let s:jshint_new =
+            \ syntastic#util#versionIsAtLeast(syntastic#util#getVersion(expand(g:syntastic_jshint_exec) . ' --version'), [1, 1])
+    endif
+
+    let makeprg = self.makeprgBuild({
+        \ 'exe': expand(g:syntastic_jshint_exec),
+        \ 'args': (g:syntastic_javascript_jshint_conf != '' ? '--config ' . g:syntastic_javascript_jshint_conf : ''),
+        \ 'args_after': (s:jshint_new ? '--verbose ' : '') })
+
+    let errorformat = s:jshint_new ?
+        \ '%A%f: line %l\, col %v\, %m \(%t%*\d\)' :
+        \ '%E%f: line %l\, col %v\, %m'
+
+    return SyntasticMake({
+        \ 'makeprg': makeprg,
+        \ 'errorformat': errorformat,
+        \ 'defaults': {'bufnr': bufnr('')} })
+endfunction
+
+call g:SyntasticRegistry.CreateAndRegisterChecker({
+    \ 'filetype': 'javascript',
+    \ 'name': 'jshint'})
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
+
+" vim: set et sts=4 sw=4:

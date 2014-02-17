@@ -32,6 +32,11 @@ fi
 alias here='open .'
 alias vim='mvim'
 
+# Hack to show the version of an installed perl module.
+function cpanversion() {
+    perl -le 'eval "require $ARGV[0]" and print $ARGV[0]->VERSION' $1
+}
+
 function audiosize() {
     latestAudio=`ls -dt ~/Downloads/*.{wav,mp3,flac,mp4,m4a} 2> /dev/null | head -1`
 
