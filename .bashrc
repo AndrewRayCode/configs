@@ -46,7 +46,10 @@ function audiosize() {
         echo "${COLOR_PINK}Nothing here, ${COLOR_RED}asshole!!!${COLOR_RESET}"
         return 1
     fi
-    baseFile=`basename $latestAudio`
+
+    # Hack to get around file names with spaces
+    # http://stackoverflow.com/questions/7194192/basename-with-spaces-in-a-bash-script
+    baseFile=$(basename "$latestAudio")
     exiftool -filename -AudioBitrate "$latestAudio"
 
     echo -e "$COLOR_BLUE\nWhere you wanna move this?\n$COLOR_RESET"
@@ -83,7 +86,7 @@ function audiosize() {
             lame -S --preset insane "$latestAudio"
             rm "$latestAudio"
             latestAudio=`ls -dt *.mp3 2> /dev/null | head -1`
-            baseFile=`basename $latestAudio`
+            baseFile=$(basename "$latestAudio")
         fi
 
         mv "$latestAudio" "$mroot/$config"
@@ -91,7 +94,13 @@ function audiosize() {
         # Without this, filenames with spaces are broken across multiple lines???
         echo -n $baseFile
         echo -ne "${COLOR_GREEN}'!$COLOR_RESET\n"
-        open -R "$mroot/$config/$baseFile"
+
+        # Hack to move a file name with spaces
+        # http://superuser.com/questions/170087/in-the-osx-terminal-how-do-i-open-a-file-with-a-space-in-its-name
+        open_command() {
+            open -Rn "$mroot/$config/$baseFile"
+        }
+        open_command
     fi
 }
 
