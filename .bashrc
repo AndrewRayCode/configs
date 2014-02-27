@@ -160,7 +160,7 @@ sco () {
     MSG=`git log -n1 --pretty=%s`
     CUR_BRANCH=${HEAD#refs/heads/}
     fi
-    git fetch origin && git checkout $1 && git reset --hard origin/$1
+    git fetch upstream && git checkout $1 && git reset --hard upstream/$1
 }
 
 gpf () {

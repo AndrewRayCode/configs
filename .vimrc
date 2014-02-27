@@ -74,6 +74,7 @@ syntax on
 " to be done after syntax set)
 highlight ColorColumn guibg=#220000
 set colorcolumn=80
+set cursorline
 
 " Experimental and possibly terrible
 highlight Cursor guibg=#FF92BB guifg=#fff
