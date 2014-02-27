@@ -250,6 +250,21 @@ pullreq() {
     hub pull-request -b $BRANCH -h Crowdtilt:$CUR_BRANCH
 }
 
+fpr() {
+    [ -z $BRANCH ] && BRANCH="dev"
+    HEAD=$(git symbolic-ref HEAD 2> /dev/null)
+    [ -z $HEAD ] && return # Return if no head
+    MSG=`git log -n1 --pretty=%s`
+    CUR_BRANCH=${HEAD#refs/heads/}
+
+    if [[ "$CUR_BRANCH" == "dev" || "$CUR_BRANCH" == "master" ]]; then
+        echo "You can't push directly to $CUR_BRANCH, thicky"
+        return
+    fi
+    git push origin $CUR_BRANCH
+    hub pull-request -b crowdtilt:$BRANCH -h $CUR_BRANCH
+}
+
 psg() {
     ps axu | grep -v grep | grep "$@" -i --color=auto;
 }
