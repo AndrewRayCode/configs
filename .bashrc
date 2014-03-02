@@ -120,9 +120,9 @@ _gen_format_string() {
 _gen_html_output() {
     (
         cd $2
-        git fetch origin
+        git fetch upstream
         format=`_gen_format_string`
-        output=`git log --no-merges origin/master..origin/dev --pretty=format:"$format" --abbrev-commit`
+        output=`git log --no-merges upstream/master..upstream/dev --pretty=format:"$format" --abbrev-commit`
         if [ -n "$output" ]; then
             echo "<b style=\"font-size:16px;\">$3:</b><br /> <div class=\"anchor\"> <br />" >> $1
             echo $output >> $file
@@ -262,6 +262,7 @@ fpr() {
         return
     fi
     git push origin $CUR_BRANCH
+    msg=`git log -n1 --pretty=%B`
     hub pull-request -b crowdtilt:$BRANCH -h $CUR_BRANCH
 }
 
