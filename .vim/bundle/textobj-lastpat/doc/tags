@@ -1,0 +1,16 @@
+:TextobjLastpatDefaultKeyMappings	textobj-lastpat.txt	/*:TextobjLastpatDefaultKeyMappings*
+<Plug>(textobj-lastpat-N)	textobj-lastpat.txt	/*<Plug>(textobj-lastpat-N)*
+<Plug>(textobj-lastpat-n)	textobj-lastpat.txt	/*<Plug>(textobj-lastpat-n)*
+g:textobj_lastpat_no_default_key_mappings	textobj-lastpat.txt	/*g:textobj_lastpat_no_default_key_mappings*
+textobj-lastpat	textobj-lastpat.txt	/*textobj-lastpat*
+textobj-lastpat-bugs	textobj-lastpat.txt	/*textobj-lastpat-bugs*
+textobj-lastpat-changelog	textobj-lastpat.txt	/*textobj-lastpat-changelog*
+textobj-lastpat-changelog-0.0.0	textobj-lastpat.txt	/*textobj-lastpat-changelog-0.0.0*
+textobj-lastpat-changelog-0.0.1	textobj-lastpat.txt	/*textobj-lastpat-changelog-0.0.1*
+textobj-lastpat-changelog-0.0.2	textobj-lastpat.txt	/*textobj-lastpat-changelog-0.0.2*
+textobj-lastpat-contents	textobj-lastpat.txt	/*textobj-lastpat-contents*
+textobj-lastpat-customizing	textobj-lastpat.txt	/*textobj-lastpat-customizing*
+textobj-lastpat-interface	textobj-lastpat.txt	/*textobj-lastpat-interface*
+textobj-lastpat-introduction	textobj-lastpat.txt	/*textobj-lastpat-introduction*
+textobj-lastpat-mappings	textobj-lastpat.txt	/*textobj-lastpat-mappings*
+textobj-lastpat.txt	textobj-lastpat.txt	/*textobj-lastpat.txt*

@@ -5,20 +5,23 @@
 "abolish
 "ack.vim
 "bufexplorer
+"choosewin
+"ctrlp.vim
 "delvarworld-javascript
 "django.vim
+"dragvisuals
 "easymotion
 "extradite
 "fugitive
+"git-conflict-edit
 "gundo
 "indent-anything
 "indexed-search
-"lusty-explorer
 "match-tag
 "matchit
 "mru
-"neocomplcache.vim
-"neosnippet.vim
+"neocomplcache
+"neosnippet
 "nerd-tree
 "nerdcommenter
 "powerline
@@ -26,6 +29,7 @@
 "rainbow-parentheses
 "repeat
 "snipmate-snippets
+"snippets
 "surround
 "syntastic
 "tabular
@@ -34,16 +38,15 @@
 "textobj-lastpat
 "ultisnips-snips
 "unimpaired
-"unite.vim
 "vim-expand-region
 "vim-nerdtree-tabs
 "vim-perl
+"vim-project
 "vim-script-runner
 "vim-textobj-comment
 "vim-textobj-function-javascript
 "vim-textobj-function-perl
 "vim-textobj-user
-"vim-unite-history
 "vimproc.vim
 "vimshell.vim
 
@@ -81,6 +84,9 @@ highlight Cursor guibg=#FF92BB guifg=#fff
 highlight iCursor guibg=red
 set guicursor=n-c:ver30-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-iCursor/lCursor,r-cr:hor20-Cursor/lCursor,v-sm:block-Cursor
 
+" Don't try to highlight lines longer than 800 characters.
+set synmaxcol=800
+
 " Custom file type syntax highlighting
 au BufRead,BufNewFile *.djhtml set filetype=html
 au BufRead,BufNewFile *.soy set filetype=clojure
@@ -115,6 +121,10 @@ let g:ctrlp_custom_ignore = {
     \ 'file': '\.ttc$',
     \ }
 
+" Fix ctrl-p's mixed mode https://github.com/kien/ctrlp.vim/issues/556
+"let g:ctrlp_extensions = ['mixed']
+nnoremap <c-p> :CtrlPMixed<cr>
+
 " Set up some custom ignores
 "call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       "\ 'ignore_pattern', join([
@@ -137,36 +147,23 @@ endif
 " Remove non visible buffers
 " From http://stackoverflow.com/questions/1534835/how-do-i-close-all-buffers-that-arent-shown-in-a-window-in-vim
 function! Wipeout()
-  " list of *all* buffer numbers
-  let l:buffers = range(1, bufnr('$'))
+    "From tabpagebuflist() help, get a list of all buffers in all tabs
+    let tablist = []
+    for i in range(tabpagenr('$'))
+        call extend(tablist, tabpagebuflist(i + 1))
+    endfor
 
-  " what tab page are we in?
-  let l:currentTab = tabpagenr()
-  try
-    " go through all tab pages
-    let l:tab = 0
-    while l:tab < tabpagenr('$')
-      let l:tab += 1
-
-      " go through all windows
-      let l:win = 0
-      while l:win < winnr('$')
-        let l:win += 1
-        " whatever buffer is in this window in this tab, remove it from
-        " l:buffers list
-        let l:thisbuf = winbufnr(l:win)
-        call remove(l:buffers, index(l:buffers, l:thisbuf))
-      endwhile
-    endwhile
-
-    " if there are any buffers left, delete them
-    if len(l:buffers)
-      execute 'bwipeout' join(l:buffers)
-    endif
-  finally
-    " go back to our original tab page
-    execute 'tabnext' l:currentTab
-  endtry
+    "Below originally inspired by Hara Krishna Dara and Keith Roberts
+    "http://tech.groups.yahoo.com/group/vim/message/56425
+    let nWipeouts = 0
+    for i in range(1, bufnr('$'))
+        if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
+        "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
+            silent exec 'bwipeout' i
+            let nWipeouts = nWipeouts + 1
+        endif
+    endfor
+    echomsg nWipeouts . ' buffer(s) wiped out'
 endfunction
 
 " Fix vim's default shitty { } motions
@@ -449,6 +446,54 @@ function! s:SSPAck()
     exe ":tabe " . split(captured)[4]
 endfunction
 
+" }}}
+" Highlight Word {{{
+"
+" This mini-plugin provides a few mappings for highlighting words temporarily.
+"
+" Sometimes you're looking at a hairy piece of code and would like a certain
+" word or two to stand out temporarily.  You can search for it, but that only
+" gives you one color of highlighting.  Now you can use <leader>N where N is
+" a number from 1-6 to highlight the current word in a specific color.
+
+function! HiInterestingWord(n) " {{{
+    " Save our location.
+    normal! mz
+
+    " Yank the current word into the z register.
+    normal! "zyiw
+
+    " Calculate an arbitrary match ID.  Hopefully nothing else is using it.
+    let mid = 86750 + a:n
+
+    " Clear existing matches, but don't worry if they don't exist.
+    silent! call matchdelete(mid)
+
+    " Construct a literal pattern that has to match at boundaries.
+    let pat = '\V\<' . escape(@z, '\') . '\>'
+
+    " Actually match the words.
+    call matchadd("InterestingWord" . a:n, pat, 1, mid)
+
+    " Move back to our original location.
+    normal! `z
+endfunction " }}}
+
+hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
+hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
+hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
+hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
+hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
+hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+
+" How do I turn this shit off??
+nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
+nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
+nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
+nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
+nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
+nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+
 " ---------------------------------------------------------------
 " Key mappings
 " ---------------------------------------------------------------
@@ -610,7 +655,8 @@ cnoremap <C-e> <End>
 nnoremap <leader>rl :call ToggleRelativeAbsoluteNumber()<CR>
 
 " use space to cycle between splits
-nmap <Space> <C-w>w
+nmap <space> <Plug>(choosewin)
+let g:choosewin_overlay_clear_multibyte = 1
 nmap <S-Space> <C-w>W
 
 " Delete current buffer
@@ -641,7 +687,7 @@ set hidden
 set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws,built,locallib
 
 " shiftround, always snap to multiples of shiftwidth when using > and <
-set sr
+set shiftround
 
 " Testing out relative line number
 setglobal relativenumber
@@ -757,8 +803,9 @@ call project#rc("~/")
 Project  '~/crowdtilt/crowdtilt-public-site',   'public-site'
 Project  '~/crowdtilt/crowdtilt-internal-api',  'internal-api'
 Project  '~/big-bubble' , 'bubble'
-Project  '~/dickbot',  'dickbot'
+Project  '~/parser',  'parser'
 Project  '~/blag',  'blag'
+Project  '~/bellesey-blog',  'bellesey'
 " default starting path (the home directory)
 call project#rc()
 
@@ -834,6 +881,9 @@ autocmd BufReadPost *
     \ if line("'\"") > 0 && line ("'\"") <= line("$") |
     \ exe "normal g'\"" |
     \ endif
+
+" Resize splits when the window is resized
+au VimResized * :wincmd =
 
 " In commit edit turn on spell check, make diff bigger, and switch to other
 " window in insertmode

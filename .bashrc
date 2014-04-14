@@ -263,7 +263,7 @@ fpr() {
     fi
     git push origin $CUR_BRANCH
     msg=`git log -n1 --pretty=%B`
-    hub pull-request -b crowdtilt:$BRANCH -h $CUR_BRANCH
+    hub pull-request -b crowdtilt:$BRANCH -h DelvarWorld:$CUR_BRANCH
 }
 
 psg() {
@@ -524,6 +524,12 @@ dvcs_function="
         num=\$(echo \$gitStatus | grep \"Your branch is ahead of\" | awk '{split(\$0,a,\" \"); print a[13];}') || return
         if [ -n \"\$num\" ]; then
             prompt=\$prompt\"\\[\$COLOR_LIGHT_CYAN\\] +\$num\"
+        fi
+
+        # MODIFIED BY HAND How far behind are you?
+        num=\$(echo \$gitStatus | grep \"Your branch is behind\" | awk '{split(\$0,a,\" \"); print a[12];}') || return
+        if [ -n \"\$num\" ]; then
+            prompt=\$prompt\"\\[\$COLOR_PINK\\] -\$num\"
         fi
 
         # any conflicts? (sed madness is to remove line breaks)
