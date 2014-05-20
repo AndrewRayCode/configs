@@ -4,7 +4,6 @@
 "ZoomWin
 "abolish
 "ack.vim
-"bufexplorer
 "choosewin
 "ctrlp.vim
 "delvarworld-javascript
@@ -20,23 +19,19 @@
 "match-tag
 "matchit
 "mru
-"neocomplcache
-"neosnippet
 "nerd-tree
 "nerdcommenter
 "powerline
 "qargs
 "rainbow-parentheses
 "repeat
-"snipmate-snippets
-"snippets
 "surround
 "syntastic
 "tabular
 "tagbar
 "textobj-entire
 "textobj-lastpat
-"ultisnips-snips
+"ultisnips
 "unimpaired
 "vim-expand-region
 "vim-nerdtree-tabs
@@ -58,6 +53,11 @@
 "jira-completer
 "pattern-complete " offers completions for last search pattern
 "complete-helper
+"lusty-juggler
+"neocomplcache
+"neosnippet
+"ultisnips-snips
+"snipmate-snippets
 
 " ---------------------------------------------------------------
 " Custom setup
@@ -98,10 +98,10 @@ au BufRead,BufNewFile *.js.tt set filetype=javascript
 au BufRead,BufNewFile Rexfile set filetype=perl
 
 " Fuck everything about rainbow parentheses
-au VimEnter * RainbowParenthesesToggle
-au Syntax javascript RainbowParenthesesLoadRound
-au Syntax javascript RainbowParenthesesLoadSquare
-au Syntax javascript RainbowParenthesesLoadBraces
+" au VimEnter * RainbowParenthesesToggle
+" au Syntax javascript RainbowParenthesesLoadRound
+" au Syntax javascript RainbowParenthesesLoadSquare
+" au Syntax javascript RainbowParenthesesLoadBraces
 
 " JSLint options for custom procesing file
 let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
@@ -555,6 +555,38 @@ nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gl :Extradite!<CR>
 nnoremap <Leader>df :tabe<cr>:Explore .<cr>:Git! diff<CR>
 
+" Ultisnips
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+" let g:UltiSnipsExpandTrigger="<c-b>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+function! g:UltiSnips_Complete()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips#JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+               return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
+
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsListSnippets="<c-e>"
+" this mapping Enter key to <C-y> to chose the current highlight item 
+" and close the selection list, same as other IDEs.
+" CONFLICT with some plugins like tpope/Endwise
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
 " Ack
 nnoremap <Leader>aw "zyiw:exe "Ack! ".@z.""<CR>
 nnoremap <Leader>aW "zyiW:exe "Ack! ".@z.""<CR>
@@ -745,7 +777,7 @@ let g:syntastic_enable_signs=1
 let g:syntastic_perl_lib_path = [ './locallib/lib/perl5' ]
 
 " Vim-script-unner
-let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10 -MClass::Autouse=:superloader"
+let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10"
 let g:script_runner_javascript = "node"
 
 " Backspace: Act like normal backspace and go into insert mode
@@ -757,36 +789,6 @@ nnoremap z= z=1<cr><cr>
 let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 let g:vimshell_prompt =  '$ '
 
-"===============================================================================
-" Neosnippet :(
-"===============================================================================
-
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
-
-" Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/bundle/snippets/'
-
-" YouCompleteMe?
-let g:used_javascript_libs = 'underscore,backbone,jquery'
 
 " Tern?
 let g:tern_map_keys = 1
@@ -900,26 +902,6 @@ set history=200
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
 
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-"" Use smartcase.
-"let g:neocomplcache_enable_smart_case = 1
-"" Use camel case completion.
-"let g:neocomplcache_enable_camel_case_completion = 1
-"" Use underbar completion.
-"let g:neocomplcache_enable_underbar_completion = 1
-"" Set minimum syntax keyword length.
-"let g:neocomplcache_min_syntax_length = 2
-"let g:neocomplcache_max_list = 5
-"let g:neocomplcache_enable_fuzzy_completion = 1
-"let g:neocomplcache_fuzzy_completion_start_length = 3
-
-" Plugin key-mappings.
-"imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-"smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-"inoremap <expr><C-g>     neocomplcache#undo_completion()
-"inoremap <expr><C-l>     neocomplcache#complete_common_string()
-"
 autocmd TabLeave * call FuckAllOfVim()
 
 " Enable omni completion.
