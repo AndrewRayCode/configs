@@ -45,15 +45,60 @@ function _c() {
 }
 
 function c() {
-    branch=`echo "$1" | cut -d' ' -f1`
-    echo `git show --quiet "$branch" --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset"`
-    if [[ $branch =~ ^pr ]]; then
-        echo "sco $branch"
-        sco $branch
+    newBranch=""
+    inputted=""
+
+    if [[ -z "$1" ]]; then
+        branchOutput=`git for-each-ref --sort=-committerdate refs/heads/ | head -n 10`
+
+        declare -a branches
+        let xx=0
+
+        # Find all system config files that aren't vim swap files and loop through them
+        IFS=$'\n'
+        for branch in $branchOutput
+        do
+            # Show them in a list with a counter
+            xx=`expr $xx + 1`
+            branches=("${branches[@]}" "$branch")
+            branchName=`echo "$branch" | sed 's/.*refs\/heads\///'`
+            echo "$COLOR_PURPLE$xx. $COLOR_LIGHT_RED $branchName `git show --quiet $branchName --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset"`"
+        done
+
+        # Prompt user for file. -n means no line break after echo
+        echo -n "$COLOR_YELLOW?$COLOR_RESET "
+        read branchNumber
+
+        let "branchNumber+=-1"
+
+        if [[ "$branchNumber" =~ ^[0-9]+$ ]]; then
+            newBranch=`echo "${branches[@]:$branchNumber:1}" | sed 's/.*refs\/heads\///'`
+
+            if [[ -z "$newBranch" ]]; then
+                echo "Not real."
+                return 1
+            fi
+        else
+            echo "Wtf?"
+            return 1
+        fi
     else
-        echo "git checkout $branch"
-        git checkout $branch
+        inputted=1
+        newBranch=`echo "$1" | cut -d' ' -f1`
     fi
+
+    if [[ -n "$1" ]]; then
+        echo `git show --quiet "$newBranch" --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset"`
+    fi
+
+    if [[ $newBranch =~ ^pr ]]; then
+        echo -e "\nsco $newBranch"
+        sco $newBranch
+    else
+        echo -e "\ngit checkout $newBranch"
+        git checkout $newBranch
+    fi
+
 }
 complete -F _c  c
 
