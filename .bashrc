@@ -16,6 +16,55 @@ COLOR_LIGHT_RED=$(tput sgr0 && tput bold && tput setaf 1)
 COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
 COLOR_RESET=$(tput sgr0)
 
+# git
+function _c() {
+    cur=${COMP_WORDS[COMP_CWORD]}
+    branches=`git for-each-ref --sort=-committerdate refs/heads/ | head -n 10`
+
+    output=''
+    for branch in $branches
+    do
+        output+=`echo "$branch" | sed 's/.*refs\/heads\///'`
+        # creative way to get color here? echo messes everything up
+        # (http://unix.stackexchange.com/questions/107417/what-are-the-special-characters-to-print-from-a-script-to-move-the-cursor ?)
+        #output+=" '`git show --quiet $(echo $branch | cut -d' ' -f1) --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset'"`"$'\n'
+        #echo " \'`git show --quiet $(echo $branch | cut -d' ' -f1) --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset\'"`"$'\n'
+        output+=" \'`git show --quiet $(echo $branch | cut -d' ' -f1) --pretty=format:"%h <%an> %s (%cr)\'"`"$'\n'
+    done
+
+    response=''
+    for branch in $output
+    do
+        lowerBranch=`echo $branch | tr '[:upper:]' '[:lower:]'`
+        if [[ $branch =~ .*$cur.* ]]; then
+            response+=$branch$'\n'
+        fi
+    done
+
+    COMPREPLY=( $( compgen -W "$response" -- $cur ) )
+}
+
+function c() {
+    branch=`echo "$1" | cut -d' ' -f1`
+    echo `git show --quiet "$branch" --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset"`
+    if [[ $branch =~ ^pr ]]; then
+        echo "sco $branch"
+        sco $branch
+    else
+        echo "git checkout $branch"
+        git checkout $branch
+    fi
+}
+complete -F _c  c
+
+function rbd() {
+    git fetch upstream && git rebase upstream/dev
+}
+
+# required for grunt ct
+export LANG=en_US.UTF-8
+export LC_ALL=
+
 # Don't wait for job termination notification
 set -o notify
 

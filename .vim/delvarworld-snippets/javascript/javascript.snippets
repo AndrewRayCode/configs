@@ -2,3 +2,83 @@
 snippet c
 console.log( ${0} );
 endsnippet
+
+# console.log('')
+snippet c'
+console.log( '${0}' );
+endsnippet
+
+# find by css
+snippet dfe
+driver.findElement( By.css('${0}') );
+endsnippet
+
+# click
+snippet dfec
+driver.findElement( By.css('${0}') ).click();
+endsnippet
+
+# Anonymous Function
+snippet f
+function(${1}) {
+	${0}
+}${2:;}
+endsnippet
+
+# Immediate function
+snippet f)
+function(${1}) {
+	${0}
+});
+endsnippet
+
+snippet c,
+console.log( '${1}', ${0} );
+endsnippet
+
+snippet cv
+console.log( '${1}', ${0} );
+endsnippet
+
+snippet ts
+var helper = require('../../specHelper.js'),
+    api = require('../../api.js'),
+    By = helper.webdriver.By, Keys = helper.webdriver.Key,
+    Q = require('q'),
+    assert = require('chai').assert,
+    itWithDriver = helper.modifyIt( it );
+
+describe('${1}', function() {
+
+	${0}
+
+});
+endsnippet
+
+snippet at
+itWithDriver('${1}', function( driver, done ) {
+
+	var title = 'test_' + Date.now();${0}
+
+	driver.createCampaignSkipUi( title );
+
+	driver.then(function() {
+
+		api.getLatestCampaign().then(function( _campaign ) {
+
+			done();
+
+		}).fail( done );
+
+	});
+
+});
+endsnippet
+
+snippet t
+itWithDriver('', function( driver ) {
+
+	var title = 'test_' + Date.now();
+
+});
+endsnippet
