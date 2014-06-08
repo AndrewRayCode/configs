@@ -56,13 +56,19 @@ function c() {
 
         # Find all system config files that aren't vim swap files and loop through them
         IFS=$'\n'
+        pad=$(printf '%0.1s' " "{1..32})
+        padlength=32
         for branch in $branchOutput
         do
             # Show them in a list with a counter
             xx=`expr $xx + 1`
             branches=("${branches[@]}" "$branch")
             branchName=`echo "$branch" | sed 's/.*refs\/heads\///'`
-            echo "$COLOR_PURPLE$xx. $COLOR_LIGHT_RED $branchName `git show --quiet $branchName --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset"`"
+            string1="$COLOR_PURPLE$xx. $COLOR_PINK $branchName"
+            uncolor="$xx.  $branchName"
+            printf '%s' $string1
+            printf '%*.*s' 0 $((padlength - ${#uncolor} )) "$pad"
+            printf '%s\n' `git show --quiet $branchName --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset"`
         done
 
         # Prompt user for file. -n means no line break after echo
