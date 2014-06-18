@@ -599,7 +599,7 @@ nnoremap <Leader>rp :call rainbow_parentheses#Toggle()<cr>
 nnoremap <Leader>sv :source $MYVIMRC<cr>
 nnoremap <silent> <Leader>so :source %<cr>
 nnoremap <Leader>v :tabe $MYVIMRC<cr>
-nnoremap <Leader>ss :tabe ~/.vim/bundle/ultisnips/UltiSnips/javascript.snippets<cr>
+nnoremap <Leader>ss :tabe ~/.vim/delvarworld-snippets/javascript/javascript.snippets<cr>
 nnoremap <Leader>hs :tabe /etc/hosts<cr>
 nnoremap <Leader>js :tabe ~/.jsl<cr>
 
@@ -641,7 +641,7 @@ nnoremap <Leader>me :MRU
 nnoremap <Leader>rs vi{:sort<cr>
 
 " trim trailing whitespace
-nnoremap <Leader>sw :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+noremap <Leader>sw :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " * and # search for next/previous of selected text when used in visual mode
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
@@ -698,6 +698,14 @@ nmap <Leader>db :bdelete<CR>
 
 " :W is now :w (http://stackoverflow.com/questions/3878692/aliasing-a-command-in-vim)
 cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
+
+function! FormatPerlObj()
+    silent exec '%s/\v\S+\s*\=\>\s*[^,]*,/\0\r'
+    silent exec '%s/\v\S+\s*\=\>\s*\{/\0\r'
+    silent exec '%s/\v[^{]\zs\},/\r\0'
+    normal vie=
+    exec 'set ft=perl'
+endfunction
 
 " ------------------------------------------------------------------------------------------
 " VIM setup

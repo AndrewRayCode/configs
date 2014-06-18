@@ -44,6 +44,18 @@ function _c() {
     COMPREPLY=( $( compgen -W "$response" -- $cur ) )
 }
 
+# Diff of things between here and dev
+function ddiff() {
+    git diff `git merge-base upstream/dev HEAD`..HEAD
+
+}
+
+# Log of everything on this braynch
+function dlog() {
+    git log -p `git merge-base upstream/dev HEAD`..HEAD
+
+}
+
 function c() {
     newBranch=""
     inputted=""

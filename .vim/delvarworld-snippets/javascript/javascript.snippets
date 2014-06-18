@@ -5,7 +5,7 @@ endsnippet
 
 # console.log('')
 snippet c'
-console.log( '${0}' );
+console.log( '${1}:', ${0:$1} );
 endsnippet
 
 # find by css
@@ -30,6 +30,12 @@ snippet f)
 function(${1}) {
 	${0}
 });
+endsnippet
+
+snippet f,
+function(${1}) {
+	${0}
+},
 endsnippet
 
 snippet c,
