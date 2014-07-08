@@ -1,3 +1,7 @@
+snippet r
+var ${1} = require('${0:$1}');
+endsnippet
+
 # console.log
 snippet c
 console.log( ${0} );
@@ -5,12 +9,18 @@ endsnippet
 
 # console.log('')
 snippet c'
-console.log( '${1}:', ${0:$1} );
+console.log( '${1}' );
 endsnippet
 
 # find by css
 snippet dfe
 driver.findElement( By.css('${0}') );
+endsnippet
+
+snippet dft
+driver.findElement( By.css('${1}') ).getText().then( function( text ) {
+	${0}
+});
 endsnippet
 
 # click
@@ -39,7 +49,7 @@ function(${1}) {
 endsnippet
 
 snippet c,
-console.log( '${1}', ${0} );
+console.log( '${1}:', ${0:$1} );
 endsnippet
 
 snippet cv

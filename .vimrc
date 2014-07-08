@@ -700,9 +700,25 @@ nmap <Leader>db :bdelete<CR>
 cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
 
 function! FormatPerlObj()
-    silent exec '%s/\v\S+\s*\=\>\s*[^,]*,/\0\r'
-    silent exec '%s/\v\S+\s*\=\>\s*\{/\0\r'
-    silent exec '%s/\v[^{]\zs\},/\r\0'
+    silent! exec '%s/\v\S+\s*\=\>\s*[^,]*,/\0\r'
+    silent! exec '%s/\v\S+\s*\=\>\s*\{/\0\r'
+    silent! exec '%s/\v[^{]\zs\},/\r\0'
+    normal vie=
+    exec 'set ft=perl'
+endfunction
+
+function! FormatJson()
+    silent! exec '%s/\v\S+\s*:\s*[^,]*,/\0\r'
+    silent! exec '%s/\v\S+\s*:\s*\{/\0\r'
+    silent! exec '%s/\v[^{]\zs\},/\r\0'
+    normal vie=
+    exec 'set ft=javascript'
+endfunction
+
+function! FormatVarList()
+    silent! exec '%s/\v\S+\s*\=\>\s*[^,]*,/\0\r'
+    silent! exec '%s/\v\S+\s*\=\>\s*\{/\0\r'
+    silent! exec '%s/\v[^{]\zs\},/\r\0'
     normal vie=
     exec 'set ft=perl'
 endfunction
@@ -960,6 +976,9 @@ ab funcion function
 ab funicton function
 ab funciton function
 ab fucntion function
+ab dupate update
+ab upate update
+ab udpate update
 ab updateable updatable
 ab Updateable Updatable
 ab conosle console

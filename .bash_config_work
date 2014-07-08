@@ -15,3 +15,5 @@ source ~/perl5/perlbrew/etc/bashrc
 
 # See http://stackoverflow.com/questions/791765/unable-to-forward-search-bash-history-similarly-as-with-ctrl-r to make ctrl-s work forward
 stty -ixon
+
+source ~/.aws
