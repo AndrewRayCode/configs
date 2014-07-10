@@ -1,4 +1,4 @@
-if exists("g:loaded_syntastic_notifiers")
+if exists("g:loaded_syntastic_notifiers") || !exists("g:loaded_syntastic_plugin")
     finish
 endif
 let g:loaded_syntastic_notifiers = 1
@@ -6,19 +6,20 @@ let g:loaded_syntastic_notifiers = 1
 let g:SyntasticNotifiers = {}
 
 let s:notifier_types = ['signs', 'balloons', 'highlighting', 'cursor', 'autoloclist']
+lockvar! s:notifier_types
 
 " Public methods {{{1
 
-function! g:SyntasticNotifiers.Instance()
+function! g:SyntasticNotifiers.Instance() " {{{2
     if !exists('s:SyntasticNotifiersInstance')
         let s:SyntasticNotifiersInstance = copy(self)
         call s:SyntasticNotifiersInstance._initNotifiers()
     endif
 
     return s:SyntasticNotifiersInstance
-endfunction
+endfunction " }}}2
 
-function! g:SyntasticNotifiers.refresh(loclist)
+function! g:SyntasticNotifiers.refresh(loclist) " {{{2
     call syntastic#log#debug(g:SyntasticDebugNotifications, 'notifiers: refresh')
     for type in self._enabled_types
         let class = substitute(type, '\m.*', 'Syntastic\u&Notifier', '')
@@ -26,9 +27,9 @@ function! g:SyntasticNotifiers.refresh(loclist)
             call self._notifier[type].refresh(a:loclist)
         endif
     endfor
-endfunction
+endfunction " }}}2
 
-function! g:SyntasticNotifiers.reset(loclist)
+function! g:SyntasticNotifiers.reset(loclist) " {{{2
     call syntastic#log#debug(g:SyntasticDebugNotifications, 'notifiers: reset')
     for type in self._enabled_types
         let class = substitute(type, '\m.*', 'Syntastic\u&Notifier', '')
@@ -40,11 +41,13 @@ function! g:SyntasticNotifiers.reset(loclist)
             call self._notifier[type].reset(a:loclist)
         endif
     endfor
-endfunction
+endfunction " }}}2
+
+" }}}1
 
 " Private methods {{{1
 
-function! g:SyntasticNotifiers._initNotifiers()
+function! g:SyntasticNotifiers._initNotifiers() " {{{2
     let self._notifier = {}
     for type in s:notifier_types
         let class = substitute(type, '\m.*', 'Syntastic\u&Notifier', '')
@@ -52,6 +55,8 @@ function! g:SyntasticNotifiers._initNotifiers()
     endfor
 
     let self._enabled_types = copy(s:notifier_types)
-endfunction
+endfunction " }}}2
+
+" }}}1
 
 " vim: set sw=4 sts=4 et fdm=marker:

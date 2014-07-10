@@ -29,21 +29,16 @@ function! SyntaxCheckers_vim_vimlint_GetHighlightRegex(item)
             endif
         endif
 
-        return '\V' . (col ? '\%' . col . 'c' : '') . term
+        return col ? '\%>' . (col - 1) . 'c\%<' . (col + strlen(term)) . 'c' : '\V' . escape(term, '\')
     endif
 
     return ''
 endfunction
 
 function! SyntaxCheckers_vim_vimlint_IsAvailable() dict
-    let ret = 0
-    try
-        call vimlint#vimlint(syntastic#util#DevNull(), { 'output': [], 'quiet': 1 })
-        let ret = 1
-    catch /^Vim\%((\a\+)\)\=:E117/
-        " do nothing
-    endtry
-    return ret
+    return
+        \ globpath(&runtimepath, 'autoload/vimlparser.vim') != '' &&
+        \ globpath(&runtimepath, 'autoload/vimlint.vim') != ''
 endfunction
 
 function! SyntaxCheckers_vim_vimlint_GetLocList() dict
@@ -86,7 +81,8 @@ endfunction
 
 call g:SyntasticRegistry.CreateAndRegisterChecker({
     \ 'filetype': 'vim',
-    \ 'name': 'vimlint'})
+    \ 'name': 'vimlint',
+    \ 'exec': 'vim' })
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
