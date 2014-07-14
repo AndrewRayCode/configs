@@ -26,6 +26,7 @@ shitbags=.iml,.ipr,.iws
 --ignore-dir=built
 --ignore-dir=locallib
 --ignore-dir=locallib2
+--ignore-dir=emails
 --ignore-dir=.build
 --ignore-dir=node_modules
 --ignore-dir=.sass-cache

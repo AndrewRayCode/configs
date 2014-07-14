@@ -610,8 +610,11 @@ nnoremap <Leader>yf :let @*=expand("%:t")<cr>:echo "Copied file name to clipboar
 " Copy current buffer path without filename to system clipboard
 nnoremap <Leader>yd :let @*=expand("%:h")<cr>:echo "Copied file directory to clipboard"<cr>
 
-" Highlight last yanked / pasted text
+" select last yanked / pasted text
 nnoremap <Leader>ht `[v`]
+
+" select last paste in visual mode
+nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " NerdTree
 nnoremap <Leader>nt :NERDTreeTabsToggle<cr>
