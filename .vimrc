@@ -600,7 +600,7 @@ nnoremap <Leader>sv :source $MYVIMRC<cr>
 nnoremap <silent> <Leader>so :source %<cr>
 nnoremap <Leader>v :tabe $MYVIMRC<cr>
 nnoremap <Leader>ss :tabe ~/.vim/delvarworld-snippets/javascript/javascript.snippets<cr>
-nnoremap <Leader>hs :tabe /etc/hosts<cr>
+nnoremap <Leader>hs :tabe /etc/hosts<cr>:set noreadonly<cr>
 nnoremap <Leader>js :tabe ~/.jsl<cr>
 
 " Copy current buffer path relative to root of VIM session to system clipboard
@@ -834,7 +834,9 @@ call project#rc("~/")
 Project  '~/crowdtilt/crowdtilt-public-site',   'public-site'
 Project  '~/crowdtilt/crowdtilt-internal-api',  'internal-api'
 Project  '~/big-bubble' , 'bubble'
+Project  '~/cwebgl' , 'shader-studio'
 Project  '~/parser',  'parser'
+Project  '~/blog',  'blog'
 Project  '~/blag',  'blag'
 Project  '~/bellesey-blog',  'bellesey'
 " default starting path (the home directory)
@@ -988,13 +990,20 @@ ab conosle console
 ab campaing campaign
 ab camapign campaign
 ab campigan campaign
+ab campagin campaign
 ab campagn campaign
 ab campiagn campaign
-ab closeset closest
 ab camapaign campaign
+ab respone response
+ab closeset closest
 ab contribuiton contribution
 ab contribuiton contribution
 ab contribuiotn contribution
+ab conribution contribution
+ab contribuitos contributions
+ab contribuitos contributions
+ab contribuiots contributions
+ab conributions contributions
 ab positon position
 ab animaiton animation
 

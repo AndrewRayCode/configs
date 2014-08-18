@@ -17,3 +17,9 @@ source ~/perl5/perlbrew/etc/bashrc
 stty -ixon
 
 source ~/.aws
+
+# Force utf8 for things like ruby
+export LANG=en_US.UTF-8
+
+# I don't think anything sets this? But just being sure
+unset LC_ALL

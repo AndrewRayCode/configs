@@ -17,6 +17,10 @@ snippet dfe
 driver.findElement( By.css('${0}') );
 endsnippet
 
+snippet dw
+driver.waitForElementVisible( By.css('${1}'), ${0:30000} );
+endsnippet
+
 snippet dft
 driver.findElement( By.css('${1}') ).getText().then( function( text ) {
 	${0}

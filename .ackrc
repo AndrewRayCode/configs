@@ -17,6 +17,9 @@ chatlog=.chatlog
 scss=.scss
 
 --type-set
+jsx=.jsx
+
+--type-set
 soy=.soy
 
 --type-set
@@ -33,7 +36,11 @@ shitbags=.iml,.ipr,.iws
 --ignore-dir=sass/libs/bourbon
 --ignore-dir=formValidator.2.5.5.1
 --ignore-dir=doubles
+--ignore-dir=node_modules
+--ignore-file=match:js.json
 
+--ignore-file=match:built.po
+--ignore-file=match:LC_MESSAGES/js.json
 --ignore-file=match:Jemplates.js
 --ignore-file=match:dictionary_eng_json.js
 --ignore-file=match:mobile-jems.js
@@ -45,6 +52,11 @@ shitbags=.iml,.ipr,.iws
 --ignore-file=match:_validationEngine.jquery.scss
 --ignore-file=match:validationEngine.jquery.css
 --ignore-file=match:three.js
+--ignore-file=match:manifest.json
+--ignore-file=match:react-templates.js
+--ignore-file=match:main-ct.css
+--ignore-file=match:main-old-ct.css
+--ignore-file=match:espn.css
 
 --noshitbags
 
