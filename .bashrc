@@ -642,7 +642,7 @@ dvcs_function="
         fi
 
         # MODIFIED BY HAND How far behind are you?
-        num=\$(echo \$gitStatus | grep \"Your branch is behind\" | awk '{split(\$0,a,\" \"); print a[12];}') || return
+        num=\$(echo \$gitStatus | grep \"Your branch is behind\" | awk '{split(\$0,a,\" \"); print a[10];}') || return
         if [ -n \"\$num\" ]; then
             prompt=\$prompt\"\\[\$COLOR_PINK\\] -\$num\"
         fi

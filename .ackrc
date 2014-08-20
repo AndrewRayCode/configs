@@ -55,6 +55,7 @@ shitbags=.iml,.ipr,.iws
 --ignore-file=match:manifest.json
 --ignore-file=match:react-templates.js
 --ignore-file=match:main-ct.css
+--ignore-file=match:main-libs.css
 --ignore-file=match:main-old-ct.css
 --ignore-file=match:espn.css
 
