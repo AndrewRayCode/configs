@@ -98,15 +98,10 @@ au BufRead,BufNewFile *.js.tt set filetype=javascript
 au BufRead,BufNewFile Rexfile set filetype=perl
 
 " Fuck everything about rainbow parentheses
-" au VimEnter * RainbowParenthesesToggle
-" au Syntax javascript RainbowParenthesesLoadRound
-" au Syntax javascript RainbowParenthesesLoadSquare
-" au Syntax javascript RainbowParenthesesLoadBraces
-
-" JSLint options for custom procesing file
-let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
-let jslint_highlight_color = 'Red'
-let g:syntastic_javascript_checkers = ['jsxhint']
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 " Set Ctrl-P to show match at top of list instead of at bottom, which is so
 " stupid that it's not default
@@ -594,8 +589,6 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 nnoremap <Leader>aw "zyiw:exe "Ack! ".@z.""<CR>
 nnoremap <Leader>aW "zyiW:exe "Ack! ".@z.""<CR>
 
-nnoremap <Leader>rp :call rainbow_parentheses#Toggle()<cr>
-
 " Source vim when this file is updated
 nnoremap <Leader>sv :source $MYVIMRC<cr>
 nnoremap <silent> <Leader>so :source %<cr>
@@ -805,6 +798,7 @@ set iskeyword=@,48-57,_,192-255,#,$
 " Place error visual marker in gutter
 let g:syntastic_enable_signs=1
 let g:syntastic_perl_lib_path = [ './locallib/lib/perl5' ]
+let g:syntastic_javascript_checkers = ['jsxhint']
 
 " Vim-script-unner
 let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10"
