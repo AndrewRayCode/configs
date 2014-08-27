@@ -58,6 +58,7 @@ shitbags=.iml,.ipr,.iws
 --ignore-file=match:main-libs.css
 --ignore-file=match:main-old-ct.css
 --ignore-file=match:espn.css
+--ignore-file=match:main-old-libs.css
 
 --noshitbags
 

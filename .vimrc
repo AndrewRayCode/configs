@@ -106,6 +106,7 @@ au BufRead,BufNewFile Rexfile set filetype=perl
 " JSLint options for custom procesing file
 let jslint_command_options = '-nofilelisting -nocontext -nosummary -nologo -conf ~/.jsl -process'
 let jslint_highlight_color = 'Red'
+let g:syntastic_javascript_checkers = ['jsxhint']
 
 " Set Ctrl-P to show match at top of list instead of at bottom, which is so
 " stupid that it's not default
