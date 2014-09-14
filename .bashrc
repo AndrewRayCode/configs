@@ -241,7 +241,7 @@ _gen_html_output() {
         cd $2
         git fetch upstream
         format=`_gen_format_string`
-        output=`git log --no-merges upstream/master..upstream/dev --pretty=format:"$format" --abbrev-commit`
+        output=`git log --no-merges -10 --pretty=format:"$format" --abbrev-commit`
         if [ -n "$output" ]; then
             echo "<b style=\"font-size:16px;\">$3:</b><br /> <div class=\"anchor\"> <br />" >> $1
             echo $output >> $file
@@ -305,7 +305,7 @@ alias deploys="git fetch origin; gl --no-merges origin/master..origin/dev"
 alias ios="open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app"
 
 achrome () {
-    /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files&
+    /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files --enable-file-cookies&
 }
 
 # Exctract annnnything
