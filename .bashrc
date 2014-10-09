@@ -183,8 +183,12 @@ function audiosize() {
         fi
         echo " $COLOR_PURPLE$xx$COLOR_RESET:  $COLOR_BLUE$file$COLOR_RESET ($subs)"
     done
+
     xx=`expr $xx + 1`
-    echo " $COLOR_RED${xx} or d$COLOR_RESET: ${COLOR_RED}Hell$COLOR_RESET (delete)"
+    echo " $COLOR_PURPLE${xx} or p$COLOR_RESET: Preview"
+
+    xy=`expr $xx + 1`
+    echo " $COLOR_RED${xy} or d$COLOR_RESET: ${COLOR_RED}Hell$COLOR_RESET (delete)"
 
     # Prompt user for file. -n means no line break after echo
     echo -n "$COLOR_YELLOW?$COLOR_RESET "
@@ -195,14 +199,28 @@ function audiosize() {
         rm "$latestAudio"
     fi
 
+    if [[ "$dirSet" == $xy || "$dirSet" == "p" ]]; then
+        echo "${COLOR_PINK}Previewing${COLOR_RESET} $latestAudio"
+        open "$latestAudio"
+    fi
+
     # If they entered a nubmer, look up that file in the array
     if [[ "$dirSet" =~ ^[0-9]+$ ]]; then
         let "dirSet+=-1"
         config=${files[@]:$dirSet:1}
 
+
         if [[ "$ext" == "wav" ]]; then
+
+            hasLame=$(which lame)
+            if [[ -z $hasLame ]]; then
+                echo "${COLOR_YELLOW}Lame not found on path. Please brew install lame...${COLOR_RESET}"
+                return 1
+            fi
+
             echo "${COLOR_BLUE}Converting ${COLOR_YELLOW}wav${COLOR_BLUE} to ${COLOR_PINK}mp3${COLOR_BLUE}...${COLOR_RESET}"
             lame -S --preset insane "$latestAudio"
+
             rm "$latestAudio"
             latestAudio=`ls -dt *.mp3 2> /dev/null | head -1`
             baseFile=$(basename "$latestAudio")

@@ -594,7 +594,7 @@ nnoremap <Leader>sv :source $MYVIMRC<cr>
 nnoremap <silent> <Leader>so :source %<cr>
 nnoremap <Leader>v :tabe $MYVIMRC<cr>
 nnoremap <Leader>ss :tabe ~/.vim/delvarworld-snippets/javascript/javascript.snippets<cr>
-nnoremap <Leader>hs :tabe /etc/hosts<cr>:set noreadonly<cr>
+nnoremap <Leader>hs :tabe /etc/hosts<cr>:setlocal noreadonly<cr>:setlocal autoread<cr>
 nnoremap <Leader>js :tabe ~/.jsl<cr>
 
 " Copy current buffer path relative to root of VIM session to system clipboard
@@ -915,7 +915,7 @@ au VimResized * :wincmd =
 
 " In commit edit turn on spell check, make diff bigger, and switch to other
 " window in insertmode
-au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | DiffGitCached | resize +20 | call feedkeys("\<C-w>p")
+au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | DiffGitCached | resize +20
 
 " Make ⌘-v repeatable. Does not work
 inoremenu Edit.Paste <esc>:set paste<cr>a<C-r>*<esc>:set nopaste<cr>a
