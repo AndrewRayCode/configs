@@ -2,4 +2,4 @@
 username = Andrew Ray <andy@crowdtilt.com>
             
 [extensions]
-prompt = /Users/delvarworld/configs/hg-prompt/prompt.py
+prompt = /Users/andrewray/configs/hg-prompt/prompt.py

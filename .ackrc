@@ -39,6 +39,7 @@ shitbags=.iml,.ipr,.iws
 --ignore-dir=doubles
 --ignore-dir=node_modules
 --ignore-file=match:js.json
+--ignore-file=log
 
 --ignore-file=match:built.po
 --ignore-file=match:LC_MESSAGES/js.json

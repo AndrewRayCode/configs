@@ -170,7 +170,7 @@ function audiosize() {
     declare -a files
     let xx=0
 
-    mroot="/Users/DelvarWorld/Music/Extended Mixes"
+    mroot="/Users/andrewray/Music/Extended Mixes"
     # Find all system config files that aren't vim swap files and loop through them
     for file in `ls "$mroot"`
     do

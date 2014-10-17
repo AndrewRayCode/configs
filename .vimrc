@@ -97,12 +97,6 @@ au BufRead,BufNewFile *.tt setf html
 au BufRead,BufNewFile *.js.tt set filetype=javascript
 au BufRead,BufNewFile Rexfile set filetype=perl
 
-" Fuck everything about rainbow parentheses
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-
 " Set Ctrl-P to show match at top of list instead of at bottom, which is so
 " stupid that it's not default
 let g:ctrlp_match_window_reversed = 0
@@ -113,7 +107,7 @@ let g:ctrlp_working_path_mode = 0
 
 " Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
 let g:ctrlp_custom_ignore = {
-    \ 'dir': '\.git$\|\.hg$\|\.svn$\|target$\|built$\|.build$\|node_modules\|\.sass-cache\|locallib$',
+    \ 'dir': '\.git$\|\.hg$\|\.svn$\|target$\|built$\|.build$\|node_modules\|\.sass-cache\|locallib$\|log$',
     \ 'file': '\.ttc$',
     \ }
 
