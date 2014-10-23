@@ -653,9 +653,9 @@ nnoremap <Leader>as vi":<C-u>call <SID>SSPAck()<CR>
 nnoremap <silent> <Leader>tb :TagbarToggle<CR>
 
 " tabularize around : or =
-vnoremap <silent> <Leader>tt :Tabularize /:\zs<CR>
-vnoremap <silent> <Leader>t= :Tabularize /=<cr>
-vnoremap <silent> <Leader>t. :Tabularize /=><cr>
+vnoremap <silent> <Leader>tt :Tabularize /:\zs/l0r1<CR>
+vnoremap <silent> <Leader>t= :Tabularize /=\zs/l0r1<cr>
+vnoremap <silent> <Leader>t, :Tabularize /,\zs/l0r1<cr>
 nnoremap <silent> <Leader>tt :Tabularize<CR>
 
 " Execute VIM colon command under cursor with <⌘-e>
@@ -820,14 +820,11 @@ let g:project_disable_tab_title = 1
 let g:project_use_nerdtree = 1
 " custom starting path
 call project#rc("~/")
-Project  '~/crowdtilt/crowdtilt-public-site',   'public-site'
-Project  '~/crowdtilt/crowdtilt-internal-api',  'internal-api'
-Project  '~/big-bubble' , 'bubble'
-Project  '~/cwebgl' , 'shader-studio'
-Project  '~/parser',  'parser'
-Project  '~/blog',  'blog'
-Project  '~/blag',  'blag'
-Project  '~/bellesey-blog',  'bellesey'
+Project  '~/big-bubble',    'bubble'
+Project  '~/shader-studio', 'shader-studio'
+Project  '~/glsl2js',       'parser'
+Project  '~/blog',          'blog'
+Project  '~/blag',          'blag'
 " default starting path (the home directory)
 call project#rc()
 
