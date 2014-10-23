@@ -111,6 +111,8 @@ let g:ctrlp_custom_ignore = {
     \ 'file': '\.ttc$',
     \ }
 
+let g:ctrlspace_ignored_files = '\v\.git$|\.hg$|\.svn$|target$|built$|.build$|node_modules|\.sass-cache|locallib$|log$'
+
 " Fix ctrl-p's mixed mode https://github.com/kien/ctrlp.vim/issues/556
 "let g:ctrlp_extensions = ['mixed']
 nnoremap <c-p> :CtrlPMixed<cr>
