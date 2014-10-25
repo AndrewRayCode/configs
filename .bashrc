@@ -135,7 +135,6 @@ set -o notify
 set -o vi
 
 source ~/.bash_config
-source ~/configs/z.sh
 
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash

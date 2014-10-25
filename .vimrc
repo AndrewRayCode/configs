@@ -1,21 +1,24 @@
 " Plugins installed:
 ":read !ls ~/.vim/bundle
 "Rename
+"YouCompleteMe
 "ZoomWin
 "abolish
 "ack.vim
-"choosewin
+"coffee-script
 "ctrlp.vim
+"ctrlspace
 "delvarworld-javascript
 "django.vim
 "dragvisuals
 "easymotion
 "extradite
 "fugitive
-"git-conflict-edit
+"glsl
 "gundo
 "indent-anything
 "indexed-search
+"jison
 "match-tag
 "matchit
 "mru
@@ -23,8 +26,9 @@
 "nerdcommenter
 "powerline
 "qargs
-"rainbow-parentheses
+"rainbow_parentheses.vim
 "repeat
+"snippets
 "surround
 "syntastic
 "tabular
@@ -34,10 +38,13 @@
 "ultisnips
 "unimpaired
 "vim-expand-region
+"vim-javascript
+"vim-jsx
 "vim-nerdtree-tabs
 "vim-perl
 "vim-project
 "vim-script-runner
+"vim-snippets
 "vim-textobj-comment
 "vim-textobj-function-javascript
 "vim-textobj-function-perl
@@ -46,6 +53,7 @@
 "vimshell.vim
 
 " Dead plugins I have removed:
+"choosewin
 "vim-session
 "scala
 "vim-clojure
