@@ -20,6 +20,9 @@ scss=.scss
 jsx=.jsx
 
 --type-set
+rb=.rb
+
+--type-set
 soy=.soy
 
 --type-set

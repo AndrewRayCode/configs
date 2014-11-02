@@ -518,6 +518,7 @@ nnoremap <Leader>yy _yg_
 " nnoremap <Leader>x:tabe a.js<cr>GVggx"*p<cr>:%s/;/;\r/g<cr>:w<cr>
 
 nnoremap <Leader>x :tabcl<cr>
+nnoremap <D-w> :tabcl<cr>
 
 " zg is the stupidest fucking shortcut and I hit it all the time
 nnoremap zg z=
@@ -690,8 +691,6 @@ cnoremap <C-e> <End>
 nnoremap <leader>rl :call ToggleRelativeAbsoluteNumber()<CR>
 
 " use space to cycle between splits
-nmap <space> <Plug>(choosewin)
-let g:choosewin_overlay_clear_multibyte = 1
 nmap <S-Space> <C-w>W
 
 " Delete current buffer
