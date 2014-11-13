@@ -24,6 +24,54 @@ function! syntastic#util#Slash() abort " {{{2
     return (!exists("+shellslash") || &shellslash) ? '/' : '\'
 endfunction " }}}2
 
+" Create a temporary directory
+function! syntastic#util#tmpdir() " {{{2
+    let tempdir = ''
+
+    if (has('unix') || has('mac')) && executable('mktemp')
+        " TODO: option "-t" to mktemp(1) is not portable
+        let tmp = $TMPDIR != '' ? $TMPDIR : $TMP != '' ? $TMP : '/tmp'
+        let out = split(system('mktemp -q -d ' . tmp . '/vim-syntastic-' . getpid() . '-XXXXXXXX'), "\n")
+        if v:shell_error == 0 && len(out) == 1
+            let tempdir = out[0]
+        endif
+    endif
+
+    if tempdir == ''
+        if has('win32') || has('win64')
+            let tempdir = $TEMP . syntastic#util#Slash() . 'vim-syntastic-' . getpid()
+        elseif has('win32unix')
+            let tempdir = s:CygwinPath('/tmp/vim-syntastic-'  . getpid())
+        elseif $TMPDIR != ''
+            let tempdir = $TMPDIR . '/vim-syntastic-' . getpid()
+        else
+            let tempdir = '/tmp/vim-syntastic-' . getpid()
+        endif
+    endif
+
+    return tempdir
+endfunction " }}}2
+
+" Recursively remove a directory
+function! syntastic#util#rmrf(what) " {{{2
+    if  getftype(a:what) ==# 'dir'
+        if !exists('s:rmrf')
+            let s:rmrf =
+                \ has('unix') || has('mac') ? 'rm -rf' :
+                \ has('win32') || has('win64') ? 'rmdir /S /Q' :
+                \ has('win16') || has('win95') || has('dos16') || has('dos32') ? 'deltree /Y' : ''
+        endif
+
+        if s:rmrf != ''
+            silent! call system(s:rmrf . ' ' . syntastic#util#shescape(a:what))
+        else
+            call s:_rmrf(a:what)
+        endif
+    else
+        silent! call delete(a:what)
+    endif
+endfunction " }}}2
+
 "search the first 5 lines of the file for a magic number and return a map
 "containing the args and the executable
 "
@@ -93,14 +141,14 @@ endfunction " }}}2
 
 " strwidth() was added in Vim 7.3; if it doesn't exist, we use strlen()
 " and hope for the best :)
-let s:width = function(exists('*strwidth') ? 'strwidth' : 'strlen')
-lockvar s:width
+let s:_width = function(exists('*strwidth') ? 'strwidth' : 'strlen')
+lockvar s:_width
 
 function! syntastic#util#screenWidth(str, tabstop) " {{{2
     let chunks = split(a:str, "\t", 1)
-    let width = s:width(chunks[-1])
+    let width = s:_width(chunks[-1])
     for c in chunks[:-2]
-        let cwidth = s:width(c)
+        let cwidth = s:_width(c)
         let width += cwidth + a:tabstop - cwidth % a:tabstop
     endfor
     return width
@@ -118,7 +166,7 @@ function! syntastic#util#wideMsg(msg) " {{{2
     "convert tabs to spaces so that the tabs count towards the window
     "width as the proper amount of characters
     let chunks = split(msg, "\t", 1)
-    let msg = join(map(chunks[:-2], 'v:val . repeat(" ", &tabstop - s:width(v:val) % &tabstop)'), '') . chunks[-1]
+    let msg = join(map(chunks[:-2], 'v:val . repeat(" ", &tabstop - s:_width(v:val) % &tabstop)'), '') . chunks[-1]
     let msg = strpart(msg, 0, &columns - 1)
 
     set noruler noshowcmd
@@ -226,7 +274,7 @@ endfunction " }}}2
 
 function! syntastic#util#dictFilter(errors, filter) " {{{2
     let rules = s:_translateFilter(a:filter)
-    " call syntastic#log#debug(g:SyntasticDebugFilters, "applying filter:", rules)
+    " call syntastic#log#debug(g:_SYNTASTIC_DEBUG_TRACE, "applying filter:", rules)
     try
         call filter(a:errors, rules)
     catch /\m^Vim\%((\a\+)\)\=:E/
@@ -239,7 +287,7 @@ endfunction " }}}2
 " (hopefully high resolution) since program start
 " TODO: This assumes reltime() returns a list of integers.
 function! syntastic#util#stamp() " {{{2
-    return reltime(g:syntastic_start)
+    return reltime(g:_SYNTASTIC_START)
 endfunction " }}}2
 
 " }}}1
@@ -276,6 +324,21 @@ function! s:_translateElement(key, term) " {{{2
         let ret = "1"
     endif
     return ret
+endfunction " }}}2
+
+function! s:_rmrf(what) " {{{2
+    if !exists('s:rmdir')
+        let s:rmdir = syntastic#util#shescape(get(g:, 'netrw_localrmdir', 'rmdir'))
+    endif
+
+    if getftype(a:what) ==# 'dir'
+        for f in split(globpath(a:what, '*'), "\n")
+            call s:_rmrf(f)
+        endfor
+        silent! call system(s:rmdir . ' ' . syntastic#util#shescape(a:what))
+    else
+        silent! call delete(a:what)
+    endif
 endfunction " }}}2
 
 " }}}1

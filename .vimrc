@@ -5,6 +5,7 @@
 "ZoomWin
 "abolish
 "ack.vim
+"anzu
 "coffee-script
 "ctrlp.vim
 "ctrlspace
@@ -16,8 +17,8 @@
 "fugitive
 "glsl
 "gundo
+"incsearch
 "indent-anything
-"indexed-search
 "jison
 "match-tag
 "matchit
@@ -699,6 +700,17 @@ nmap <Leader>db :bdelete<CR>
 " :W is now :w (http://stackoverflow.com/questions/3878692/aliasing-a-command-in-vim)
 cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
 
+" anzu mapping - show count in search line
+nmap n <Plug>(anzu-n-with-echo)
+nmap N <Plug>(anzu-N-with-echo)
+nmap * <Plug>(anzu-star-with-echo)
+nmap # <Plug>(anzu-sharp-with-echo)
+
+" incsearch
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
 function! FormatPerlObj()
     silent! exec '%s/\v\S+\s*\=\>\s*[^,]*,/\0\r'
     silent! exec '%s/\v\S+\s*\=\>\s*\{/\0\r'
@@ -884,6 +896,8 @@ vmap  <expr>  D        DVB_Duplicate()
 
 " Quick bookmarks
 "nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
+"
+autocmd BufNewFile,BufRead *.json set ft=javascript
 
 let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = "botright"
