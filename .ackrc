@@ -28,6 +28,9 @@ soy=.soy
 --type-set
 shitbags=.iml,.ipr,.iws
 
+--type-set
+js=.js,.jsx
+
 --ignore-dir=target
 --ignore-dir=built
 --ignore-dir=locallib

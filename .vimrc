@@ -700,17 +700,6 @@ nmap <Leader>db :bdelete<CR>
 " :W is now :w (http://stackoverflow.com/questions/3878692/aliasing-a-command-in-vim)
 cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
 
-" anzu mapping - show count in search line
-nmap n <Plug>(anzu-n-with-echo)
-nmap N <Plug>(anzu-N-with-echo)
-nmap * <Plug>(anzu-star-with-echo)
-nmap # <Plug>(anzu-sharp-with-echo)
-
-" incsearch
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
 function! FormatPerlObj()
     silent! exec '%s/\v\S+\s*\=\>\s*[^,]*,/\0\r'
     silent! exec '%s/\v\S+\s*\=\>\s*\{/\0\r'
@@ -841,11 +830,22 @@ let g:project_disable_tab_title = 1
 let g:project_use_nerdtree = 1
 " custom starting path
 call project#rc("~/")
-Project  '~/big-bubble',    'bubble'
-Project  '~/shader-studio', 'shader-studio'
-Project  '~/glsl2js',       'parser'
-Project  '~/blog',          'blog'
-Project  '~/blag',          'blag'
+
+Project  '~/big-bubble'                 , 'bubble'
+Project  '~/shader-studio'              , 'shader-studio'
+Project  '~/glsl2js'                    , 'parser'
+Project  '~/blog'                       , 'blog'
+Project  '~/blag'                       , 'blag'
+Project  '~/dojo/student.classdojo.com' , 'DojoStudent'
+Callback 'DojoStudent'                  , [ 'DojoSettings' ]
+
+function! DojoSettings(tile) abort
+  set tabstop=2
+  set shiftwidth=2
+  " Paperclip (Mojo) templates
+  au BufRead,BufNewFile *.pc set filetype=html
+endfunction
+
 " default starting path (the home directory)
 call project#rc()
 

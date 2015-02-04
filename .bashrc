@@ -312,8 +312,8 @@ gpf () {
     git push -f origin $CUR_BRANCH
 }
 
-alias pstart="pg_ctl -D /usr/local/var/postgres/data -l /usr/local/var/postgres/data/server.log start"
-alias pstop="pg_ctl -D /usr/local/var/postgres/data stop -s -m fast"
+alias pstart="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
+alias pstop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
 
 # Compact, colorized git log
 alias gl="git log --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
