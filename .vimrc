@@ -837,14 +837,36 @@ Project  '~/glsl2js'                    , 'parser'
 Project  '~/blog'                       , 'blog'
 Project  '~/blag'                       , 'blag'
 Project  '~/dojo/student.classdojo.com' , 'DojoStudent'
+Project  '~/dojo/api'                   , 'DojoStudent'
 Callback 'DojoStudent'                  , [ 'DojoSettings' ]
 
 function! DojoSettings(tile) abort
-  set tabstop=2
-  set shiftwidth=2
-  " Paperclip (Mojo) templates
-  au BufRead,BufNewFile *.pc set filetype=html
+    set tabstop=2
+    set shiftwidth=2
+    " Paperclip (Mojo) templates
+    au BufRead,BufNewFile *.pc set filetype=html
 endfunction
+
+function! DojoReactTestOpen()
+    let s:fname = expand("%")
+    let s:matches = matchlist(s:fname, '\v(test|public\/app)\/react\/(views|components)\/(.+\.jsx?)')
+
+    if s:matches[1] == "test"
+        let s:dir = "public/app"
+    else
+        let s:dir = "test"
+    endif
+
+    if s:matches[1] == "views"
+        let s:type = "components"
+    else
+        let s:type = "views"
+    endif
+
+    execute "vnew " . s:dir . "/react/" . s:type . "/" . s:matches[3]
+endfunction
+
+nmap <leader>dt :call DojoReactTestOpen()<cr>
 
 " default starting path (the home directory)
 call project#rc()
