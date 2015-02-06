@@ -31,6 +31,9 @@ shitbags=.iml,.ipr,.iws
 --type-set
 js=.js,.jsx
 
+--type-set
+pc=.pc
+
 --ignore-dir=target
 --ignore-dir=built
 --ignore-dir=locallib

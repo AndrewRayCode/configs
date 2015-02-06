@@ -838,6 +838,7 @@ Project  '~/blog'                       , 'blog'
 Project  '~/blag'                       , 'blag'
 Project  '~/dojo/student.classdojo.com' , 'DojoStudent'
 Project  '~/dojo/api'                   , 'DojoStudent'
+Project  '~/dojo/teach.classdojo.com'   , 'DojoStudent'
 Callback 'DojoStudent'                  , [ 'DojoSettings' ]
 
 function! DojoSettings(tile) abort
@@ -857,13 +858,7 @@ function! DojoReactTestOpen()
         let s:dir = "test"
     endif
 
-    if s:matches[1] == "views"
-        let s:type = "components"
-    else
-        let s:type = "views"
-    endif
-
-    execute "vnew " . s:dir . "/react/" . s:type . "/" . s:matches[3]
+    execute "vnew " . s:dir . "/react/" . s:matches[2] . "/" . s:matches[3]
 endfunction
 
 nmap <leader>dt :call DojoReactTestOpen()<cr>
