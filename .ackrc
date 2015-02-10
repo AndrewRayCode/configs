@@ -40,6 +40,7 @@ pc=.pc
 --ignore-dir=locallib2
 --ignore-dir=emails
 --ignore-dir=.build
+--ignore-dir=build
 --ignore-dir=.module-cache
 --ignore-dir=node_modules
 --ignore-dir=.sass-cache
@@ -48,6 +49,7 @@ pc=.pc
 --ignore-dir=doubles
 --ignore-dir=node_modules
 --ignore-dir=log
+--ignore-dir=vendor
 --ignore-file=match:js.json
 
 --ignore-file=match:built.po

@@ -116,7 +116,7 @@ let g:ctrlp_working_path_mode = 0
 
 " Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
 let g:ctrlp_custom_ignore = {
-    \ 'dir': '\.git$\|\.hg$\|\.svn$\|target$\|built$\|.build$\|node_modules\|\.sass-cache\|locallib$\|log$',
+    \ 'dir': '\.git$\|\.hg$\|\.svn$\|target$\|built$\|.build$\|node_modules\|\.sass-cache\|locallib$\|log$|vendor$',
     \ 'file': '\.ttc$',
     \ }
 
@@ -618,6 +618,8 @@ nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " NerdTree
 nnoremap <Leader>nt :NERDTreeTabsToggle<cr>
+" make nerdtree expand dir structure to show current file
+nnoremap <Leader>nf :NERDTreeFind<cr>zz
 
 " Change to working directory of current file and echo new location
 nnoremap cd :cd %:h<cr>:pwd<cr>
@@ -836,10 +838,13 @@ Project  '~/shader-studio'              , 'shader-studio'
 Project  '~/glsl2js'                    , 'parser'
 Project  '~/blog'                       , 'blog'
 Project  '~/blag'                       , 'blag'
-Project  '~/dojo/student.classdojo.com' , 'DojoStudent'
-Project  '~/dojo/api'                   , 'DojoStudent'
-Project  '~/dojo/teach.classdojo.com'   , 'DojoStudent'
-Callback 'DojoStudent'                  , [ 'DojoSettings' ]
+Project  '~/dojo/student.classdojo.com' , 'student.dojo'
+Project  '~/dojo/api'                   , 'api.dojo'
+Project  '~/dojo/teach.classdojo.com'   , 'teach.dojo'
+
+Callback 'student.dojo'                 , [ 'DojoSettings' ]
+Callback 'api.dojo'                     , [ 'DojoSettings' ]
+Callback 'teach.dojo'                   , [ 'DojoSettings' ]
 
 function! DojoSettings(tile) abort
     set tabstop=2
@@ -914,7 +919,7 @@ vmap  <expr>  D        DVB_Duplicate()
 " Quick bookmarks
 "nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 "
-autocmd BufNewFile,BufRead *.json set ft=javascript
+autocmd BufNewFile,BufRead *.json set ft=javascript | set syntax=javascript
 
 let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = "botright"
