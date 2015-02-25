@@ -9,20 +9,22 @@
 "coffee-script
 "ctrlp.vim
 "ctrlspace
-"delvarworld-javascript
 "django.vim
 "dragvisuals
 "easymotion
 "extradite
 "fugitive
+"gitgutter
 "glsl
 "gundo
-"incsearch
 "indent-anything
+"indentwise
 "jison
+"less
 "match-tag
 "matchit
 "mru
+"mustache-handlebars
 "nerd-tree
 "nerdcommenter
 "powerline
@@ -30,6 +32,7 @@
 "rainbow_parentheses.vim
 "repeat
 "snippets
+"splitjoin.vim
 "surround
 "syntastic
 "tabular
@@ -46,6 +49,7 @@
 "vim-project
 "vim-script-runner
 "vim-snippets
+"vim-test
 "vim-textobj-comment
 "vim-textobj-function-javascript
 "vim-textobj-function-perl
@@ -253,7 +257,7 @@ function! ProcessConflictFiles( conflictFiles )
     let conflicts = []
 
     " Read git attributes file into a string
-    let gitignore = readfile('.gitattributes')
+    silent! let gitignore = readfile('.gitattributes')
     let ignored = []
     for ig in gitignore
         " Remove any extra things like -diff (this could be improved to
@@ -557,10 +561,19 @@ nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gl :Extradite!<CR>
 nnoremap <Leader>df :tabe<cr>:Explore .<cr>:Git! diff<CR>
 
+" Git Gutter colors
+highlight SignColumn guibg=#111111
+highlight GitGutterAdd guifg=#00ff00
+highlight GitGutterChange guifg=#fff000 guibg=#111111
+highlight GitGutterChangeDelete guifg=#fff000 guibg=#111111
+
+let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_removed_first_line = '-'
+let g:gitgutter_sign_modified_removed = '-'
+
 " Ultisnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 " let g:UltiSnipsExpandTrigger="<c-b>"
-let g:UltiSnipsJumpForwardTrigger='<c-b>'
 let g:UltiSnipsJumpBackwardTrigger='<c-z>'
 
 let g:UltiSnipsSnippetDirectories=[ 'UltiSnips', 'delvarworld-snippets' ]
@@ -591,6 +604,23 @@ let g:UltiSnipsListSnippets="<c-e>"
 " like tpope/Endwise
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
+function! ToggleQuickFix()
+  if exists("g:qwindow")
+    cclose
+    unlet g:qwindow
+  else
+    try
+      copen
+      execute "wincmd p"
+      let g:qwindow = 1
+    catch
+      echo "Error!"
+    endtry
+  endif
+endfunction
+
+nnoremap <Leader>cx :call ToggleQuickFix()<CR>
+
 " Ack
 nnoremap <Leader>aw "zyiw:exe "Ack! ".@z.""<CR>
 nnoremap <Leader>aW "zyiW:exe "Ack! ".@z.""<CR>
@@ -619,7 +649,7 @@ nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 " NerdTree
 nnoremap <Leader>nt :NERDTreeTabsToggle<cr>
 " make nerdtree expand dir structure to show current file
-nnoremap <Leader>nf :NERDTreeFind<cr>zz
+nnoremap <Leader>nf :NERDTreeFind<cr>zzV
 
 " Change to working directory of current file and echo new location
 nnoremap cd :cd %:h<cr>:pwd<cr>
@@ -627,6 +657,9 @@ nnoremap cd :cd %:h<cr>:pwd<cr>
 " Surround mappings, switch " and ' with c
 nmap c' cs'"
 nmap c" cs"'
+
+" Prepare a file prefixed with the path of the current buffer
+nmap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " K is one of the dumber things in vim
 map K k
@@ -677,9 +710,6 @@ nnoremap <D-e> yy:<C-r>"<backspace><cr>
 
 " Locally (local to block) rename a variable
 nnoremap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>:silent! norm [{<cr>$V%:s/<C-R>//<c-r>z/g<cr>`x
-
-" Close the quickfix window from anywhere
-nmap <Leader>cl :ccl<cr>
 
 " Make Y yank till end of line
 nnoremap Y y$
@@ -850,7 +880,7 @@ function! DojoSettings(tile) abort
     set tabstop=2
     set shiftwidth=2
     " Paperclip (Mojo) templates
-    au BufRead,BufNewFile *.pc set filetype=html
+    " au BufRead,BufNewFile *.pc set filetype=html
 endfunction
 
 function! DojoReactTestOpen()
@@ -864,6 +894,25 @@ function! DojoReactTestOpen()
     endif
 
     execute "vnew " . s:dir . "/react/" . s:matches[2] . "/" . s:matches[3]
+endfunction
+
+function! MojoToDojo()
+
+  " class > className
+  silent exec '%s/class\=/className'
+
+  " for > htmlFor
+  silent exec '%s/for\=/htmlFor'
+
+  " replace logo tag
+  silent exec '%s/\V{{ logo: {} }}/\<div className="student-logo center">\r  <img src="img\/studentSignup\/logo.png" \/>\r<\/div>'
+
+  " remove comments
+  silent exec ':g/\v^\s*\<\!\-\-/d'
+
+  " add react chrome
+  exec 'normal ggOvar React = require("react");var VIEW = React.createClass({  getInitialState:€ü function()€ü {},componentDidMount:€ü function()€ü {},componentWillUnmount:€ü function()€ü {},render:€ü function()€ü {d€kb  return (<div>j0maVG>..Go</div>);}});k<<j<<<<omodule.exports = VIEW;'
+
 endfunction
 
 nmap <leader>dt :call DojoReactTestOpen()<cr>

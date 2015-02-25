@@ -47,7 +47,6 @@ pc=.pc
 --ignore-dir=sass/libs/bourbon
 --ignore-dir=formValidator.2.5.5.1
 --ignore-dir=doubles
---ignore-dir=node_modules
 --ignore-dir=log
 --ignore-dir=vendor
 --ignore-file=match:js.json
