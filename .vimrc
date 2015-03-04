@@ -633,8 +633,22 @@ nnoremap <Leader>ss :tabe ~/.vim/delvarworld-snippets/javascript/javascript.snip
 nnoremap <Leader>hs :tabe /etc/hosts<cr>:setlocal noreadonly<cr>:setlocal autoread<cr>
 nnoremap <Leader>js :tabe ~/.jsl<cr>
 
+function! CopyPathOrNERDPath()
+    let s:ft = &filetype
+    if s:ft == "nerdtree"
+        let s:n = g:NERDTreeFileNode.GetSelected()
+        if s:n != {}
+            let@*=s:n.path.str()
+            echo "Copied file path to clipboard"
+        endif
+    else
+        let @*=expand("%")
+        echo "Copied file path to clipboard"
+    endif
+endfunction
+
 " Copy current buffer path relative to root of VIM session to system clipboard
-nnoremap <Leader>yp :let @*=expand("%")<cr>:echo "Copied file path to clipboard"<cr>
+nnoremap <Leader>yp :call CopyPathOrNERDPath()<cr>
 " Copy current filename to system clipboard
 nnoremap <Leader>yf :let @*=expand("%:t")<cr>:echo "Copied file name to clipboard"<cr>
 " Copy current buffer path without filename to system clipboard
@@ -868,13 +882,22 @@ Project  '~/shader-studio'              , 'shader-studio'
 Project  '~/glsl2js'                    , 'parser'
 Project  '~/blog'                       , 'blog'
 Project  '~/blag'                       , 'blag'
-Project  '~/dojo/student.classdojo.com' , 'student.dojo'
+Project  '~/dojo/frontend/student'      , 'student.dojo'
 Project  '~/dojo/api'                   , 'api.dojo'
-Project  '~/dojo/teach.classdojo.com'   , 'teach.dojo'
+Project  '~/dojo/frontend/teach'        , 'teach.dojo'
 
 Callback 'student.dojo'                 , [ 'DojoSettings' ]
 Callback 'api.dojo'                     , [ 'DojoSettings' ]
 Callback 'teach.dojo'                   , [ 'DojoSettings' ]
+
+" Format a code block
+function! FormatEquals()
+  normal gg
+  let @z=@/
+  let @/='\v^var.+\=.+;(\n^$)+(\n^(var)@!)'
+endfunction
+
+nnoremap <leader>= :call FormatEquals()<cr> <bar> Vn:Tabularize /=<cr> <bar> :let @/=@z<cr>
 
 function! DojoSettings(tile) abort
     set tabstop=2
