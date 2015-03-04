@@ -890,7 +890,7 @@ Callback 'student.dojo'                 , [ 'DojoSettings' ]
 Callback 'api.dojo'                     , [ 'DojoSettings' ]
 Callback 'teach.dojo'                   , [ 'DojoSettings' ]
 
-" Format a code block
+" Format a var declaration list using tabularize
 function! FormatEquals()
   normal gg
   let @z=@/
