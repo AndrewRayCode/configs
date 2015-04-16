@@ -36,11 +36,13 @@ pc=.pc
 
 --ignore-dir=target
 --ignore-dir=built
+--ignore-dir=dist
 --ignore-dir=locallib
 --ignore-dir=locallib2
 --ignore-dir=emails
 --ignore-dir=.build
 --ignore-dir=build
+--ignore-dir=public-build
 --ignore-dir=.module-cache
 --ignore-dir=node_modules
 --ignore-dir=.sass-cache
@@ -51,6 +53,8 @@ pc=.pc
 --ignore-dir=vendor
 --ignore-file=match:js.json
 
+--ignore-file=match:index.built.js
+--ignore-file=match:app.built.css
 --ignore-file=match:built.po
 --ignore-file=match:LC_MESSAGES/js.json
 --ignore-file=match:Jemplates.js

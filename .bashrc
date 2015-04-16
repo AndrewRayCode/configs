@@ -110,8 +110,8 @@ function c() {
     fi
 
     if [[ $newBranch =~ ^pr ]]; then
-        echo -e "\nsco $newBranch"
-        sco $newBranch
+        echo -e "\ngit fetch $newBranch && git checkout $newBranch"
+        git fetch $newBranch && git checkout $newBranch
     else
         echo -e "\ngit checkout $newBranch"
         git checkout $newBranch
@@ -544,6 +544,7 @@ DELTA_CHAR="✎"
 CONFLICT_CHAR="☢"
 BISECTING_TEXT="ϟ"
 REBASE_TEXT="✂ ʀebase"
+CHERRY_PICK_TEXT="[🍒  cherry-pick]"
 NOBRANCH_TEXT="no branch!"
 
 _hg_dir=""
@@ -616,6 +617,12 @@ dvcs_function="
             is_rebase=1
         fi
 
+        # Figure out if we are cherry-picking
+        is_cherry_pick=\"\"
+        if [[ -a \"\$_git_dir/.git/CHERRY_PICK_HEAD\" ]]; then
+            is_cherry_pick=1
+        fi
+
         # Figure out current branch, or if we are bisecting, or lost in space
         bisecting=\"\"
         if [ -z \"\$gitBranch\" ]; then
@@ -638,6 +645,11 @@ dvcs_function="
             fi
         fi
 
+        cherryPickPrompt=\"\"
+        if [ -n \"\$is_cherry_pick\" ]; then
+            cherryPickPrompt=\" \\[\$COLOR_PINK\\]\$CHERRY_PICK_TEXT\\[\$COLOR_YELLOW\\]\"
+        fi
+
         if [ -z \"\$is_rebase\" ]; then
             # changed *tracked* files in local directory?
             gitChange=\$(echo \$gitStatus | ack 'modified:|deleted:|new file:')
@@ -649,7 +661,7 @@ dvcs_function="
         # output the branch and changed character if present
         prompt=\$prompt\"\\[\$COLOR_YELLOW\\] (\"
 
-        prompt=\$prompt\$prefix\$gitBranch\$bisecting\$rebase_prompt
+        prompt=\$prompt\$prefix\$gitBranch\$cherryPickPrompt\$bisecting\$rebase_prompt
         prompt=\$prompt\"\$gitChange)\\[\$COLOR_RESET\\]\"
 
         # How many local commits do you have ahead of origin?
@@ -753,3 +765,6 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+export NVM_DIR="/Users/andrewray/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

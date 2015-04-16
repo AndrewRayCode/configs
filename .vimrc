@@ -29,19 +29,17 @@
 "nerdcommenter
 "powerline
 "qargs
-"rainbow_parentheses.vim
 "repeat
 "snippets
 "splitjoin.vim
 "surround
 "syntastic
 "tabular
-"tagbar
+"test-runner
 "textobj-entire
 "textobj-lastpat
 "ultisnips
 "unimpaired
-"vim-expand-region
 "vim-javascript
 "vim-jsx
 "vim-nerdtree-tabs
@@ -49,13 +47,11 @@
 "vim-project
 "vim-script-runner
 "vim-snippets
-"vim-test
 "vim-textobj-comment
 "vim-textobj-function-javascript
 "vim-textobj-function-perl
 "vim-textobj-user
 "vimproc.vim
-"vimshell.vim
 
 " Dead plugins I have removed:
 "choosewin
@@ -71,6 +67,9 @@
 "neosnippet
 "ultisnips-snips
 "snipmate-snippets
+"rainbow_parentheses.vim
+"tagbar
+"vim-expand-region
 
 " ---------------------------------------------------------------
 " Custom setup
@@ -120,7 +119,7 @@ let g:ctrlp_working_path_mode = 0
 
 " Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
 let g:ctrlp_custom_ignore = {
-    \ 'dir': '\.git$\|\.hg$\|\.svn$\|target$\|built$\|.build$\|node_modules\|\.sass-cache\|locallib$\|log$|vendor$',
+    \ 'dir': 'public\-build$\|dist$\|\.git$\|\.hg$\|\.svn$\|target$\|built$\|.build$\|node_modules\|\.sass-cache\|locallib$\|log$|vendor$',
     \ 'file': '\.ttc$',
     \ }
 
@@ -559,7 +558,6 @@ nnoremap <Leader>gb :Gblame<CR>
 
 " Extradite
 nnoremap <Leader>gl :Extradite!<CR>
-nnoremap <Leader>df :tabe<cr>:Explore .<cr>:Git! diff<CR>
 
 " Git Gutter colors
 highlight SignColumn guibg=#111111
@@ -710,9 +708,6 @@ nnoremap <Leader>at vi":<C-u>call <SID>TemplateAck()<CR>
 
 nnoremap <Leader>as vi":<C-u>call <SID>SSPAck()<CR>
 
-" tagbar open
-nnoremap <silent> <Leader>tb :TagbarToggle<CR>
-
 " tabularize around : or =
 vnoremap <silent> <Leader>tt :Tabularize /:\zs/l0r1<CR>
 vnoremap <silent> <Leader>t= :Tabularize /=\zs/l0r1<cr>
@@ -783,10 +778,14 @@ set sessionoptions+=winpos
 set pastetoggle=<F2>
 
 " Don't want no lousy .swp files in my directoriez
-set backupdir=~
+set backupdir=/tmp
+set directory=/tmp
 
 " hide buffers instead of closing, can do :e on an unsaved buffer
 set hidden
+
+" Adding A flag, which is the shitty swap file warning
+set shortmess=filnxtToOA
 
 " wildignore all of these when autocompleting
 set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws,built,locallib
@@ -816,20 +815,17 @@ set autoindent
 set lbr
 
 " highlight search results
-set hls
+set hlsearch
 
 " incsearch is search while typing, shows matches before hitting enter
-set is
+set incsearch
 
 " set bottom indicator
 set ruler
-set sc
+set showcmd
 
 " Give one virtual space at end of line
 set virtualedit=onemore
-
-" tell tagbar to open on left
-let g:tagbar_left=1
 
 " Powerline symbols instead of letters
 let g:Powerline_symbols = 'fancy'
@@ -849,6 +845,7 @@ set iskeyword=@,48-57,_,192-255,#,$
 let g:syntastic_enable_signs=1
 let g:syntastic_perl_lib_path = [ './locallib/lib/perl5' ]
 let g:syntastic_javascript_checkers = ['jsxhint']
+let g:syntastic_always_populate_loc_list = 1
 
 " Vim-script-unner
 let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10"
@@ -894,7 +891,7 @@ Callback 'teach.dojo'                   , [ 'DojoSettings' ]
 function! FormatEquals()
   normal gg
   let @z=@/
-  let @/='\v^var.+\=.+;(\n^$)+(\n^(var)@!)'
+  let @/='\v^var.+\=.+;(\n^$)+(\n^((var)@!|var.+createClass))'
 endfunction
 
 nnoremap <leader>= :call FormatEquals()<cr> <bar> Vn:Tabularize /=<cr> <bar> :let @/=@z<cr>
@@ -938,7 +935,7 @@ function! MojoToDojo()
 
 endfunction
 
-nmap <leader>dt :call DojoReactTestOpen()<cr>
+nnoremap <leader>df :call DojoReactTestOpen()<cr>
 
 " default starting path (the home directory)
 call project#rc()
