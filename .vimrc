@@ -569,39 +569,6 @@ let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_removed_first_line = '-'
 let g:gitgutter_sign_modified_removed = '-'
 
-" Ultisnips
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-" let g:UltiSnipsExpandTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger='<c-z>'
-
-let g:UltiSnipsSnippetDirectories=[ 'UltiSnips', 'delvarworld-snippets' ]
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
-function! g:UltiSnips_Complete()
-    call UltiSnips#ExpandSnippet()
-    if g:ulti_expand_res == 0
-        if pumvisible()
-            return "\<C-n>"
-        else
-            call UltiSnips#JumpForwards()
-            if g:ulti_jump_forwards_res == 0
-               return "\<TAB>"
-            endif
-        endif
-    endif
-    return ""
-endfunction
-
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsListSnippets="<c-e>"
-" this mapping Enter key to <C-y> to chose the current highlight item and
-" close the selection list, same as other IDEs.  CONFLICT with some plugins
-" like tpope/Endwise
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
 function! ToggleQuickFix()
   if exists("g:qwindow")
     cclose
@@ -877,6 +844,7 @@ call project#rc("~/")
 Project  '~/big-bubble'                 , 'bubble'
 Project  '~/shader-studio'              , 'shader-studio'
 Project  '~/glsl2js'                    , 'parser'
+Project  '~/mood-engine'                , 'mood engine'
 Project  '~/blog'                       , 'blog'
 Project  '~/blag'                       , 'blag'
 Project  '~/dojo/frontend/student'      , 'student.dojo'
@@ -900,7 +868,7 @@ function! DojoSettings(tile) abort
     set tabstop=2
     set shiftwidth=2
     " Paperclip (Mojo) templates
-    " au BufRead,BufNewFile *.pc set filetype=html
+    au BufRead,BufNewFile *.pc set filetype=html
 endfunction
 
 function! DojoReactTestOpen()
@@ -1032,6 +1000,10 @@ set history=200
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
+
+let g:UltiSnipsExpandTrigger="<enter>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 autocmd TabLeave * call FuckAllOfVim()
 
