@@ -859,7 +859,7 @@ Callback 'teach.dojo'                   , [ 'DojoSettings' ]
 function! FormatEquals()
   normal gg
   let @z=@/
-  let @/='\v^var.+\=.+;(\n^$)+(\n^((var)@!|var.+createClass))'
+  let @/='\v^var.+\=.+;(\n^$)+(\n^((var.+\=.+require)@!|var.+createClass))'
 endfunction
 
 nnoremap <leader>= :call FormatEquals()<cr> <bar> Vn:Tabularize /=<cr> <bar> :let @/=@z<cr>
@@ -1001,7 +1001,7 @@ set history=200
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
 
-let g:UltiSnipsExpandTrigger="<enter>"
+let g:UltiSnipsExpandTrigger="<c-enter>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
@@ -1018,6 +1018,8 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType nerdtree cnoreabbrev <buffer> bd :echo "No you don't"<cr>
 " If typing bd in quickfix, close it then close the main tab
 autocmd FileType qf cnoreabbrev <buffer> bd :echo "No you don't"<cr>
+
+let NERDTreeIgnore=['pubilc-build']
 
 "set guitablabel=%{GuiTabLabel()}
  

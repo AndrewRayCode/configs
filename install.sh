@@ -145,6 +145,9 @@ if [ -z "`which jsctags`" ]; then echo "${COLOR_LIGHT_RED}jsctags not installed.
 echo $COLOR_GREEN"Making git color by default...$COLOR_RESET"
 git config --global color.ui "auto"
 
+echo $COLOR_GREEN"Aliasing git editor to newest installed Vim (${COLOR_RESET}/usr/local/bin/vim${COLOR_GREEN})$COLOR_RESET"
+git config --global core.editor /usr/local/bin/vim
+
 #echo $COLOR_GREEN"Running $COLOR_LIGHT_GREEN.osx$COLOR_GREEN (give me passwords)..."
 #sudo ./.osx
 echo $COLOR_RESET
