@@ -104,9 +104,8 @@ au BufRead,BufNewFile *.djhtml set filetype=html
 au BufRead,BufNewFile *.soy set filetype=clojure
 au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 au BufRead,BufNewFile .jshintrc set ft=javascript
-au BufRead,BufNewFile *.tt2 setf html
-au BufRead,BufNewFile *.tt setf html
-au BufRead,BufNewFile *.js.tt set filetype=javascript
+" Mojo templates
+au BufRead,BufNewFile *.pc set filetype=html
 au BufRead,BufNewFile Rexfile set filetype=perl
 
 " Set Ctrl-P to show match at top of list instead of at bottom, which is so
@@ -127,7 +126,7 @@ let g:ctrlspace_ignored_files = '\v\.git$|\.hg$|\.svn$|target$|built$|.build$|no
 
 " Fix ctrl-p's mixed mode https://github.com/kien/ctrlp.vim/issues/556
 "let g:ctrlp_extensions = ['mixed']
-nnoremap <c-p> :CtrlPMixed<cr>
+nnoremap <c-p> :CtrlP<cr>
 
 " Set up some custom ignores
 "call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
@@ -565,6 +564,7 @@ highlight GitGutterAdd guifg=#00ff00
 highlight GitGutterChange guifg=#fff000 guibg=#111111
 highlight GitGutterChangeDelete guifg=#fff000 guibg=#111111
 
+let g:gitgutter_sign_column_always = 1
 let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_removed_first_line = '-'
 let g:gitgutter_sign_modified_removed = '-'
@@ -572,11 +572,12 @@ let g:gitgutter_sign_modified_removed = '-'
 function! ToggleQuickFix()
   if exists("g:qwindow")
     cclose
+    execute "wincmd p"
     unlet g:qwindow
   else
     try
       copen
-      execute "wincmd p"
+      execute "wincmd J"
       let g:qwindow = 1
     catch
       echo "Error!"
@@ -848,12 +849,14 @@ Project  '~/mood-engine'                , 'mood engine'
 Project  '~/blog'                       , 'blog'
 Project  '~/blag'                       , 'blag'
 Project  '~/dojo/frontend/student'      , 'student.dojo'
-Project  '~/dojo/api'                   , 'api.dojo'
+Project  '~/dojo/frontend/home'         , 'home.dojo'
 Project  '~/dojo/frontend/teach'        , 'teach.dojo'
+Project  '~/dojo/api'                   , 'api.dojo'
 
 Callback 'student.dojo'                 , [ 'DojoSettings' ]
-Callback 'api.dojo'                     , [ 'DojoSettings' ]
+Callback 'home.dojo'                    , [ 'DojoSettings' ]
 Callback 'teach.dojo'                   , [ 'DojoSettings' ]
+Callback 'api.dojo'                     , [ 'DojoSettings' ]
 
 " Format a var declaration list using tabularize
 function! FormatEquals()
@@ -867,8 +870,6 @@ nnoremap <leader>= :call FormatEquals()<cr> <bar> Vn:Tabularize /=<cr> <bar> :le
 function! DojoSettings(tile) abort
     set tabstop=2
     set shiftwidth=2
-    " Paperclip (Mojo) templates
-    au BufRead,BufNewFile *.pc set filetype=html
 endfunction
 
 function! DojoReactTestOpen()
@@ -887,20 +888,36 @@ endfunction
 function! MojoToDojo()
 
   " class > className
-  silent exec '%s/class\=/className'
+  silent! exec '%s/\vclass\s?\=\s?/className='
 
   " for > htmlFor
-  silent exec '%s/for\=/htmlFor'
+  silent! exec '%s/\vfor\s?\=\s?/htmlFor='
 
   " replace logo tag
-  silent exec '%s/\V{{ logo: {} }}/\<div className="student-logo center">\r  <img src="img\/studentSignup\/logo.png" \/>\r<\/div>'
+  silent! exec '%s/\V{{ logo: {} }}/\<div className="student-logo center">\r  <img src="img\/studentSignup\/logo.png" \/>\r<\/div>'
 
-  " remove comments
-  silent exec ':g/\v^\s*\<\!\-\-/d'
+  " remove html comments. trid this with /d but didn't delete multiline last
+  " line
+  silent! exec ':%s/\v^\s*\<\!\-\-(\_.){-}\-\-\>\n/'
+
+  " Translate strings, remove empty interpolations
+  silent! exec '%s/\v\{\{\s+[''"]([^''"]+)[''"]\s+\|\s+t\(([^)]+)?\)\s+\}\}/\=TranslateMojoMatch(submatch(1), submatch(2))'
+
+  " Replace simple onClick handlers
+  silent! exec '%s/\v\vdata-bind\s?\=\s?[''"]\{\{\s?onClick:\s*(\w+)\(\)\s*\}\}[''"]\s+/onClick={this.\1} '
 
   " add react chrome
-  exec 'normal ggOvar React = require("react");var VIEW = React.createClass({  getInitialState:€ü function()€ü {},componentDidMount:€ü function()€ü {},componentWillUnmount:€ü function()€ü {},render:€ü function()€ü {d€kb  return (<div>j0maVG>..Go</div>);}});k<<j<<<<omodule.exports = VIEW;'
+  " exec 'normal ggOvar React = require("react");var VIEW = React.createClass({  getInitialState:€ü function()€ü {},componentDidMount:€ü function()€ü {},componentWillUnmount:€ü function()€ü {},render:€ü function()€ü {d€kb  return (<div>j0maVG>..Go</div>);}});k<<j<<<<omodule.exports = VIEW;'
 
+endfunction
+
+function! TranslateMojoMatch(str, vars)
+    let s:intent = system("node i18n-grab.js ". a:str)
+    let s:output = '<T intent="' . s:intent . '" str="' . a:str . '"'
+    if a:vars != ""
+        let s:output .= ' vars={' . a:vars . '}'
+    endif
+    return s:output . ' />'
 endfunction
 
 nnoremap <leader>df :call DojoReactTestOpen()<cr>
@@ -1006,13 +1023,6 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 autocmd TabLeave * call FuckAllOfVim()
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " If typing bd in nerdtree, switch to main file and close that instead
 autocmd FileType nerdtree cnoreabbrev <buffer> bd :echo "No you don't"<cr>
