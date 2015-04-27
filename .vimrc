@@ -104,6 +104,9 @@ au BufRead,BufNewFile *.djhtml set filetype=html
 au BufRead,BufNewFile *.soy set filetype=clojure
 au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 au BufRead,BufNewFile .jshintrc set ft=javascript
+au BufRead,BufNewFile .eslintrc set ft=javascript
+au BufRead,BufNewFile *.json set ft=javascript
+
 " Mojo templates
 au BufRead,BufNewFile *.pc set filetype=html
 au BufRead,BufNewFile Rexfile set filetype=perl
@@ -901,10 +904,10 @@ function! MojoToDojo()
   silent! exec ':%s/\v^\s*\<\!\-\-(\_.){-}\-\-\>\n/'
 
   " Translate strings, remove empty interpolations
-  silent! exec '%s/\v\{\{\s+[''"]([^''"]+)[''"]\s+\|\s+t\(([^)]+)?\)\s+\}\}/\=TranslateMojoMatch(submatch(1), submatch(2))'
+  silent! exec '%s/' .  '\v\{\{\s+%(html: )?[''"]([^''"]+)[''"]\s+\|\s+t\((\_.{-})?\)\s+\}\}' . '/\=TranslateMojoMatch(submatch(1), submatch(2))'
 
   " Replace simple onClick handlers
-  silent! exec '%s/\v\vdata-bind\s?\=\s?[''"]\{\{\s?onClick:\s*(\w+)\(\)\s*\}\}[''"]\s+/onClick={this.\1} '
+  silent! exec '%s/\v\vdata-bind\s?\=\s?[''"]\{\{\s?onClick:\s*(\w+)\(\)\s*\}\}[''"]\s*/onClick={this.\1} '
 
   " add react chrome
   " exec 'normal ggOvar React = require("react");var VIEW = React.createClass({  getInitialState:€ü function()€ü {},componentDidMount:€ü function()€ü {},componentWillUnmount:€ü function()€ü {},render:€ü function()€ü {d€kb  return (<div>j0maVG>..Go</div>);}});k<<j<<<<omodule.exports = VIEW;'
@@ -973,7 +976,6 @@ vmap  <expr>  D        DVB_Duplicate()
 " Quick bookmarks
 "nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 "
-autocmd BufNewFile,BufRead *.json set ft=javascript | set syntax=javascript
 
 let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = "botright"

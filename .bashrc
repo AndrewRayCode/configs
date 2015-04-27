@@ -245,7 +245,10 @@ function fack() {
 }
 
 # vim conflicted files
-alias vc="mvim -n -c 'call EditConflitedArgs()' \$(git diff --name-only --diff-filter=U)"
+function vc() {
+    _git_root=`git rev-parse --show-toplevel`
+    (cd $_git_root && mvim -n -c 'call EditConflitedArgs()' $(git diff --name-only --diff-filter=U))
+}
 
 # Generate git format string on the fly to get the right top level directory
 _gen_format_string() {
