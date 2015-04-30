@@ -473,7 +473,7 @@ endfunction
 " gives you one color of highlighting.  Now you can use <leader>N where N is
 " a number from 1-6 to highlight the current word in a specific color.
 
-function! HiInterestingWord(n) " {{{
+function! HiInterestingWord(n)
     " Save our location.
     normal! mz
 
@@ -494,7 +494,18 @@ function! HiInterestingWord(n) " {{{
 
     " Move back to our original location.
     normal! `z
-endfunction " }}}
+endfunction
+
+" Clear all matches
+function! GoShitHiInterestingWord()
+    let mid = 86750
+    silent! call matchdelete(mid + 1)
+    silent! call matchdelete(mid + 2)
+    silent! call matchdelete(mid + 3)
+    silent! call matchdelete(mid + 4)
+    silent! call matchdelete(mid + 5)
+    silent! call matchdelete(mid + 6)
+endfunction
 
 hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
 hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
@@ -503,13 +514,16 @@ hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
 hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
 hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 
-" How do I turn this shit off??
-nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
-nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
-nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
-nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
-nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
-nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+nnoremap <silent> <leader>h1 :call HiInterestingWord(1)<cr>
+nnoremap <silent> <leader>h2 :call HiInterestingWord(2)<cr>
+nnoremap <silent> <leader>h3 :call HiInterestingWord(3)<cr>
+nnoremap <silent> <leader>h4 :call HiInterestingWord(4)<cr>
+nnoremap <silent> <leader>h5 :call HiInterestingWord(5)<cr>
+nnoremap <silent> <leader>h6 :call HiInterestingWord(6)<cr>
+" Turn off above
+nnoremap <silent> <leader>hx :call GoShitHiInterestingWord()<cr>
+nnoremap <silent> <leader>h0 :call GoShitHiInterestingWord()<cr>
+nnoremap <silent> <leader>hd :call GoShitHiInterestingWord()<cr>
 
 " ---------------------------------------------------------------
 " Key mappings
