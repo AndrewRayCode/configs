@@ -1022,7 +1022,6 @@ au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | DiffGitCached
 
 " Make Splat-v repeatable and not full of shit
 inoremenu Edit.Paste <C-r><C-p>*
-nnoremenu Edit.Paste :set paste<cr>a<C-r><C-p>*<esc>:set nopaste<cr>
 
 " More commands in q: q/ etc
 set history=200
