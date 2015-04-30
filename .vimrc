@@ -150,6 +150,17 @@ endif
 " Functions
 " ---------------------------------------------------------------
 
+" Attempt to show what folder files are in, but paths are too long on dojo
+"function! MyTabLine()
+    "let s = ''
+
+    "let path = split(expand('%:p'), '/')
+    "return path[-2] . '/' . path[-1]
+
+    "return s
+"endfunction
+"set guitablabel=%!MyTabLine()
+
 " Remove non visible buffers
 " From http://stackoverflow.com/questions/1534835/how-do-i-close-all-buffers-that-arent-shown-in-a-window-in-vim
 function! Wipeout()
@@ -815,7 +826,7 @@ set iskeyword=@,48-57,_,192-255,#,$
 " Place error visual marker in gutter
 let g:syntastic_enable_signs=1
 let g:syntastic_perl_lib_path = [ './locallib/lib/perl5' ]
-let g:syntastic_javascript_checkers = ['jsxhint']
+let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_always_populate_loc_list = 1
 
 " Vim-script-unner
@@ -865,10 +876,10 @@ Callback 'api.dojo'                     , [ 'DojoSettings' ]
 function! FormatEquals()
   normal gg
   let @z=@/
-  let @/='\v^var.+\=.+;(\n^$)+(\n^((var.+\=.+require)@!|var.+createClass))'
+  let @/='\v^((var.+\=.+;|import.+from.+)(\n^$))+(\n^((var.+\=.+require)@!|var.+createClass))'
 endfunction
 
-nnoremap <leader>= :call FormatEquals()<cr> <bar> Vn:Tabularize /=<cr> <bar> :let @/=@z<cr>
+nnoremap <leader>= :call FormatEquals()<cr> <bar> Vn:Tabularize /\v(\=\|from)<cr> <bar> :let @/=@z<cr>
 
 function! DojoSettings(tile) abort
     set tabstop=2
@@ -993,8 +1004,8 @@ endfunction
 highlight ExtraWhitespace ctermbg=red guibg=Brown
 au ColorScheme * highlight ExtraWhitespace guibg=red
 au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
-au InsertEnter * match ExtraWhitespace /\S\zs\s\+\%#\@<!$/
-au InsertLeave * match ExtraWhiteSpace /\S\zs\s\+$/
+  au InsertEnter * match ExtraWhitespace /\S\zs\s\+\%#\@<!$/
+  au InsertLeave * match ExtraWhiteSpace /\S\zs\s\+$/
 
 " Jump to last known cursor position when opening file
 autocmd BufReadPost *
@@ -1007,10 +1018,11 @@ au VimResized * :wincmd =
 
 " In commit edit turn on spell check, make diff bigger, and switch to other
 " window in insertmode
-au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | DiffGitCached | resize +20
+au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | DiffGitCached
 
-" Make ⌘-v repeatable. Does not work
-inoremenu Edit.Paste <esc>:set paste<cr>a<C-r>*<esc>:set nopaste<cr>a
+" Make Splat-v repeatable and not full of shit
+inoremenu Edit.Paste <C-r><C-p>*
+nnoremenu Edit.Paste :set paste<cr>a<C-r><C-p>*<esc>:set nopaste<cr>
 
 " More commands in q: q/ etc
 set history=200
@@ -1092,6 +1104,7 @@ ab contribuiots contributions
 ab conributions contributions
 ab positon position
 ab animaiton animation
+ab promsie promise
 
 " ------------------------------------------------------------------------------------------
 " Text objects?
