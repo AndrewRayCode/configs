@@ -657,7 +657,7 @@ nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 " NerdTree
 nnoremap <Leader>nt :NERDTreeTabsToggle<cr>
 " make nerdtree expand dir structure to show current file
-nnoremap <Leader>nf :NERDTreeFind<cr>zzV
+nnoremap <silent> <Leader>nf :NERDTreeFind<cr>
 
 " Change to working directory of current file and echo new location
 nnoremap cd :cd %:h<cr>:pwd<cr>
@@ -1042,6 +1042,7 @@ set history=200
 
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
+" ---------------------- VIM IS SHIT -----------------------------------
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
 
@@ -1050,6 +1051,18 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 autocmd TabLeave * call FuckAllOfVim()
+
+" vim is sooo baddddd http://vim.wikia.com/wiki/Automatically_quit_Vim_if_quickfix_window_is_the_last
+au BufEnter * call QuickfixBullshit()
+function! QuickfixBullshit()
+  " if the window is quickfix go on
+  if &buftype=="quickfix"
+    " if this window is last on screen quit without warning
+    if winbufnr(2) == -1
+      quit!
+    endif
+  endif
+endfunction
 
 " If typing bd in nerdtree, switch to main file and close that instead
 autocmd FileType nerdtree cnoreabbrev <buffer> bd :echo "No you don't"<cr>
@@ -1118,6 +1131,7 @@ ab conributions contributions
 ab positon position
 ab animaiton animation
 ab promsie promise
+ab siez size
 
 " ------------------------------------------------------------------------------------------
 " Text objects?
