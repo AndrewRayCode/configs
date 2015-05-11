@@ -96,6 +96,9 @@ highlight Cursor guibg=#FF92BB guifg=#fff
 highlight iCursor guibg=red
 set guicursor=n-c:ver30-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-iCursor/lCursor,r-cr:hor20-Cursor/lCursor,v-sm:block-Cursor
 
+" Experimental make lines that wrap have same indenting as their parent
+set breakindent
+
 " Don't try to highlight lines longer than 800 characters.
 set synmaxcol=800
 
@@ -321,7 +324,7 @@ function! ProcessConflictFiles( conflictFiles )
     " Highlight diff markers and then party until you shit
     highlight Conflict guifg=white guibg=red
     match Conflict /^=\{7}.*\|^>\{7}.*\|^<\{7}.*/
-    let @/ = '>>>>>>>\|=======\|<<<<<<<'
+    echom "Use ]n or [n to navigate to conflict markers with vim-unimpaired"
 endfunction
 
 "" Move current tab into the specified direction.
@@ -382,13 +385,13 @@ function! GuiTabLabel()
 endfunction
 
 function! HandleURI()
-  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
-  echo s:uri
-  if s:uri != ""
-      exec "!open \"" . s:uri . "\""
-  else
-      echo "No URI found in line."
-  endif
+    let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
+    echo s:uri
+    if s:uri != ""
+        exec "!open \"" . s:uri . "\""
+    else
+        echo "No URI found in line."
+    endif
 endfunction
 
 function! ToggleRelativeAbsoluteNumber()
@@ -406,18 +409,18 @@ function! Refactor()
 endfunction
 
 function! s:VSetSearch()
-  let old = @"
-  norm! gvy
-  let @/ = '\V' . substitute(escape(@", '\'), '\n', '\\n', 'g')
-  let @" = old
+    let old = @"
+    norm! gvy
+    let @/ = '\V' . substitute(escape(@", '\'), '\n', '\\n', 'g')
+    let @" = old
 endfunction
 
 " Visual ack, used to ack for highlighted text
 function! s:VAck()
-  let old = @"
-  norm! gvy
-  let @z = substitute(escape(@", '\'), '\n', '\\n', 'g')
-  let @" = old
+    let old = @"
+    norm! gvy
+    let @z = substitute(escape(@", '\'), '\n', '\\n', 'g')
+    let @" = old
 endfunction
 
 " Jump to template definition
@@ -598,19 +601,19 @@ let g:gitgutter_sign_removed_first_line = '-'
 let g:gitgutter_sign_modified_removed = '-'
 
 function! ToggleQuickFix()
-  if exists("g:qwindow")
-    cclose
-    execute "wincmd p"
-    unlet g:qwindow
-  else
-    try
-      copen
-      execute "wincmd J"
-      let g:qwindow = 1
-    catch
-      echo "Error!"
-    endtry
-  endif
+    if exists("g:qwindow")
+        cclose
+        execute "wincmd p"
+        unlet g:qwindow
+    else
+        try
+            copen
+            execute "wincmd J"
+            let g:qwindow = 1
+        catch
+            echo "Error!"
+        endtry
+    endif
 endfunction
 
 nnoremap <Leader>cx :call ToggleQuickFix()<CR>
@@ -699,6 +702,7 @@ vnoremap <Leader>av :<C-u>call <SID>VAck()<CR>:exe "Ack! ".@z.""<CR>
 nnoremap <Leader>av :Ack!<cr>
 " Open Ack
 nnoremap <Leader>ao :Ack! -i 
+nnoremap <Leader>aa :Ack! 
 
 nnoremap <Leader>at vi":<C-u>call <SID>TemplateAck()<CR>
 
@@ -715,6 +719,10 @@ nnoremap <D-e> yy:<C-r>"<backspace><cr>
 
 " Locally (local to block) rename a variable
 nnoremap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>:silent! norm [{<cr>$V%:s/<C-R>//<c-r>z/g<cr>`x
+
+" Copy line to last changed postition. This doesn't work or some shit??
+nnoremap <silent> <Leader>t. :t'.<cr>
+vnoremap <silent> <Leader>t. :t'.<cr>
 
 " Make Y yank till end of line
 nnoremap Y y$
@@ -853,14 +861,15 @@ nnoremap <bs> i<bs>
 nnoremap z= z=1<cr><cr>
 
 " Vimshell plugin settings
-let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-let g:vimshell_prompt =  '$ '
-
+" VIMSHELL IS BULLSHIT FOREVER
+"let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+"let g:vimshell_prompt =  '$ '
 
 " Tern?
-let g:tern_map_keys = 1
-let g:tern_show_argument_hints='on_hold'
-let g:tern#command = ['node', '/Users/DelvarWorld/configs/.vim/bundle/tern_for_vim/autoload/../node_modules/tern/bin/tern', '--verbose']
+" TERN IS BULLSHIT FOREVER
+"let g:tern_map_keys = 1
+"let g:tern_show_argument_hints='on_hold'
+"let g:tern#command = ['node', '/Users/DelvarWorld/configs/.vim/bundle/tern_for_vim/autoload/../node_modules/tern/bin/tern', '--verbose']
 
 " Project?
 set rtp+=~/.vim/bundle/vim-project/
@@ -870,27 +879,29 @@ let g:project_use_nerdtree = 1
 " custom starting path
 call project#rc("~/")
 
-Project  '~/big-bubble'                 , 'bubble'
-Project  '~/shader-studio'              , 'shader-studio'
-Project  '~/glsl2js'                    , 'parser'
-Project  '~/mood-engine'                , 'mood engine'
-Project  '~/blog'                       , 'blog'
-Project  '~/blag'                       , 'blag'
-Project  '~/dojo/frontend/student'      , 'student.dojo'
-Project  '~/dojo/frontend/home'         , 'home.dojo'
-Project  '~/dojo/frontend/teach'        , 'teach.dojo'
-Project  '~/dojo/api'                   , 'api.dojo'
+Project  '~/big-bubble'                   , 'bubble'
+Project  '~/shader-studio'                , 'shader-studio'
+Project  '~/glsl2js'                      , 'parser'
+Project  '~/mood-engine'                  , 'mood engine'
+Project  '~/blog'                         , 'blog'
+Project  '~/blag'                         , 'blag'
+Project  '~/dojo/frontend/student'        , 'student.dojo'
+Project  '~/dojo/frontend/home'           , 'home.dojo'
+Project  '~/dojo/frontend/teach'          , 'teach.dojo'
+Project  '~/dojo/frontend/teacher_react/' , 'webpack.teacher.dojo'
+Project  '~/dojo/api'                     , 'api.dojo'
 
-Callback 'student.dojo'                 , [ 'DojoSettings' ]
-Callback 'home.dojo'                    , [ 'DojoSettings' ]
-Callback 'teach.dojo'                   , [ 'DojoSettings' ]
-Callback 'api.dojo'                     , [ 'DojoSettings' ]
+Callback 'student.dojo'                   , [ 'DojoSettings' ]
+Callback 'home.dojo'                      , [ 'DojoSettings' ]
+Callback 'teach.dojo'                     , [ 'DojoSettings' ]
+Callback 'webpack.teacher.dojo'           , [ 'DojoSettings' ]
+Callback 'api.dojo'                       , [ 'DojoSettings' ]
 
 " Format a var declaration list using tabularize
 function! FormatEquals()
-  normal gg
-  let @z=@/
-  let @/='\v^((var.+\=.+;|import.+from.+)(\n^$))+(\n^((var.+\=.+require)@!|var.+createClass))'
+    normal gg
+    let @z=@/
+    let @/='\v^((var.+\=.+;|import.+from.+)(\n^$))+(\n^((var.+\=.+require)@!|var.+createClass))'
 endfunction
 
 nnoremap <leader>= :call FormatEquals()<cr> <bar> Vn:Tabularize /\v(\=\|from)<cr> <bar> :let @/=@z<cr>
@@ -915,27 +926,27 @@ endfunction
 
 function! MojoToDojo()
 
-  " class > className
-  silent! exec '%s/\vclass\s?\=\s?/className='
+    " class > className
+    silent! exec '%s/\vclass\s?\=\s?/className='
 
-  " for > htmlFor
-  silent! exec '%s/\vfor\s?\=\s?/htmlFor='
+    " for > htmlFor
+    silent! exec '%s/\vfor\s?\=\s?/htmlFor='
 
-  " replace logo tag
-  silent! exec '%s/\V{{ logo: {} }}/\<div className="student-logo center">\r  <img src="img\/studentSignup\/logo.png" \/>\r<\/div>'
+    " replace logo tag
+    silent! exec '%s/\V{{ logo: {} }}/\<div className="student-logo center">\r  <img src="img\/studentSignup\/logo.png" \/>\r<\/div>'
 
-  " remove html comments. trid this with /d but didn't delete multiline last
-  " line
-  silent! exec ':%s/\v^\s*\<\!\-\-(\_.){-}\-\-\>\n/'
+    " remove html comments. trid this with /d but didn't delete multiline last
+    " line
+    silent! exec ':%s/\v^\s*\<\!\-\-(\_.){-}\-\-\>\n/'
 
-  " Translate strings, remove empty interpolations
-  silent! exec '%s/' .  '\v\{\{\s+%(html: )?[''"]([^''"]+)[''"]\s+\|\s+t\((\_.{-})?\)\s+\}\}' . '/\=TranslateMojoMatch(submatch(1), submatch(2))'
+    " Translate strings, remove empty interpolations
+    silent! exec '%s/' .  '\v\{\{\s+%(html: )?[''"]([^''"]+)[''"]\s+\|\s+t\((\_.{-})?\)\s+\}\}' . '/\=TranslateMojoMatch(submatch(1), submatch(2))'
 
-  " Replace simple onClick handlers
-  silent! exec '%s/\v\vdata-bind\s?\=\s?[''"]\{\{\s?onClick:\s*(\w+)\(\)\s*\}\}[''"]\s*/onClick={this.\1} '
+    " Replace simple onClick handlers
+    silent! exec '%s/\v\vdata-bind\s?\=\s?[''"]\{\{\s?onClick:\s*(\w+)\(\)\s*\}\}[''"]\s*/onClick={this.\1} '
 
-  " add react chrome
-  " exec 'normal ggOvar React = require("react");var VIEW = React.createClass({  getInitialState:€ü function()€ü {},componentDidMount:€ü function()€ü {},componentWillUnmount:€ü function()€ü {},render:€ü function()€ü {d€kb  return (<div>j0maVG>..Go</div>);}});k<<j<<<<omodule.exports = VIEW;'
+    " add react chrome
+    " exec 'normal ggOvar React = require("react");var VIEW = React.createClass({  getInitialState:€ü function()€ü {},componentDidMount:€ü function()€ü {},componentWillUnmount:€ü function()€ü {},render:€ü function()€ü {d€kb  return (<div>j0maVG>..Go</div>);}});k<<j<<<<omodule.exports = VIEW;'
 
 endfunction
 
@@ -1018,8 +1029,8 @@ endfunction
 highlight ExtraWhitespace ctermbg=red guibg=Brown
 au ColorScheme * highlight ExtraWhitespace guibg=red
 au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
-  au InsertEnter * match ExtraWhitespace /\S\zs\s\+\%#\@<!$/
-  au InsertLeave * match ExtraWhiteSpace /\S\zs\s\+$/
+au InsertEnter * match ExtraWhitespace /\S\zs\s\+\%#\@<!$/
+au InsertLeave * match ExtraWhiteSpace /\S\zs\s\+$/
 
 " Jump to last known cursor position when opening file
 autocmd BufReadPost *
@@ -1040,28 +1051,28 @@ inoremenu Edit.Paste <C-r><C-p>*
 " More commands in q: q/ etc
 set history=200
 
+let g:UltiSnipsExpandTrigger="<c-enter>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
 " ---------------------- VIM IS SHIT -----------------------------------
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
 
-let g:UltiSnipsExpandTrigger="<c-enter>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
 autocmd TabLeave * call FuckAllOfVim()
 
 " vim is sooo baddddd http://vim.wikia.com/wiki/Automatically_quit_Vim_if_quickfix_window_is_the_last
 au BufEnter * call QuickfixBullshit()
 function! QuickfixBullshit()
-  " if the window is quickfix go on
-  if &buftype=="quickfix"
-    " if this window is last on screen quit without warning
-    if winbufnr(2) == -1
-      quit!
+    " if the window is quickfix go on
+    if &buftype=="quickfix"
+        " if this window is last on screen quit without warning
+        if winbufnr(2) == -1
+            quit!
+        endif
     endif
-  endif
 endfunction
 
 " If typing bd in nerdtree, switch to main file and close that instead
@@ -1132,6 +1143,12 @@ ab positon position
 ab animaiton animation
 ab promsie promise
 ab siez size
+ab palatte palette
+ab palette palette
+ab pallate palette
+ab pallete palette
+ab pallette palette
+ab pallate palette
 
 " ------------------------------------------------------------------------------------------
 " Text objects?

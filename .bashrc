@@ -1,8 +1,3 @@
-# Do this first stupid:
-# Add this to ~/.gitconfig to make browser work (look into)
-# git config --global web.browser ff
-# git config --global browser.ff.cmd "open -a Firefox.app"
-
 # Colors for prompt
 COLOR_RED=$(tput sgr0 && tput setaf 1)
 COLOR_GREEN=$(tput sgr0 && tput setaf 2)
