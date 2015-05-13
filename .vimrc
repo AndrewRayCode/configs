@@ -7,11 +7,13 @@
 "ack.vim
 "anzu
 "coffee-script
+"commentary
 "ctrlp.vim
 "ctrlspace
 "django.vim
 "dragvisuals
 "easymotion
+"endwise
 "extradite
 "fugitive
 "gitgutter
@@ -27,11 +29,13 @@
 "mustache-handlebars
 "nerd-tree
 "nerdcommenter
+"node
 "powerline
 "qargs
 "repeat
 "snippets
 "splitjoin.vim
+"stylus
 "surround
 "syntastic
 "tabular
@@ -48,7 +52,6 @@
 "vim-script-runner
 "vim-snippets
 "vim-textobj-comment
-"vim-textobj-function-javascript
 "vim-textobj-function-perl
 "vim-textobj-user
 "vimproc.vim
@@ -77,6 +80,9 @@
 
 colorscheme vividchalk
 set nocompatible
+
+" Experimental to make command line completion easier?
+set wildmenu
 
 " Pathogen loading
 filetype off
@@ -659,8 +665,24 @@ nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " NerdTree
 nnoremap <Leader>nt :NERDTreeTabsToggle<cr>
+
+" by default nerdtreefind will IGNORE your cwd/pwd if nerdtree is closed, and
+" open the tree with the root being the folder of the file you're in. I'm not
+" kidding.
+function! OpenNerdTreeAndFindThisBullshit()
+  let s:open = exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1
+  if s:open
+    NERDTreeFind
+  else
+    NERDTreeTabsToggle
+    " omgggggg
+    wincmd w
+    NERDTreeFind
+  endif
+endfunction
+
 " make nerdtree expand dir structure to show current file
-nnoremap <silent> <Leader>nf :NERDTreeFind<cr>
+nnoremap <silent> <Leader>nf :call OpenNerdTreeAndFindThisBullshit()<cr>
 
 " Change to working directory of current file and echo new location
 nnoremap cd :cd %:h<cr>:pwd<cr>
@@ -964,6 +986,8 @@ nnoremap <leader>df :call DojoReactTestOpen()<cr>
 " default starting path (the home directory)
 call project#rc()
 
+set path=.,/usr/include,$PWD
+
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')
 vmap  <expr>  <DOWN>   DVB_Drag('down')
@@ -1149,6 +1173,7 @@ ab pallate palette
 ab pallete palette
 ab pallette palette
 ab pallate palette
+ab stlyes styles
 
 " ------------------------------------------------------------------------------------------
 " Text objects?
