@@ -123,6 +123,9 @@ function rbd() {
 export LANG=en_US.UTF-8
 export LC_ALL=
 
+# required for dojo install of api (canvas dependency)
+PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/X11/lib/pkgconfig
+
 # Don't wait for job termination notification
 set -o notify
 

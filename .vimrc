@@ -93,7 +93,7 @@ syntax on
 
 " Highlight column 80 and don't make it bright red like an idiot would (needs
 " to be done after syntax set)
-highlight ColorColumn guibg=#220000
+highlight ColorColumn guibg=#331111
 set colorcolumn=80
 set cursorline
 
@@ -231,8 +231,11 @@ endfunction
 nnoremap <silent> } :<C-U>call ParagraphMove( 1, 0, v:count)<CR>
 nnoremap <silent> { :<C-U>call ParagraphMove(-1, 0, v:count)<CR>
 
-" Make all searches very magic
-nnoremap / /\v
+" Make all searches very magic. Also mark the position before you start
+" searching to copy text back to
+nnoremap / ms/\v
+" do not use this awful shit, it makes it hard to type :%s//replace
+"cnoremap %s/ %s/\v
 
 " When switching tabs, attempt to move cursor to a file and out of nerdtree,
 " quickfix and help windows
@@ -357,6 +360,14 @@ endfunction
 " Move tab left or right
 map <D-H> :call TabMove(-1)<CR>
 map <D-L> :call TabMove(1)<CR>
+
+function! JumpToWebpackError()
+    let cmd = system("node ./find_webpack_error.js")
+    let place = split( cmd, ' ' )
+    exe ":tabe " . place[0]
+endfunction
+
+nnoremap <leader>fw :call JumpToWebpackError()<cr>
 
 " Count number of splits in current buffer, ignoring nerd tree
 function! GuiTabLabel()
@@ -605,6 +616,7 @@ let g:gitgutter_sign_column_always = 1
 let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_removed_first_line = '-'
 let g:gitgutter_sign_modified_removed = '-'
+let g:gitgutter_sign_modified = '*'
 
 function! ToggleQuickFix()
     if exists("g:qwindow")
@@ -672,6 +684,10 @@ nnoremap <Leader>nt :NERDTreeTabsToggle<cr>
 function! OpenNerdTreeAndFindThisBullshit()
   let s:open = exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1
   if s:open
+    wincmd w
+    normal R
+    " hurrrggghhhh
+    wincmd w
     NERDTreeFind
   else
     NERDTreeTabsToggle
@@ -901,23 +917,25 @@ let g:project_use_nerdtree = 1
 " custom starting path
 call project#rc("~/")
 
-Project  '~/big-bubble'                   , 'bubble'
-Project  '~/shader-studio'                , 'shader-studio'
-Project  '~/glsl2js'                      , 'parser'
-Project  '~/mood-engine'                  , 'mood engine'
-Project  '~/blog'                         , 'blog'
-Project  '~/blag'                         , 'blag'
-Project  '~/dojo/frontend/student'        , 'student.dojo'
-Project  '~/dojo/frontend/home'           , 'home.dojo'
-Project  '~/dojo/frontend/teach'          , 'teach.dojo'
-Project  '~/dojo/frontend/teacher_react/' , 'webpack.teacher.dojo'
-Project  '~/dojo/api'                     , 'api.dojo'
+Project  '~/big-bubble'                  , 'bubble'
+Project  '~/shader-studio'               , 'shader-studio'
+Project  '~/glsl2js'                     , 'parser'
+Project  '~/mood-engine'                 , 'mood engine'
+Project  '~/blog'                        , 'blog'
+Project  '~/blag'                        , 'blag'
+Project  '~/dojo/frontend/student'       , 'student.mojo'
+Project  '~/dojo/frontend/home'          , 'home.mojo'
+Project  '~/dojo/frontend/teach'         , 'teach.mojo'
+Project  '~/dojo/frontend/teacher_react' , 'old.teach.react'
+Project  '~/dojo/react_teach'            , 'teach.react'
+Project  '~/dojo/api'                    , 'api.dojo'
 
-Callback 'student.dojo'                   , [ 'DojoSettings' ]
-Callback 'home.dojo'                      , [ 'DojoSettings' ]
-Callback 'teach.dojo'                     , [ 'DojoSettings' ]
-Callback 'webpack.teacher.dojo'           , [ 'DojoSettings' ]
-Callback 'api.dojo'                       , [ 'DojoSettings' ]
+Callback 'student.mojo'                  , [ 'DojoSettings' ]
+Callback 'home.mojo'                     , [ 'DojoSettings' ]
+Callback 'teach.mojo'                    , [ 'DojoSettings' ]
+Callback 'old.teach.react'               , [ 'DojoSettings' ]
+Callback 'teach.react'                   , [ 'DojoSettings' ]
+Callback 'api.dojo'                      , [ 'DojoSettings' ]
 
 " Format a var declaration list using tabularize
 function! FormatEquals()
@@ -1174,6 +1192,13 @@ ab pallete palette
 ab pallette palette
 ab pallate palette
 ab stlyes styles
+" why is this an english word
+ab glypg glyph
+ab glpygh glyph
+ab glpyh glyph
+ab glpyh glyph
+ab glpy glyph
+ab glphy glyph
 
 " ------------------------------------------------------------------------------------------
 " Text objects?
