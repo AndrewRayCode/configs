@@ -1,4 +1,6 @@
 " Plugins installed:
+" TODO: Figure out how to make ultisnips tab complete again and use my
+" snippets directory
 ":read !ls ~/.vim/bundle
 "Rename
 "YouCompleteMe
@@ -33,7 +35,6 @@
 "powerline
 "qargs
 "repeat
-"snippets
 "splitjoin.vim
 "stylus
 "surround
@@ -550,9 +551,7 @@ nnoremap <silent> <leader>hd :call GoShitHiInterestingWord()<cr>
 " ---------------------------------------------------------------
 
 " change the mapleader from \ to ,
-let mapleader=","
-" Replace leader. This doesn't work, needs investigating
-noremap \ ,
+let mapleader = "\<Space>"
 
 " Title case a line or selection (better)
 vnoremap <Leader>ti :s/\%V\<\(\w\)\(\w*\)\>/\u\1\L\2/ge<cr>
@@ -684,7 +683,7 @@ nnoremap <Leader>nt :NERDTreeTabsToggle<cr>
 function! OpenNerdTreeAndFindThisBullshit()
   let s:open = exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1
   if s:open
-    wincmd w
+    5wincmd h
     normal R
     " hurrrggghhhh
     wincmd w
@@ -941,7 +940,7 @@ Callback 'api.dojo'                      , [ 'DojoSettings' ]
 function! FormatEquals()
     normal gg
     let @z=@/
-    let @/='\v^((var.+\=.+;|import.+from.+)(\n^$))+(\n^((var.+\=.+require)@!|var.+createClass))'
+    let @/='\v^((var.+\=.+;|import.+from.+|^)(\n^$))+(\n^((var.+\=.+require|import)@!|var.+createClass))'
 endfunction
 
 nnoremap <leader>= :call FormatEquals()<cr> <bar> Vn:Tabularize /\v(\=\|from)<cr> <bar> :let @/=@z<cr>
@@ -1093,9 +1092,45 @@ inoremenu Edit.Paste <C-r><C-p>*
 " More commands in q: q/ etc
 set history=200
 
-let g:UltiSnipsExpandTrigger="<c-enter>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"TEMPORARYILY REMOVING THIS BULLSHIT
+"let g:UltiSnipsExpandTrigger="<c-enter>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" Ultisnips OLD SHIT, RETRYING
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+" let g:UltiSnipsExpandTrigger="<c-b>"
+" See this disgusting bullshit https://github.com/Valloric/YouCompleteMe/issues/36#issuecomment-15451411
+let g:UltiSnipsJumpBackwardTrigger='<c-z>'
+
+let g:UltiSnipsSnippetDirectories=[ 'UltiSnips', 'delvarworld-snippets' ]
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+function! g:UltiSnips_Complete()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips#JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+               return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
+
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsListSnippets="<c-e>"
+" this mapping Enter key to <C-y> to chose the current highlight item and
+" close the selection list, same as other IDEs.  CONFLICT with some plugins
+" like tpope/Endwise
+inoremap <expr> <CR>
+" END Ultisnips OLD SHIT, RETRYING END
 
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
@@ -1199,6 +1234,8 @@ ab glpyh glyph
 ab glpyh glyph
 ab glpy glyph
 ab glphy glyph
+ab exprot export
+ab improt import
 
 " ------------------------------------------------------------------------------------------
 " Text objects?

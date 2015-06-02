@@ -110,3 +110,24 @@ itWithDriver('', function( driver ) {
 
 });
 endsnippet
+
+snippet (p
+(params) => {
+	${0}
+});
+endsnippet
+
+# DOJO Snippets
+snippet capi
+export var ${1} = createApiAction("${2:$1}", ApiCalls.${3:$1});
+$1.propTypes = {
+	${4}: PropTypes.${5}.isRequired
+};
+endsnippet
+
+snippet ca
+export var ${1} = createAction("${2:$1}");
+$1.propTypes = {
+	${4}: PropTypes.${5}.isRequired
+};
+endsnippet
