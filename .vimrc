@@ -156,7 +156,7 @@ nnoremap <c-p> :CtrlP<cr>
 " Open multiplely selected files in a tab by default
 let g:ctrlp_open_multi = '10t'
 
-" Powerline custom font
+" Powerline custom font. Why did I remove this?
 if has('gui_running')
     "set guifont=Menlo\ for\ Powerline
 endif
