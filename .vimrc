@@ -8,6 +8,8 @@
 "abolish
 "ack.vim
 "anzu
+"clickable " this, clickable-things, and os are part of the same broken garbage plugin
+"clickable-things
 "coffee-script
 "commentary
 "ctrlp.vim
@@ -32,9 +34,12 @@
 "nerd-tree
 "nerdcommenter
 "node
+"os
+"over
 "powerline
 "qargs
 "repeat
+"snippets
 "splitjoin.vim
 "stylus
 "surround
