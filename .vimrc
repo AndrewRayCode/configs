@@ -90,7 +90,12 @@ filetype off
 call pathogen#infect()
 filetype plugin indent on
 
-syntax on
+" Fixing vim's awful bullshit, fucks up coloring of nerdtree if you call
+" syntax on/enable. Use enable (more vim bullshit) because on will overwrite
+" any defined colors
+if !exists("g:syntax_on")
+    syntax enable
+endif
 
 " Highlight column 80 and don't make it bright red like an idiot would (needs
 " to be done after syntax set)
@@ -841,7 +846,8 @@ setglobal relativenumber
 au FocusLost * :set number
 au FocusGained * :set relativenumber
 
-set ff=unix
+" errors in modifiable off files so silent :( vim is a gargabe joke
+silent! set ff=unix
 set ic
 set smartcase
 set guioptions=mer
