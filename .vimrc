@@ -248,6 +248,9 @@ nnoremap / ms/\v
 " do not use this awful shit, it makes it hard to type :%s//replace
 "cnoremap %s/ %s/\v
 
+" remove \v with keystroke
+cnoremap <C-v> <C-f>02l"zyg_:q<cr>/<c-r>za
+
 " When switching tabs, attempt to move cursor to a file and out of nerdtree,
 " quickfix and help windows
 function! FuckAllOfVim()
@@ -562,6 +565,10 @@ nnoremap <silent> <leader>hd :call GoShitHiInterestingWord()<cr>
 
 " change the mapleader from \ to ,
 let mapleader = "\<Space>"
+" experimental - enter to go into command mode (otherwise useless shortcut)
+" other option - new line and go into insert mode
+nnoremap <CR> :
+" todo: map tab to something? currently is same as <c-i>
 
 " Title case a line or selection (better)
 vnoremap <Leader>ti :s/\%V\<\(\w\)\(\w*\)\>/\u\1\L\2/ge<cr>
@@ -1085,6 +1092,7 @@ au InsertEnter * match ExtraWhitespace /\S\zs\s\+\%#\@<!$/
 au InsertLeave * match ExtraWhiteSpace /\S\zs\s\+$/
 
 " Jump to last known cursor position when opening file
+" WARNING: This appears to fuck up jump to line when opening a file with CtrlP
 autocmd BufReadPost *
     \ if line("'\"") > 0 && line ("'\"") <= line("$") |
     \ exe "normal g'\"" |
@@ -1247,6 +1255,10 @@ ab glpy glyph
 ab glphy glyph
 ab exprot export
 ab improt import
+ab paylaod payload
+ab marign margin
+ab marthin margin
+ab amrgin margin
 
 " ------------------------------------------------------------------------------------------
 " Text objects?
@@ -1267,7 +1279,7 @@ ab improt import
 " regex_an:
 "       Select around a number `-0.1em` with an
 " regex_aa:
-"       Select around attribute a="stuff"
+"       Select around attribute a="stuff" including jsx props a={hi}
 "
 
 call textobj#user#plugin('horesshit', {
@@ -1305,6 +1317,10 @@ call textobj#user#plugin('horesshit', {
 \   },
 \   'regex_aa': {
 \     'select': 'aa',
-\     '*pattern*': '\v(\w|-)+\=".{-}"'
+\     '*pattern*': '\v(\w|-)+\=[{"].{-}[}"]'
+\   },
+\   'regex_ia': {
+\     'select': 'ia',
+\     '*pattern*': '\v(\w|-)+\=[{"]\zs.{-}\ze[}"]'
 \   },
 \ })
