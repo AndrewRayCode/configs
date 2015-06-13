@@ -350,30 +350,28 @@ function! ProcessConflictFiles( conflictFiles )
     echom "Use ]n or [n to navigate to conflict markers with vim-unimpaired"
 endfunction
 
-"" Move current tab into the specified direction.
-" @param direction -1 for left, 1 for right.
-function! TabMove(direction)
-    " get number of tab pages.
-    let ntp=tabpagenr("$")
-    " move tab, if necessary.
-    if ntp > 1
-        " get number of current tab page.
-        let ctpn=tabpagenr()
-        " move left.
-        if a:direction < 0
-            let index=((ctpn-1+ntp-1)%ntp)
+    " Move current tab into the specified direction.
+    "
+    " @param direction -1 for left, 1 for right.
+    function! TabMove(direction)
+        let s:current_tab=tabpagenr()
+
+        " Wrap to end
+        if s:current_tab == 1 && a:direction == -1
+            tabmove
+        " Wrap to start
+        elseif s:current_tab == s:total_tabs && a:direction == 1
+            tabmove 0
+        " Normal move
         else
-            let index=(ctpn%ntp)
+            execute (a:direction > 0 ? "+" : "-") . "tabmove"
         endif
+        echo "Moved to tab " . tabpagenr() . " (previosuly " . s:current_tab . ")"
+    endfunction
 
-        " move tab page.
-        execute "tabmove ".index
-    endif
-endfunction
-
-" Move tab left or right
-map <D-H> :call TabMove(-1)<CR>
-map <D-L> :call TabMove(1)<CR>
+    " Move tab left or right
+    map <D-H> :call TabMove(-1)<CR>
+    map <D-L> :call TabMove(1)<CR>
 
 function! JumpToWebpackError()
     let cmd = system("node ./find_webpack_error.js")
