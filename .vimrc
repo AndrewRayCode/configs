@@ -119,6 +119,11 @@ set breakindent
 " Don't try to highlight lines longer than 800 characters.
 set synmaxcol=800
 
+" Always splits to the right and below, since Bram doesn't read left to right
+set splitright
+" this fucks up help opening above
+"set splitbelow
+
 " Custom file type syntax highlighting
 au BufRead,BufNewFile *.djhtml set filetype=html
 au BufRead,BufNewFile *.soy set filetype=clojure
@@ -350,28 +355,29 @@ function! ProcessConflictFiles( conflictFiles )
     echom "Use ]n or [n to navigate to conflict markers with vim-unimpaired"
 endfunction
 
-    " Move current tab into the specified direction.
-    "
-    " @param direction -1 for left, 1 for right.
-    function! TabMove(direction)
-        let s:current_tab=tabpagenr()
+" Move current tab into the specified direction.
+"
+" @param direction -1 for left, 1 for right.
+function! TabMove(direction)
+    let s:current_tab = tabpagenr()
+    let s:total_tabs = tabpagenr("$")
 
-        " Wrap to end
-        if s:current_tab == 1 && a:direction == -1
-            tabmove
-        " Wrap to start
-        elseif s:current_tab == s:total_tabs && a:direction == 1
-            tabmove 0
-        " Normal move
-        else
-            execute (a:direction > 0 ? "+" : "-") . "tabmove"
-        endif
-        echo "Moved to tab " . tabpagenr() . " (previosuly " . s:current_tab . ")"
-    endfunction
+    " Wrap to end
+    if s:current_tab == 1 && a:direction == -1
+        tabmove
+    " Wrap to start
+    elseif s:current_tab == s:total_tabs && a:direction == 1
+        tabmove 0
+    " Normal move
+    else
+        execute (a:direction > 0 ? "+" : "-") . "tabmove"
+    endif
+    echo "Moved to tab " . tabpagenr() . " (previosuly " . s:current_tab . ")"
+endfunction
 
-    " Move tab left or right
-    map <D-H> :call TabMove(-1)<CR>
-    map <D-L> :call TabMove(1)<CR>
+" Move tab left or right
+map <D-H> :call TabMove(-1)<CR>
+map <D-L> :call TabMove(1)<CR>
 
 function! JumpToWebpackError()
     let cmd = system("node ./find_webpack_error.js")
@@ -557,15 +563,20 @@ nnoremap <silent> <leader>hx :call GoShitHiInterestingWord()<cr>
 nnoremap <silent> <leader>h0 :call GoShitHiInterestingWord()<cr>
 nnoremap <silent> <leader>hd :call GoShitHiInterestingWord()<cr>
 
+" Remove enter from clickable action
+let g:clickable_maps = '<2-LeftMouse>,<C-2-LeftMouse>,<S-2-LeftMouse>,<C-CR>,<S-CR>,<C-S-CR>'
+
 " ---------------------------------------------------------------
 " Key mappings
 " ---------------------------------------------------------------
 
 " change the mapleader from \ to ,
 let mapleader = "\<Space>"
-" experimental - enter to go into command mode (otherwise useless shortcut)
-" other option - new line and go into insert mode
-nnoremap <CR> :
+" experimental - enter to go into command mode (otherwise useless shortcut).
+" See clickable_maps for preventing vim clickable from fucking this up. Also
+" see :h <cr> which is duplicated by BOTH ctrl-m AND + lol
+nmap <CR> :
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 " todo: map tab to something? currently is same as <c-i>
 
 " Title case a line or selection (better)
@@ -607,9 +618,9 @@ nnoremap <silent> <Leader>/ :nohlsearch<CR>
 " Jump to top level function
 " nnoremap <Leader>f ?^func\\|^[a-zA-Z].*func<CR>,/
 
-" faster tab switching
-nnoremap <C-l> gt
-nnoremap <C-h> gT
+" faster tab switching. I never use these cause macvim
+"nnoremap <C-l> gt
+"nnoremap <C-h> gT
 
 " Fugitive
 nnoremap <Leader>gs :Gstatus<CR>
@@ -785,11 +796,31 @@ cnoremap <C-k> <t_ku>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
-" Toggle relative / line number
-nnoremap <leader>rl :call ToggleRelativeAbsoluteNumber()<CR>
+" See also https://github.com/tpope/vim-rsi
+" Ctrl-e: Go to end of line like bash and command mode
+inoremap <c-e> <esc>A
 
-" use space to cycle between splits
-nmap <S-Space> <C-w>W
+" Ctrl-a: Go to start of line like bash and command mode
+inoremap <c-a> <esc>I
+
+" Ctrl-[hl]: Move left/right by word
+cnoremap <c-h> <s-left>
+cnoremap <c-l> <s-right>
+
+" Same for insert mode, including up down
+inoremap <c-h> <s-left>
+inoremap <c-l> <s-right>
+" Ctrl-j: Move cursor up
+inoremap <expr> <c-j> pumvisible() ? "\<C-e>\<Down>" : "\<Down>"
+
+" Ctrl-k: Move cursor up
+inoremap <expr> <c-k> pumvisible() ? "\<C-e>\<Up>" : "\<Up>"
+
+" Toggle relative / line number. I never use this garbage
+"nnoremap <leader>rl :call ToggleRelativeAbsoluteNumber()<CR>
+
+" use space to cycle between splits. I never use this garbage
+"nmap <S-Space> <C-w>W
 
 " Delete current buffer
 nmap <Leader>db :bdelete<CR>
