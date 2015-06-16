@@ -969,19 +969,9 @@ Project  '~/glsl2js'                     , 'parser'
 Project  '~/mood-engine'                 , 'mood engine'
 Project  '~/blog'                        , 'blog'
 Project  '~/blag'                        , 'blag'
-Project  '~/dojo/frontend/student'       , 'student.mojo'
-Project  '~/dojo/frontend/home'          , 'home.mojo'
-Project  '~/dojo/frontend/teach'         , 'teach.mojo'
-Project  '~/dojo/frontend/teacher_react' , 'old.teach.react'
 Project  '~/dojo/react_teach'            , 'teach.react'
-Project  '~/dojo/api'                    , 'api.dojo'
 
-Callback 'student.mojo'                  , [ 'DojoSettings' ]
-Callback 'home.mojo'                     , [ 'DojoSettings' ]
-Callback 'teach.mojo'                    , [ 'DojoSettings' ]
-Callback 'old.teach.react'               , [ 'DojoSettings' ]
 Callback 'teach.react'                   , [ 'DojoSettings' ]
-Callback 'api.dojo'                      , [ 'DojoSettings' ]
 
 " Format a var declaration list using tabularize
 function! FormatEquals()
@@ -1309,6 +1299,8 @@ ab amrgin margin
 "       Select around a number `-0.1em` with an
 " regex_aa:
 "       Select around attribute a="stuff" including jsx props a={hi}
+" regex_ih:
+"       Inside ( function, args ) ignoring parens and whitespace
 "
 
 call textobj#user#plugin('horesshit', {
@@ -1351,5 +1343,9 @@ call textobj#user#plugin('horesshit', {
 \   'regex_ia': {
 \     'select': 'ia',
 \     '*pattern*': '\v(\w|-)+\=[{"]\zs.{-}\ze[}"]'
+\   },
+\   'regex_ih': {
+\     'select': 'ih',
+\     '*pattern*': '\v((\w|[''"+,.])(\s\w)?)+'
 \   },
 \ })

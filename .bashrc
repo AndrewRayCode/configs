@@ -322,7 +322,7 @@ alias gl="git log --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue
 alias deploys="git fetch origin; gl --no-merges origin/master..origin/dev"
 alias ios="open /Applications/Xcode.app/Contents/Developer/Applications/iOS\ Simulator.app"
 
-achrome () {
+chrome () {
     /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files --enable-file-cookies&
 }
 
