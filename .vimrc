@@ -171,6 +171,13 @@ if has('gui_running')
     "set guifont=Menlo\ for\ Powerline
 endif
 
+" Fix multiple cursors bullshit mdoe switching
+let g:multi_cursor_exit_from_insert_mode=0
+let g:multi_cursor_exit_from_visual_mode=0
+" Fix no highlighting too
+highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
+highlight link multiple_cursors_visual Visual
+
 " ---------------------------------------------------------------
 " Functions
 " ---------------------------------------------------------------
@@ -1298,9 +1305,14 @@ ab amrgin margin
 " regex_an:
 "       Select around a number `-0.1em` with an
 " regex_aa:
-"       Select around attribute a="stuff" including jsx props a={hi}
+"       Select around (a)ttribute a="stuff" including jsx props a={hi}
+" regex_ar:
+" regex_ir:
+"       Select inside around css (r)ules, including react createstyle rules.
+"       Useful for ysr' to surround unquoted css
 " regex_ih:
-"       Inside ( function, args ) ignoring parens and whitespace
+"       Inside ( function, args ) ignoring parens and whitespace. I (h)ave no
+"       idea
 "
 
 call textobj#user#plugin('horesshit', {
@@ -1316,9 +1328,13 @@ call textobj#user#plugin('horesshit', {
 \     'select': 'ix',
 \     '*pattern*': '\/\zs.\+\ze\/'
 \   },
-\   'regex_r': {
+\   'regex_ar': {
+\     'select': 'ar',
+\     '*pattern*': ':\zs.\+\ze(;|\s+)'
+\   },
+\   'regex_ir': {
 \     'select': 'ir',
-\     '*pattern*': ':\zs.\+\ze;'
+\     '*pattern*': '\v:\s*\zs.+\ze\s*[,;]\s*$'
 \   },
 \   'regex_h': {
 \     'select': 'ih',
