@@ -388,19 +388,20 @@ pullreq() {
 }
 
 fpr() {
-    [ -z $BRANCH ] && BRANCH="dev"
+    local BRANCH
+    [ -z $BRANCH ] && BRANCH="master"
     HEAD=$(git symbolic-ref HEAD 2> /dev/null)
     [ -z $HEAD ] && return # Return if no head
     MSG=`git log -n1 --pretty=%s`
     CUR_BRANCH=${HEAD#refs/heads/}
 
-    if [[ "$CUR_BRANCH" == "dev" || "$CUR_BRANCH" == "master" ]]; then
+    if [[ "$CUR_BRANCH" == "master" ]]; then
         echo "You can't push directly to $CUR_BRANCH, thicky"
         return
     fi
-    git push origin $CUR_BRANCH
+    #git push origin $CUR_BRANCH
     msg=`git log -n1 --pretty=%B`
-    hub pull-request -b crowdtilt:$BRANCH -h DelvarWorld:$CUR_BRANCH
+    hub pull-request -m "$msg" -b classdojo:$BRANCH -h classdojo:$CUR_BRANCH
 }
 
 psg() {

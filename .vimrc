@@ -182,6 +182,29 @@ highlight link multiple_cursors_visual Visual
 " Functions
 " ---------------------------------------------------------------
 
+function! FixJumpChangeList()
+    redir @a
+    silent changes
+    redir end
+
+    let s:current_line = line('.')
+    let s:lines = reverse( split(@a, '\n') )
+    let s:idx = 1
+    let s:bail = min([ 10, len( s:lines ) ])
+    while s:idx < s:bail
+        let s:rows = split( s:lines[ s:idx ], '\s\+' )
+        if abs( s:rows[ 1 ] - s:current_line ) > 1
+            echo "Jumped to line " . s:rows[ 1 ] . " from " . s:current_line
+            keepjumps execute "normal " . s:rows[ 1 ] . "G"
+            keepjumps execute "normal 0" . s:rows[ 2 ] . "l"
+            break
+        endif
+        let s:idx = s:idx + 1
+    endwhile
+endfunction
+
+nnoremap g; :call FixJumpChangeList()<cr>
+
 " Attempt to show what folder files are in, but paths are too long on dojo
 "function! MyTabLine()
     "let s = ''
@@ -793,6 +816,9 @@ nnoremap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>:silent! norm
 " Copy line to last changed postition. This doesn't work or some shit??
 nnoremap <silent> <Leader>t. :t'.<cr>
 vnoremap <silent> <Leader>t. :t'.<cr>
+
+" copy last changed line here
+nnoremap <silent> <Leader>t; :'.t.<cr>
 
 " Make Y yank till end of line
 nnoremap Y y$
