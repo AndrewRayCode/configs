@@ -615,6 +615,10 @@ nmap <CR> :
 autocmd FileType vim,quickfix nnoremap <buffer> <CR> <CR>
 " todo: map tab to something? currently is same as <c-i>
 
+" add mappings for q* because hitting q in nerdtree can make it shit
+nnoremap <leader>: q:
+nnoremap <leader>? q/
+
 " Title case a line or selection (better)
 vnoremap <Leader>ti :s/\%V\<\(\w\)\(\w*\)\>/\u\1\L\2/ge<cr>
 nnoremap <Leader>ti :s/.*/\L&/<bar>:s/\<./\u&/g<cr>
