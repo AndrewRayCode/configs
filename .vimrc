@@ -80,6 +80,11 @@
 "tagbar
 "vim-expand-region
 
+" Shit I forget about from the above plugins
+" ------------------------------------------
+" Use gc or gcc for commenting motions from vim-commentary
+" use vac or vic to select inside / around comments
+
 " ---------------------------------------------------------------
 " Custom setup
 " ---------------------------------------------------------------
@@ -182,6 +187,7 @@ highlight link multiple_cursors_visual Visual
 " Functions
 " ---------------------------------------------------------------
 
+" this is a good start but not quite there yet, it goes in a loop
 function! FixJumpChangeList()
     redir @a
     silent changes
@@ -195,7 +201,7 @@ function! FixJumpChangeList()
         let s:rows = split( s:lines[ s:idx ], '\s\+' )
         if abs( s:rows[ 1 ] - s:current_line ) > 1
             echo "Jumped to line " . s:rows[ 1 ] . " from " . s:current_line
-            keepjumps execute "normal " . s:rows[ 1 ] . "G"
+            execute "normal " . s:rows[ 1 ] . "G"
             keepjumps execute "normal 0" . s:rows[ 2 ] . "l"
             break
         endif
@@ -819,6 +825,7 @@ vnoremap <silent> <Leader>t. :t'.<cr>
 
 " copy last changed line here
 nnoremap <silent> <Leader>t; :'.t.<cr>
+vnoremap <silent> <Leader>t; :'.t.<cr>
 
 " Make Y yank till end of line
 nnoremap Y y$
@@ -1254,6 +1261,15 @@ augroup DimInactiveWindows
   au!
   au WinEnter * call s:DimInactiveWindows()
 augroup END
+
+" LOL VIM LITERALLY CAN'T INDENT HTML AND THERE'S NO HELP FOR THIS VARIABLE
+" LOOOOOL BUT LOOK AT :h html-indent **OBVIOUSLY**
+let g:html_indent_inctags = "body,head,tbody,p"
+let g:html_indent_autotags = "html"
+
+" you have to call the below function IN THE HTML BUFFER after setting the
+" global variables. Jesus, vim.
+" call HtmlIndent_CheckUserSettings()
 
 " ------------------------------------------------------------------------------------------
 " I no spell gud
