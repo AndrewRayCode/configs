@@ -612,7 +612,7 @@ let mapleader = "\<Space>"
 " See clickable_maps for preventing vim clickable from fucking this up. Also
 " see :h <cr> which is duplicated by BOTH ctrl-m AND + lol
 nmap <CR> :
-autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+autocmd FileType vim,quickfix nnoremap <buffer> <CR> <CR>
 " todo: map tab to something? currently is same as <c-i>
 
 " Title case a line or selection (better)
