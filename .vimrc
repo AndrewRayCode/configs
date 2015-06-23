@@ -183,6 +183,16 @@ let g:multi_cursor_exit_from_visual_mode=0
 highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
 highlight link multiple_cursors_visual Visual
 
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+    call youcompleteme#DisableCursorMovedAutocommands()
+endfunction
+
+" Called once only when the multiple selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+    call youcompleteme#EnableCursorMovedAutocommands()
+endfunction
+
 " ---------------------------------------------------------------
 " Functions
 " ---------------------------------------------------------------
@@ -1007,15 +1017,12 @@ let g:project_use_nerdtree = 1
 " custom starting path
 call project#rc("~/")
 
-Project  '~/big-bubble'                  , 'bubble'
 Project  '~/shader-studio'               , 'shader-studio'
+Project  '~/big-bubble'                  , 'bubble'
 Project  '~/glsl2js'                     , 'parser'
 Project  '~/mood-engine'                 , 'mood engine'
 Project  '~/blog'                        , 'blog'
 Project  '~/blag'                        , 'blag'
-Project  '~/dojo/react_teach'            , 'teach.react'
-
-Callback 'teach.react'                   , [ 'DojoSettings' ]
 
 " Format a var declaration list using tabularize
 function! FormatEquals()
