@@ -159,7 +159,7 @@ function audiosize() {
     # Hack to get around file names with spaces
     # http://stackoverflow.com/questions/7194192/basename-with-spaces-in-a-bash-script
     baseFile=$(basename "$latestAudio")
-    exiftool -filename -AudioBitrate "$latestAudio"
+    exiftool -filesize -filename -AudioBitrate "$latestAudio"
 
     echo -e "$COLOR_BLUE\nWhere you wanna move this?\n$COLOR_RESET"
 

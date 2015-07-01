@@ -84,6 +84,11 @@
 " ------------------------------------------
 " Use gc or gcc for commenting motions from vim-commentary
 " use vac or vic to select inside / around comments
+" I set mark s for place-before-search
+" from https://www.youtube.com/watch?v=3TX3kV3TICU use ctrl-a in insert to
+"      repeat last typed text. use ctrl-x ctrl-p to complete sentences in some
+"      magical way. ctrl-x ctrl-o is a bunch of bullshit to complete syntax
+"      aware lke fn.<c-x><c-o> completion. I will never type this
 
 " ---------------------------------------------------------------
 " Custom setup
@@ -855,7 +860,8 @@ cnoremap <C-e> <End>
 inoremap <c-e> <esc>A
 
 " Ctrl-a: Go to start of line like bash and command mode
-inoremap <c-a> <esc>I
+" inoremap <c-a> <esc>I
+" Commenting this out to try using ctlr-a for inserting last inserted text
 
 " Ctrl-[hl]: Move left/right by word
 cnoremap <c-h> <s-left>
@@ -1268,6 +1274,7 @@ function! s:DimInactiveWindows()
     call setwinvar(i, '&colorcolumn', l:range)
   endfor
 endfunction
+
 augroup DimInactiveWindows
   au!
   au WinEnter * call s:DimInactiveWindows()
