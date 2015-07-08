@@ -1,14 +1,12 @@
 " Plugins installed:
-" TODO: Figure out how to make ultisnips tab complete again and use my
-" snippets directory
-":read !ls ~/.vim/bundle
+"silent execute 'normal mzjV}kdk' | execute "read !ls ~/.vim/bundle" | execute "normal `zjV}k\<space>c\<space>"
 "Rename
 "YouCompleteMe
 "ZoomWin
 "abolish
 "ack.vim
 "anzu
-"clickable " this, clickable-things, and os are part of the same broken garbage plugin
+"clickable
 "clickable-things
 "coffee-script
 "commentary
@@ -23,6 +21,7 @@
 "gitgutter
 "glsl
 "gundo
+"html-entities
 "indent-anything
 "indentwise
 "jison
@@ -30,14 +29,15 @@
 "match-tag
 "matchit
 "mru
+"multiple-cursors
 "mustache-handlebars
 "nerd-tree
 "nerdcommenter
 "node
-"os
 "over
 "powerline
 "qargs
+"qlist
 "repeat
 "snippets
 "splitjoin.vim
@@ -89,6 +89,7 @@
 "      repeat last typed text. use ctrl-x ctrl-p to complete sentences in some
 "      magical way. ctrl-x ctrl-o is a bunch of bullshit to complete syntax
 "      aware lke fn.<c-x><c-o> completion. I will never type this
+" Use ]I and [I (and lowercase) to show lines containing word under cursor
 
 " ---------------------------------------------------------------
 " Custom setup
@@ -260,6 +261,7 @@ function! Wipeout()
 endfunction
 
 " Fix vim's default shitty { } motions
+" see http://stackoverflow.com/questions/1853025/make-and-ignore-lines-containing-only-whitespace
 function! ParagraphMove(delta, visual, count)
     normal m'
     normal |
@@ -626,8 +628,9 @@ let mapleader = "\<Space>"
 " experimental - enter to go into command mode (otherwise useless shortcut).
 " See clickable_maps for preventing vim clickable from fucking this up. Also
 " see :h <cr> which is duplicated by BOTH ctrl-m AND + lol
-nmap <CR> :
-autocmd FileType vim,quickfix nnoremap <buffer> <CR> <CR>
+" I never ended up using this bullshit
+" nmap <CR> :
+" autocmd FileType vim,quickfix,qf nnoremap <buffer> <CR> <CR>
 " todo: map tab to something? currently is same as <c-i>
 
 " add mappings for q* because hitting q in nerdtree can make it shit
@@ -1283,6 +1286,8 @@ augroup END
 " LOL VIM LITERALLY CAN'T INDENT HTML AND THERE'S NO HELP FOR THIS VARIABLE
 " LOOOOOL BUT LOOK AT :h html-indent **OBVIOUSLY**
 let g:html_indent_inctags = "body,head,tbody,p"
+" This does not work, obviously, it should make anything inside html tags not
+" indented. myabe a plugin conflict?
 let g:html_indent_autotags = "html"
 
 " you have to call the below function IN THE HTML BUFFER after setting the
