@@ -90,6 +90,7 @@
 "      magical way. ctrl-x ctrl-o is a bunch of bullshit to complete syntax
 "      aware lke fn.<c-x><c-o> completion. I will never type this
 " Use ]I and [I (and lowercase) to show lines containing word under cursor
+" leader aa is for ack with out -i
 
 " ---------------------------------------------------------------
 " Custom setup
