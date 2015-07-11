@@ -1,5 +1,5 @@
 " Plugins installed:
-"silent execute 'normal mzjV}kdk' | execute "read !ls ~/.vim/bundle" | execute "normal `zjV}k\<space>c\<space>"
+" silent execute 'normal mzjV}kdk' | silent execute "read !ls ~/.vim/bundle" | silent execute "normal `zjV}k\<space>c\<space>'z0gcl'"
 "Rename
 "YouCompleteMe
 "ZoomWin
@@ -12,6 +12,7 @@
 "commentary
 "ctrlp.vim
 "ctrlspace
+"delimitMate
 "django.vim
 "dragvisuals
 "easymotion
