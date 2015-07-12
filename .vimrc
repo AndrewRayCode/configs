@@ -1,4 +1,10 @@
-" Plugins installed:
+" ---------------------------------------------------------------------------
+" Plugins installed
+"
+" To refresh the list, uncomment the line below and hit command-E on it (see
+" the <d-e> mapping in this file
+" ---------------------------------------------------------------------------
+
 " silent execute 'normal mzjV}kdk' | silent execute "read !ls ~/.vim/bundle" | silent execute "normal `zjV}k\<space>c\<space>'z0gcl'"
 "Rename
 "YouCompleteMe
@@ -106,6 +112,7 @@ set wildmenu
 " Pathogen loading
 filetype off
 call pathogen#infect()
+Helptags " Added to avoid having to manually install docs for plugins
 filetype plugin indent on
 
 " Fixing vim's awful bullshit, fucks up coloring of nerdtree if you call
@@ -1258,8 +1265,6 @@ autocmd FileType nerdtree cnoreabbrev <buffer> bd :echo "No you don't"<cr>
 autocmd FileType qf cnoreabbrev <buffer> bd :echo "No you don't"<cr>
 
 let NERDTreeIgnore=['pubilc-build']
-
-"set guitablabel=%{GuiTabLabel()}
  
 function! s:DimInactiveWindows()
   for i in range(1, tabpagewinnr(tabpagenr(), '$'))
@@ -1295,6 +1300,10 @@ let g:html_indent_autotags = "html"
 " you have to call the below function IN THE HTML BUFFER after setting the
 " global variables. Jesus, vim.
 " call HtmlIndent_CheckUserSettings()
+
+" Delimit Mate plugin config
+let delimitMate_expand_space = 1 " Make typing space after (| convert to ( | )
+let delimitMate_balance_matchpairs = 1
 
 " ------------------------------------------------------------------------------------------
 " I no spell gud
