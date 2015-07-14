@@ -261,7 +261,8 @@ function! Wipeout()
     let nWipeouts = 0
     for i in range(1, bufnr('$'))
         if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
-        "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
+            "bufno exists AND isn't modified AND isn't in the list of buffers
+            "open in windows and tabs
             silent exec 'bwipeout' i
             let nWipeouts = nWipeouts + 1
         endif
@@ -660,7 +661,7 @@ nnoremap <Leader>yy _yg_
 " Ray-Frame testing thingy
 " nnoremap <Leader>x:tabe a.js<cr>GVggx"*p<cr>:%s/;/;\r/g<cr>:w<cr>
 
-nnoremap <Leader>x :tabcl<cr>
+nnoremap <Leader>x :tabcl<cr>:call Wipeout()<cr>
 nnoremap <D-w> :tabcl<cr>
 
 " zg is the stupidest fucking shortcut and I hit it all the time
