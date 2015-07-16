@@ -873,7 +873,7 @@ cnoremap <C-e> <End>
 inoremap <c-e> <esc>A
 
 " Ctrl-a: Go to start of line like bash and command mode
-" inoremap <c-a> <esc>I
+"inoremap <c-a> <esc>I
 " Commenting this out to try using ctlr-a for inserting last inserted text
 
 " Ctrl-[hl]: Move left/right by word
@@ -1237,7 +1237,7 @@ let g:UltiSnipsListSnippets="<c-e>"
 " this mapping Enter key to <C-y> to chose the current highlight item and
 " close the selection list, same as other IDEs.  CONFLICT with some plugins
 " like tpope/Endwise
-inoremap <expr> <CR>
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " END Ultisnips OLD SHIT, RETRYING END
 
 " ----------------------------------------------------------------------
