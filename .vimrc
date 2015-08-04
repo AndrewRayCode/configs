@@ -98,6 +98,8 @@
 "      aware lke fn.<c-x><c-o> completion. I will never type this
 " Use ]I and [I (and lowercase) to show lines containing word under cursor
 " leader aa is for ack with out -i
+" /%V is how you match only visual selection, since ranges are linewise and
+"     vim is shit
 
 " ---------------------------------------------------------------
 " Custom setup
@@ -108,6 +110,10 @@ set nocompatible
 
 " Experimental to make command line completion easier?
 set wildmenu
+
+" Don't put two spaces after a period when joining lines with gq or J or
+" whatever
+set nojoinspaces
 
 " Pathogen loading
 filetype off
@@ -197,6 +203,35 @@ let g:multi_cursor_exit_from_visual_mode=0
 " Fix no highlighting too
 highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
 highlight link multiple_cursors_visual Visual
+
+function! FindAllMultipleCursors()
+    " Yank the (w)ord under the cursor into reg z
+    norm! "zyiw
+
+    " Find how many occurances of this word are in the current document, see
+    " :h count-items. Redirect the output to register x silently otherwise it
+    " spits out the search output
+    redir @x | silent execute "%s/\\v" . @z . "/&/gn" | redir END
+
+    " Get the first word in output ("n of n matches") which is count. Split
+    " on non-word chars because output has linebreaks
+    let s:count = split( @x, '\W' )[ 0 ]
+
+    if s:count > 15
+        call inputsave()
+        let s:yn = input('There are ' . s:count . ' matches, and MultipleCurors is slow. Are you sure? (y/n) ')
+        call inputrestore()
+        redraw
+        if s:yn != "y"
+            echo "Aborted FindAllMultipleCursors."
+            return
+        endif
+    endif
+
+    execute "MultipleCursorsFind " . @z
+endfunction
+
+nnoremap <leader>fa :call FindAllMultipleCursors()<cr>
 
 " Called once right before you start selecting multiple cursors
 function! Multiple_cursors_before()
