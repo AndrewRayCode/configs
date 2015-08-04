@@ -204,11 +204,17 @@ let g:multi_cursor_exit_from_visual_mode=0
 highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
 highlight link multiple_cursors_visual Visual
 
-function! FindAllMultipleCursors()
-    " Yank the (w)ord under the cursor into reg z
-    norm! "zyiw
+function! FindAllMultipleCursors( type )
 
-    " Find how many occurances of this word are in the current document, see
+    " Yank the (w)ord under the cursor into reg z. If we (were) in visual mode,
+    " use gv to re-select the last visual selection first
+    if a:type == "v"
+        norm! gv"zy
+    else
+        norm! "zyiw
+    endif
+
+    " Find how many occurrences of this word are in the current document, see
     " :h count-items. Redirect the output to register x silently otherwise it
     " spits out the search output
     redir @x | silent execute "%s/\\v" . @z . "/&/gn" | redir END
@@ -231,7 +237,8 @@ function! FindAllMultipleCursors()
     execute "MultipleCursorsFind " . @z
 endfunction
 
-nnoremap <leader>fa :call FindAllMultipleCursors()<cr>
+nnoremap <leader>fa :call FindAllMultipleCursors("")<cr>
+vnoremap <leader>fa :call FindAllMultipleCursors("v")<cr>
 
 " Called once right before you start selecting multiple cursors
 function! Multiple_cursors_before()
@@ -1050,7 +1057,20 @@ let g:script_runner_javascript = "node"
 " Backspace: Act like normal backspace and go into insert mode
 nnoremap <bs> i<bs>
 
-nnoremap z= z=1<cr><cr>
+" Hitting z= over a word will replace it with the closest dictionary word,
+" even if spellcheck is not enabled, because vim is bad
+function! FixVimSpellcheck()
+    if &spell
+        normal! 1z=
+    else
+        set spell
+        normal! 1z=
+        set nospell
+    endif
+endfunction
+
+" Use the first suggestion for vim's text replace
+nnoremap z= :call FixVimSpellcheck()<cr>
 
 " Vimshell plugin settings
 " VIMSHELL IS BULLSHIT FOREVER
