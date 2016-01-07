@@ -206,7 +206,6 @@ function audiosize() {
         let "dirSet+=-1"
         config=${files[@]:$dirSet:1}
 
-
         if [[ "$ext" == "wav" ]]; then
 
             hasLame=$(which lame)

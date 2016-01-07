@@ -141,3 +141,21 @@ it("${1}", () => {
 	${2}
 })
 endsnippet
+
+snippet ps
+Promise.resolve().then( () => {
+	${1}
+});
+endsnippet
+
+snippet _.e
+_.each( ${1}, ( ${2:item} ) => {
+	${3}
+});
+endsnippet
+
+snippet _.m
+_.map( ${1}, ( ${2:item} ) => {
+	return ${3};
+});
+endsnippet

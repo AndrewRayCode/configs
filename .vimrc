@@ -134,6 +134,9 @@ highlight ColorColumn guibg=#331111
 set colorcolumn=80
 set cursorline
 
+" Always show vim's tab bar, garbage default is off
+set showtabline=2
+
 " Experimental and possibly terrible
 highlight Cursor guibg=#FF92BB guifg=#fff
 highlight iCursor guibg=red
@@ -1092,6 +1095,9 @@ let g:project_use_nerdtree = 1
 call project#rc("~/")
 
 Project  '~/shader-studio'               , 'shader-studio'
+Project  '~/runtime-shaderfrog'          , 'shaderfrog-runtime'
+Project  '~/poopy-butts'                 , 'poopy-butts'
+Project  '~/cats-react'                  , 'cats-react'
 Project  '~/big-bubble'                  , 'bubble'
 Project  '~/glsl2js'                     , 'parser'
 Project  '~/mood-engine'                 , 'mood engine'
@@ -1300,6 +1306,9 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " ---------------------- VIM IS SHIT -----------------------------------
 " ----------------------------------------------------------------------
 " ----------------------------------------------------------------------
+
+" Someone should be permanently fired over this
+nmap Q q
 
 autocmd TabLeave * call FuckAllOfVim()
 
