@@ -780,7 +780,7 @@ nnoremap <Leader>aW "zyiW:exe "Ack! ".@z.""<CR>
 
 " Source vim when this file is updated
 nnoremap <Leader>sv :source $MYVIMRC<cr>
-nnoremap <silent> <Leader>so :source %<cr>
+nnoremap <silent> <Leader>so :source %<cr>:echo "Sourced this file!"<cr>
 nnoremap <Leader>v :tabe $MYVIMRC<cr>
 nnoremap <Leader>ss :tabe ~/.vim/delvarworld-snippets/javascript/javascript.snippets<cr>
 nnoremap <Leader>hs :tabe /etc/hosts<cr>:setlocal noreadonly<cr>:setlocal autoread<cr>
@@ -836,7 +836,7 @@ function! OpenNerdTreeAndFindThisBullshit()
 endfunction
 
 " make nerdtree expand dir structure to show current file
-nnoremap <silent> <Leader>nf :call OpenNerdTreeAndFindThisBullshit()<cr>
+nnoremap <silent> <Leader>nf :call OpenNerdTreeAndFindThisBullshit()<cr>zz
 
 " Change to working directory of current file and echo new location
 nnoremap cd :cd %:h<cr>:pwd<cr>
@@ -1052,6 +1052,7 @@ let g:syntastic_enable_signs=1
 let g:syntastic_perl_lib_path = [ './locallib/lib/perl5' ]
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_javascript_eslint_exec = './node_modules/.bin/eslint'
 
 " Vim-script-unner
 let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10"
