@@ -358,6 +358,8 @@ nnoremap <silent> { :<C-U>call ParagraphMove(-1, 0, v:count)<CR>
 " Make all searches very magic. Also mark the position before you start
 " searching to copy text back to
 nnoremap / ms/\v
+nnoremap ? ms?\v
+
 " do not use this awful shit, it makes it hard to type :%s//replace
 "cnoremap %s/ %s/\v
 
