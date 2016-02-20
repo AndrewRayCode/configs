@@ -853,9 +853,6 @@ nmap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " K is one of the dumber things in vim
 map K k
 
-" Swap two parameters in a function
-nnoremap <Leader>- lF(ldWf)i, pF,dt)
-
 " Strip one layer of nesting
 nnoremap <Leader>sn [{mzjV]}k<]}dd`zdd
 
@@ -1357,6 +1354,39 @@ augroup DimInactiveWindows
   au!
   au WinEnter * call s:DimInactiveWindows()
 augroup END
+
+function! SwapStuffWhyEvenBotherWithVim()
+    let l:lastSearch = @/
+    " Search backwards for an opening brace, but only on current line
+    let l:match = search('\v[({<[]', 'b', line("."))
+
+    " If there was no match (opening brace), jump to the first non-blank char
+    if !l:match
+        normal g^
+    else
+        normal w
+    endif
+
+    " Go to the first thing to match and mark
+    execute "normal! mz"
+    " Set search for dividing character, or the closing brace
+    let @/ = '\v\s*\zs([,/)\]>}\-+:]|\s\zs.\s|\s\zsas\s)'
+    " select and yank till that dividng character into z
+    execute "normal vnge\"zy"
+    " go past diving character to the next thing and mark y
+    execute "normal! nwmy"
+    " paste z in place of second thing. second thing now in paste register
+    execute "normal! vnge\"zp"
+    " go back to first word
+    execute "normal! `z"
+    " select first word until old match, then paste
+    execute "normal! vngep"
+    let @/ = l:lastSearch
+    execute "normal :nohlsearch\<cr>"
+endfunction
+
+" Swap two parameters in a function
+nnoremap <Leader>- :call SwapStuffWhyEvenBotherWithVim()<cr>
 
 " LOL VIM LITERALLY CAN'T INDENT HTML AND THERE'S NO HELP FOR THIS VARIABLE
 " LOOOOOL BUT LOOK AT :h html-indent **OBVIOUSLY**
