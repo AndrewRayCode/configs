@@ -1096,7 +1096,7 @@ call project#rc("~/")
 
 Project  '~/shader-studio'               , 'shader-studio'
 Project  '~/runtime-shaderfrog'          , 'shaderfrog-runtime'
-Project  '~/poopy-butts'                 , 'poopy-butts'
+Project  '~/doopy-butts'                 , 'doopy-butts'
 Project  '~/cats-react'                  , 'cats-react'
 Project  '~/big-bubble'                  , 'bubble'
 Project  '~/glsl2js'                     , 'parser'
@@ -1370,7 +1370,7 @@ function! SwapStuffWhyEvenBotherWithVim()
     " Go to the first thing to match and mark
     execute "normal! mz"
     " Set search for dividing character, or the closing brace
-    let @/ = '\v\s*\zs([,/)\]>}\-+:]|\s\zs.\s|\s\zsas\s)'
+    let @/ = '\v\s*\zs([,/)\]>}\-+:]|(\.|as|in|\|\|?|\&\&?|\?|\=)\s)|$|;'
     " select and yank till that dividng character into z
     execute "normal vnge\"zy"
     " go past diving character to the next thing and mark y
@@ -1385,8 +1385,30 @@ function! SwapStuffWhyEvenBotherWithVim()
     execute "normal :nohlsearch\<cr>"
 endfunction
 
+function! SwapStuffWhyEvenBotherWithVimVisual()
+    let l:lastSearch = @/
+    " Go to the first thing to match and mark
+    execute "normal! \<Esc>`<mz`>mx`z"
+    " Set search for dividing character, or the closing brace
+    let @/ = '\v\s*\zs([,/)\]>}\-+:]|(\.|as|in|\|\|?|\&\&?|\?|\=)\s)|$|;'
+    " select and yank till that dividng character into z
+    execute "normal vnge\"zy"
+    " go past diving character to the next thing and mark y
+    execute "normal! nwmy"
+    " paste z in place of second thing. second thing now in paste register
+    execute "normal! vnge\"zp"
+    " go back to first word
+    execute "normal! `z"
+    " select first word until old match, then paste
+    execute "normal! vngep"
+    let @/ = l:lastSearch
+    execute "normal :nohlsearch\<cr>"
+    execute "normal `zv`x"
+endfunction
+
 " Swap two parameters in a function
 nnoremap <Leader>- :call SwapStuffWhyEvenBotherWithVim()<cr>
+vnoremap <Leader>- :call SwapStuffWhyEvenBotherWithVimVisual()<cr>
 
 " LOL VIM LITERALLY CAN'T INDENT HTML AND THERE'S NO HELP FOR THIS VARIABLE
 " LOOOOOL BUT LOOK AT :h html-indent **OBVIOUSLY**

@@ -11,6 +11,31 @@ COLOR_LIGHT_RED=$(tput sgr0 && tput bold && tput setaf 1)
 COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
 COLOR_RESET=$(tput sgr0)
 
+function gsync() {
+    gitBranch=$(git rev-parse --abbrev-ref HEAD)
+    if [[ -z "$1" ]]; then
+        echo -n "${COLOR_YELLOW}Sync ${COLOR_BLUE}${gitBranch}${COLOR_YELLOW}? (Enter/y to confirm, n to cancel)${COLOR_RESET} "
+        read confirm
+    fi
+
+    hasOrigin=`cat .git/config | grep origin`
+    hasUpstream=`cat .git/config | grep upstream`
+
+    if [[ -z "$hasOrigin" || -z "$hasUpstream" ]]; then
+        echo "${COLOR_RED}Error: ${COLOR_PINK}The command syncdev expects an ${COLOR_RED}origin${COLOR_PINK} and ${COLOR_RED}upstream${COLOR_PINK} remote${COLOR_RESET}"
+        return 1
+    fi
+
+    if [[ "$confirm" == "" || "$confirm" == "y" ]]; then
+        git checkout ${gitBranch}
+        git fetch --all
+        git reset --hard upstream/${gitBranch}
+        git push origin ${gitBranch}
+        echo "${COLOR_YELLOW}Complete!${COLOR_RESET}"
+    fi
+
+}
+
 # git
 function _c() {
     cur=${COMP_WORDS[COMP_CWORD]}
@@ -61,7 +86,6 @@ function c() {
         declare -a branches
         let xx=0
 
-        # Find all system config files that aren't vim swap files and loop through them
         IFS=$'\n'
         pad=$(printf '%0.1s' " "{1..32})
         padlength=32

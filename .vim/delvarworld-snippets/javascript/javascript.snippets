@@ -159,3 +159,22 @@ _.map( ${1}, ( ${2:item} ) => {
 	return ${3};
 });
 endsnippet
+
+snippet reducer
+import KeyCodes from '../helpers/KeyCodes';
+import THREE from 'three';
+
+export default function ${1:reducer}( actions, props, oldState, currentState, next ) {
+
+    const {} = props;
+    const {} = oldState;
+    const {} = currentState;
+    const newState = {};
+
+    return next({
+		...currentState,
+		...newState
+	});
+
+}
+endsnippet
