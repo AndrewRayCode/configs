@@ -160,7 +160,7 @@ _.map( ${1}, ( ${2:item} ) => {
 });
 endsnippet
 
-snippet reducer
+snippet newreducer
 import KeyCodes from '../helpers/KeyCodes';
 import THREE from 'three';
 
@@ -175,6 +175,22 @@ export default function ${1:reducer}( actions, props, oldState, currentState, ne
 		...currentState,
 		...newState
 	});
+
+}
+endsnippet
+
+snippet reducer
+export function ${1:reducer}( state = ${2:{}}, action = {} ) {
+
+    switch( action.type ) {
+
+        case ${3:TODO}:
+            return ${4};
+
+        default:
+            return state;
+
+    }
 
 }
 endsnippet

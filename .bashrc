@@ -11,6 +11,18 @@ COLOR_LIGHT_RED=$(tput sgr0 && tput bold && tput setaf 1)
 COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
 COLOR_RESET=$(tput sgr0)
 
+# From awscli tools "Add the following to ~/.bashrc to enable bash completion:"
+complete -C aws_completer aws
+
+function alert() {
+    message=$1
+    if [[ -z "$message" ]]; then
+        message='Completed'
+    fi
+    osascript -e "display notification \"${message}\" with title \"${message}\""
+    say -v Hyst ${message}
+}
+
 function gsync() {
     gitBranch=$(git rev-parse --abbrev-ref HEAD)
     if [[ -z "$1" ]]; then
@@ -476,7 +488,7 @@ alias gcl='git clone'
 function dvcs_diff {
     source ~/which_repo.sh
     if [[ "$IS_GIT_DIR" == "true" ]]; then
-        git diff --color "$@"
+        git diff --color --patience "$@"
     fi
     if [[ "$IS_HG_DIR" == "true" ]]; then
         hg diff "$@"
