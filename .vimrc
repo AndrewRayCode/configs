@@ -1094,6 +1094,7 @@ let g:project_use_nerdtree = 1
 " custom starting path
 call project#rc("~/")
 
+Project  '~/fq'                          , 'fq'
 Project  '~/shader-studio'               , 'shader-studio'
 Project  '~/runtime-shaderfrog'          , 'shaderfrog-runtime'
 Project  '~/doopy-butts'                 , 'doopy-butts'
@@ -1153,7 +1154,7 @@ function! MojoToDojo()
     silent! exec '%s/\v\vdata-bind\s?\=\s?[''"]\{\{\s?onClick:\s*(\w+)\(\)\s*\}\}[''"]\s*/onClick={this.\1} '
 
     " add react chrome
-    " exec 'normal ggOvar React = require("react");var VIEW = React.createClass({  getInitialState:€ü function()€ü {},componentDidMount:€ü function()€ü {},componentWillUnmount:€ü function()€ü {},render:€ü function()€ü {d€kb  return (<div>j0maVG>..Go</div>);}});k<<j<<<<omodule.exports = VIEW;'
+    " exec 'normal ggOvar React = require("react");var VIEW = React.createClass({  getInitialState:?? function()?? {},componentDidMount:?? function()?? {},componentWillUnmount:?? function()?? {},render:?? function()?? {d?kb  return (<div>j0maVG>..Go</div>);}});k<<j<<<<omodule.exports = VIEW;'
 
 endfunction
 
@@ -1481,6 +1482,8 @@ ab paylaod payload
 ab marign margin
 ab marthin margin
 ab amrgin margin
+
+autocmd FileType javascript ab class= className=
 
 " ------------------------------------------------------------------------------------------
 " Text objects?

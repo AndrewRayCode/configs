@@ -14,6 +14,8 @@ COLOR_RESET=$(tput sgr0)
 # From awscli tools "Add the following to ~/.bashrc to enable bash completion:"
 complete -C aws_completer aws
 
+alias blender=/Applications/blender.app/Contents/MacOS/blender
+
 function alert() {
     message=$1
     if [[ -z "$message" ]]; then
@@ -355,7 +357,7 @@ alias pstop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
 alias gl="git log --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 alias deploys="git fetch origin; gl --no-merges origin/master..origin/dev"
-alias ios="open /Applications/Xcode.app/Contents/Developer/Applications/iOS\ Simulator.app"
+alias ios="open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app"
 
 chrome () {
     /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files --enable-file-cookies&
