@@ -1223,6 +1223,11 @@ vmap  <expr>  D        DVB_Duplicate()
 "nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 "
 
+" \%V is Vim's bullshit way of matching text inside a visual selection.
+" Default the search inside a visual selection so that a replace will work
+" just on the visual selection. Vim is death and hell.
+vnoremap : :\%V
+
 let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = "botright"
 let g:unite_update_time = 200
