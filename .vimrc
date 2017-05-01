@@ -1094,16 +1094,21 @@ let g:project_use_nerdtree = 1
 " custom starting path
 call project#rc("~/")
 
-Project  '~/fq'                          , 'fq'
-Project  '~/shader-studio'               , 'shader-studio'
-Project  '~/runtime-shaderfrog'          , 'shaderfrog-runtime'
-Project  '~/doopy-butts'                 , 'doopy-butts'
-Project  '~/cats-react'                  , 'cats-react'
-Project  '~/big-bubble'                  , 'bubble'
-Project  '~/glsl2js'                     , 'parser'
-Project  '~/mood-engine'                 , 'mood engine'
-Project  '~/blog'                        , 'blog'
-Project  '~/blag'                        , 'blag'
+Project  '~/andrewray.me'                 , 'andrewray.me'
+Project  '~/ray-blog-theme'               , 'ray-blog-theme'
+Project  '~/fq'                           , 'fq'
+Project  '~/shader-studio'                , 'shader-studio'
+Project  '~/runtime-shaderfrog'           , 'shaderfrog-runtime'
+Project  '~/doopy-butts'                  , 'doopy-butts'
+Project  '~/test'                         , 'test'
+Project  '~/cats-react'                   , 'cats-react'
+Project  '~/big-bubble'                   , 'bubble'
+Project  '~/glsl2js'                      , 'parser'
+Project  '~/mood-engine'                  , 'mood engine'
+Project  '~/blog'                         , 'blog'
+Project  '~/blag'                         , 'blag'
+Project  '~/workerbee/OpusWeb/mvp_webpack', 'bee site'
+Project  '~/rails-tutorial'               , 'rails tutorial'
 
 " Format a var declaration list using tabularize
 function! FormatEquals()
@@ -1222,11 +1227,6 @@ vmap  <expr>  D        DVB_Duplicate()
 " Quick bookmarks
 "nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 "
-
-" \%V is Vim's bullshit way of matching text inside a visual selection.
-" Default the search inside a visual selection so that a replace will work
-" just on the visual selection. Vim is death and hell.
-vnoremap : :\%V
 
 let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = "botright"
