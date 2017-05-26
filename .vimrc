@@ -138,7 +138,7 @@ set cursorline
 set showtabline=2
 
 " Experimental and possibly terrible
-highlight Cursor guibg=#FF92BB guifg=#fff
+highlight Cursor guibg=#FF92BB guifg=#ffffff
 highlight iCursor guibg=red
 set guicursor=n-c:ver30-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-iCursor/lCursor,r-cr:hor20-Cursor/lCursor,v-sm:block-Cursor
 
@@ -256,6 +256,34 @@ endfunction
 " ---------------------------------------------------------------
 " Functions
 " ---------------------------------------------------------------
+
+" Garbage doesn't work yet http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
+function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
+    let ft=toupper(a:filetype)
+    let group='textGroup'.ft
+    if exists('b:current_syntax')
+        let s:current_syntax=b:current_syntax
+        " Remove current syntax definition, as some syntax files (e.g. cpp.vim)
+        " do nothing if b:current_syntax is defined.
+        unlet b:current_syntax
+    endif
+    execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
+    try
+        execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
+    catch
+    endtry
+    if exists('s:current_syntax')
+        let b:current_syntax=s:current_syntax
+    else
+        unlet b:current_syntax
+    endif
+    execute 'syntax region textSnip'.ft.'
+                \ matchgroup='.a:textSnipHl.'
+                \ start="'.a:start.'" end="'.a:end.'"
+                \ contains=@'.group
+endfunction
+
+call TextEnableCodeSnip('ruby', '@begin=ruby@', '@end=ruby@', 'SpecialComment')
 
 " this is a good start but not quite there yet, it goes in a loop
 function! FixJumpChangeList()
@@ -1104,6 +1132,13 @@ Project  '~/glsl2js'                     , 'parser'
 Project  '~/mood-engine'                 , 'mood engine'
 Project  '~/blog'                        , 'blog'
 Project  '~/blag'                        , 'blag'
+Project  '~/dev'                         , 'gr-dev'
+Project  '~/dev/engineering'             , 'gr-engineering'
+Project  '~/dev/brizo'                   , 'gr-brizo'
+Project  '~/dev/tp'                      , 'tp'
+Project  '~/dev/monger-cordova'          , 'monger-cordova'
+Project  '~/dev/jarvis'                  , 'jarvis'
+Project  '~/dev/devise-two-factor/demo'  , 'devise-two-factor-demo'
 
 " Format a var declaration list using tabularize
 function! FormatEquals()

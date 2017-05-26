@@ -50,13 +50,38 @@ function gsync() {
 
 }
 
+# Diff of things between here and dev
+function ddiff() {
+    git diff `git merge-base upstream/dev HEAD`..HEAD
+}
+
+# Log of everything on this braynch
+function dlog() {
+    git log -p `git merge-base origin/master HEAD`..HEAD
+}
+
+function recent-branches() {
+    local branches=`git for-each-ref --sort=-committerdate refs/heads/ | head -n 10`
+    local output=''
+    while read -r branch;
+    do
+        output+=`echo "$branch" | sed 's/.*refs\/heads\///'`
+        output+=$'\n'
+    done <<< "$branches"
+    echo $output
+}
+
 # git
 function _c() {
     cur=${COMP_WORDS[COMP_CWORD]}
     branches=`git for-each-ref --sort=-committerdate refs/heads/ | head -n 10`
 
+    # By default bash breaks on "words", not lines. Set this magical garbage
+    # so autocomplete works with line breaks, not one big string
+    local IFS=$'\n'
+
     output=''
-    for branch in $branches
+    while read -r branch;
     do
         output+=`echo "$branch" | sed 's/.*refs\/heads\///'`
         # creative way to get color here? echo messes everything up
@@ -64,7 +89,7 @@ function _c() {
         #output+=" '`git show --quiet $(echo $branch | cut -d' ' -f1) --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset'"`"$'\n'
         #echo " \'`git show --quiet $(echo $branch | cut -d' ' -f1) --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset\'"`"$'\n'
         output+=" \'`git show --quiet $(echo $branch | cut -d' ' -f1) --pretty=format:"%h <%an> %s (%cr)\'"`"$'\n'
-    done
+    done <<< "$branches"
 
     response=''
     for branch in $output
@@ -78,43 +103,43 @@ function _c() {
     COMPREPLY=( $( compgen -W "$response" -- $cur ) )
 }
 
-# Diff of things between here and dev
-function ddiff() {
-    git diff `git merge-base upstream/dev HEAD`..HEAD
-
-}
-
-# Log of everything on this braynch
-function dlog() {
-    git log -p `git merge-base upstream/dev HEAD`..HEAD
-
-}
-
 function c() {
-    newBranch=""
-    inputted=""
+    local newBranch=""
+    local inputted=""
 
     if [[ -z "$1" ]]; then
-        branchOutput=`git for-each-ref --sort=-committerdate refs/heads/ | head -n 10`
+        local branchOutput=`git for-each-ref --sort=-committerdate refs/heads/ | head -n 10`
 
         declare -a branches
-        let xx=0
+        local counter=0
+        local longestBranchLength=0
 
-        IFS=$'\n'
-        pad=$(printf '%0.1s' " "{1..32})
-        padlength=32
-        for branch in $branchOutput
+        while read -r branch;
+        do
+            local branchName=`echo "$branch" | sed 's/.*refs\/heads\///'`
+            if [[ "${#branchName}" -gt "$longestBranchLength" ]]; then
+                longestBranchLength=${#branchName}
+            fi
+        done <<< "$branchOutput"
+
+        let local padLength="longestBranchLength+2"
+        echo "padLenth: ${padLength}"
+        # TODO none of this works
+        local pad=$(printf '%0.1s' " "{1..$padLength})
+        #local pad=$(printf '%0.1s' " "$(eval echo "{1..$padLength}"))
+
+        while read -r branch;
         do
             # Show them in a list with a counter
-            xx=`expr $xx + 1`
-            branches=("${branches[@]}" "$branch")
-            branchName=`echo "$branch" | sed 's/.*refs\/heads\///'`
-            string1="$COLOR_PURPLE$xx. $COLOR_PINK $branchName"
-            uncolor="$xx.  $branchName"
+            counter=`expr $counter + 1`
+            local branches=("${branches[@]}" "$branch")
+            local branchName=`echo "$branch" | sed 's/.*refs\/heads\///'`
+            local string1="$COLOR_PURPLE$counter. $COLOR_PINK $branchName"
+            local resetColor="$counter. $branchName"
             printf '%s' $string1
-            printf '%*.*s' 0 $((padlength - ${#uncolor} )) "$pad"
+            printf '%*.*s' 0 $((padLength - ${#resetColor} )) "$pad"
             printf '%s\n' `git show --quiet $branchName --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset"`
-        done
+        done <<< "$branchOutput"
 
         # Prompt user for file. -n means no line break after echo
         echo -n "$COLOR_YELLOW?$COLOR_RESET "
@@ -122,15 +147,28 @@ function c() {
 
         let "branchNumber+=-1"
 
+        branchLength=${#branches[@]}
         if [[ "$branchNumber" =~ ^[0-9]+$ ]]; then
-            newBranch=`echo "${branches[@]:$branchNumber:1}" | sed 's/.*refs\/heads\///'`
+
+            if [[ "$branchNumber" -ge "$branchLength" ]]; then
+                if [[ $branchLength == "1" ]]; then
+                    echo "${COLOR_LIGHT_RED}Really?${COLOR_RESET}"
+                elif [[ "$branchNumber" == "10" ]]; then
+                    echo "${COLOR_LIGHT_RED}This one doesn't go to eleven :(${COLOR_RESET}"
+                else
+                    echo "${COLOR_LIGHT_RED}Please enter a number from 1 to ${branchLength}${COLOR_RESET}"
+                fi
+                return 1
+            fi
+
+            newBranch=`echo "${branches[@]:$branchNumber:1}" | sed 's/.*refs\/heads\///' 2> /dev/null`
 
             if [[ -z "$newBranch" ]]; then
-                echo "Not real."
+                echo "${COLOR_LIGHT_RED}No git branch found named '${COLOR_CYAN}${newBranch}${COLOR_LIGHT_RED}?'${COLOR_RESET}"
                 return 1
             fi
         else
-            echo "Wtf?"
+            echo "${COLOR_LIGHT_RED}Please enter a numeric value.${COLOR_RESET}"
             return 1
         fi
     else
@@ -153,24 +191,29 @@ function c() {
 }
 complete -F _c  c
 
-function rbd() {
-    git fetch upstream && git rebase upstream/dev
-}
+# Probably don't need this anymore, and could be a dangerous mis-type
+#function rbd() {
+    #git fetch upstream && git rebase upstream/dev
+#}
 
 # required for grunt ct
-export LANG=en_US.UTF-8
-export LC_ALL=
+#export LANG=en_US.UTF-8
+#export LC_ALL=
+
+function what-is-listening-on-port() {
+    lsof -n -i4TCP:$1 | grep LISTEN
+}
 
 # required for dojo install of api (canvas dependency)
-PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/X11/lib/pkgconfig
+#PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/X11/lib/pkgconfig
 
 # Don't wait for job termination notification
 set -o notify
 
 # vim bindings in terminal
-set -o vi
+#set -o vi
 
-source ~/.bash_config
+# source ~/.bash_config
 
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
@@ -350,6 +393,8 @@ gpf () {
     git push -f origin $CUR_BRANCH
 }
 
+# brew services - lists everything it knows about
+# brew services start postgres
 alias pstart="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
 alias pstop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
 
@@ -633,10 +678,6 @@ function _git_check {
     fi
 }
 
-if [ -z "`echo $(hg prompt \"abort\" 2>&1) | grep abort`" ]; then
-    echo "hg-prompt not installed. Suggest http://sjl.bitbucket.org/hg-prompt/installation/"
-fi
-
 dvcs_function="
     # Figure out what repo we are in
     _git_check || _hg_check || _svn_check
@@ -800,10 +841,31 @@ function error_test() {
 
 PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_function})\[$COLOR_RESET\] \$ "
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
 ### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+#export PATH="/usr/local/heroku/bin:$PATH"
 
-export NVM_DIR="/Users/andrewray/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
+
+# Grand rounds stuff
+export GR_HOME=${HOME}/dev
+export GR_USERNAME=andrew.ray
+
+for file in ${GR_HOME}/engineering/bash/*.sh; do
+  source $file;
+done
+
+export PATH=${GR_HOME}/engineering/bin:${PATH}
+
+# default to aws env
+aws-environment development
+
+# allow for pivotal prme command
+tracker-environment
+
+alias vscode=code
+
+export PATH="${HOME}/Library/Android/sdk/tools:${HOME}/Library/Android/sdk/platform-tools:${PATH}"
+
+# Banyan stuff
+alias bstart="pg_ctl start -D /usr/local/var/postgres-banyan -l /usr/local/var/postgres-banyan/server.log"
