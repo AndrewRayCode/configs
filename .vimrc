@@ -160,6 +160,7 @@ au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 au BufRead,BufNewFile .jshintrc set ft=javascript
 au BufRead,BufNewFile .eslintrc set ft=javascript
 au BufRead,BufNewFile *.json set ft=javascript
+au BufRead,BufNewFile *.pryrc set ft=ruby
 
 " Mojo templates
 au BufRead,BufNewFile *.pc set filetype=html
