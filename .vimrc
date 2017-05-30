@@ -1140,6 +1140,8 @@ Project  '~/dev/tp'                      , 'tp'
 Project  '~/dev/monger-cordova'          , 'monger-cordova'
 Project  '~/dev/jarvis'                  , 'jarvis'
 Project  '~/dev/devise-two-factor/demo'  , 'devise-two-factor-demo'
+Project  '~/workerbee/OpusWeb/mvp_webpack', 'bee site'
+Project  '~/rails-tutorial'               , 'rails tutorial'
 
 " Format a var declaration list using tabularize
 function! FormatEquals()
@@ -1258,11 +1260,6 @@ vmap  <expr>  D        DVB_Duplicate()
 " Quick bookmarks
 "nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 "
-
-" \%V is Vim's bullshit way of matching text inside a visual selection.
-" Default the search inside a visual selection so that a replace will work
-" just on the visual selection. Vim is death and hell.
-vnoremap : :\%V
 
 let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = "botright"
