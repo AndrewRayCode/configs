@@ -71,7 +71,7 @@ function recent-branches() {
     echo $output
 }
 
-# git
+# Autocomplete function for c command
 function _c() {
     cur=${COMP_WORDS[COMP_CWORD]}
     branches=`git for-each-ref --sort=-committerdate refs/heads/ | head -n 10`
@@ -83,14 +83,18 @@ function _c() {
     output=''
     while read -r branch;
     do
-        output+=`echo "$branch" | sed 's/.*refs\/heads\///'`
-        # creative way to get color here? echo messes everything up
-        # (http://unix.stackexchange.com/questions/107417/what-are-the-special-characters-to-print-from-a-script-to-move-the-cursor ?)
-        #output+=" '`git show --quiet $(echo $branch | cut -d' ' -f1) --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset'"`"$'\n'
-        #echo " \'`git show --quiet $(echo $branch | cut -d' ' -f1) --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset\'"`"$'\n'
-        output+=" \'`git show --quiet $(echo $branch | cut -d' ' -f1) --pretty=format:"%h <%an> %s (%cr)\'"`"$'\n'
+        output+=`echo $branch | sed 's/.*refs\/heads\///'`
+        local rawBranchName=`git show --quiet $(echo $branch | cut -d' ' -f1) --pretty=format:"%h <%an> %s (%cr)\'"`
+        # If a commit message has backticks or dollar signs in it, bash will
+        # try to interpolate it when outputting. Escape backtick and dollar
+        # sign to prevent that
+        local sanitizedbranchName=`echo $rawBranchName | sed 's/\([$\`]\)/\\\1/g'`
+        output+="'"
+        output+=$sanitizedBranchname
+        output+="'"$'\n'
     done <<< "$branches"
 
+    # Why do I lowercase the output?
     response=''
     for branch in $output
     do
@@ -109,11 +113,23 @@ function c() {
 
     if [[ -z "$1" ]]; then
         local branchOutput=`git for-each-ref --sort=-committerdate refs/heads/ | head -n 10`
+        local IFS=$'\n'
 
+        # Bash syntax for declaring array
         declare -a branches
+
         local counter=0
         local longestBranchLength=0
 
+        # When padding the output with printf, we need to take into account the
+        # length of the branch name, plus any color codes we use, which aren't
+        # printed, but are counted in printf's %-10s padding. We need to add in
+        # the estimated string length of the color escape codes (including
+        # color reset) to pad the branch name correctly
+        local colorLength=4
+        local numberOfColors=8
+
+        # Find the longest branch name for padding...
         while read -r branch;
         do
             local branchName=`echo "$branch" | sed 's/.*refs\/heads\///'`
@@ -122,23 +138,21 @@ function c() {
             fi
         done <<< "$branchOutput"
 
-        let local padLength="longestBranchLength+2"
-        echo "padLenth: ${padLength}"
-        # TODO none of this works
-        local pad=$(printf '%0.1s' " "{1..$padLength})
-        #local pad=$(printf '%0.1s' " "$(eval echo "{1..$padLength}"))
+        # Calculate how many characters to pad including color code length...
+        let local padLength="( longestBranchLength + 2 ) + ( colorLength  * numberOfColors )"
 
+        # Show branches in a list with a counter
         while read -r branch;
         do
-            # Show them in a list with a counter
             counter=`expr $counter + 1`
             local branches=("${branches[@]}" "$branch")
             local branchName=`echo "$branch" | sed 's/.*refs\/heads\///'`
-            local string1="$COLOR_PURPLE$counter. $COLOR_PINK $branchName"
+            local branchNamePrefix="$COLOR_PURPLE$counter. $COLOR_PINK $branchName"
             local resetColor="$counter. $branchName"
-            printf '%s' $string1
-            printf '%*.*s' 0 $((padLength - ${#resetColor} )) "$pad"
-            printf '%s\n' `git show --quiet $branchName --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset"`
+            # this interpolates to something like `printf %-100s` which is
+            # syntax for padding in printf
+            printf "%-${padLength}s" $branchNamePrefix
+            printf '%s \n' `git show --quiet $branchName --pretty=format:"%C(Yellow)%h %Cred<%an>%Creset %s %C(cyan)(%cr)%Creset"`
         done <<< "$branchOutput"
 
         # Prompt user for file. -n means no line break after echo
@@ -148,6 +162,8 @@ function c() {
         let "branchNumber+=-1"
 
         branchLength=${#branches[@]}
+
+        # lol runtime type checking
         if [[ "$branchNumber" =~ ^[0-9]+$ ]]; then
 
             if [[ "$branchNumber" -ge "$branchLength" ]]; then
@@ -189,6 +205,8 @@ function c() {
     fi
 
 }
+
+# Wire up autocomplete
 complete -F _c  c
 
 # Probably don't need this anymore, and could be a dangerous mis-type
