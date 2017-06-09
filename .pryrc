@@ -41,3 +41,20 @@ end
 Pry::Commands.block_command "sa", "Application stack trace" do
   filtered_stack_trace( caller, /./ )
 end
+
+Pry::Commands.block_command "pbcopy", "Copy input to clipboard" do |input|
+  str = input.to_s
+  IO.popen('pbcopy', 'w') { |f| f << str }
+  str
+end
+
+def h_o(input)
+  f = Tempfile.new(['foo', '.html'])
+  f.write(input)
+  f.close
+  `open #{f.path}`
+end
+
+def showme
+  h_o(page.body)
+end

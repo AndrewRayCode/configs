@@ -23,3 +23,5 @@ export KEY_SUFFIX=grandrounds.com
 # if using rvm. So commenting out for now.
 #source /usr/local/share/chruby/chruby.sh
 #source /usr/local/share/chruby/auto.sh
+
+#test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
