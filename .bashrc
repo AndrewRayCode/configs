@@ -22,7 +22,7 @@ function alert() {
         message='Completed'
     fi
     osascript -e "display notification \"${message}\" with title \"${message}\""
-    say -v Hyst ${message}
+    say -v Bells ${message}
 }
 
 function gsync() {
@@ -862,34 +862,37 @@ PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_functio
 ### Added by the Heroku Toolbelt
 #export PATH="/usr/local/heroku/bin:$PATH"
 
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
-
 # Grand rounds stuff
 export GR_HOME=${HOME}/dev
 export GR_USERNAME=andrew.ray
 
-for file in ${GR_HOME}/engineering/bash/*.sh; do
-  source $file;
-done
+if [ -d "$GR_HOME" ]; then
+    for file in ${GR_HOME}/engineering/bash/*.sh; do
+    source $file;
+    done
 
-export PATH=${GR_HOME}/engineering/bin:${PATH}
+    export PATH=${GR_HOME}/engineering/bin:${PATH}
 
-# default to aws env
-aws-environment development
+    # default to aws env
+    aws-environment development
 
-# allow for pivotal prme command
-tracker-environment
+    # allow for pivotal prme command
+    tracker-environment
+fi
 
 alias vscode=code
 
+# Android SDK
 export PATH="${HOME}/Library/Android/sdk/tools:${HOME}/Library/Android/sdk/platform-tools:${PATH}"
 
 # Banyan stuff
 alias bstart="pg_ctl start -D /usr/local/var/postgres-banyan -l /usr/local/var/postgres-banyan/server.log"
 
-export NVM_DIR="/Users/andrewray/.nvm"
+# NVM setup
+export NVM_DIR="$HOME/.nvm"
+# One of these is for home and one is for work? Maybe? Where did the second line come from?
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"   # This loads nvm
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f /Users/andrewray/google-cloud-sdk/path.bash.inc ]; then
