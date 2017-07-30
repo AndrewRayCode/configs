@@ -1086,7 +1086,7 @@ augroup END
 "vim-textobj-user
 "vimproc.vim
 
-" Dead plugins I have removed:
+" Dead Plugins I Have Removed:
 "unite
 "choosewin
 "vim-session
@@ -1463,7 +1463,6 @@ Project  '~/rails-tutorial'               , 'rails tutorial'
 "------------------------------------------------------------------------------
 let g:script_runner_perl = "perl -Ilib -MData::Dumper -Mv5.10"
 let g:script_runner_javascript = "node"
-
 
 
 "------------------------------------------------------------------------------
