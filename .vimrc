@@ -512,8 +512,6 @@ function! Wipeout()
         call extend(tablist, tabpagebuflist(i + 1))
     endfor
 
-    "Below originally inspired by Hara Krishna Dara and Keith Roberts
-    "http://tech.groups.yahoo.com/group/vim/message/56425
     let nWipeouts = 0
     for i in range(1, bufnr('$'))
         if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
@@ -725,10 +723,11 @@ endfunction
 function! FormatAdiumLogs()
     silent! exec '%g/\vleft the room/d'
     silent! exec '%g/\ventered the room/d'
-    silent! exec '%s/\v time\="[^"]+"\>\<div\>\<span style\="font-family: Helvetica; font-size: 12pt;"//'
+    silent! exec '%s/\v time\="[^"]+"\>\<div\>\<span style\="[^"]+"//'
     normal vie=
     exec 'set ft=html'
 endfunction
+
 
 "------------------------------------------------------------------------------
 " JumpToWebpackError
@@ -806,15 +805,6 @@ vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
 
 
-" Visual ack, used to ack for highlighted text
-function! s:VAck()
-    let old = @"
-    norm! gvy
-    let @z = substitute(escape(@", '\'), '\n', '\\n', 'g')
-    let @" = old
-endfunction
-
-
 "------------------------------------------------------------------------------
 " Highlight Word
 " This mini-plugin provides a few mappings for highlighting words temporarily.
@@ -878,7 +868,7 @@ nnoremap <silent> <leader>hd :call TurnOffInterestingHighlight()<cr>
 
 "------------------------------------------------------------------------------
 " AttemptToSwapTwoThings
-" Everyone wants the most efficient way to swap two pieces of text in vim.
+" Everyone wants the most efficient way to swap two pieces of text in Vim.
 " This is my attempt to guess at what the user wants to swpa
 "------------------------------------------------------------------------------
 function! AttemptToSwapTwoThings()
@@ -1168,6 +1158,14 @@ augroup END
 " Ack.vim
 "------------------------------------------------------------------------------
 
+" Visual ack, used to ack for highlighted text
+function! s:VAck()
+    let old = @"
+    norm! gvy
+    let @z = substitute(escape(@", '\'), '\n', '\\n', 'g')
+    let @" = old
+endfunction
+
 " Ack for visual selection
 vnoremap <Leader>av :<C-u>call <SID>VAck()<CR>:exe "Ack! ".@z.""<CR>
 " Ack for word under cursor
@@ -1204,12 +1202,12 @@ let g:clickable_maps = '<2-LeftMouse>,<C-2-LeftMouse>,<S-2-LeftMouse>,<C-CR>,<S-
 " CtrlP
 "------------------------------------------------------------------------------
 
-" Set Ctrl-P to show match at top of list instead of at bottom, which is so
-" stupid that it's not default
+" Set Ctrl-P to show match at top of list instead of at bottom, which is awful
+" that it's not default
 let g:ctrlp_match_window_reversed = 0
 
 " Tell Ctrl-P to keep the current VIM working directory when starting a
-" search, another really stupid non default
+" search
 let g:ctrlp_working_path_mode = 0
 
 " Ctrl-P ignore target dirs so VIM doesn't have to! Yay!
@@ -1222,6 +1220,7 @@ let g:ctrlspace_ignored_files = '\v\.git$|\.hg$|\.svn$|target$|built$|.build$|no
 
 " Fix ctrl-p's mixed mode https://github.com/kien/ctrlp.vim/issues/556
 "let g:ctrlp_extensions = ['mixed']
+
 nnoremap <c-p> :CtrlP<cr>
 
 " Set up some custom ignores
@@ -1295,6 +1294,7 @@ nnoremap <Leader>me :MRU
 " Fix multiple cursors mode switching
 let g:multi_cursor_exit_from_insert_mode=0
 let g:multi_cursor_exit_from_visual_mode=0
+
 " Fix no highlighting too
 highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
 highlight link multiple_cursors_visual Visual
@@ -1350,8 +1350,6 @@ endfunction
 
 "------------------------------------------------------------------------------
 " NERDTree / NERDTreeTabs
-" Don't let accidentally typing :bd in nerdtree (or the quickfix window while
-" we're here) close the buffer, which can badly mess up nerd tree
 "------------------------------------------------------------------------------
 
 " Don't open nerdtree feature expander open on startup
@@ -1444,6 +1442,7 @@ set rtp+=~/.vim/bundle/vim-project/
 let g:project_disable_tab_title = 1
 "let g:project_enable_welcome = 0
 let g:project_use_nerdtree = 1
+
 " default starting path (the home directory)
 call project#rc("~/")
 
@@ -1478,7 +1477,7 @@ let g:script_runner_javascript = "node"
 "------------------------------------------------------------------------------
 " Surround
 "------------------------------------------------------------------------------
-" Surround mappings, switch " and ' with c (VERY useful)
+" Switch " and ' with c (VERY useful)
 nmap c' cs'"
 nmap c" cs"'
 
@@ -1487,8 +1486,6 @@ nmap c" cs"'
 " Syntastic
 "------------------------------------------------------------------------------
 
-" Ignore syntastic warnings
-" let g:syntastic_quiet_warnings=1
 " Place error visual marker in gutter
 let g:syntastic_enable_signs=1
 let g:syntastic_perl_lib_path = [ './locallib/lib/perl5' ]
