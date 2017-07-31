@@ -280,7 +280,6 @@ nnoremap <Leader>rs vi{:sort<cr>
 " trim trailing whitespace
 noremap <Leader>sw :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
-
 " Execute VIM colon command under cursor with <⌘-e>
 nnoremap <D-e> yy:<C-r>"<backspace><cr>
 
@@ -296,7 +295,7 @@ vnoremap <silent> <Leader>t; :'.t.<cr>
 nnoremap Y y$
 
 " In command line mode use ctrl-direction to move instead of arrow keys. Super
-" useful
+" useful.
 cnoremap <C-j> <t_kd>
 cnoremap <C-k> <t_ku>
 cnoremap <C-a> <Home>
@@ -310,7 +309,7 @@ inoremap <c-e> <esc>A
 "inoremap <c-a> <esc>I
 " Commenting this out to try using ctlr-a for inserting last inserted text
 
-" Ctrl-[hl]: Move left/right by word
+" Ctrl-h / l: Move left/right by word in command mode
 cnoremap <c-h> <s-left>
 cnoremap <c-l> <s-right>
 
@@ -327,7 +326,7 @@ inoremap <expr> <c-k> pumvisible() ? "\<C-e>\<Up>" : "\<Up>"
 "nmap <S-Space> <C-w>W
 
 " Delete current buffer
-nmap <Leader>db :bdelete<CR>
+nmap <Leader>bd :bdelete<CR>
 
 " Map :W to :w (http://stackoverflow.com/questions/3878692/aliasing-a-command-in-vim)
 cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
@@ -340,8 +339,8 @@ cnoreabbrev <expr> H ((getcmdtype() is# ':' && getcmdline() is# 'H')?('h'):('H')
 " . but I don't know why this fixes it
 inoremenu Edit.Paste <C-r><C-p>*
 
-" Jump backwards to previous function, assumes code is indented (useful when inside function)
-" Jump to top level function
+" Jump backwards to previous function, assumes code is indented (useful when
+" inside function)
 nnoremap <Leader>ff ?^func\\|^[a-zA-Z].*func<CR>,/
 
 " Faster tab switching. I never use these cause macvim lets me use
