@@ -42,10 +42,12 @@ Pry::Commands.block_command "sa", "Application stack trace" do
   filtered_stack_trace( caller, /./ )
 end
 
-Pry::Commands.block_command "pbcopy", "Copy input to clipboard" do |input|
+_max_display_string_length = 50
+def pbcopy(input)
   str = input.to_s
   IO.popen('pbcopy', 'w') { |f| f << str }
-  str
+  truncaed = str.length > _max_display_string_length ? str[0.._max_display_string_length] + '...' : str
+  puts "Copied \"#{truncated}\" to system clipboard!"
 end
 
 def h_o(input)
@@ -56,5 +58,8 @@ def h_o(input)
 end
 
 def showme
-  h_o(page.body)
+  h_o( defined?(page) ? page.body : dom.to_s )
 end
+
+# Disabe paging in pry
+Pry.config.pager = false

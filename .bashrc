@@ -868,7 +868,7 @@ export GR_USERNAME=andrew.ray
 
 if [ -d "$GR_HOME" ]; then
     for file in ${GR_HOME}/engineering/bash/*.sh; do
-    source $file;
+        source $file;
     done
 
     export PATH=${GR_HOME}/engineering/bin:${PATH}

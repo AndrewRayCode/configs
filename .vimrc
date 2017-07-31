@@ -64,8 +64,8 @@ nnoremap / ms/\v
 nnoremap ? ms?\v
 
 " Custom file type syntax highlighting
-au BufRead,BufNewFile *.djhtml set filetype=html
-au BufRead,BufNewFile *.soy set filetype=clojure
+au BufRead,BufNewFile .pryrc set ft=ruby syntax=ruby
+au BufRead,BufNewFile onboarding-tech-notes set ft=markdown syntax=markdown
 au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
 au BufRead,BufNewFile .jshintrc set ft=javascript
 au BufRead,BufNewFile .eslintrc set ft=javascript
@@ -724,6 +724,12 @@ function! FormatAdiumLogs()
     silent! exec '%g/\vleft the room/d'
     silent! exec '%g/\ventered the room/d'
     silent! exec '%s/\v time\="[^"]+"\>\<div\>\<span style\="[^"]+"//'
+    normal vie=
+    exec 'set ft=html'
+endfunction
+
+function! FormatHtml()
+    silent! exec '%s/\v\>\</\>\r\<'
     normal vie=
     exec 'set ft=html'
 endfunction
