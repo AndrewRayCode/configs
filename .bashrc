@@ -909,3 +909,7 @@ if [[ -d "${HOME}/c" ]]; then
     source ~/c/c_recent_branches_completer
 fi
 
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+
+eval "$(pyenv init -)"

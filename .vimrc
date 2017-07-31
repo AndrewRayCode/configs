@@ -98,7 +98,8 @@ set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws,built,locallib
 " Always snap to multiples of shiftwidth when using > and <
 set shiftround
 
-" You always, always want relativenumber on
+" You always, always want relativenumber on. This is the second most important
+" thing in this file
 setglobal relativenumber
 
 " errors in modifiable off files so silent :( vim is a gargabe joke
@@ -131,8 +132,13 @@ set smarttab
 " Use spaces always
 set expandtab
 
+" Disable C-style indenting. Experimental
 set nocindent
+
+" Copy indent from current line when starting a new line 
 set autoindent
+
+" Break at specific characters when wrapping long lines (:set breakat?)
 set lbr
 
 " Set bottom indicator. Probably does nothing with vim-powerline
@@ -171,7 +177,7 @@ let g:html_indent_autotags = "html"
 " call HtmlIndent_CheckUserSettings()
 
 " Highlight trailing whitespace in vim on non empty lines, but not while
-" typing in insert mode! Super useful!
+" typing in insert mode. Super useful!
 highlight ExtraWhitespace ctermbg=red guibg=Brown
 au ColorScheme * highlight ExtraWhitespace guibg=red
 au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
@@ -209,14 +215,10 @@ au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | DiffGitCached
 " Let mapleader be space. This is the most important line in this file
 let mapleader = "\<Space>"
 
-" remove \v with keystroke
+" In search mode, remove \v (very magic) with ctrl-v
 cnoremap <C-v> <C-f>02l"zyg_:q<cr>/<c-r>za
 
-" add mappings for q* because hitting q in nerdtree closes it
-nnoremap <leader>: q:
-nnoremap <leader>? q/
-
-" Title case a line or selection (better)
+" Title case a line or selection (doesn't work at all)
 vnoremap <Leader>ti :s/\%V\<\(\w\)\(\w*\)\>/\u\1\L\2/ge<cr>
 nnoremap <Leader>ti :s/.*/\L&/<bar>:s/\<./\u&/g<cr>
 
@@ -232,15 +234,14 @@ nnoremap <Leader>yy _yg_
 nnoremap <Leader>r- :t.<cr>:norm 0vg_r-<cr>
 nnoremap <Leader>r= :t.<cr>:norm 0vg_r=<cr>
 
-" New tab
-nnoremap <Leader>te :tabe 
-
-" Clear search highlighting so you don't have to search for /asdfasdf
+" Clear search highlighting
 nnoremap <silent> <Leader>/ :nohlsearch<CR>
 
 " Source vim when this file is updated
 nnoremap <Leader>sv :source $MYVIMRC<cr>
 nnoremap <silent> <Leader>so :source %<cr>:echo "Sourced this file!"<cr>
+
+" Quick file open shortcuts
 nnoremap <Leader>v :tabe $MYVIMRC<cr>
 nnoremap <Leader>ss :tabe ~/.vim/delvarworld-snippets/javascript/javascript.snippets<cr>
 nnoremap <Leader>hs :tabe /etc/hosts<cr>:setlocal noreadonly<cr>:setlocal autoread<cr>
@@ -251,7 +252,7 @@ nnoremap <Leader>yf :let @*=expand("%:t")<cr>:echo "Copied file name to clipboar
 " Copy current buffer path without filename to system clipboard
 nnoremap <Leader>yd :let @*=expand("%:h")<cr>:echo "Copied file directory to clipboard"<cr>
 
-" select last yanked / pasted text
+" select last yanked / pasted text, using the [ marks (:h `[)
 nnoremap <Leader>ht `[v`]
 
 " select last paste in visual mode
@@ -281,7 +282,7 @@ noremap <Leader>sw :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 
 " Execute VIM colon command under cursor with <⌘-e>
-nnoremap <D-e> yy:<C-r>"<backspace><cralsidf>
+nnoremap <D-e> yy:<C-r>"<backspace><cr>
 
 " Copy line to last changed postition
 nnoremap <silent> <Leader>t. :t'.<cr>
@@ -722,6 +723,13 @@ function! FormatVarList()
     exec 'set ft=perl'
 endfunction
 
+function! FormatAdiumLogs()
+    silent! exec '%g/\vleft the room/d'
+    silent! exec '%g/\ventered the room/d'
+    silent! exec '%s/\v time\="[^"]+"\>\<div\>\<span style\="font-family: Helvetica; font-size: 12pt;"//'
+    normal vie=
+    exec 'set ft=html'
+endfunction
 
 "------------------------------------------------------------------------------
 " JumpToWebpackError
@@ -1023,13 +1031,15 @@ augroup END
 " To refresh the list of plugins installed, uncomment the line below and hit
 " command-E on it (see the <d-e> mapping in this file
 
-"silent execute 'normal mzjV}kdk' | silent execute "read !ls ~/.vim/bundle" | silent execute "normal `zjV}k\<space>c\<space>'z0gcl'"
+" silent execute 'normal mzjV}kdk' | silent execute "read !ls ~/.vim/bundle" | silent execute "normal `zjV}k\<space>c\<space>'z0gcl'"
 "Rename
 "YouCompleteMe
 "ZoomWin
 "abolish
 "ack.vim
 "anzu
+"applescript.vim
+"clam.vim
 "clickable
 "clickable-things
 "coffee-script
@@ -1048,6 +1058,7 @@ augroup END
 "gundo
 "html-entities
 "indent-anything
+"indent-object
 "indentwise
 "jison
 "less
