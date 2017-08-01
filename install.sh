@@ -21,17 +21,17 @@ COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
 COLOR_RESET=$(tput sgr0)
 
 echo
-echo $COLOR_LIGHT_RED'                                    __ _         '
-echo '                                   / _|_)          '
-echo ' _ __ '$COLOR_YELLOW'__ _ '$COLOR_LIGHT_RED'_   _    ___ ___  _ __ | |_ _  __ _ ___ '
-echo '| `__'$COLOR_YELLOW'/ _` |'$COLOR_LIGHT_RED' | | |  / __/ _ \| `_ \|  _| |/ _` / __|'
-echo '| | '$COLOR_YELLOW'| (_| |'$COLOR_LIGHT_RED' |_| | | (_| (_) | | | | | | | (_| \__ \'
-echo '|_|  '$COLOR_YELLOW'\__,_|'$COLOR_LIGHT_RED'\__, |  \___\___/|_| |_|_| |_|\__, |___/'
+echo "$COLOR_LIGHT_RED'                                    __ _         '"
+echo "'                                   / _|_)          '"
+echo "' _ __ '$COLOR_YELLOW'__ _ '$COLOR_LIGHT_RED'_   _    ___ ___  _ __ | |_ _  __ _ ___ '"
+echo "'| \\\`__'$COLOR_YELLOW'/ _\\\` |'$COLOR_LIGHT_RED' | | |  / __/ _ \\\| \\\`_ \|  _| |/ _\\\` / __|'"
+echo "'| | '$COLOR_YELLOW'| (_| |'$COLOR_LIGHT_RED' |_| | | (_| (_) | | | | | | | (_| \__ \'"
+echo "'|_|  '$COLOR_YELLOW'\__,_|'$COLOR_LIGHT_RED'\__, |  \___\___/|_| |_|_| |_|\__, |___/'"
 echo '            __/ |                         __/ |    '
-echo '           |___/                         |___/     '$COLOR_RESET
+echo "'           |___/                         |___/     '$COLOR_RESET"
 echo
 symlinks=0
-pw=`pwd`/
+pw="$(pwd)/"
 
 # If no command line args given ($1 is first arg after script name, -z tests
 # for empty string)...
@@ -44,10 +44,10 @@ if [ -z "$1" ]; then
     let xx=0
 
     # Find all system config files that aren't vim swap files and loop through them
-    for file in `find . -type f -depth 1 -name ".bash_config*" | grep -v .swp`
+    for file in $(find . -type f -depth 1 -name ".bash_config*" | grep -v .swp)
     do
         # Show them in a list with a counter
-        xx=`expr $xx + 1` 
+        xx=$(expr $xx + 1)
         files=("${files[@]}" "$file")
         echo " $COLOR_PURPLE$xx$COLOR_RESET:  $COLOR_BLUE$file$COLOR_RESET"
     done
@@ -55,7 +55,7 @@ if [ -z "$1" ]; then
 
     # Prompt user for file. -n means no line break after echo
     echo -n "$COLOR_YELLOW?$COLOR_RESET "
-    read profile
+    read -r profile
 
     # If they entered a nubmer, look up that file in the array
     if [[ "$profile" =~ ^[1-9]+$ ]] ; then
@@ -85,6 +85,14 @@ if [[ -n "$config" ]]; then
     # Link ~/.bash_config to the specified one in our dir
     echo $COLOR_GREEN"Linking $COLOR_LIGHT_GREEN$config $COLOR_GREEN...$COLOR_RESET"
     ln -s -f $pw$config ${HOME}/.bash_config
+    let "symlinks+=1"
+fi
+
+vsCodeDir="$HOME/Library/Application\ Support/Code/User/"
+if [[ -d "$vsCodeDir" ]]; then
+    # Link ~/.bash_config to the specified one in our dir
+    echo "${COLOR_GREEN}Linking ${COLOR_LIGHT_GREEN}${vsCodeDir} ${COLOR_GREEN}...${COLOR_RESET}"
+    ln -sf "${pw}settings.json ${vsCodeDir}"
     let "symlinks+=1"
 fi
 
