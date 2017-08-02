@@ -17,5 +17,5 @@
     "git.autofetch": false,
     "git.autorefresh": false,
 
-    "indentRainbow.error_color": "rgba(255,0,0,1)"
+    "indentRainbow.error_color": "rgba(0,0,0,0)"
   }
