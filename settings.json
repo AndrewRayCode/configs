@@ -17,5 +17,10 @@
     "git.autofetch": false,
     "git.autorefresh": false,
 
-    "indentRainbow.error_color": "rgba(0,0,0,0)"
+    "indentRainbow.error_color": "rgba(0,0,0,0)",
+    // "ruby.rubocop.executePath": "/Users/aray/.rvm/gems/ruby-2.1.5@jarvis/bin/"
+    "ruby.lint": {
+      "reek": true,
+      "rubocop": true
+    }
   }
