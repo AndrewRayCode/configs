@@ -888,9 +888,10 @@ export PATH="${HOME}/Library/Android/sdk/tools:${HOME}/Library/Android/sdk/platf
 # Banyan stuff
 alias bstart="pg_ctl start -D /usr/local/var/postgres-banyan -l /usr/local/var/postgres-banyan/server.log"
 
+export NVM_DIR="$HOME/.nvm"
+
 # NVM setup
-if [[ $(command -v nvm) ]]; then
-    export NVM_DIR="$HOME/.nvm"
+if [[ -d "$NVM_DIR" ]]; then
     # One of these is for home and one is for work? Maybe? Where did the second line come from?
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"   # This loads nvm
