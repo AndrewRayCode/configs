@@ -88,7 +88,7 @@ if [[ -n "$config" ]]; then
     let "symlinks+=1"
 fi
 
-vsCodeDir="$HOME/Library/Application\ Support/Code/User/"
+vsCodeDir=$HOME/Library/Application\ Support/Code/User/
 if [[ -d "$vsCodeDir" ]]; then
     # Link ~/.bash_config to the specified one in our dir
     echo "${COLOR_GREEN}Linking ${COLOR_LIGHT_GREEN}${vsCodeDir} ${COLOR_GREEN}...${COLOR_RESET}"
