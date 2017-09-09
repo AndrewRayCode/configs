@@ -79,4 +79,36 @@ set output-meta On
 set convert-meta Off
 
 "\C-v": paste-from-clipboard
+
+# Vim mode in bash with cursor improvements. Zsh has different instructions
+# First upgrade to Bash 4 on OSX http://clubmate.fi/upgrade-to-bash-4-in-mac-os-x/
+# Then add the following lines to your ~/.inputrc:
+
+# Turn on vim mode in bash (and other CLIs, like postgres!). Doesn't work for
+# node, ruby, but works for python
 set editing-mode vi
+
+# Show the current mode (insert/command) in the bash prompt
+set show-mode-in-prompt on
+
+# Cursor options:
+#    0 -> blinking block.
+#    1 -> blinking block (default).
+#    2 -> steady block.
+#    3 -> blinking underline.
+#    4 -> steady underline.
+#    5 -> blinking bar (xterm).
+#    6 -> steady bar (xterm).
+# Bash colors: https://misc.flogisoft.com/bash/tip_colors_and_formatting
+
+# Set the cursor and prompt prefix for insert and command mode.
+# Explanation:
+#    \1\e[    Some nonense escape code
+#    6        The option from above
+#     q\2     (with leading space) more nonense escape code
+#    \e[91m   The color of the thing to show in front of prompt (light red)
+#    i        The text to put in front of the cursor
+#    \e[0m    Reset color code (to be a good citizen)
+set vi-ins-mode-string \1\e[6 q\2\e[91mi \e[0m
+set vi-cmd-mode-string \1\e[2 q\2\e[31mc \e[0m
+
