@@ -16,6 +16,10 @@ complete -C aws_completer aws
 
 alias blender=/Applications/blender.app/Contents/MacOS/blender
 
+function gpgrep() {
+    find . -type f -name '*.gpg' -exec sh -c "gpg -q -d --no-tty \"{}\" | grep -InH --color=auto --label=\"{}\" $*" \;
+}
+
 function alert() {
     message=$1
     if [[ -z "$message" ]]; then
@@ -911,10 +915,119 @@ if [[ -d "${HOME}/c" ]]; then
     source ~/c/c_recent_branches_completer
 fi
 
-# Python development
+# Python development, requires pyenv from homebrew
 if [[ $(command -v pyenv) ]]; then
     export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
 
     eval "$(pyenv init -)"
+
+    # Requires homebrew pyenv-virtualenv
+    if [[ -f "${PYENV_ROOT}/shims/virtualenv" ]]; then
+        eval "$(pyenv virtualenv-init -)"
+    fi
 fi
+
+# GR
+function releaseCommits() {
+    git fetch --all
+
+    # Find the latest two non-smoke non-test release branches
+    latestBranches=$(git branch -a | grep -vo '/smoke/' | grep -vo '/test/' | grep -o '.*rc/branch/\d\{4\}-.\+' | sort -r | head -n 2)
+
+    currentReleaseBranch=$(echo "$latestBranches" | head -n 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+    lastReleaseBranch=$(echo "$latestBranches" | tail -n 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+
+    # Show only the merge commits in this branch
+    gitCommand="git log --first-parent master --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit ${currentReleaseBranch}..${lastReleaseBranch}"
+    echo "Executing:"
+    echo "   ${gitCommand}"
+    echo
+
+    git log --first-parent master --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit "${currentReleaseBranch}..${lastReleaseBranch}"
+
+    # Strip out remote/ prefix of branch name to pass to github link
+    currentReleaseBranchWithoutRemote=$(echo "$currentReleaseBranch" | sed -E 's/remotes\/[^\/]+\///')
+    lastReleaseBranchWithoutRemote=$(echo "$lastReleaseBranch" | sed -E 's/remotes\/[^\/]+\///')
+
+    echo
+    echo "You can see these commits on Github:"
+    echo "    https://github.com/ConsultingMD/jarvis/compare/${lastReleaseBranchWithoutRemote}...${currentReleaseBranchWithoutRemote}"
+}
+
+function jgrep() {
+    cat ~/dev/rake-routes | grep "$1"
+}
+
+
+# aliased to "sw"
+# Easily checkout git branches, listed from a dialog menu
+# dialog settings may be set in ~/.dialogrc
+# switch_dialog
+function switch_dialog {
+  curr_branch=`git rev-parse --abbrev-ref HEAD`
+  if [ -z $curr_branch ]; then
+    return
+  fi
+
+  DIALOG_OK=0
+  DIALOG_CANCEL=1
+  DIALOG_ESC=255
+
+  tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+  trap "rm -f $tempfile" 0 1 2 5 15
+
+  curr_branch_index=""
+  branches=`git branch | tr -s "*" " "`
+  dialog_args=""
+
+  counter1=0
+  for b1 in $branches; do
+    branch_line=""
+    if [ $b1 = $curr_branch ]; then
+      branch_line="> $b1"
+      curr_branch_index=$counter1
+    else
+      branch_line="$counter1 $b1"
+    fi
+    dialog_args="$dialog_args $branch_line "
+    let counter1+=1
+  done
+
+  dialog --keep-tite --title "git-checkout" \
+          --menu "You are currently on branch:\n${curr_branch}\nSwitch to:" 0 0 0 \
+          $dialog_args 2> $tempfile
+
+  return_status=$?
+
+  case $return_status in
+    $DIALOG_OK)
+      branch_entry=`cat $tempfile`
+
+      if [ $branch_entry = ">" ]; then
+        echo -e "\n\n-> git checkout $curr_branch"
+        echo "Already on '${curr_branch}'"
+        return
+      fi
+
+      counter2=0
+      for b2 in $branches; do
+        if [ $branch_entry = $counter2 ]; then
+          echo -e "\n\n-> git checkout $b2"
+          git checkout $b2
+        fi
+        let counter2+=1
+      done
+      ;;
+    $DIALOG_CANCEL)
+      echo -e "\n\nQuit."
+      echo "On branch $curr_branch"
+      ;;
+    $DIALOG_ESC)
+      echo -e "\n\nQuit."
+      echo "On branch $curr_branch"
+      ;;
+    *)
+      echo -e "\n\nInvalid operation."
+      echo "On branch $curr_branch"
+  esac
+}
