@@ -58,8 +58,8 @@ set splitright
 " This makes :help open at the bottom, which I don't like, so removing for now
 "set splitbelow
 
-" Make all searches very magic. Also mark the position before you start
-" searching to copy text back to
+" Make all searches very magic. This is the most important thing in this file.
+" Also mark the position before you start searching to copy text back to
 nnoremap / ms/\v
 nnoremap ? ms?\v
 
@@ -98,8 +98,8 @@ set wig=*.swp,*.bak,*.pyc,*.class,node_modules*,*.ipr,*.iws,built,locallib
 " Always snap to multiples of shiftwidth when using > and <
 set shiftround
 
-" You always, always want relativenumber on. This is the second most important
-" thing in this file
+" You always, always want relativenumber on. This is most important thing in
+" this file
 setglobal relativenumber
 
 " errors in modifiable off files so silent :( vim is a gargabe joke
