@@ -106,9 +106,10 @@ set show-mode-in-prompt on
 #    \1\e[    Some nonense escape code
 #    6        The option from above
 #     q\2     (with leading space) more nonense escape code
+# I removed the following because it messes up line wrapping
 #    \e[91m   The color of the thing to show in front of prompt (light red)
 #    i        The text to put in front of the cursor
 #    \e[0m    Reset color code (to be a good citizen)
-set vi-ins-mode-string \1\e[6 q\2\e[91mi \e[0m
-set vi-cmd-mode-string \1\e[2 q\2\e[31mc \e[0m
+set vi-ins-mode-string \1\e[5 q\2
+set vi-cmd-mode-string \1\e[2 q\2
 
