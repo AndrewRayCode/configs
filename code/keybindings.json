@@ -1,0 +1,10 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+  // Vim navigate backwards/forwards
+  { "key": "ctrl+o",  "command": "workbench.action.navigateBack", "when": "editorTextFocus" },
+  { "key": "ctrl+i", "command": "workbench.action.navigateForward", "when": "editorTextFocus" },
+  { "key": "cmd+k p", "command": "extension.copyRelativePathOfActiveFile"},
+  { "key": "cmd+k f", "command": "workbench.action.files.copyPathOfActiveFile" },
+  { "key": "cmd-k l", "command": "latex-workshop.tab" },
+  { "key": "cmd-alt-m", "command": "workbench.action.terminal.focus" }
+]
