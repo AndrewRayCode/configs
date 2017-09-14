@@ -1,0 +1,8 @@
+AwesomePrint.defaults = {
+    color: {
+        bigdecimal: :cyan,
+        integer:    :cyan,
+        float:      :cyan,
+        rational:   :cyan
+    }
+}

@@ -1,3 +1,6 @@
+require 'awesome_print'
+AwesomePrint.pry!
+
 require 'colorize'
 
 def colorized_stack_trace( stack, base_dir )
@@ -63,3 +66,6 @@ end
 
 # Disabe paging in pry
 Pry.config.pager = false
+
+
+pancake testing: http://stark.stack-5384.pancakes.ci.grandrounds.com/admin/sierra/cases/8c97f75645128116/assignments_tab

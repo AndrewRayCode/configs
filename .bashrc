@@ -956,6 +956,7 @@ function releaseCommits() {
 }
 
 function jgrep() {
+    #{ rake routes > ~/dev/rake-routes & } 2>/dev/null
     cat ~/dev/rake-routes | grep "$1"
 }
 
@@ -1032,3 +1033,4 @@ function switch_dialog {
       echo "On branch $curr_branch"
   esac
 }
+

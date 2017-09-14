@@ -109,6 +109,6 @@ set show-mode-in-prompt on
 #    \e[91m   The color of the thing to show in front of prompt (light red)
 #    i        The text to put in front of the cursor
 #    \e[0m    Reset color code (to be a good citizen)
-set vi-ins-mode-string \1\e[6 q\2\e[91mi \e[0m
-set vi-cmd-mode-string \1\e[2 q\2\e[31mc \e[0m
+set vi-ins-mode-string \1\e[6 q\2
+set vi-cmd-mode-string \1\e[2 q\2
 

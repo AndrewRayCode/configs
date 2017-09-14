@@ -64,6 +64,7 @@ nnoremap / ms/\v
 nnoremap ? ms?\v
 
 " Custom file type syntax highlighting
+au BufRead,BufNewFile .aprc set ft=ruby syntax=ruby
 au BufRead,BufNewFile .pryrc set ft=ruby syntax=ruby
 au BufRead,BufNewFile onboarding-tech-notes set ft=markdown syntax=markdown
 au BufRead,BufNewFile .bash_config set ft=sh syntax=sh
