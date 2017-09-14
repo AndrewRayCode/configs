@@ -1,9 +1,9 @@
 AwesomePrint.defaults = {
     color: {
-        bigdecimal: :cyan,
-        integer:    :cyan,
-        float:      :cyan,
-        rational:   :cyan
+        bigdecimal: :white,
+        integer:    :white,
+        float:      :white,
+        rational:   :white
     }
 }
 

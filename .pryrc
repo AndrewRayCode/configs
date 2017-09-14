@@ -1,5 +1,5 @@
-require 'awesome_print'
-AwesomePrint.pry!
+#require 'awesome_print' # Removing because bad colors and can't configure
+#AwesomePrint.pry!
 
 require 'colorize'
 
