@@ -1,8 +1,10 @@
+" Search this file for "important" for the most important lines
+
 " =============================================================================
 " ====
 " =====
 " ======
-" Vanilla Vim Settings:
+" Setup And Styles And Colors:
 " ======
 " =====
 " ====
@@ -18,16 +20,8 @@ call pathogen#infect()
 Helptags " Added to avoid having to manually install docs for plugins
 filetype plugin indent on
 
-" Experimental to make command line completion easier?
-set wildmenu
-
-" Don't put two spaces after a period when joining lines with gq or J or
-" whatever
-set nojoinspaces
-
-" Nerdtree coloring gets messed when you call syntax on/enable more than once.
-" It overwrites user defined colors. Use `enable` because `on` will overwrite
-" any defined colors
+" The "right" way to set color. Use `enable` because `on` will overwrite all
+" other colors. Guard because no reason to call it more than once
 if !exists("g:syntax_on")
     syntax enable
 endif
@@ -38,17 +32,42 @@ highlight ColorColumn guibg=#331111
 set colorcolumn=80
 set cursorline
 
-" Always show vim's tab bar
-set showtabline=2
-
 " Make the cursor a thin line (not a block) and color it differently in insert
 " and normal mode. Makes it WAY easier to see where the cursor is
 highlight Cursor guibg=#FF92BB guifg=#ffffff
 highlight iCursor guibg=red
 set guicursor=n-c:ver30-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-iCursor/lCursor,r-cr:hor20-Cursor/lCursor,v-sm:block-Cursor
 
-" Experimental make lines that wrap have same indenting as their parent
-set breakindent
+" Highlight trailing whitespace in vim on non empty lines, but not while
+" typing in insert mode. Super useful!
+highlight ExtraWhitespace ctermbg=red guibg=Brown
+au ColorScheme * highlight ExtraWhitespace guibg=red
+au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
+au InsertEnter * match ExtraWhitespace /\S\zs\s\+\%#\@<!$/
+au InsertLeave * match ExtraWhiteSpace /\S\zs\s\+$/
+
+" Always show vim's tab bar
+set showtabline=2
+
+" =============================================================================
+" ====
+" =====
+" ======
+" Vanilla Vim Settings:
+" ======
+" =====
+" ====
+" ===
+" =============================================================================
+
+" Make all searches very magic. This is the most important thing in this file.
+" Also mark the position before you start searching to copy text back to
+nnoremap / ms/\v
+nnoremap ? ms?\v
+
+" Don't put two spaces after a period when joining lines with gq or J or
+" whatever
+set nojoinspaces
 
 " Don't try to highlight lines longer than 800 characters.
 set synmaxcol=800
@@ -57,11 +76,6 @@ set synmaxcol=800
 set splitright
 " This makes :help open at the bottom, which I don't like, so removing for now
 "set splitbelow
-
-" Make all searches very magic. This is the most important thing in this file.
-" Also mark the position before you start searching to copy text back to
-nnoremap / ms/\v
-nnoremap ? ms?\v
 
 " Custom file type syntax highlighting
 au BufRead,BufNewFile .aprc set ft=ruby syntax=ruby
@@ -124,27 +138,14 @@ set incsearch
 " r = Always show scrollbar
 set guioptions=mer
 
-" Maybe I should remove these? Annoying when I'm in a 2 space project and have
-" to manually set
-set tabstop=4
-set shiftwidth=4
-set smarttab
-
 " Use spaces always
 set expandtab
-
-" Disable C-style indenting. Experimental
-set nocindent
 
 " Copy indent from current line when starting a new line 
 set autoindent
 
 " Break at specific characters when wrapping long lines (:set breakat?)
 set lbr
-
-" Set bottom indicator. Probably does nothing with vim-powerline
-set ruler
-set showcmd
 
 " Give one virtual space at end of line so the cursor can go to the end of the
 " line (useful)
@@ -159,10 +160,7 @@ set iskeyword=@,48-57,_,192-255,#,$
 " Backspace in normal mode: Act like normal backspace and go into insert mode
 nnoremap <bs> i<bs>
 
-" Why do I have this?
-set path=.,/usr/include,$PWD
-
-" More commands in q: q/ etc
+" More commands in q: q/ etc (default is 50)
 set history=200
 
 " VIM LITERALLY CAN'T INDENT HTML AND THERE'S NO HELP FOR THIS VARIABLE NAME
@@ -176,14 +174,6 @@ let g:html_indent_autotags = "html"
 " HTML BUFFER after setting the global variables to get proper HTML
 " indenting... come on Vim
 " call HtmlIndent_CheckUserSettings()
-
-" Highlight trailing whitespace in vim on non empty lines, but not while
-" typing in insert mode. Super useful!
-highlight ExtraWhitespace ctermbg=red guibg=Brown
-au ColorScheme * highlight ExtraWhitespace guibg=red
-au BufEnter * match ExtraWhitespace /\S\zs\s\+$/
-au InsertEnter * match ExtraWhitespace /\S\zs\s\+\%#\@<!$/
-au InsertLeave * match ExtraWhiteSpace /\S\zs\s\+$/
 
 " Jump to last known cursor position when opening file
 " warning: This appears to break jump-to-line when opening a file with CtrlP
@@ -200,6 +190,30 @@ au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | DiffGitCached
 " this becasue it can mess up terminal vim when resizing the terminal when
 " editing a git commit message, which has split of msg/code change
 "au VimResized * :wincmd =
+
+" Some experimental stuff
+
+" Experimental to make command line completion easier?
+set wildmenu
+
+" Experimental make lines that wrap have same indenting as their parent
+set breakindent
+
+" Maybe I should remove these? Annoying when I'm in a 2 space project and have
+" to manually set
+set tabstop=4
+set shiftwidth=4
+set smarttab
+
+" Disable C-style indenting. Experimental
+set nocindent
+
+" Set bottom indicator. Probably does nothing with vim-powerline
+set ruler
+set showcmd
+
+" Why do I have this?
+set path=.,/usr/include,$PWD
 
 
 " =============================================================================
