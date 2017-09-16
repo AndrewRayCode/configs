@@ -33,7 +33,8 @@ set colorcolumn=80
 set cursorline
 
 " Make the cursor a thin line (not a block) and color it differently in insert
-" and normal mode. Makes it WAY easier to see where the cursor is
+" and normal mode. Makes it WAY easier to see where the cursor is. This is the
+" most important thing in this file
 highlight Cursor guibg=#FF92BB guifg=#ffffff
 highlight iCursor guibg=red
 set guicursor=n-c:ver30-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-iCursor/lCursor,r-cr:hor20-Cursor/lCursor,v-sm:block-Cursor
@@ -306,7 +307,8 @@ vnoremap <silent> <Leader>t. :t'.<cr>
 nnoremap <silent> <Leader>t; :'.t.<cr>
 vnoremap <silent> <Leader>t; :'.t.<cr>
 
-" Make Y yank till end of line. Super useful
+" Make Y yank till end of line. Super useful. This is the most important thing
+" in this file
 nnoremap Y y$
 
 " In command line mode use ctrl-direction to move instead of arrow keys. Super
