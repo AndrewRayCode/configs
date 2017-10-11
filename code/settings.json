@@ -16,6 +16,7 @@
         "**/old_dist_find_assets": true,
         "**/tmp": true
     },
+    "git.autofetch": false,
     "editor.minimap.enabled": false,
     // NOOOOOOOO
     "workbench.editor.enablePreview": true,
@@ -61,5 +62,6 @@
     "prettier.useTabs": false,
 
     "indentRainbow.error_color": "",
-    "editor.renderWhitespace": "none"
+
+    "editor.renderWhitespace": "none",
 }

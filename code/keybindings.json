@@ -6,5 +6,25 @@
   { "key": "cmd+k p", "command": "extension.copyRelativePathOfActiveFile"},
   { "key": "cmd+k f", "command": "workbench.action.files.copyPathOfActiveFile" },
   { "key": "cmd-k l", "command": "latex-workshop.tab" },
-  { "key": "cmd-alt-m", "command": "workbench.action.terminal.focus" }
+  { "key": "cmd-alt-m", "command": "workbench.action.terminal.focus" },
+  { "key": "cmd-alt-m", "command": "workbench.action.terminal.focus" },
+
+  // First undo TERRIBLE defaults by vscode_block_travel
+  // https://github.com/sashaweiss/vscode_block_travel/blob/ba6cedc998a82d054ad499c8a96dffac4ca0aef7/package.json#L45
+  { "key": "shift+alt+down",        "command": "editor.action.copyLinesDownAction",
+    "when": "editorTextFocus && !editorReadonly" },
+  { "key": "shift+alt+up",          "command": "block-travel.selectUp",
+                                        "when": "editorTextFocus" },
+  { "key": "alt+down",              "command": "editor.action.moveLinesDownAction",
+    "when": "editorTextFocus && !editorReadonly" },
+  { "key": "alt+up",                "command": "editor.action.moveLinesUpAction",
+                                        "when": "editorTextFocus && !editorReadonly" },
+
+  // non-TERRIBLE defaults for this plugin. I tried cmd+] which feels more natural
+  // but then selection (cmd+shift+[ conflicts with tab move)
+  { "key": "alt+[",           "command": "block-travel.jumpUp", "when": "editorTextFocus" },
+  { "key": "alt+]",           "command": "block-travel.jumpDown", "when": "editorTextFocus" },
+
+  { "key": "alt+shift+[",           "command": "block-travel.selectUp", "when": "editorTextFocus" },
+  { "key": "alt+shift+]",           "command": "block-travel.selectDown", "when": "editorTextFocus" }
 ]
