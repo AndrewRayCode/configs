@@ -861,6 +861,15 @@ function error_test() {
     fi
 }
 
+# does not work when used as $(${gr_banana})
+function gr_banana() {
+    if [[ "$AWS_ENVIRONMENT" != "" ]]; then
+        echo -e "${COLOR_LIGHT_GREEN}env${COLOR_RESET}"
+    else
+        echo -e "${COLOR_LIGHT_RED}no${COLOR_RESET}"
+    fi
+}
+
 PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_function})\[$COLOR_RESET\] \$ "
 
 ### Added by the Heroku Toolbelt

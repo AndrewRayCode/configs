@@ -13,7 +13,9 @@
   // https://github.com/sashaweiss/vscode_block_travel/blob/ba6cedc998a82d054ad499c8a96dffac4ca0aef7/package.json#L45
   { "key": "shift+alt+down",        "command": "editor.action.copyLinesDownAction",
     "when": "editorTextFocus && !editorReadonly" },
-  { "key": "shift+alt+up",          "command": "block-travel.selectUp",
+  { "key": "shift+alt+up",        "command": "editor.action.copyLinesUpAction",
+    "when": "editorTextFocus && !editorReadonly" },
+  { "key": "cmd+alt+up",          "command": "block-travel.selectUp",
                                         "when": "editorTextFocus" },
   { "key": "alt+down",              "command": "editor.action.moveLinesDownAction",
     "when": "editorTextFocus && !editorReadonly" },
@@ -26,5 +28,9 @@
   { "key": "alt+]",           "command": "block-travel.jumpDown", "when": "editorTextFocus" },
 
   { "key": "alt+shift+[",           "command": "block-travel.selectUp", "when": "editorTextFocus" },
-  { "key": "alt+shift+]",           "command": "block-travel.selectDown", "when": "editorTextFocus" }
+  { "key": "alt+shift+]",           "command": "block-travel.selectDown", "when": "editorTextFocus" },
+
+  // terrible defaults for "rails run specs"
+  { "key": "shift+cmd+t",           "command": "workbench.action.reopenClosedEditor" },
+  { "key": "cmd+k cmd+f",           "command": "extension.runFileSpecs" }
 ]
