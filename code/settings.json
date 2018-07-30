@@ -1,6 +1,6 @@
 // Place your settings in this file to overwrite the default settings
 {
-    "workbench.colorTheme": "Vibrant_Ink",
+    "workbench.colorTheme": "Default Light+",
     "eslint.enable": true,
     "javascript.validate.enable": false,
     "editor.rulers": [80],
@@ -64,5 +64,16 @@
     "indentRainbow.error_color": "",
 
     "editor.renderWhitespace": "none",
-    "workbench.panel.location": "right"
+    "workbench.panel.location": "right",
+    "gitlens.advanced.messages": {
+        "suppressShowKeyBindingsNotice": true
+    },
+    "cSpell.userWords": [
+        "kase",
+        "kases",
+        "mixpanel"
+    ],
+    "window.title": "${activeEditorMedium}${separator}${rootName}",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always"
 }
