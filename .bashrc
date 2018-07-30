@@ -1001,6 +1001,7 @@ function jgrep() {
     cat ~/dev/rake-routes | grep "$1"
 }
 
+[[ -s /Users/andrewray/.rsvm/rsvm.sh ]] && . /Users/andrewray/.rsvm/rsvm.sh # This loads RSVM
 
 # aliased to "sw"
 # Easily checkout git branches, listed from a dialog menu

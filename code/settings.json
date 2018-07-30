@@ -75,5 +75,6 @@
     ],
     "window.title": "${activeEditorMedium}${separator}${rootName}",
     "javascript.updateImportsOnFileMove.enabled": "always",
-    "typescript.updateImportsOnFileMove.enabled": "always"
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "workbench.panel.location": "bottom"
 }

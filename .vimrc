@@ -1491,7 +1491,7 @@ Project  '~/dev/devise-two-factor/demo'   , 'devise-two-factor-demo'
 Project  '~/workerbee/OpusWeb/mvp_webpack', 'bee site'
 Project  '~/rails-tutorial'               , 'rails tutorial'
 Project  '~/dev/onboarding-tech-notes'    , 'onboarding tech notes'
-
+Project  '~/closed-source-projects'       , 'closed source projects'
 
 "------------------------------------------------------------------------------
 " Script-runner (I don't really use this anymore)
