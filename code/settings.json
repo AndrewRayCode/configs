@@ -64,5 +64,5 @@
     "indentRainbow.error_color": "",
 
     "editor.renderWhitespace": "none",
-    "workbench.panel.location": "bottom",
+    "workbench.panel.location": "bottom"
 }

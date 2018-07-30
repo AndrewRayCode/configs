@@ -118,7 +118,8 @@ set shiftround
 " this file
 setglobal relativenumber
 
-" errors in modifiable off files so silent :( vim is a gargabe joke
+" Use non-windows linebreaks. This command errors in modifiable off files, so
+" suppress errors with silent :(
 silent! set ff=unix
 
 " Ignore caase in search, unless you type any capital letters, then it

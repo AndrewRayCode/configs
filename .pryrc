@@ -1,7 +1,28 @@
 #require 'awesome_print' # Removing because bad colors and can't configure
 #AwesomePrint.pry!
 
-require 'colorize'
+puts "#{'Starting a Pry console...'.cyan}"
+
+begin
+    require 'colorize'
+    puts "#{'require'.light_red} #{"'colorize'".cyan}"
+rescue LoadError
+    puts "Warning: colorize gem not found"
+end
+
+begin
+    require 'factory_girl_console'
+    puts "#{'require'.light_red} #{"'factory_girl_console'".cyan}"
+rescue LoadError
+    puts "Warning: factory_girl_console gem not found"
+end
+
+begin
+    include Rails.application.routes.url_helpers
+    puts "#{'include'.light_yellow} #{'Rails.application.routes.url_helpers'.cyan}"
+rescue LoadError
+    puts "Warning: factory_girl_console gem not found"
+end
 
 def colorized_stack_trace( stack, base_dir )
   separator = File::SEPARATOR
@@ -49,7 +70,7 @@ _max_display_string_length = 50
 def pbcopy(input)
   str = input.to_s
   IO.popen('pbcopy', 'w') { |f| f << str }
-  truncaed = str.length > _max_display_string_length ? str[0.._max_display_string_length] + '...' : str
+  truncated = str.length > _max_display_string_length ? str[0.._max_display_string_length] + '...' : str
   puts "Copied \"#{truncated}\" to system clipboard!"
 end
 
