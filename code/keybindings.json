@@ -13,7 +13,7 @@
   // https://github.com/sashaweiss/vscode_block_travel/blob/ba6cedc998a82d054ad499c8a96dffac4ca0aef7/package.json#L45
   { "key": "shift+alt+down",        "command": "editor.action.copyLinesDownAction",
     "when": "editorTextFocus && !editorReadonly" },
-  { "key": "shift+alt+up",          "command": "block-travel.selectUp",
+  { "key": "shift+alt+up",          "command": "editor.action.copyLinesUpAction",
                                         "when": "editorTextFocus" },
   { "key": "alt+down",              "command": "editor.action.moveLinesDownAction",
     "when": "editorTextFocus && !editorReadonly" },

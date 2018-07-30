@@ -1488,6 +1488,7 @@ Project  '~/dev/jarvis'                   , 'jarvis'
 Project  '~/dev/devise-two-factor/demo'   , 'devise-two-factor-demo'
 Project  '~/workerbee/OpusWeb/mvp_webpack', 'bee site'
 Project  '~/rails-tutorial'               , 'rails tutorial'
+Project  '~/closed-source-projects'       , 'closed source projects'
 
 
 "------------------------------------------------------------------------------
