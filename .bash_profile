@@ -25,3 +25,5 @@ export KEY_SUFFIX=grandrounds.com
 #source /usr/local/share/chruby/auto.sh
 
 #test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+[[ -s "/Users/andrewray/.gvm/scripts/gvm" ]] && source "/Users/andrewray/.gvm/scripts/gvm"
