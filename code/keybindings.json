@@ -14,22 +14,29 @@
   { "key": "shift+alt+down",        "command": "editor.action.copyLinesDownAction",
   { "key": "shift+alt+up",        "command": "editor.action.copyLinesUpAction",
     "when": "editorTextFocus && !editorReadonly" },
-  { "key": "cmd+alt+up",          "command": "block-travel.selectUp",
-                                        "when": "editorTextFocus" },
-  { "key": "alt+down",              "command": "editor.action.moveLinesDownAction",
-    "when": "editorTextFocus && !editorReadonly" },
+  // { "key": "cmd+alt+up",          "command": "block-travel.selectUp",
+    //                                       "when": "editorTextFocus" },
+    // "when": "editorTextFocus && !editorReadonly" },
+  // { "key": "alt+down",              "command": "editor.action.moveLinesDownAction",
   { "key": "alt+up",                "command": "editor.action.moveLinesUpAction",
                                         "when": "editorTextFocus && !editorReadonly" },
-
+                                        
+  // I removed this plugin (cause it's bad?)
   // non-TERRIBLE defaults for this plugin. I tried cmd+] which feels more natural
   // but then selection (cmd+shift+[ conflicts with tab move)
-  { "key": "alt+[",           "command": "block-travel.jumpUp", "when": "editorTextFocus" },
-  { "key": "alt+]",           "command": "block-travel.jumpDown", "when": "editorTextFocus" },
+  // { "key": "alt+[",           "command": "block-travel.jumpUp", "when": "editorTextFocus" },
+  // { "key": "alt+]",           "command": "block-travel.jumpDown", "when": "editorTextFocus" },
 
-  { "key": "alt+shift+[",           "command": "block-travel.selectUp", "when": "editorTextFocus" },
-  { "key": "alt+shift+]",           "command": "block-travel.selectDown", "when": "editorTextFocus" },
+  // { "key": "alt+shift+[",           "command": "block-travel.selectUp", "when": "editorTextFocus" },
+  // { "key": "alt+shift+]",           "command": "block-travel.selectDown", "when": "editorTextFocus" },
 
   // terrible defaults for "rails run specs"
   { "key": "shift+cmd+t",           "command": "workbench.action.reopenClosedEditor" },
-  { "key": "cmd+k cmd+f",           "command": "extension.runFileSpecs" }
+  { "key": "cmd+k cmd+f",           "command": "extension.runFileSpecs" },
+  {
+    "key": "alt+cmd+n",
+    "command": "workbench.action.compareEditor.nextChange",
+    "when": "editorTextFocus"
+  }
 ]
+

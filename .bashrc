@@ -11,6 +11,34 @@ COLOR_LIGHT_RED=$(tput sgr0 && tput bold && tput setaf 1)
 COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
 COLOR_RESET=$(tput sgr0)
 
+pathadd() {
+    newelement=${1%/}
+    if [ -d "$1" ] && ! echo "$PATH" | grep -E -q "(^|:)$newelement($|:)" ; then
+        if [ "$2" = "after" ] ; then
+            PATH="$PATH:$newelement"
+        else
+            PATH="$newelement:$PATH"
+        fi
+    fi
+}
+
+pathrm() {
+    PATH="$(echo $PATH | sed -e "s;\(^\|:\)${1%/}\(:\|\$\);\1\2;g" -e 's;^:\|:$;;g' -e 's;::;:;g')"
+}
+
+
+# Configuration for the command line tool "hh" (history searcher to replace ctrl-r, brew install hh)
+export HH_CONFIG=hicolor,rawhistory,favorites   # get more colors
+shopt -s histappend              # append new history items to .bash_history
+#export HISTSIZE=${HISTFILESIZE}  # increase history size (default is 500)
+#export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"   # mem/file sync
+# if this is interactive shell, then bind hh to Ctrl-r (for Vi mode check doc)
+#if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hh -- \C-j"'; fi
+# if this is interactive shell, then bind 'kill last command' to Ctrl-x k
+#if [[ $- =~ .*i.* ]]; then bind '"\C-xk": "\C-a hh -k \C-j"'; fi
+
+# AWS_ENVIRONMENT_BETA=true
+
 # From awscli tools "Add the following to ~/.bashrc to enable bash completion:"
 complete -C aws_completer aws
 
@@ -225,9 +253,6 @@ function recent-branches() {
 function what-is-listening-on-port() {
     lsof -n -i4TCP:$1 | grep LISTEN
 }
-
-# required for dojo install of api (canvas dependency)
-#PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/X11/lib/pkgconfig
 
 # Don't wait for job termination notification
 set -o notify
@@ -872,19 +897,20 @@ function gr_banana() {
 
 PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_function})\[$COLOR_RESET\] \$ "
 
-### Added by the Heroku Toolbelt
-#export PATH="/usr/local/heroku/bin:$PATH"
-
 # Grand rounds stuff
 export GR_HOME=${HOME}/dev
 export GR_USERNAME=andrew.ray
 
 if [ -d "$GR_HOME" ]; then
+
+    if [ -n "$LOGIN_WAIT" ]; then
+        echo "waiting ${LOGIN_WAIT}"
+    fi
     for file in ${GR_HOME}/engineering/bash/*.sh; do
         source $file;
     done
 
-    export PATH=${GR_HOME}/engineering/bin:${PATH}
+    pathadd "${GR_HOME}/engineering/bin"
 
     # default to aws env
     aws-environment development
@@ -896,7 +922,8 @@ fi
 alias vscode=code
 
 # Android SDK
-export PATH="${HOME}/Library/Android/sdk/tools:${HOME}/Library/Android/sdk/platform-tools:${PATH}"
+pathadd "${HOME}/Library/Android/sdk/tools:${HOME}/Library/Android/sdk/platform-tools"
+#export PATH="${HOME}/Library/Android/sdk/tools:${HOME}/Library/Android/sdk/platform-tools:${PATH}"
 
 # Banyan stuff
 alias bstart="pg_ctl start -D /usr/local/var/postgres-banyan -l /usr/local/var/postgres-banyan/server.log"
@@ -920,8 +947,10 @@ if [ -f /Users/andrewray/google-cloud-sdk/completion.bash.inc ]; then
   source '/Users/andrewray/google-cloud-sdk/completion.bash.inc'
 fi
 
+# My C quick branch switcher script
 if [[ -d "${HOME}/c" ]]; then
-    export PATH="${HOME}/c:${PATH}"
+    #export PATH="${HOME}/c:${PATH}"
+    pathadd "${HOME}/c"
     source ~/c/c_recent_branches_completer
 fi
 
@@ -936,6 +965,9 @@ if [[ $(command -v pyenv) ]]; then
         eval "$(pyenv virtualenv-init -)"
     fi
 fi
+
+export IPSEC_SECRETS_FILE=/etc/ipsec.secrets
+export KEY_SUFFIX=grandrounds.com
 
 # GR
 function releaseCommits() {
@@ -1043,4 +1075,21 @@ function switch_dialog {
       echo "On branch $curr_branch"
   esac
 }
+
+function docker_tag_exists() {
+    path="https://index.docker.io/v1/repositories/$1/tags/$2"
+    if curl --silent -f -lSL "$path" 2> /dev/null; then
+        echo "${COLOR_GREEN}Found $1 $2 at${COLOR_RESET}"
+        echo "    ${COLOR_LIGHT_GREEN}${path}${COLOR_RESET}"
+    else
+        echo "${COLOR_RED}Tag $1 $2 not found, checked path:${COLOR_RESET}"
+        echo "    ${COLOR_LIGHT_RED}${path}${COLOR_RESET}"
+    fi
+}
+
+TRACKER_FLOW_PATH="$GR_HOME/tracker-flow"
+if [ -d "$TRACKER_FLOW_PATH" ]; then
+  pathadd "$TRACKER_FLOW_PATH"
+  . "$TRACKER_FLOW_PATH/tracker_completion.bash"
+fi
 

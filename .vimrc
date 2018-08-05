@@ -259,6 +259,7 @@ nnoremap <Leader>sv :source $MYVIMRC<cr>
 nnoremap <silent> <Leader>so :source %<cr>:echo "Sourced this file!"<cr>
 
 " Quick file open shortcuts
+nnoremap <Leader>b :tabe ~/.bashrc<cr>
 nnoremap <Leader>v :tabe $MYVIMRC<cr>
 nnoremap <Leader>ss :tabe ~/.vim/delvarworld-snippets/javascript/javascript.snippets<cr>
 nnoremap <Leader>hs :tabe /etc/hosts<cr>:setlocal noreadonly<cr>:setlocal autoread<cr>
@@ -1489,8 +1490,8 @@ Project  '~/dev/jarvis'                   , 'jarvis'
 Project  '~/dev/devise-two-factor/demo'   , 'devise-two-factor-demo'
 Project  '~/workerbee/OpusWeb/mvp_webpack', 'bee site'
 Project  '~/rails-tutorial'               , 'rails tutorial'
+Project  '~/dev/onboarding-tech-notes'    , 'onboarding tech notes'
 Project  '~/closed-source-projects'       , 'closed source projects'
-
 
 "------------------------------------------------------------------------------
 " Script-runner (I don't really use this anymore)
