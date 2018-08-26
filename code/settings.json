@@ -1,6 +1,6 @@
 // Place your settings in this file to overwrite the default settings
 {
-    "workbench.colorTheme": "Default Light+",
+    "workbench.colorTheme": "Visual Studio Light",
     "eslint.enable": true,
     "javascript.validate.enable": false,
     "editor.rulers": [80],
