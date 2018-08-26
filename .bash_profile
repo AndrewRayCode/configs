@@ -14,3 +14,6 @@ export PATH=./node_modules/.bin:$PATH
 export IPSEC_SECRETS_FILE=/etc/ipsec.secrets
 export KEY_SUFFIX=grandrounds.com
 
+source /usr/local/share/chruby/chruby.sh
+source /usr/local/share/chruby/auto.sh
+chruby ruby-2.1.5
