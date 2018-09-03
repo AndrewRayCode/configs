@@ -1042,6 +1042,9 @@ augroup END
 " ===
 " =============================================================================
 
+
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'json', 'javascript', 'ruby']
+
 " To refresh the list of plugins installed, uncomment the line below and hit
 " command-E on it (see the <d-e> mapping in this file
 
