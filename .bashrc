@@ -26,6 +26,12 @@ pathrm() {
     PATH="$(echo $PATH | sed -e "s;\(^\|:\)${1%/}\(:\|\$\);\1\2;g" -e 's;^:\|:$;;g' -e 's;::;:;g')"
 }
 
+# RVM
+pathadd "$HOME/.rvm/bin" # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# node modules path
+pathadd "./node_modules/.bin"
 
 # Configuration for the command line tool "hh" (history searcher to replace ctrl-r, brew install hh)
 export HH_CONFIG=hicolor,rawhistory,favorites   # get more colors
@@ -901,13 +907,44 @@ PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_functio
 export GR_HOME=${HOME}/dev
 export GR_USERNAME=andrew.ray
 
+function gr_locked_gpg() {
+    if pgrep -f "gpg --use-agent --no-tty --quiet -o" > /dev/null
+    then
+        echo 1
+    else
+        echo 0
+    fi
+}
+
+function fixrvm() {
+    source ~/.rvm/scripts/rvm
+    rvm reload
+    rvm list
+}
+
+sleep_rand() {
+    rand=${RANDOM:0:1} # 0 - 9 https://stackoverflow.com/questions/1194882/how-to-generate-random-number-in-bash
+    sleep "0.${rand}"
+}
+
 if [ -d "$GR_HOME" ]; then
 
-    if [ -n "$LOGIN_WAIT" ]; then
-        echo "waiting ${LOGIN_WAIT}"
+    sleep_rand
+    locked=$(gr_locked_gpg)
+    if [ "$locked" == "1" ]; then
+        echo 'Someone else is using the gpg agent, waitng...'
+        bail=0
+
+        while [ "$locked" == "1" ] && [ $bail != 100 ]
+        do
+            sleep_rand
+            locked=$(gr_locked_gpg)
+            let bail+=1
+        done
     fi
+
     for file in ${GR_HOME}/engineering/bash/*.sh; do
-        source $file;
+        source "$file"
     done
 
     pathadd "${GR_HOME}/engineering/bin"

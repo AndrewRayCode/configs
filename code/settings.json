@@ -76,5 +76,9 @@
     "window.title": "${activeEditorMedium}${separator}${rootName}",
     "javascript.updateImportsOnFileMove.enabled": "always",
     "typescript.updateImportsOnFileMove.enabled": "always",
-    "workbench.panel.location": "bottom"
+    "workbench.panel.location": "bottom",
+    "editor.tabCompletion": true,
+    "editor.snippetSuggestions": "top",
+    "breadcrumbs.enabled": true,
+    "terminal.integrated.rendererType": "dom"
 }
