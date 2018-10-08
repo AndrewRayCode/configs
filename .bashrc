@@ -26,13 +26,6 @@ pathrm() {
     PATH="$(echo $PATH | sed -e "s;\(^\|:\)${1%/}\(:\|\$\);\1\2;g" -e 's;^:\|:$;;g' -e 's;::;:;g')"
 }
 
-# RVM
-pathadd "$HOME/.rvm/bin" # Add RVM to PATH for scripting
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-# node modules path
-pathadd "./node_modules/.bin"
-
 # Configuration for the command line tool "hh" (history searcher to replace ctrl-r, brew install hh)
 export HH_CONFIG=hicolor,rawhistory,favorites   # get more colors
 shopt -s histappend              # append new history items to .bash_history
@@ -907,6 +900,12 @@ PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_functio
 export GR_HOME=${HOME}/dev
 export GR_USERNAME=andrew.ray
 
+function fixrvm() {
+    source ~/.rvm/scripts/rvm
+    rvm reload
+    rvm list
+}
+
 function gr_locked_gpg() {
     if pgrep -f "gpg --use-agent --no-tty --quiet -o" > /dev/null
     then
@@ -914,12 +913,6 @@ function gr_locked_gpg() {
     else
         echo 0
     fi
-}
-
-function fixrvm() {
-    source ~/.rvm/scripts/rvm
-    rvm reload
-    rvm list
 }
 
 sleep_rand() {
@@ -1129,4 +1122,11 @@ if [ -d "$TRACKER_FLOW_PATH" ]; then
   pathadd "$TRACKER_FLOW_PATH"
   . "$TRACKER_FLOW_PATH/tracker_completion.bash"
 fi
+
+# RVM
+pathadd "$HOME/.rvm/bin" # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# node modules path
+pathadd "./node_modules/.bin"
 

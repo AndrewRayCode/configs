@@ -7,9 +7,9 @@ fi
 export IPSEC_SECRETS_FILE=/etc/ipsec.secrets
 export KEY_SUFFIX=grandrounds.com
 
-source /usr/local/share/chruby/chruby.sh
-source /usr/local/share/chruby/auto.sh
-chruby ruby-2.1.5
+#source /usr/local/share/chruby/chruby.sh
+#source /usr/local/share/chruby/auto.sh
+#chruby ruby-2.1.5
 
 # These were installed by the bin/setup script of the jarvis repo, however
 # they seem to be not needed, and cause errors like:

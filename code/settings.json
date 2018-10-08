@@ -4,7 +4,7 @@
     "eslint.enable": true,
     "javascript.validate.enable": false,
     "editor.rulers": [80],
-    "window.zoomLevel": 0,
+    "window.zoomLevel": 1,
     "files.exclude": {
         "**/.git": true,         // this is a default value
         "**/.DS_Store": true,    // this is a default value
