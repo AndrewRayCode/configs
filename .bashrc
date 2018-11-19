@@ -266,6 +266,8 @@ if [ -f ~/.git-completion.bash ]; then
 fi
 
 alias here='open .'
+
+# ln -s /Applications/MacVim.app/Contents/bin/mvim /usr/local/bin/mvim
 alias vim='mvim'
 
 # Hack to show the version of an installed perl module.
@@ -900,12 +902,6 @@ PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_functio
 export GR_HOME=${HOME}/dev
 export GR_USERNAME=andrew.ray
 
-function fixrvm() {
-    source ~/.rvm/scripts/rvm
-    rvm reload
-    rvm list
-}
-
 function gr_locked_gpg() {
     if pgrep -f "gpg --use-agent --no-tty --quiet -o" > /dev/null
     then
@@ -943,7 +939,7 @@ if [ -d "$GR_HOME" ]; then
     pathadd "${GR_HOME}/engineering/bin"
 
     # default to aws env
-    aws-environment development
+    aws-environment || aws-environment development
 
     # allow for pivotal prme command
     tracker-environment
@@ -996,7 +992,8 @@ if [[ $(command -v pyenv) ]]; then
     fi
 fi
 
-export IPSEC_SECRETS_FILE=/etc/ipsec.secrets
+# legacy line? testing removing for new laptop setup and not linux
+# export IPSEC_SECRETS_FILE=/etc/ipsec.secrets
 export KEY_SUFFIX=grandrounds.com
 
 # GR
@@ -1123,10 +1120,15 @@ if [ -d "$TRACKER_FLOW_PATH" ]; then
   . "$TRACKER_FLOW_PATH/tracker_completion.bash"
 fi
 
-# RVM
-pathadd "$HOME/.rvm/bin" # Add RVM to PATH for scripting
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
 # node modules path
-pathadd "./node_modules/.bin"
+#pathadd "./node_modules/.bin"
+
+# Chruby
+source /usr/local/share/chruby/chruby.sh
+source /usr/local/share/chruby/auto.sh
+
+# set default chruby https://github.com/postmodern/chruby#default-ruby
+chruby 2.5.1
+
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
