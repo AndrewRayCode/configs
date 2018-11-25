@@ -15,6 +15,15 @@ rescue LoadError
     puts "Warning: factory_bot_rails gem not found"
 end
 
+# Gives domestic_phone_number for creating factories that use phone numbers
+begin
+    require './spec/support/faker_phones.rb'
+    puts "#{'require'.light_red} #{"'./spec/support/faker_phones.rb'".cyan}"
+rescue LoadError
+    puts "Warning: ./spec/support/faker_phones.rb not found"
+end
+
+
 # rails 5.1 break?
 #begin
     #Rails.application.routes.url_helpers

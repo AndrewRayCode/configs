@@ -36,5 +36,8 @@
     "workbench.panel.location": "bottom",
     "breadcrumbs.enabled": true,
     "editor.formatOnSave": true,
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+    "editor.tabCompletion": true,
+    "editor.snippetSuggestions": "top",
+    "terminal.integrated.rendererType": "dom"
 }

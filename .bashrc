@@ -26,7 +26,6 @@ pathrm() {
     PATH="$(echo $PATH | sed -e "s;\(^\|:\)${1%/}\(:\|\$\);\1\2;g" -e 's;^:\|:$;;g' -e 's;::;:;g')"
 }
 
-
 # Configuration for the command line tool "hh" (history searcher to replace ctrl-r, brew install hh)
 export HH_CONFIG=hicolor,rawhistory,favorites   # get more colors
 shopt -s histappend              # append new history items to .bash_history
@@ -267,6 +266,8 @@ if [ -f ~/.git-completion.bash ]; then
 fi
 
 alias here='open .'
+
+# ln -s /Applications/MacVim.app/Contents/bin/mvim /usr/local/bin/mvim
 alias vim='mvim'
 
 # Hack to show the version of an installed perl module.
@@ -897,23 +898,53 @@ function gr_banana() {
 
 PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_function})\[$COLOR_RESET\] \$ "
 
+# make sound good
+function ding() {
+    afplay /System/Library/Sounds/Glass.aiff
+}
+
 # Grand rounds stuff
 export GR_HOME=${HOME}/dev
 export GR_USERNAME=andrew.ray
 
+function gr_locked_gpg() {
+    if pgrep -f "gpg --use-agent --no-tty --quiet -o" > /dev/null
+    then
+        echo 1
+    else
+        echo 0
+    fi
+}
+
+sleep_rand() {
+    rand=${RANDOM:0:1} # 0 - 9 https://stackoverflow.com/questions/1194882/how-to-generate-random-number-in-bash
+    sleep "0.${rand}"
+}
+
 if [ -d "$GR_HOME" ]; then
 
-    if [ -n "$LOGIN_WAIT" ]; then
-        echo "waiting ${LOGIN_WAIT}"
+    sleep_rand
+    locked=$(gr_locked_gpg)
+    if [ "$locked" == "1" ]; then
+        echo 'Someone else is using the gpg agent, waitng...'
+        bail=0
+
+        while [ "$locked" == "1" ] && [ $bail != 100 ]
+        do
+            sleep_rand
+            locked=$(gr_locked_gpg)
+            let bail+=1
+        done
     fi
+
     for file in ${GR_HOME}/engineering/bash/*.sh; do
-        source $file;
+        source "$file"
     done
 
     pathadd "${GR_HOME}/engineering/bin"
 
     # default to aws env
-    aws-environment development
+    aws-environment || aws-environment development
 
     # allow for pivotal prme command
     tracker-environment
@@ -966,7 +997,8 @@ if [[ $(command -v pyenv) ]]; then
     fi
 fi
 
-export IPSEC_SECRETS_FILE=/etc/ipsec.secrets
+# legacy line? testing removing for new laptop setup and not linux
+# export IPSEC_SECRETS_FILE=/etc/ipsec.secrets
 export KEY_SUFFIX=grandrounds.com
 
 # GR
@@ -1010,6 +1042,8 @@ fi
 
 
 [[ -s /Users/andrewray/.rsvm/rsvm.sh ]] && . /Users/andrewray/.rsvm/rsvm.sh # This loads RSVM
+
+alias cat='bat --theme=TwoDark'
 
 # aliased to "sw"
 # Easily checkout git branches, listed from a dialog menu
@@ -1101,6 +1135,15 @@ if [ -d "$TRACKER_FLOW_PATH" ]; then
   . "$TRACKER_FLOW_PATH/tracker_completion.bash"
 fi
 
-function ding() {
-    afplay /System/Library/Sounds/Glass.aiff
-}
+# Chruby
+CHRUBY_PATH="/usr/local/share/chruby/"
+if [ -d "$CHRUBY_PATh" ]; then
+    source "${CHRUBY_PATH}chruby.sh"
+    source "${CHRUBY_PATH}auto.sh"
+
+    # set default chruby https://github.com/postmodern/chruby#default-ruby
+    chruby 2.5.1
+fi
+
+# loads nvm bash_completion
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
