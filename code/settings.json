@@ -4,15 +4,11 @@
     "eslint.enable": true,
     "javascript.validate.enable": false,
     "editor.rulers": [80],
-    "window.zoomLevel": 0,
+    "window.zoomLevel": 1,
     "files.exclude": {
-        "**/.git": true,         // this is a default value
-        "**/.DS_Store": true,    // this is a default value
-
-        "**/node_modules": true, // this excludes all folders 
-                                 // named "node_modules" from 
-                                 // the explore tree
-        "**/dist": true,
+        "**/.DS_Store": true,
+        "**/.git": true,
+        "**/node_modules": true,
         "**/old_dist_find_assets": true,
         "**/tmp": true
     },
@@ -22,45 +18,6 @@
     "workbench.editor.enablePreview": true,
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.colorTheme": "rainbow",
-    
-    // Use *[prettier-eslint](https://github.com/prettier/prettier-eslint)*
-    // instead of *prettier*. Other settings will only be fallbacks in case they
-    // could not be inferred from eslint rules.
-    "prettier.eslintIntegration": false,
-
-    // Fit code within this line limit
-    "prettier.printWidth": 80,
-
-    // Number of spaces it should use per tab
-    "prettier.tabWidth": 4,
-
-    // If true, will use single instead of double quotes
-    "prettier.singleQuote": true,
-
-    // Controls the printing of trailing commas wherever possible. Valid
-    // options:
-    //  - "none" - No trailing commas
-    //  - "es5"  - Trailing commas where valid in ES5 (objects, arrays, etc)
-    //  - "all"  - Trailing commas wherever possible (function arguments)
-    "prettier.trailingComma": "all",
-
-    // Controls the printing of spaces inside object literals
-    "prettier.bracketSpacing": true,
-
-    // If true, puts the `>` of a multi-line jsx element at the end of the last
-    // line instead of being alone on the next line
-    "prettier.jsxBracketSameLine": false,
-
-    // Which parser to use. Valid options are 'flow' and 'babylon'
-    "prettier.parser": "flow",
-
-    // Whether to add a semicolon at the end of every line (semi: true), or only
-    // at the beginning of lines that may introduce ASI failures (semi: false)
-    "prettier.semi": true,
-
-    // If true, indent lines with tabs
-    "prettier.useTabs": false,
-
     "indentRainbow.error_color": "",
 
     "editor.renderWhitespace": "none",
@@ -76,5 +33,8 @@
     "window.title": "${activeEditorMedium}${separator}${rootName}",
     "javascript.updateImportsOnFileMove.enabled": "always",
     "typescript.updateImportsOnFileMove.enabled": "always",
-    "workbench.panel.location": "bottom"
+    "workbench.panel.location": "bottom",
+    "breadcrumbs.enabled": true,
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
 }

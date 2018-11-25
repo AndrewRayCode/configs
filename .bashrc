@@ -1001,6 +1001,14 @@ function jgrep() {
     cat ~/dev/rake-routes | grep "$1"
 }
 
+if type "bat" > /dev/null 2>&1; then
+    alias cat='bat --theme=TwoDark'
+else
+    echo 'bat not found'
+    echo 'Suggest: brew install bat'
+fi
+
+
 [[ -s /Users/andrewray/.rsvm/rsvm.sh ]] && . /Users/andrewray/.rsvm/rsvm.sh # This loads RSVM
 
 # aliased to "sw"
@@ -1093,3 +1101,6 @@ if [ -d "$TRACKER_FLOW_PATH" ]; then
   . "$TRACKER_FLOW_PATH/tracker_completion.bash"
 fi
 
+function ding() {
+    afplay /System/Library/Sounds/Glass.aiff
+}
