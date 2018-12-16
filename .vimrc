@@ -1368,17 +1368,6 @@ endfunction
 nnoremap <leader>fa :call FindAllMultipleCursors("")<cr>
 vnoremap <leader>fa :call FindAllMultipleCursors("v")<cr>
 
-" Called once right before you start selecting multiple cursors
-function! Multiple_cursors_before()
-    call youcompleteme#DisableCursorMovedAutocommands()
-endfunction
-
-" Called once only when the multiple selection is canceled (default <Esc>)
-function! Multiple_cursors_after()
-    call youcompleteme#EnableCursorMovedAutocommands()
-endfunction
-
-
 "------------------------------------------------------------------------------
 " NERDTree / NERDTreeTabs
 "------------------------------------------------------------------------------
