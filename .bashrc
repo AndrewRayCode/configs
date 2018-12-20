@@ -944,7 +944,7 @@ if [ -d "$GR_HOME" ]; then
     pathadd "${GR_HOME}/engineering/bin"
 
     # default to aws env
-    aws-environment || aws-environment development
+    aws-environment > /dev/null || aws-environment development -l
 
     # allow for pivotal prme command
     tracker-environment
@@ -1034,6 +1034,7 @@ function jgrep() {
 }
 
 if type "bat" > /dev/null 2>&1; then
+    alias ccat='/bin/cat'
     alias cat='bat --theme=TwoDark'
 else
     echo 'bat not found'
@@ -1145,5 +1146,16 @@ if [ -d "$CHRUBY_PATH" ]; then
     chruby 2.5.1
 fi
 
+MINI_CONDA_PATH="${HOME}/miniconda3/bin"
+if [ -d "$MINI_CONDA_PATH" ]; then
+  pathadd "$MINI_CONDA_PATH"
+fi
+
+pathadd /Users/aray/miniconda3/bin:$PATH
+
 # loads nvm bash_completion
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# For docker builds
+export GITHUB_PRIVATE_KEY="$(cat /Users/aray/.ssh/docker_gr_rsa)"
+

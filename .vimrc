@@ -32,6 +32,8 @@ highlight ColorColumn guibg=#331111
 set colorcolumn=80
 set cursorline
 
+set novisualbell
+
 " Make the cursor a thin line (not a block) and color it differently in insert
 " and normal mode. Makes it WAY easier to see where the cursor is. This is the
 " most important thing in this file
@@ -298,6 +300,7 @@ nnoremap <Leader>rs vi{:sort<cr>
 " trim trailing whitespace
 noremap <Leader>sw :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
+" See ~/.gvimrc
 " Execute VIM colon command under cursor with <⌘-e>
 nnoremap <D-e> yy:<C-r>"<backspace><cr>
 
