@@ -1,24 +1,24 @@
 // Place your settings in this file to overwrite the default settings
 {
-    "workbench.colorTheme": "Visual Studio Light",
-    "eslint.enable": true,
-    "javascript.validate.enable": false,
-    "editor.rulers": [80],
-    "window.zoomLevel": 0,
-    "files.exclude": {
-        "**/.DS_Store": true,
-        "**/.git": true,
-        "**/node_modules": true,
-        "**/old_dist_find_assets": true,
-        "**/tmp": true
-    },
-    "git.autofetch": false,
-    "editor.minimap.enabled": false,
-    // NOOOOOOOO
-    "workbench.editor.enablePreview": true,
-    "workbench.editor.enablePreviewFromQuickOpen": false,
-    "workbench.colorTheme": "rainbow",
-    "indentRainbow.error_color": "",
+  "workbench.colorTheme": "Visual Studio Light",
+  "eslint.enable": true,
+  "javascript.validate.enable": false,
+  "editor.rulers": [80],
+  "window.zoomLevel": 0,
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/old_dist_find_assets": true,
+    "**/tmp": true
+  },
+  "git.autofetch": false,
+  "editor.minimap.enabled": false,
+  // NOOOOOOOO
+  "workbench.editor.enablePreview": true,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.colorTheme": "rainbow",
+  "indentRainbow.error_color": "",
 
   "editor.renderWhitespace": "none",
   "workbench.panel.location": "right",
@@ -38,5 +38,12 @@
   "terminal.integrated.rendererType": "dom",
   "editor.tokenColorCustomizations": {
     "comments": "#d152ff"
-  }
+  },
+  "prettier.requireConfig": true,
+  "workbench.colorCustomizations": {
+    "[rainbow]": {
+      "editor.background": "#000"
+    }
+  },
+  "workbench.sideBar.location": "left"
 }
