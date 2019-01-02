@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Colors for prompt
 COLOR_RED=$(tput sgr0 && tput setaf 1)
 COLOR_GREEN=$(tput sgr0 && tput setaf 2)
@@ -10,6 +12,9 @@ COLOR_LIGHT_GREEN=$(tput sgr0 && tput bold && tput setaf 2)
 COLOR_LIGHT_RED=$(tput sgr0 && tput bold && tput setaf 1)
 COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
 COLOR_RESET=$(tput sgr0)
+
+# shellcheck disable=SC1091
+source ~/.iterm2_shell_integration.bash
 
 pathadd() {
     newelement=${1%/}
@@ -60,11 +65,11 @@ function gsync() {
     gitBranch=$(git rev-parse --abbrev-ref HEAD)
     if [[ -z "$1" ]]; then
         echo -n "${COLOR_YELLOW}Sync ${COLOR_BLUE}${gitBranch}${COLOR_YELLOW}? (Enter/y to confirm, n to cancel)${COLOR_RESET} "
-        read confirm
+        read -r confirm
     fi
 
-    hasOrigin=`cat .git/config | grep origin`
-    hasUpstream=`cat .git/config | grep upstream`
+    hasOrigin=$(grep origin < .git/config)
+    hasUpstream=$(grep upstream < .git/config)
 
     if [[ -z "$hasOrigin" || -z "$hasUpstream" ]]; then
         echo "${COLOR_RED}Error: ${COLOR_PINK}The command syncdev expects an ${COLOR_RED}origin${COLOR_PINK} and ${COLOR_RED}upstream${COLOR_PINK} remote${COLOR_RESET}"
@@ -72,10 +77,10 @@ function gsync() {
     fi
 
     if [[ "$confirm" == "" || "$confirm" == "y" ]]; then
-        git checkout ${gitBranch}
+        git checkout "$gitBranch"
         git fetch --all
-        git reset --hard upstream/${gitBranch}
-        git push origin ${gitBranch}
+        git reset --hard "upstream/$gitBranch"
+        git push origin "$gitBranch"
         echo "${COLOR_YELLOW}Complete!${COLOR_RESET}"
     fi
 
@@ -298,7 +303,7 @@ function audiosize() {
 
     mroot="/Users/andrewray/Music/Extended Mixes"
     # Find all system config files that aren't vim swap files and loop through them
-    for file in `ls "$mroot"`
+    for file in $mroot
     do
         # Show them in a list with a counter
         xx=`expr $xx + 1`
@@ -903,6 +908,19 @@ function ding() {
     afplay /System/Library/Sounds/Glass.aiff
 }
 
+# Python development, requires pyenv from homebrew
+# Needs to go before GR stuff to 
+if [[ $(command -v pyenv) ]]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+
+    eval "$(pyenv init -)"
+
+    # Requires homebrew pyenv-virtualenv
+    if [[ -f "${PYENV_ROOT}/shims/virtualenv" ]]; then
+        eval "$(pyenv virtualenv-init -)"
+    fi
+fi
+
 # Grand rounds stuff
 export GR_HOME=${HOME}/dev
 export GR_USERNAME=andrew.ray
@@ -983,18 +1001,6 @@ if [[ -d "${HOME}/c" ]]; then
     #export PATH="${HOME}/c:${PATH}"
     pathadd "${HOME}/c"
     source ~/c/c_recent_branches_completer
-fi
-
-# Python development, requires pyenv from homebrew
-if [[ $(command -v pyenv) ]]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-
-    eval "$(pyenv init -)"
-
-    # Requires homebrew pyenv-virtualenv
-    if [[ -f "${PYENV_ROOT}/shims/virtualenv" ]]; then
-        eval "$(pyenv virtualenv-init -)"
-    fi
 fi
 
 # legacy line? testing removing for new laptop setup and not linux
