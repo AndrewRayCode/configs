@@ -4,7 +4,7 @@
   "eslint.enable": true,
   "javascript.validate.enable": false,
   "editor.rulers": [80],
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 0,
   "files.exclude": {
     "**/.DS_Store": true,
     "**/.git": true,
@@ -38,5 +38,12 @@
   "terminal.integrated.rendererType": "dom",
   "editor.tokenColorCustomizations": {
     "comments": "#d152ff"
-  }
+  },
+  "prettier.requireConfig": true,
+  "workbench.colorCustomizations": {
+    "[rainbow]": {
+      "editor.background": "#000"
+    }
+  },
+  "workbench.sideBar.location": "left"
 }
