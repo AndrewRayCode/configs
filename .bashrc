@@ -1157,6 +1157,11 @@ if [ -d "$MINI_CONDA_PATH" ]; then
   pathadd "$MINI_CONDA_PATH"
 fi
 
+BAZEL_COMPLETION="${HOME}/usr/local/etc/bash_completion.d/bazel-complete.bash"
+if [ -s "$BAZEL_COMPLETION" ]; then
+    source "${HOME}/usr/local/etc/bash_completion.d/bazel-complete.bash"
+fi
+
 pathadd /Users/aray/miniconda3/bin:$PATH
 
 # loads nvm bash_completion
