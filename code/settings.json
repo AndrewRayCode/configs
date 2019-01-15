@@ -45,5 +45,6 @@
       "editor.background": "#000"
     }
   },
-  "workbench.sideBar.location": "left"
+  "workbench.sideBar.location": "left",
+  "workbench.settings.editor": "json"
 }
