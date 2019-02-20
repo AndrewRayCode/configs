@@ -567,6 +567,9 @@ git_purge() {
     git_purge_remote_branches $branch
 }
 
+# Replacement for st?
+alias gs="git status --untracked-files=no"
+
 #######################################
 # distributed version control section #
 #######################################
@@ -1035,7 +1038,8 @@ function releaseCommits() {
 }
 
 function jgrep() {
-    #{ rake routes > ~/dev/rake-routes & } 2>/dev/null
+    # Run this to regenerate
+    # bundle exec rake routes > ~/dev/rake-routes
     cat ~/dev/rake-routes | grep "$1"
 }
 
@@ -1141,6 +1145,22 @@ if [ -d "$TRACKER_FLOW_PATH" ]; then
   pathadd "$TRACKER_FLOW_PATH"
   . "$TRACKER_FLOW_PATH/tracker_completion.bash"
 fi
+
+# Kill stanky Rails Console
+function kc() {
+    ps aux | grep -E 'bin/rails c|rails_console' | grep -v 'grep' | awk '{print $2}' | xargs kill -9
+}
+
+# Check out file to branch and unstage it
+function fb() {
+    if [[ -z "$1" || -z "$2" ]]; then
+        echo 'Usage: filebranch branchname filename'
+    fi
+    dqt='"'
+    echo "git checkout ${dbq}${1}${dbq} -- ${dbq}${2}${dbq} && git reset HEAD ${dbq}${2}${dbq}"
+    git checkout "$1" -- "$2" && git reset HEAD "$2"
+    git status --untracked-files=no
+}
 
 # Chruby
 CHRUBY_PATH="/usr/local/share/chruby/"
