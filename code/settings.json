@@ -1,6 +1,6 @@
 // Place your settings in this file to overwrite the default settings
 {
-  "workbench.colorTheme": "Visual Studio Light",
+  "workbench.colorTheme": "Abyss",
   "eslint.enable": true,
   "javascript.validate.enable": false,
   "editor.rulers": [80],
@@ -45,5 +45,7 @@
       "editor.background": "#000"
     }
   },
-  "workbench.sideBar.location": "left"
+  "workbench.sideBar.location": "left",
+  "workbench.settings.editor": "json",
+  "files.autoSave": "onFocusChange"
 }

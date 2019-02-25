@@ -12,10 +12,52 @@
   // terrible defaults for "rails run specs"
   { "key": "shift+cmd+t",           "command": "workbench.action.reopenClosedEditor" },
   { "key": "cmd+k cmd+f",           "command": "extension.runFileSpecs" },
+
+  // Jump around in vim
   {
-    "key": "alt+cmd+n",
-    "command": "workbench.action.compareEditor.nextChange",
+    "key": "cmd+]",
+    "command": "workbench.action.editor.nextChange",
     "when": "editorTextFocus"
+  },
+  {
+    "key": "cmd+[",
+    "command": "workbench.action.editor.previousChange",
+    "when": "editorTextFocus"
+  },
+
+  // From https://stackoverflow.com/a/46087295/743464, note it applies to
+  // splits with tabs which sucks
+  {
+    "key": "cmd+1",
+    "command": "workbench.action.openEditorAtIndex1"
+  },
+  {
+      "key": "cmd+2",
+      "command": "workbench.action.openEditorAtIndex2"
+  },
+  {
+      "key": "cmd+3",
+      "command": "workbench.action.openEditorAtIndex3"
+  },
+  {
+      "key": "cmd+4",
+      "command": "workbench.action.openEditorAtIndex4"
+  },
+  {
+      "key": "cmd+5",
+      "command": "workbench.action.openEditorAtIndex5"
+  },
+  {
+      "key": "cmd+6",
+      "command": "workbench.action.openEditorAtIndex6"
+  },
+  {
+      "key": "cmd+7",
+      "command": "workbench.action.openEditorAtIndex7"
+  },
+  {
+      "key": "cmd+8",
+      "command": "workbench.action.openEditorAtIndex8"
   }
 ]
 

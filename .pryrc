@@ -1,17 +1,26 @@
 #require 'awesome_print' # Removing because bad colors and can't configure
 #AwesomePrint.pry!
 
+
+url = 'https://vonk.fire.ly'
+if defined? GrFhir
+    client = GrFhir::Client.build(url)
+else
+    client = Gr::Fhir::Client.build(url)
+end
+puts "Client ready at #{url}"
+
 begin
     require 'colorize'
     puts "#{'require'.light_red} #{"'colorize'".cyan}"
-rescue LoadError
+rescue StandardError
     puts "Warning: colorize gem not found"
 end
 
 begin
     require 'factory_bot_rails'
     puts "#{'require'.light_red} #{"'factory_bot_rails'".cyan}"
-rescue LoadError
+rescue StandardError
     puts "Warning: factory_bot_rails gem not found"
 end
 
@@ -19,7 +28,7 @@ end
 begin
     require './spec/support/faker_phones.rb'
     puts "#{'require'.light_red} #{"'./spec/support/faker_phones.rb'".cyan}"
-rescue LoadError
+rescue StandardError
     puts "Warning: ./spec/support/faker_phones.rb not found"
 end
 
