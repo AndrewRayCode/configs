@@ -965,6 +965,7 @@ if [ -d "$GR_HOME" ]; then
     pathadd "${GR_HOME}/engineering/bin"
 
     # default to aws env
+    export AWS_DEFAULT_ROLE=developer
     aws-environment > /dev/null || aws-environment development -l
 
     # allow for pivotal prme command
