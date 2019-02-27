@@ -489,6 +489,7 @@ function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
 endfunction
 
 call TextEnableCodeSnip('ruby', '@begin=ruby@', '@end=ruby@', 'SpecialComment')
+call TextEnableCodeSnip('glsl', '@begin=glsl@', '@end=glsl@', 'SpecialComment')
 
 
 "------------------------------------------------------------------------------
@@ -1046,7 +1047,7 @@ augroup END
 " =============================================================================
 
 
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'json', 'javascript', 'ruby']
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'json', 'javascript', 'ruby', 'glsl']
 
 " To refresh the list of plugins installed, uncomment the line below and hit
 " command-E on it (see the <d-e> mapping in this file

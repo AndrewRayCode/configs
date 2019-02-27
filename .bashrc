@@ -91,11 +91,6 @@ function ddiff() {
     git diff `git merge-base upstream/dev HEAD`..HEAD
 }
 
-# Log of everything on this braynch
-function dlog() {
-    git log -p `git merge-base origin/master HEAD`..HEAD
-}
-
 function recent-branches() {
     local branches=`git for-each-ref --sort=-committerdate refs/heads/ | head -n 10`
     local output=''
@@ -269,6 +264,13 @@ set -o notify
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
+
+# Docker logs for conatiner with name
+dlog() {
+    local cid=`docker ps | grep $1 | awk '{print $1}'`
+    echo "docker logs -f ${cid}"
+    docker logs -f ${cid}
+}
 
 alias here='open .'
 
@@ -1189,5 +1191,8 @@ pathadd /Users/aray/miniconda3/bin:$PATH
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # For docker builds
-export GITHUB_PRIVATE_KEY="$(cat /Users/aray/.ssh/docker_gr_rsa)"
+DOCKER_KEY="${HOME}/.ssh/docker_gr_rsa"
+if [ -a "$DOCKER_KEY" ]; then
+    export GITHUB_PRIVATE_KEY="$(cat $DOCKER_KEY)"
+fi
 
