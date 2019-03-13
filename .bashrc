@@ -267,7 +267,7 @@ fi
 
 # Docker logs for conatiner with name
 dlog() {
-    local cid=`docker ps | grep $1 | awk '{print $1}'`
+    local cid=`docker ps -a | grep $1 | awk '{print $1}'`
     echo "docker logs -f ${cid}"
     docker logs -f ${cid}
 }
