@@ -265,11 +265,18 @@ if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
 
-# Docker logs for conatiner with name
+# Docker logs for conatiner by name
 dlog() {
     local cid=`docker ps -a | grep $1 | awk '{print $1}'`
     echo "docker logs -f ${cid}"
     docker logs -f ${cid}
+}
+
+# Start shell on container by name
+dbash() {
+    local cid=`docker ps -a | grep $1 | awk '{print $1}'`
+    echo "docker exec -it ${cid} /bin/sh"
+    docker exec -it ${cid} /bin/sh
 }
 
 alias here='open .'
