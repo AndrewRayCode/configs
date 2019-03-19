@@ -279,6 +279,12 @@ dbash() {
     docker exec -it ${cid} /bin/sh
 }
 
+deadbash() {
+    local iid=`docker images | grep $1 | awk '{print $3}'`
+    echo "docker run -it ${iid} /bin/bash"
+    docker run -it ${iid} /bin/bash
+}
+
 alias here='open .'
 
 # ln -s /Applications/MacVim.app/Contents/bin/mvim /usr/local/bin/mvim
