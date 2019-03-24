@@ -14,5 +14,23 @@
             "}"
         ],
         "description": "For Loop"
-    }
+    },
+    "Console Log String": {
+        "prefix": "c,",
+        "body": [
+            "console.log('$1', ${1});",
+        ],
+        "description": "Console log string"
+    },
+    "React Constructor": {
+        "prefix": "rc",
+        "body": [
+            "constructor(props, context) {",
+            "   super(props, context);",
+            "   $0",
+            "}",
+        ],
+        "description": "Console Log"
+    },
+
 }

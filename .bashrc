@@ -14,7 +14,10 @@ COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
 COLOR_RESET=$(tput sgr0)
 
 # shellcheck disable=SC1091
-source ~/.iterm2_shell_integration.bash
+ITERM_SHELL_INTEGRATION="${HOME}.iterm2_shell_integration.bash"
+if [ -f "$ITERM_SHELL_INTEGRATION" ]; then
+    source "$ITERM_SHELL_INTEGRATION"
+fi
 
 pathadd() {
     newelement=${1%/}
