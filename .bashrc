@@ -14,7 +14,10 @@ COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
 COLOR_RESET=$(tput sgr0)
 
 # shellcheck disable=SC1091
-source ~/.iterm2_shell_integration.bash
+ITERM_SHELL_INTEGRATION="${HOME}.iterm2_shell_integration.bash"
+if [ -f "$ITERM_SHELL_INTEGRATION" ]; then
+    source "$ITERM_SHELL_INTEGRATION"
+fi
 
 pathadd() {
     newelement=${1%/}
@@ -265,11 +268,18 @@ if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
 
-# Docker logs for conatiner with name
+# Docker logs for conatiner by name
 dlog() {
     local cid=`docker ps -a | grep $1 | awk '{print $1}'`
     echo "docker logs -f ${cid}"
     docker logs -f ${cid}
+}
+
+# Start shell on container by name
+dbash() {
+    local cid=`docker ps -a | grep $1 | awk '{print $1}'`
+    echo "docker exec -it ${cid} /bin/sh"
+    docker exec -it ${cid} /bin/sh
 }
 
 deadbash() {
