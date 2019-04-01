@@ -1,49 +1,67 @@
-#require 'awesome_print' # Removing because bad colors and can't configure
-#AwesomePrint.pry!
+# =============================================================================
+# Setup
+# =============================================================================
 
+# Disabe paging in pry, to avoid having to keep hitting j/space on big output
+# on small screens
+Pry.config.pager = false
 
-url = 'https://vonk.fire.ly'
-if defined? GrFhir
-    client = GrFhir::Client.build(url)
-else
-    client = Gr::Fhir::Client.build(url)
+# -----------------------------------------------------------------------------
+# Rails app spits out lots of startup garbage, separate this
+def notice_me(msg)
+  puts '*' * 100
+  puts "❌ #{msg}"
+  puts
 end
-puts "Client ready at #{url}"
 
+# -----------------------------------------------------------------------------
+# Required for all the other functions: The 'colorize' gem, which lets you
+# colorize text output to the console. Since it's not in the Jarvis Gemfile,
+# we have to go find it manually. To find yours, do something like `bundle show # httparty`,
+# get the base gems/ path, and find colorize in there
 begin
-    require 'colorize'
-    puts "#{'require'.light_red} #{"'colorize'".cyan}"
-rescue StandardError
-    puts "Warning: colorize gem not found"
+    colorize_init_file = "#{Dir.home}/.gem/ruby/2.5.1/gems/colorize-0.8.1/lib/colorize.rb"
+    require colorize_init_file
+    puts "✅ #{'require'.light_red} #{"'colorize'".cyan}"
+rescue Exception => ex # Did you know LoadError inherits from Exception, not StandardError?
+    notice_me "Warning: colorize gem not found, make sure you:\n - Installed colorize locally (gem install colorize)\n - This path exists: #{colorize_init_file}\n#{ex.message}"
 end
 
+# -----------------------------------------------------------------------------
+# Enables FactoryBot in a pry session
 begin
     require 'factory_bot_rails'
-    puts "#{'require'.light_red} #{"'factory_bot_rails'".cyan}"
+rescue Exception => ex
+    puts "✅ #{'require'.light_red} #{"'factory_bot_rails'".cyan}"
+    notice_me "Warning: factory_bot_rails gem not found, #{ex}"
+end
+
+# -----------------------------------------------------------------------------
+# Enables a lot more factories which explicilty need the domestic_phone_number
+# gem for creating factories that use phone numbers
+begin
+    require './spec/support/faker_phones.rb'
+    puts "✅ #{'require'.light_red} #{"'./spec/support/faker_phones.rb'".cyan}"
 rescue StandardError
+    notice_me "Warning: ./spec/support/faker_phones.rb not found"
+end
+
+# -----------------------------------------------------------------------------
+# Load the route helpers in the terminal so you can generate page URLs
+# admin_stark_user_path / admin_stark_user_url
+begin
+    include Rails.application.routes.url_helpers
+    puts "✅ #{'include'.light_yellow} #{'Rails.application.routes.url_helpers'.cyan}"
+rescue LoadError
     puts "Warning: factory_bot_rails gem not found"
 end
 
-# Gives domestic_phone_number for creating factories that use phone numbers
-begin
-    require './spec/support/faker_phones.rb'
-    puts "#{'require'.light_red} #{"'./spec/support/faker_phones.rb'".cyan}"
-rescue StandardError
-    puts "Warning: ./spec/support/faker_phones.rb not found"
-end
+# =============================================================================
+# Helper functions (not meant to be run directly)
+# =============================================================================
 
-
-# rails 5.1 break?
-#begin
-    #Rails.application.routes.url_helpers
-    #include Rails.application.routes.url_helpers
-    #puts "#{'include'.light_yellow} #{'Rails.application.routes.url_helpers'.cyan}"
-#rescue LoadError
-    #puts "Warning: factory_bot_rails gem not found"
-#end
-
-puts "#{'Starting a Pry console...'.cyan}"
-
+# -----------------------------------------------------------------------------
+# Print a full stack trace with colorized output for easier
 def colorized_stack_trace( stack, base_dir )
   separator = File::SEPARATOR
   longest = stack.max_by(&:length).length
@@ -68,13 +86,21 @@ end
 def filtered_stack_trace( stack, filter )
   filtered = stack.grep( filter )
   if filtered.empty?
-    puts "#{'The current stack trace doesn\'t contain any lines matching'.red} #{filter.to_s.light_red}#{'.'.red}"
+    puts "#{'The current stack trace does not contain any lines matching'.red} #{filter.to_s.light_red}#{'.'.red}"
     puts 'Type `sa` to see a full colorized stack trace, or `caller` to see the vanilla ruby full stack trace.'.red
     return
   end
   colorized_stack_trace( filtered, filter )
 end
 
+# =============================================================================
+# Pry commands (meant to be run directly)
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Print out the stack *only* including the current application's directory,
+# for example stack trace lines *only* matching /jarvis/ to remove noisy Gem
+# stack traces
 Pry::Commands.block_command "s", "Application stack trace" do
   separator = File::SEPARATOR
   pwd = Dir.pwd
@@ -86,7 +112,13 @@ Pry::Commands.block_command "sa", "Application stack trace" do
   filtered_stack_trace( caller, /./ )
 end
 
-def defandy(input)
+# =============================================================================
+# Utiltiy functions (meant to be run directly)
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Copy some text to the clipboard
+def copy(input)
   _max_display_string_length = 50
   str = input.to_s
   IO.popen('pbcopy', 'w') { |f| f << str }
@@ -94,17 +126,24 @@ def defandy(input)
   puts "Copied \"#{truncated}\" to system clipboard!"
 end
 
-def h_o(input)
+# -----------------------------------------------------------------------------
+# Write some text to an HTML file and open it for quick inspection. Opens with
+# browser by default
+def r_o(input)
   f = Tempfile.new(['foo', '.html'])
   f.write(input)
   f.close
   `open #{f.path}`
 end
 
+# -----------------------------------------------------------------------------
+# When debugging an rspec test, this will attempt to load the current page
+# body and display it to you in your web browser
 def showme
-  h_o( defined?(page) ? page.body : dom.to_s )
+  r_o( defined?(page) ? page.body : dom.to_s )
 end
 
-# Disabe paging in pry
-Pry.config.pager = false
-
+# =============================================================================
+# ✨
+# =============================================================================
+puts "\n#{'✨ Pry'.yellow} #{'console'.cyan} #{'initialized'.light_red} #{'succesfully! ✨'.green}"
