@@ -4,7 +4,9 @@
 
 # Disabe paging in pry, to avoid having to keep hitting j/space on big output
 # on small screens
-Pry.config.pager = false
+# On second thought I want this on because printing a huge object is not
+# cancellable
+# Pry.config.pager = false
 
 # -----------------------------------------------------------------------------
 # Rails app spits out lots of startup garbage, separate this
@@ -31,9 +33,18 @@ end
 # Enables FactoryBot in a pry session
 begin
     require 'factory_bot_rails'
-rescue Exception => ex
     puts "✅ #{'require'.light_red} #{"'factory_bot_rails'".cyan}"
+rescue Exception => ex
     notice_me "Warning: factory_bot_rails gem not found, #{ex}"
+end
+
+# -----------------------------------------------------------------------------
+# Required to create a covered_member patient, apparently?
+begin
+    require './spec/support/anna_spec_helper'
+    puts "✅ #{'require'.light_red} #{"'./spec/support/anna_spec_helper'".cyan}"
+rescue StandardError
+    notice_me "Warning: ./spec/support/anna_spec_helper not found"
 end
 
 # -----------------------------------------------------------------------------
@@ -45,6 +56,7 @@ begin
 rescue StandardError
     notice_me "Warning: ./spec/support/faker_phones.rb not found"
 end
+
 
 # -----------------------------------------------------------------------------
 # Load the route helpers in the terminal so you can generate page URLs
@@ -118,12 +130,12 @@ end
 
 # -----------------------------------------------------------------------------
 # Copy some text to the clipboard
-def copy(input)
+def cpy(input)
   _max_display_string_length = 50
   str = input.to_s
   IO.popen('pbcopy', 'w') { |f| f << str }
-  truncated = str.length > _max_display_string_length ? str[0.._max_display_string_length] + '...' : str
-  puts "Copied \"#{truncated}\" to system clipboard!"
+  truncated = str.length > _max_display_string_length ? str[0.._max_display_string_length] + '…' : str
+  puts "✅ Copied \"#{truncated}\" to system clipboard!".green;
 end
 
 # -----------------------------------------------------------------------------
