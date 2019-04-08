@@ -1057,8 +1057,7 @@ function releaseCommits() {
 }
 
 function jgrep() {
-    # Run this to regenerate
-    # bundle exec rake routes > ~/dev/rake-routes
+    #bundle exec rake routes > ~/dev/rake-routes
     cat ~/dev/rake-routes | grep "$1"
 }
 
