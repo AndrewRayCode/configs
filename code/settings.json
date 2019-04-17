@@ -46,6 +46,9 @@
     }
   },
   "workbench.sideBar.location": "left",
-  // "workbench.settings.editor": "json",
-  "files.autoSave": "onFocusChange"
+  "workbench.settings.editor": "json",
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // "files.autoSave": "onFocusChange"
 }

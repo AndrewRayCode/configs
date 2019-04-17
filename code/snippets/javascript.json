@@ -46,4 +46,11 @@
         ],
         "description": "Console Log"
     },
+    "Function body": {
+        "prefix": "()",
+        "body": [
+            "() => {$0}"
+        ],
+        "description": "Function body"
+    }
 }
