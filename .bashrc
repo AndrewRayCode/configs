@@ -1070,6 +1070,20 @@ function pvault() {
     echo '✅ Run kvault this command to close the tunnel'
 }
 
+function i3vault() {
+    aws-environment integration3 && \
+    echo '🌐 Opening SSH tunnel named "my-vault-tunnel" in background...' && \
+    HOST=$(ec2-find -l stone-worker 2> /dev/null | tail -1 | awk '{print $1}') && \
+    ssh -M -S my-vault-tunnel -fnNT -L "1234:vault.$(aws-environment).grandrounds.com:443" "$GR_USERNAME@$HOST" && \
+    ssh -S my-vault-tunnel -O check "$GR_USERNAME@$HOST" && \
+    sleep 5 && \
+    echo '🔐 Use this token to log in:' && \
+    (aws-environment platform-dev developer && \
+        VAULT_ADDR=https://localhost:1234 vault login -tls-skip-verify -token-only -method=aws role=developer) && \
+    open 'https://localhost:1234/ui/vault/auth?with=token' && \
+    echo '✅ Run kvault this command to close the tunnel'
+}
+
 function uvault() {
     uat && \
     echo '🌐 Opening SSH tunnel named "my-vault-tunnel" in background...' && \

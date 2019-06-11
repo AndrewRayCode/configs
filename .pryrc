@@ -11,7 +11,7 @@
 # -----------------------------------------------------------------------------
 # Rails app spits out lots of startup garbage, separate this
 def notice_me(msg)
-  puts '*' * 100
+  puts "☠ #{'❌' * 30} ☠"
   puts "❌ #{msg}"
   puts
 end
@@ -27,6 +27,16 @@ begin
     puts "✅ #{'require'.light_red} #{"'colorize'".cyan}"
 rescue Exception => ex # Did you know LoadError inherits from Exception, not StandardError?
     notice_me "Warning: colorize gem not found, make sure you:\n - Installed colorize locally (gem install colorize)\n - This path exists: #{colorize_init_file}\n#{ex.message}"
+end
+
+# -----------------------------------------------------------------------------
+# Load the route helpers in the terminal so you can generate page URLs
+# admin_stark_user_path / admin_stark_user_url
+begin
+    include Rails.application.routes.url_helpers
+    puts "✅ #{'include'.light_yellow} #{'Rails.application.routes.url_helpers'.cyan}"
+rescue LoadError
+    puts "Warning: factory_bot_rails gem not found"
 end
 
 # -----------------------------------------------------------------------------
@@ -47,30 +57,32 @@ rescue StandardError
     notice_me "Warning: ./spec/support/anna_spec_helper not found"
 end
 
-# -----------------------------------------------------------------------------
-# Enables a lot more factories which explicilty need the domestic_phone_number
-# gem for creating factories that use phone numbers
-begin
-    require './spec/support/faker_phones.rb'
-    puts "✅ #{'require'.light_red} #{"'./spec/support/faker_phones.rb'".cyan}"
-rescue StandardError
-    notice_me "Warning: ./spec/support/faker_phones.rb not found"
-end
-
-
-# -----------------------------------------------------------------------------
-# Load the route helpers in the terminal so you can generate page URLs
-# admin_stark_user_path / admin_stark_user_url
-begin
-    include Rails.application.routes.url_helpers
-    puts "✅ #{'include'.light_yellow} #{'Rails.application.routes.url_helpers'.cyan}"
-rescue LoadError
-    puts "Warning: factory_bot_rails gem not found"
-end
-
 # =============================================================================
 # Helper functions (not meant to be run directly)
 # =============================================================================
+
+def globRequire(path)
+  successes = []
+  failures = []
+  Dir.glob(path).each do |file|
+    begin
+        require file
+        successes << file
+    rescue Exception => e
+        failures << "Warning: Could not require #{file}? #{e.message}"
+    end
+  end
+  if successes.count > 0
+      puts "✅ #{'require {'.light_red}#{successes.join(', ').cyan}#{'}'.light_red}"
+  end
+  notice_me failures if failures.present?
+end
+
+# -----------------------------------------------------------------------------
+# Enables a lot more factories which need our custom Faker plugins. I'm too
+# lazy to make the method a separate file and require it so that I can call
+# this method above the definitino
+globRequire('./spec/support/faker_*.rb')
 
 # -----------------------------------------------------------------------------
 # Print a full stack trace with colorized output for easier
