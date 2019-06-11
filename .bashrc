@@ -1056,47 +1056,108 @@ function releaseCommits() {
     echo "    https://github.com/ConsultingMD/jarvis/compare/${lastReleaseBranchWithoutRemote}...${currentReleaseBranchWithoutRemote}"
 }
 
-function pvault() {
-    production && \
-    echo '🌐 Opening SSH tunnel named "my-vault-tunnel" in background...' && \
+#function pvault() {
+    #production && \
+    #echo '🌐 Opening SSH tunnel named "my-vault-tunnel" in background...' && \
+    #HOST=$(ec2-find -l stone-worker 2> /dev/null | tail -1 | awk '{print $1}') && \
+    #ssh -M -S my-vault-tunnel -fnNT -L "1234:vault.grandrounds.com:443" "$GR_USERNAME@$HOST" && \
+    #ssh -S my-vault-tunnel -O check "$GR_USERNAME@$HOST" && \
+    #sleep 5 && \
+    #echo '🔐 Use this token to log in:' && \
+    #(aws-environment infra-production developer && \
+        #VAULT_ADDR=https://localhost:1234 vault login -tls-skip-verify -token-only -method=aws role=developer) && \
+    #open 'https://localhost:1234/ui/vault/auth?with=token' && \
+    #echo '✅ Run kvault this command to close the tunnel'
+#}
+
+function vault-tunnel() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: vault_tunnel ENVIRONMENT_NAME'
+        return 1
+    fi
+
+    # Check for an existing tunnel (this may be mac specific?)
+    local already_bound
+    already_bound=$(lsof -n -i4TCP:1234 | grep LISTEN)
+    if [[ -n "$already_bound" ]]; then
+        local pid
+        pid=$(echo "$already_bound" | awk '{print $2}')
+        echo '❌ There is already something bound to port 1234! Here it is:'
+        echo "    $already_bound"
+        echo '💀 You can try running kvault, or manually kill the process by running:'
+        echo "    kill ${pid}"
+        return 1
+    fi
+
+    # Create the bind port and host, note production has snowflake hostname
+    local tunnel_bind="1234:vault.${1}.grandrounds.com:443"
+    if [[ "$1" == "production" ]]; then
+        tunnel_bind="1234:vault.grandrounds.com:443"
+    fi
+    local tunnel_host="$GR_USERNAME@$HOST"
+
+    echo '🌐 Opening SSH tunnel named "my-vault-tunnel" in background...'
+
+    # Chain all functions with && \ so that if one errors the rest don't execute
+    aws-environment "$1" && \
     HOST=$(ec2-find -l stone-worker 2> /dev/null | tail -1 | awk '{print $1}') && \
-    ssh -M -S my-vault-tunnel -fnNT -L "1234:vault.grandrounds.com:443" "$GR_USERNAME@$HOST" && \
-    ssh -S my-vault-tunnel -O check "$GR_USERNAME@$HOST" && \
+    ssh -M -S my-vault-tunnel -fnNT -L "$tunnel_bind" "$tunnel_host" && \
+    ssh -S my-vault-tunnel -O check "$tunnel_host" && \
+    # Trying to run vault commands too quickly after tunnel starts fail
     sleep 5 && \
-    echo '🔐 Use this token to log in:' && \
-    (aws-environment infra-production developer && \
-        VAULT_ADDR=https://localhost:1234 vault login -tls-skip-verify -token-only -method=aws role=developer) && \
-    open 'https://localhost:1234/ui/vault/auth?with=token' && \
-    echo '✅ Run kvault this command to close the tunnel'
+    echo '✅ Tunnel running. Run kill_vault_tunnel close the tunnel'
 }
 
-function i3vault() {
-    aws-environment integration3 && \
-    echo '🌐 Opening SSH tunnel named "my-vault-tunnel" in background...' && \
-    HOST=$(ec2-find -l stone-worker 2> /dev/null | tail -1 | awk '{print $1}') && \
-    ssh -M -S my-vault-tunnel -fnNT -L "1234:vault.$(aws-environment).grandrounds.com:443" "$GR_USERNAME@$HOST" && \
-    ssh -S my-vault-tunnel -O check "$GR_USERNAME@$HOST" && \
-    sleep 5 && \
-    echo '🔐 Use this token to log in:' && \
-    (aws-environment platform-dev developer && \
+function vault-login() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: vault_login ENVIRONMENT_NAME'
+        return 1
+    fi
+
+    local account
+    case $1 in
+      integration3) account='platform-dev'     ;;
+      uat)          account='infra-uat'        ;;
+      production)   account='infra-production' ;;
+      *)     echo "I don't know how to log in to Vault for environment '$1'" ;;
+    esac
+
+    vault_tunnel "$1" && \
+    echo -e '🔐 Use this token to log in:\n' && \
+    (aws-environment ${account} developer && \
         VAULT_ADDR=https://localhost:1234 vault login -tls-skip-verify -token-only -method=aws role=developer) && \
-    open 'https://localhost:1234/ui/vault/auth?with=token' && \
-    echo '✅ Run kvault this command to close the tunnel'
+    echo -e '\n💻 Opening a browser to https://localhost:1234/ui/vault/auth?with=token ...' && \
+    echo 'You may need to sign out and re-authenticate with your new token' && \
+    open 'https://localhost:1234/ui/vault/auth?with=token'
 }
 
-function uvault() {
-    uat && \
-    echo '🌐 Opening SSH tunnel named "my-vault-tunnel" in background...' && \
-    HOST=$(ec2-find -l stone-worker 2> /dev/null | tail -1 | awk '{print $1}') && \
-    ssh -M -S my-vault-tunnel -fnNT -L "1234:vault.$(aws-environment).grandrounds.com:443" "$GR_USERNAME@$HOST" && \
-    ssh -S my-vault-tunnel -O check "$GR_USERNAME@$HOST" && \
-    sleep 5 && \
-    echo '🔐 Use this token to log in:' && \
-    (aws-environment infra-uat developer && \
-        VAULT_ADDR=https://localhost:1234 vault login -tls-skip-verify -token-only -method=aws role=developer) && \
-    open 'https://localhost:1234/ui/vault/auth?with=token' && \
-    echo '✅ Run kvault this command to close the tunnel'
-}
+#function i3vault() {
+    #aws-environment integration3 && \
+    #echo '🌐 Opening SSH tunnel named "my-vault-tunnel" in background...' && \
+    #HOST=$(ec2-find -l stone-worker 2> /dev/null | tail -1 | awk '{print $1}') && \
+    #ssh -M -S my-vault-tunnel -fnNT -L "1234:vault.$(aws-environment).grandrounds.com:443" "$GR_USERNAME@$HOST" && \
+    #ssh -S my-vault-tunnel -O check "$GR_USERNAME@$HOST" && \
+    #sleep 5 && \
+    #echo '🔐 Use this token to log in:' && \
+    #(aws-environment platform-dev developer && \
+        #VAULT_ADDR=https://localhost:1234 vault login -tls-skip-verify -token-only -method=aws role=developer) && \
+    #open 'https://localhost:1234/ui/vault/auth?with=token' && \
+    #echo '✅ Run kvault this command to close the tunnel'
+#}
+
+#function uvault() {
+    #uat && \
+    #echo '🌐 Opening SSH tunnel named "my-vault-tunnel" in background...' && \
+    #HOST=$(ec2-find -l stone-worker 2> /dev/null | tail -1 | awk '{print $1}') && \
+    #ssh -M -S my-vault-tunnel -fnNT -L "1234:vault.$(aws-environment).grandrounds.com:443" "$GR_USERNAME@$HOST" && \
+    #ssh -S my-vault-tunnel -O check "$GR_USERNAME@$HOST" && \
+    #sleep 5 && \
+    #echo '🔐 Use this token to log in:' && \
+    #(aws-environment infra-uat developer && \
+        #VAULT_ADDR=https://localhost:1234 vault login -tls-skip-verify -token-only -method=aws role=developer) && \
+    #open 'https://localhost:1234/ui/vault/auth?with=token' && \
+    #echo '✅ Run kvault this command to close the tunnel'
+#}
 
 function kvault() {
     echo "💀 Killing my-vault-tunnel tunnel at $GR_USERNAME@$HOST"
@@ -1204,6 +1265,11 @@ function docker_tag_exists() {
         echo "    ${COLOR_LIGHT_RED}${path}${COLOR_RESET}"
     fi
 }
+
+LEGACY_TERRAFORM_PATH="/usr/local/opt/terraform@0.11/bin"
+if [ -d "$LEGACY_TERRAFORM_PATH" ]; then
+  pathadd "$LEGACY_TERRAFORM_PATH"
+fi
 
 TRACKER_FLOW_PATH="$GR_HOME/tracker-flow"
 if [ -d "$TRACKER_FLOW_PATH" ]; then
