@@ -15,10 +15,24 @@
         ],
         "description": "For Loop"
     },
+    "Console Log": {
+        "prefix": "c",
+        "body": [
+            "console.log($1)",
+        ],
+        "description": "Console log string"
+    },
+    "Console Log Text": {
+        "prefix": "c'",
+        "body": [
+            "console.log('$1')",
+        ],
+        "description": "Console log text"
+    },
     "Console Log String": {
         "prefix": "c,",
         "body": [
-            "console.log('$1', ${1});",
+            "console.log('$1', ${1})",
         ],
         "description": "Console log string"
     },
@@ -32,5 +46,11 @@
         ],
         "description": "Console Log"
     },
-
+    "Function body": {
+        "prefix": "()",
+        "body": [
+            "() => {$0}"
+        ],
+        "description": "Function body"
+    }
 }

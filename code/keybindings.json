@@ -3,16 +3,16 @@
   // Vim navigate backwards/forwards
   { "key": "ctrl+o",  "command": "workbench.action.navigateBack", "when": "editorTextFocus" },
   { "key": "ctrl+i", "command": "workbench.action.navigateForward", "when": "editorTextFocus" },
-  { "key": "cmd+k p", "command": "extension.copyRelativePathOfActiveFile"},
-  { "key": "cmd+k f", "command": "workbench.action.files.copyPathOfActiveFile" },
-  { "key": "cmd-k l", "command": "latex-workshop.tab" },
+  { "key": "cmd+k p", "command": "extension.copyRelativePathOfActiveFile", "when": "editorTextFocus" },
+  { "key": "cmd+k f", "command": "workbench.action.files.copyPathOfActiveFile", "when": "editorTextFocus" },
+  { "key": "cmd-k l", "command": "latex-workshop.tab", "when": "editorTextFocus" },
   { "key": "cmd-alt-m", "command": "workbench.action.terminal.focus" },
   { "key": "cmd-alt-m", "command": "workbench.action.terminal.focus" },
   { "key": "cmd-shift-b", "command": "editor.action.revealDefinition", "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor" },
 
   // terrible defaults for "rails run specs"
   { "key": "shift+cmd+t",           "command": "workbench.action.reopenClosedEditor" },
-  { "key": "cmd+k cmd+f",           "command": "extension.runFileSpecs" },
+  { "key": "cmd+k cmd+f",           "command": "extension.runFileSpecs", "when": "editorTextFocus" },
 
   // Jump around in vim
   {
