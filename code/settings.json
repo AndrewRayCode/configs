@@ -1,6 +1,5 @@
 // Place your settings in this file to overwrite the default settings
 {
-  "workbench.colorTheme": "Visual Studio Light",
   "eslint.enable": true,
   "javascript.validate.enable": false,
   "editor.rulers": [80],
@@ -18,25 +17,17 @@
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "workbench.colorTheme": "rainbow",
-  "indentRainbow.error_color": "",
-
   "editor.renderWhitespace": "none",
-  "workbench.panel.location": "right",
-  "gitlens.advanced.messages": {
-    "suppressShowKeyBindingsNotice": true
-  },
-  "cSpell.userWords": ["kase", "kases", "mixpanel"],
   "window.title": "${activeEditorMedium}${separator}${rootName}",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "workbench.panel.location": "bottom",
   "breadcrumbs.enabled": true,
   "[javascript]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.tabSize": 2,
-  "editor.tabCompletion": true,
+  "editor.tabCompletion": "on",
   "editor.snippetSuggestions": "top",
   "terminal.integrated.rendererType": "dom",
   "editor.tokenColorCustomizations": {
@@ -49,7 +40,6 @@
     }
   },
   "workbench.sideBar.location": "left",
-  // "workbench.settings.editor": "json",
   "files.autoSave": "off",
   "breadcrumbs.symbolPath": "off"
 }
