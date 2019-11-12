@@ -316,6 +316,7 @@ vnoremap <silent> <Leader>t; :'.t.<cr>
 " in this file
 nnoremap Y y$
 
+
 " In command line mode use ctrl-direction to move instead of arrow keys. Super
 " useful.
 cnoremap <C-j> <t_kd>
@@ -367,8 +368,10 @@ nnoremap <Leader>ff ?^func\\|^[a-zA-Z].*func<CR>,/
 
 " Faster tab switching. I never use these cause macvim lets me use
 " command-shift-[ which is way nicer
-nnoremap <C-l> gt
-nnoremap <C-h> gT
+"nnoremap <C-l> gt
+"nnoremap <C-h> gT
+
+nnoremap <C-L> <C-w>l
 
 " experimental - enter to go into command mode (otherwise useless shortcut).
 " See clickable_maps for preventing vim clickable from messing this up. Also

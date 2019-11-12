@@ -284,7 +284,7 @@ dbash() {
 
 deadbash() {
     local iid=`docker images | grep $1 | awk '{print $3}'`
-    echo "docker run -it ${iid} /bin/bash"
+    echo "docker run --rm -it ${iid} /bin/bash"
     docker run -it ${iid} /bin/bash
 }
 
@@ -1054,39 +1054,6 @@ function releaseCommits() {
     echo
     echo "You can see these commits on Github:"
     echo "    https://github.com/ConsultingMD/jarvis/compare/${lastReleaseBranchWithoutRemote}...${currentReleaseBranchWithoutRemote}"
-}
-
-function pvault() {
-    production && \
-    echo '🌐 Opening SSH tunnel named "my-vault-tunnel" in background...' && \
-    HOST=$(ec2-find -l stone-worker 2> /dev/null | tail -1 | awk '{print $1}') && \
-    ssh -M -S my-vault-tunnel -fnNT -L "1234:vault.grandrounds.com:443" "$GR_USERNAME@$HOST" && \
-    ssh -S my-vault-tunnel -O check "$GR_USERNAME@$HOST" && \
-    sleep 5 && \
-    echo '🔐 Use this token to log in:' && \
-    (aws-environment infra-production developer && \
-        VAULT_ADDR=https://localhost:1234 vault login -tls-skip-verify -token-only -method=aws role=developer) && \
-    open 'https://localhost:1234/ui/vault/auth?with=token' && \
-    echo '✅ Run kvault this command to close the tunnel'
-}
-
-function uvault() {
-    uat && \
-    echo '🌐 Opening SSH tunnel named "my-vault-tunnel" in background...' && \
-    HOST=$(ec2-find -l stone-worker 2> /dev/null | tail -1 | awk '{print $1}') && \
-    ssh -M -S my-vault-tunnel -fnNT -L "1234:vault.$(aws-environment).grandrounds.com:443" "$GR_USERNAME@$HOST" && \
-    ssh -S my-vault-tunnel -O check "$GR_USERNAME@$HOST" && \
-    sleep 5 && \
-    echo '🔐 Use this token to log in:' && \
-    (aws-environment infra-uat developer && \
-        VAULT_ADDR=https://localhost:1234 vault login -tls-skip-verify -token-only -method=aws role=developer) && \
-    open 'https://localhost:1234/ui/vault/auth?with=token' && \
-    echo '✅ Run kvault this command to close the tunnel'
-}
-
-function kvault() {
-    echo "💀 Killing my-vault-tunnel tunnel at $GR_USERNAME@$HOST"
-    ssh -S my-vault-tunnel -O exit "$GR_USERNAME@$HOST"
 }
 
 function jgrep() {

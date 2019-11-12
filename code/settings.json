@@ -1,6 +1,5 @@
 // Place your settings in this file to overwrite the default settings
 {
-  "workbench.colorTheme": "Visual Studio Light",
   "eslint.enable": true,
   "javascript.validate.enable": false,
   "editor.rulers": [80],
@@ -13,27 +12,22 @@
     "**/tmp": true
   },
   "git.autofetch": false,
-  "editor.minimap.enabled": false,
+  "editor.minimap.enabled": true,
   // NOOOOOOOO
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "workbench.colorTheme": "rainbow",
-  "indentRainbow.error_color": "",
 
   "editor.renderWhitespace": "none",
-  "workbench.panel.location": "right",
   "gitlens.advanced.messages": {
     "suppressShowKeyBindingsNotice": true
   },
-  "cSpell.userWords": ["kase", "kases", "mixpanel"],
   "window.title": "${activeEditorMedium}${separator}${rootName}",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "workbench.panel.location": "bottom",
   "breadcrumbs.enabled": true,
   "editor.formatOnSave": true,
   "editor.tabSize": 2,
-  "editor.tabCompletion": true,
   "editor.snippetSuggestions": "top",
   "terminal.integrated.rendererType": "dom",
   "editor.tokenColorCustomizations": {
@@ -46,9 +40,43 @@
     }
   },
   "workbench.sideBar.location": "left",
-  "workbench.settings.editor": "json",
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "gitlens.menus": {
+    "editor": {
+      "blame": false,
+      "clipboard": true,
+      "compare": true,
+      "details": false,
+      "history": false,
+      "remote": false
+    },
+    "editorGroup": {
+      "blame": true,
+      "compare": true
+    },
+    "editorTab": {
+      "clipboard": true,
+      "compare": true,
+      "history": true,
+      "remote": true
+    },
+    "explorer": {
+      "clipboard": true,
+      "compare": true,
+      "history": true,
+      "remote": true
+    },
+    "scmGroup": {
+      "compare": true,
+      "openClose": true,
+      "stash": true,
+      "stashInline": true
+    }
   },
-  // "files.autoSave": "onFocusChange"
+  "gitlens.currentLine.enabled": false,
+  "gitlens.hovers.currentLine.over": "line",
+  "gitlens.codeLens.enabled": false,
+  "errorLens.gutterIconsEnabled": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

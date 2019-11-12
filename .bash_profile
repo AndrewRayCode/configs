@@ -23,3 +23,4 @@ export KEY_SUFFIX=grandrounds.com
 
 #test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
+if [ -e /Users/andrewray/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/andrewray/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

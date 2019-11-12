@@ -97,6 +97,7 @@ if [[ -d "$vsCodeDir" ]]; then
     # putting these here for easy working with later
     #ln -fs /Users/andrewray/configs/code/settings.json /Users/andrewray/Library/Application\ Support/Code/User/
     #ln -fs /Users/andrewray/configs/code/snippets/javascript.json "/Users/andrewray/Library/Application Support/Code/User/snippets/javascript.json"
+    #ln -fs /Users/andrewray/configs/code/snippets/ecmascript.code-snippets.json "/Users/andrewray/Library/Application Support/Code/User/snippets/ecmascript.code-snippets.json"
 
     let "symlinks+=1"
 fi
@@ -165,5 +166,4 @@ git config --global core.editor /usr/local/bin/vim
 #sudo ./.osx
 echo $COLOR_RESET
 
-# Toilets!
 echo $COLOR_GREEN"Done!"$COLOR_LIGHT_GREEN $symlinks$COLOR_GREEN symlinks were created.$COLOR_RESET
