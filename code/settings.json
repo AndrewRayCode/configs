@@ -3,7 +3,7 @@
   "eslint.enable": true,
   "javascript.validate.enable": false,
   "editor.rulers": [80],
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 2,
   "files.exclude": {
     "**/.DS_Store": true,
     "**/.git": true,
@@ -17,7 +17,6 @@
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "workbench.colorTheme": "rainbow",
-
   "editor.renderWhitespace": "none",
   "gitlens.advanced.messages": {
     "suppressShowKeyBindingsNotice": true
@@ -26,8 +25,12 @@
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "breadcrumbs.enabled": true,
-  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "editor.tabSize": 2,
+  "editor.tabCompletion": "on",
   "editor.snippetSuggestions": "top",
   "terminal.integrated.rendererType": "dom",
   "editor.tokenColorCustomizations": {
@@ -76,7 +79,6 @@
   "gitlens.hovers.currentLine.over": "line",
   "gitlens.codeLens.enabled": false,
   "errorLens.gutterIconsEnabled": true,
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  "files.autoSave": "off",
+  "breadcrumbs.symbolPath": "off"
 }

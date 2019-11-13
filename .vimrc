@@ -145,7 +145,7 @@ set guioptions=mer
 " Use spaces always
 set expandtab
 
-" Copy indent from current line when starting a new line 
+" Copy indent from current line when starting a new line
 set autoindent
 
 " Break at specific characters when wrapping long lines (:set breakat?)
@@ -372,6 +372,9 @@ nnoremap <Leader>ff ?^func\\|^[a-zA-Z].*func<CR>,/
 "nnoremap <C-h> gT
 
 nnoremap <C-L> <C-w>l
+
+" Todo fix b
+nnoremap <Leader>cp dd?✅<cr>p0ls✅<esc><c-o>
 
 " experimental - enter to go into command mode (otherwise useless shortcut).
 " See clickable_maps for preventing vim clickable from messing this up. Also
