@@ -1,5 +1,4 @@
 {
-
     // Place your snippets for JavaScript here. Each snippet is defined under a snippet name and has a prefix, body and 
     // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
     // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
@@ -14,34 +13,6 @@
             "}"
         ],
         "description": "For Loop"
-    },
-    "Console Log": {
-        "prefix": "c",
-        "body": [
-            "console.log($1)",
-        ],
-        "description": "Console log string"
-    },
-    "Console Log Text": {
-        "prefix": "c'",
-        "body": [
-            "console.log('$1')",
-        ],
-        "description": "Console log text"
-    },
-    "Console Log String": {
-        "prefix": "c,",
-        "body": [
-            "console.log('$1', ${1})",
-        ],
-        "description": "Console log string"
-    },
-    "Console Log Emoji 🔥": {
-        "prefix": "cc",
-        "body": [
-            "console.log('${1|🔥,❌,🚽,🌿,💙|}$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1')"
-        ],
-        "description": "Make console output noticable"
     },
     "React Constructor": {
         "prefix": "rc",

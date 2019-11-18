@@ -12,12 +12,15 @@
     "**/tmp": true
   },
   "git.autofetch": false,
-  "editor.minimap.enabled": false,
+  "editor.minimap.enabled": true,
   // NOOOOOOOO
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "workbench.colorTheme": "rainbow",
   "editor.renderWhitespace": "none",
+  "gitlens.advanced.messages": {
+    "suppressShowKeyBindingsNotice": true
+  },
   "window.title": "${activeEditorMedium}${separator}${rootName}",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
@@ -40,6 +43,42 @@
     }
   },
   "workbench.sideBar.location": "left",
+  "gitlens.menus": {
+    "editor": {
+      "blame": false,
+      "clipboard": true,
+      "compare": true,
+      "details": false,
+      "history": false,
+      "remote": false
+    },
+    "editorGroup": {
+      "blame": true,
+      "compare": true
+    },
+    "editorTab": {
+      "clipboard": true,
+      "compare": true,
+      "history": true,
+      "remote": true
+    },
+    "explorer": {
+      "clipboard": true,
+      "compare": true,
+      "history": true,
+      "remote": true
+    },
+    "scmGroup": {
+      "compare": true,
+      "openClose": true,
+      "stash": true,
+      "stashInline": true
+    }
+  },
+  "gitlens.currentLine.enabled": false,
+  "gitlens.hovers.currentLine.over": "line",
+  "gitlens.codeLens.enabled": false,
+  "errorLens.gutterIconsEnabled": true,
   "files.autoSave": "off",
   "breadcrumbs.symbolPath": "off",
   "[javascriptreact]": {

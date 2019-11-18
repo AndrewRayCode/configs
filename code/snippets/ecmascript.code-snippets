@@ -1,0 +1,58 @@
+{
+	// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"Console Log": {
+		"scope": "javascript,typescript",
+		"prefix": "c",
+		"body": [
+			"console.log($1)",
+		],
+		"description": "Console log string"
+	},
+	"Console Log String": {
+		"scope": "javascript,typescript",
+		"prefix": "c'",
+		"body": [
+			"console.log('$1')",
+		],
+		"description": "Console log string"
+	},
+	"Console Log Descriptor Then Thing": {
+		"scope": "javascript,typescript",
+		"prefix": "ct",
+		"body": [
+			"console.log('$1 ${2}', ${2})",
+		],
+		"description": "Console log descriptor then thing"
+	},
+	"Console Log value name and value": {
+		"scope": "javascript,typescript",
+		"prefix": "c,",
+		"body": [
+			"console.log('$1', ${1})",
+		],
+		"description": "Console log value name and value"
+	},
+    "Console Log Emoji 🔥": {
+		"scope": "javascript,typescript",
+        "prefix": "cc",
+        "body": [
+            "console.log('${1|🔥,❌,🚽,🌿,💙|}$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1')"
+        ],
+        "description": "Make console output noticable"
+    }
+}

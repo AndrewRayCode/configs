@@ -284,8 +284,8 @@ dbash() {
 
 deadbash() {
     local iid=`docker images | grep $1 | awk '{print $3}'`
-    echo "docker run -it ${iid} /bin/bash || docker run -it ${iid} /bin/sh"
-    docker run -it ${iid} /bin/bash || docker run -it ${iid} /bin/sh
+    echo "docker run --rm -it ${iid} /bin/bash || docker run --rm -it ${iid} /bin/sh"
+    docker run --rm -it ${iid} /bin/bash || docker run --rm -it ${iid} /bin/sh
 }
 
 alias here='open .'
