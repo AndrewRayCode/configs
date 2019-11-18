@@ -370,8 +370,9 @@ nnoremap <Leader>ff ?^func\\|^[a-zA-Z].*func<CR>,/
 nnoremap <C-l> gt
 nnoremap <C-h> gT
 
-" Todo fix b
-nnoremap <Leader>cp dd?✅<cr>p0ls✅<esc><c-o>
+" Mark TODO item as complete
+nnoremap <Leader>cp dd?❌\\|✅<cr>p0ls✅<esc><c-o>
+nnoremap <Leader>cn dd?❌\\|✅<cr>p0ls❌<esc><c-o>
 
 " experimental - enter to go into command mode (otherwise useless shortcut).
 " See clickable_maps for preventing vim clickable from messing this up. Also

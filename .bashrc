@@ -284,8 +284,8 @@ dbash() {
 
 deadbash() {
     local iid=`docker images | grep $1 | awk '{print $3}'`
-    echo "docker run -it ${iid} /bin/bash"
-    docker run -it ${iid} /bin/bash
+    echo "docker run -it ${iid} /bin/bash || docker run -it ${iid} /bin/sh"
+    docker run -it ${iid} /bin/bash || docker run -it ${iid} /bin/sh
 }
 
 alias here='open .'
@@ -1168,8 +1168,9 @@ if [ -d "$CHRUBY_PATH" ]; then
     source "${CHRUBY_PATH}chruby.sh"
     source "${CHRUBY_PATH}auto.sh"
 
-    # set default chruby https://github.com/postmodern/chruby#default-ruby
-    chruby 2.5.1
+    # Run this to set a default ruby on new terminals
+    # echo "ruby-2.5.1" > ~/.ruby-version
+    # from https://github.com/postmodern/chruby#default-ruby
 fi
 
 MINI_CONDA_PATH="${HOME}/miniconda3/bin"
@@ -1192,4 +1193,11 @@ DOCKER_KEY="${HOME}/.ssh/docker_gr_rsa"
 if [ -a "$DOCKER_KEY" ]; then
     export GITHUB_PRIVATE_KEY="$(cat $DOCKER_KEY)"
 fi
+
+# Export a function as an entry point to PMD (which we use for Apex linting).
+# This lets us call "apexpmd" from child processes, like npm scripts
+function apexpmd() {
+  /usr/local/Cellar/pmd/6.16.0/libexec/bin/run.sh pmd "$@"
+}
+export -f apexpmd
 

@@ -3,7 +3,7 @@
   "eslint.enable": true,
   "javascript.validate.enable": false,
   "editor.rulers": [80],
-  "window.zoomLevel": 2,
+  "window.zoomLevel": 1,
   "files.exclude": {
     "**/.DS_Store": true,
     "**/.git": true,
@@ -41,5 +41,8 @@
   },
   "workbench.sideBar.location": "left",
   "files.autoSave": "off",
-  "breadcrumbs.symbolPath": "off"
+  "breadcrumbs.symbolPath": "off",
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

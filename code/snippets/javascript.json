@@ -36,6 +36,13 @@
         ],
         "description": "Console log string"
     },
+    "Console Log Emoji 🔥": {
+        "prefix": "cc",
+        "body": [
+            "console.log('${1|🔥,❌,🚽,🌿,💙|}$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1')"
+        ],
+        "description": "Make console output noticable"
+    },
     "React Constructor": {
         "prefix": "rc",
         "body": [
