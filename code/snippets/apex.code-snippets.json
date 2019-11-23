@@ -1,0 +1,37 @@
+{
+	// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+
+	// APEX (put here because anonymous apex is treated as a separate file type)
+  "Debug Emojis": {
+		"scope": "apex,apex-anon",
+    "prefix": "dd",
+    "body": ["System.debug('${1|🔥,❌,🚽,🌿,💙|}$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1');"],
+    "description": "Make console output noticable"
+  },
+  "Debug": {
+		"scope": "apex,apex-anon",
+    "prefix": "d",
+    "body": ["System.debug($1);"],
+    "description": "Debug value"
+  },
+  "Debug String": {
+		"scope": "apex,apex-anon",
+    "prefix": "d'",
+    "body": ["System.debug('$1');"],
+    "description": "Debug string"
+  },
+  "Console Log String": {
+		"scope": "apex,apex-anon",
+		"prefix": "d,",
+		"body": [
+				"System.debug('➡➡➡ $1 ⬅⬅⬅');",
+				"System.debug(${1});"
+		],
+		"description": "Console log string"
+  }
+}

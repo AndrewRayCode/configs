@@ -98,6 +98,7 @@ if [[ -d "$vsCodeDir" ]]; then
     #ln -fs /Users/andrewray/configs/code/settings.json /Users/andrewray/Library/Application\ Support/Code/User/
     #ln -fs /Users/andrewray/configs/code/snippets/javascript.json "/Users/andrewray/Library/Application Support/Code/User/snippets/javascript.json"
     #ln -fs /Users/andrewray/configs/code/snippets/ecmascript.code-snippets.json "/Users/andrewray/Library/Application Support/Code/User/snippets/ecmascript.code-snippets.json"
+    #ln -fs /Users/andrewray/configs/code/snippets/apex.code-snippets.json "/Users/andrewray/Library/Application Support/Code/User/snippets/apex.code-snippets.json"
 
     let "symlinks+=1"
 fi
