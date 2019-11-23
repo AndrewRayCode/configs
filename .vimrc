@@ -375,7 +375,7 @@ nnoremap <C-L> <C-w>l
 
 " Mark TODO item as complete
 nnoremap <Leader>cp dd?❌\\|✅<cr>p0ls✅<esc><c-o>
-nnoremap <Leader>cn dd?❌\\|✅<cr>p0ls❌<esc><c-o>
+nnoremap <Leader>cx dd?❌\\|✅<cr>p0ls❌<esc><c-o>
 
 " experimental - enter to go into command mode (otherwise useless shortcut).
 " See clickable_maps for preventing vim clickable from messing this up. Also
