@@ -15,6 +15,22 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
+	"Console Log Parse": {
+		"scope": "javascript,typescript",
+		"prefix": "cj",
+		"body": [
+			"console.log(JSON.parse(JSON.stringify($1)))",
+		],
+		"description": "Console log garbo salesforce proxy"
+	},
+	"Console Log Parse": {
+		"scope": "javascript,typescript",
+		"prefix": "cjj",
+		"body": [
+			"console.log('$1', JSON.parse(JSON.stringify($1)))",
+		],
+		"description": "Console log garbo salesforce proxy"
+	},
 	"Console Log": {
 		"scope": "javascript,typescript",
 		"prefix": "c",

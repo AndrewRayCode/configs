@@ -97,8 +97,8 @@ if [[ -d "$vsCodeDir" ]]; then
     # putting these here for easy working with later
     #ln -fs /Users/andrewray/configs/code/settings.json /Users/andrewray/Library/Application\ Support/Code/User/
     #ln -fs /Users/andrewray/configs/code/snippets/javascript.json "/Users/andrewray/Library/Application Support/Code/User/snippets/javascript.json"
-    #ln -fs /Users/andrewray/configs/code/snippets/ecmascript.code-snippets.json "/Users/andrewray/Library/Application Support/Code/User/snippets/ecmascript.code-snippets.json"
-    #ln -fs /Users/andrewray/configs/code/snippets/apex.code-snippets.json "/Users/andrewray/Library/Application Support/Code/User/snippets/apex.code-snippets.json"
+    # ln -fs "${HOME}/configs/code/snippets/ecmascript.code-snippets" "${HOME}/Library/Application Support/Code/User/snippets/ecmascript.code-snippets"
+    # ln -fs "${HOME}/configs/code/snippets/apex.code-snippets" "${HOME}/Library/Application Support/Code/User/snippets/apex.code-snippets"
 
     let "symlinks+=1"
 fi

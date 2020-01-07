@@ -1201,3 +1201,37 @@ function apexpmd() {
 }
 export -f apexpmd
 
+# 1 salesforci boi
+
+# Find the value of any custom labels on a system matching a search pattern
+lbl() {
+    if [[ -z "$1" ]] || [[ -z "$2" ]]; then
+        echo "Usage: lbl [ORG_ID] [LABEL_REGEX]"
+        return 1
+    fi
+    local result
+    result=$(sfdx force:mdapi:listmetadata -m CustomLabel -u "${1}" --json)
+    # shellcheck disable=SC2181
+    if [ $? -ne 0 ];
+    then
+        echo "Error!"
+        echo "${result}"
+    else
+        echo "All labels on ${1} matching '${2}' (case insensitive):"
+        echo "${result}" | jq -r '.result[] | select(.fullName|test("'"${2}"'"; "i")) | .fullName' | while read -r line ; do
+            stmt "${1}" "'${line}: ' + Label.${line}"
+        done
+    fi
+}
+
+# Execute an apex statement against an environment
+stmt() {
+    if [[ -z "$1" ]] || [[ -z "$2" ]]; then
+        echo "Usage: stmt [ORG_ID] [STATEMENT_TO_EVALUATE]"
+        return 1
+    fi
+
+    sfdx force:apex:execute -u "${1}" -f /dev/stdin<<<'System.debug('"${2}"');' | # Execute the statement inside a system.debug(). execute expects a file, so use <<< trick to make it seem like a file
+        grep USER_DEBUG | # search for the debug line
+        sed 's/.*\|//' # find everything after the last pipe, which will be the debugged output
+}

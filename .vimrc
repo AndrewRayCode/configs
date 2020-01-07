@@ -461,7 +461,7 @@ function! ToggleQuickFix()
     endif
 endfunction
 
-nnoremap <Leader>cx :call ToggleQuickFix()<CR>
+nnoremap <Leader>cq :call ToggleQuickFix()<CR>
 
 
 "------------------------------------------------------------------------------
