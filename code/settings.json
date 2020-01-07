@@ -83,5 +83,9 @@
   "breadcrumbs.symbolPath": "off",
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
