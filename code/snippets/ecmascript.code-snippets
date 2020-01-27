@@ -25,7 +25,7 @@
 	},
 	"Console Log Parse": {
 		"scope": "javascript,typescript",
-		"prefix": "cjj",
+		"prefix": "cj'",
 		"body": [
 			"console.log('$1', JSON.parse(JSON.stringify($1)))",
 		],
@@ -63,12 +63,12 @@
 		],
 		"description": "Console log value name and value"
 	},
-    "Console Log Emoji 🔥": {
-		"scope": "javascript,typescript",
-        "prefix": "cc",
-        "body": [
-            "console.log('${1|🔥,❌,🚽,🌿,💙|}$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1')"
-        ],
-        "description": "Make console output noticable"
-    }
+	"Console Log Emoji 🔥": {
+	"scope": "javascript,typescript",
+			"prefix": "cc",
+			"body": [
+					"console.log('${1|🔥,❌,🚽,🌿,💙|}$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1')"
+			],
+			"description": "Make console output noticable"
+	}
 }

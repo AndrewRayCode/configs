@@ -1225,12 +1225,12 @@ lbl() {
     fi
 }
 
-# Execute an apex statement against an environment
-stmt() {
+# Execute an apex expression against an environment
+exp() {
     if [[ -z "$1" ]] || [[ -z "$2" ]]; then
-        echo "Execute a statement, and print the output. Takes the apex statement you pass in and wraps it in a System.debug() call."
+        echo "Execute an expression, and print the output. Takes the apex expression you pass in and wraps it in a System.debug() call."
         echo "Pass quiet or q as the last paremeter to supress notification messages"
-        echo "Usage: stmt [ORG_ID] [STATEMENT_TO_EVALUATE] ['quiet' | 'q']"
+        echo "Usage: exp [ORG_ID] [EXPRESSION_TO_EVALUATE] ['quiet' | 'q']"
         return 1
     fi
 
@@ -1253,10 +1253,60 @@ stmt() {
     # We need to find from the start of USER_DEBUG to the next non-debug line.
     # Notice "b" is put on a line by itself, making it tricky to include in output
 
-    sfdx force:apex:execute -u "${1}" -f /dev/stdin<<<"$apexCommand" | # Execute the statement inside a system.debug(). execute expects a file, so use <<< trick to make it seem like a file
+    sfdx force:apex:execute -u "${1}" -f /dev/stdin<<<"$apexCommand" | # Execute the expression inside a system.debug(). execute expects a file, so use <<< trick to make it seem like a file
         pcregrep -M 'USER_DEBUG(.|\n)+?([\d]{2}:[\d]{2}:[\d]{2})' | # find debug line, and try to search up to the next apex ouptut line, starting with dd:dd:dd
         sed '$d' | # remove the last line, which is the first non-debug line
         sed 's/.*\|//' # find everything after the last pipe, which will be the debugged output
 }
 
+# Execute an apex expression against an environment
+stmt() {
+    if [[ -z "$1" ]] || [[ -z "$2" ]]; then
+        echo "Execute a statement or list of statements"
+        echo "Pass quiet or q as the last paremeter to supress notification messages"
+        echo "Usage: stmt [ORG_ID] [STATEMENT_TO_EVALUATE] ['quiet' | 'q']"
+        return 1
+    fi
+
+    local apexCommand
+    apexCommand=${2}
+    if [ "$3" != "quiet" ] && [ "$3" != "q" ]; then
+        >&2 echo "${COLOR_BLUE}${BOLD}Executing:${COLOR_RESET}"
+        >&2 echo "${COLOR_BLUE}${apexCommand}${COLOR_RESET}"
+        >&2 echo
+    fi
+
+    # Example apex output, to see what we're grepping for. Logs for the
+    # multline command System.debug('a\nb'):
+    #     11:38:56.11 (11521203)|EXECUTION_STARTED
+    #     11:38:56.11 (11525424)|CODE_UNIT_STARTED|[EXTERNAL]|execute_anonymous_apex
+    #     11:38:56.11 (11944606)|USER_DEBUG|[1]|DEBUG|a
+    #     b
+    #     11:38:56.11 (11980694)|CUMULATIVE_LIMIT_USAGE
+    #     11:38:56.11 (11980694)|LIMIT_USAGE_FOR_NS|(default)|
+    # We need to find from the start of USER_DEBUG to the next non-debug line.
+    # Notice "b" is put on a line by itself, making it tricky to include in output
+
+    sfdx force:apex:execute -u "${1}" -f /dev/stdin<<<"$apexCommand" # Execute the statement inside a system.debug(). execute expects a file, so use <<< trick to make it seem like a file
+}
+
+alias lsorg='open https://grhc.lightning.force.com/lightning/setup/DataManagementCreateTestInstance/home'
+function orgid() {
+    exp "$1" 'UserInfo.getOrganizationId()'
+}
+
+# Some normal junk
+fzf_opts="--multi --layout=reverse --border"
+
+# Preview files to the right, in bat for colorizing
+fzf_opts="${fzf_opts} --preview 'bat --style=numbers --color=always {}'"
+
+# Doesn't work?
+# Make file list use ripgrep, which auto-ignores git and node_modules by default
+# export FZF_DEFAULT_COMMAND='rg --files'
+
+export FZF_DEFAULT_OPTS="$fzf_opts"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+alias ga="git ls-files -m --exclude-standard | fzf --print0 -m | xargs -0 -t -o git add"
+
