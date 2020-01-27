@@ -3,7 +3,7 @@
   "eslint.enable": true,
   "javascript.validate.enable": false,
   "editor.rulers": [80],
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 2,
   "files.exclude": {
     "**/.DS_Store": true,
     "**/.git": true,

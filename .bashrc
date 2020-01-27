@@ -1258,3 +1258,5 @@ stmt() {
         sed '$d' | # remove the last line, which is the first non-debug line
         sed 's/.*\|//' # find everything after the last pipe, which will be the debugged output
 }
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
