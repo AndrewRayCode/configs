@@ -1195,105 +1195,12 @@ if [ -a "$DOCKER_KEY" ]; then
     export GITHUB_PRIVATE_KEY="$(cat $DOCKER_KEY)"
 fi
 
-# Export a function as an entry point to PMD (which we use for Apex linting).
-# This lets us call "apexpmd" from child processes, like npm scripts
-function apexpmd() {
-  /usr/local/Cellar/pmd/6.16.0/libexec/bin/run.sh pmd "$@"
-}
-export -f apexpmd
+# Salesforce stuff
+[ -f ~/.salesforcerc ] && source ~/.salesforcerc
 
-# 1 salesforci boi
-
-# Find the value of any custom labels on a system matching a search pattern
-lbl() {
-    if [[ -z "$1" ]] || [[ -z "$2" ]]; then
-        echo "Usage: lbl [ORG_ID] [LABEL_REGEX]"
-        return 1
-    fi
-    local result
-    result=$(sfdx force:mdapi:listmetadata -m CustomLabel -u "${1}" --json)
-    # shellcheck disable=SC2181
-    if [ $? -ne 0 ];
-    then
-        echo "Error!"
-        echo "${result}"
-    else
-        echo "All labels on ${1} matching '${2}' (case insensitive):"
-        echo "${result}" | jq -r '.result[] | select(.fullName|test("'"${2}"'"; "i")) | .fullName' | while read -r line ; do
-            stmt "${1}" "'${line}: ' + Label.${line}" quiet
-        done
-    fi
-}
-
-# Execute an apex expression against an environment
-exp() {
-    if [[ -z "$1" ]] || [[ -z "$2" ]]; then
-        echo "Execute an expression, and print the output. Takes the apex expression you pass in and wraps it in a System.debug() call."
-        echo "Pass quiet or q as the last paremeter to supress notification messages"
-        echo "Usage: exp [ORG_ID] [EXPRESSION_TO_EVALUATE] ['quiet' | 'q']"
-        return 1
-    fi
-
-    local apexCommand
-    apexCommand='System.debug('"${2}"');'
-    if [ "$3" != "quiet" ] && [ "$3" != "q" ]; then
-        >&2 echo "${COLOR_BLUE}${BOLD}Executing:${COLOR_RESET}"
-        >&2 echo "${COLOR_BLUE}${apexCommand}${COLOR_RESET}"
-        >&2 echo
-    fi
-
-    # Example apex output, to see what we're grepping for. Logs for the
-    # multline command System.debug('a\nb'):
-    #     11:38:56.11 (11521203)|EXECUTION_STARTED
-    #     11:38:56.11 (11525424)|CODE_UNIT_STARTED|[EXTERNAL]|execute_anonymous_apex
-    #     11:38:56.11 (11944606)|USER_DEBUG|[1]|DEBUG|a
-    #     b
-    #     11:38:56.11 (11980694)|CUMULATIVE_LIMIT_USAGE
-    #     11:38:56.11 (11980694)|LIMIT_USAGE_FOR_NS|(default)|
-    # We need to find from the start of USER_DEBUG to the next non-debug line.
-    # Notice "b" is put on a line by itself, making it tricky to include in output
-
-    sfdx force:apex:execute -u "${1}" -f /dev/stdin<<<"$apexCommand" | # Execute the expression inside a system.debug(). execute expects a file, so use <<< trick to make it seem like a file
-        pcregrep -M 'USER_DEBUG(.|\n)+?([\d]{2}:[\d]{2}:[\d]{2})' | # find debug line, and try to search up to the next apex ouptut line, starting with dd:dd:dd
-        sed '$d' | # remove the last line, which is the first non-debug line
-        sed 's/.*\|//' # find everything after the last pipe, which will be the debugged output
-}
-
-# Execute an apex expression against an environment
-stmt() {
-    if [[ -z "$1" ]] || [[ -z "$2" ]]; then
-        echo "Execute a statement or list of statements"
-        echo "Pass quiet or q as the last paremeter to supress notification messages"
-        echo "Usage: stmt [ORG_ID] [STATEMENT_TO_EVALUATE] ['quiet' | 'q']"
-        return 1
-    fi
-
-    local apexCommand
-    apexCommand=${2}
-    if [ "$3" != "quiet" ] && [ "$3" != "q" ]; then
-        >&2 echo "${COLOR_BLUE}${BOLD}Executing:${COLOR_RESET}"
-        >&2 echo "${COLOR_BLUE}${apexCommand}${COLOR_RESET}"
-        >&2 echo
-    fi
-
-    # Example apex output, to see what we're grepping for. Logs for the
-    # multline command System.debug('a\nb'):
-    #     11:38:56.11 (11521203)|EXECUTION_STARTED
-    #     11:38:56.11 (11525424)|CODE_UNIT_STARTED|[EXTERNAL]|execute_anonymous_apex
-    #     11:38:56.11 (11944606)|USER_DEBUG|[1]|DEBUG|a
-    #     b
-    #     11:38:56.11 (11980694)|CUMULATIVE_LIMIT_USAGE
-    #     11:38:56.11 (11980694)|LIMIT_USAGE_FOR_NS|(default)|
-    # We need to find from the start of USER_DEBUG to the next non-debug line.
-    # Notice "b" is put on a line by itself, making it tricky to include in output
-
-    sfdx force:apex:execute -u "${1}" -f /dev/stdin<<<"$apexCommand" # Execute the statement inside a system.debug(). execute expects a file, so use <<< trick to make it seem like a file
-}
-
-alias lsorg='open https://grhc.lightning.force.com/lightning/setup/DataManagementCreateTestInstance/home'
-function orgid() {
-    exp "$1" 'UserInfo.getOrganizationId()'
-}
+#######
+# FZF #
+#######
 
 # Some normal junk
 fzf_opts="--multi --layout=reverse --border"
@@ -1308,5 +1215,9 @@ fzf_opts="${fzf_opts} --preview 'bat --style=numbers --color=always {}'"
 export FZF_DEFAULT_OPTS="$fzf_opts"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-alias ga="git ls-files -m --exclude-standard | fzf --print0 -m | xargs -0 -t -o git add"
+# Git add selected files with FZF
+alias ga="git ls-files -m --exclude-standard | fzf --print0 -m --preview 'git diff --color=always {}' | xargs -0 -t -o git add"
+
+# Git undo changes to selected files with FZF
+alias gx="git ls-files -m --exclude-standard | fzf --print0 -m --preview 'git diff --color=always {}' | xargs -0 -t -o git checkout -- "
 
