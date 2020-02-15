@@ -502,28 +502,9 @@ extract () {
      fi
 }
 
-# Tail a file and search for a pattern
+# Tail a file and search for a pattern, and colorize the matches (I think?)
 t() {
     tail -f $1 | perl -pe "s/$2/\e[1;31;43m$&\e[0m/g"
-}
-
-shc() {
-    # If no inputs, ssh to main
-    if [ -z $1 ]; then
-        ssh ct
-    else
-        # If it's in config file, ssh to it regularly
-        if [ -n "$(cat ~/.ssh/config | grep "Host $1")" ]; then
-            ssh $1
-        # Otherwise tunnel to it
-        else
-            ssh -t ct "ssh -t $1";
-        fi
-    fi
-}
-
-prod() {
-    osascript ~/prod.applescript
 }
 
 pullreq() {
