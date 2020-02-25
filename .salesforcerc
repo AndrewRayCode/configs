@@ -48,7 +48,7 @@ exp() {
     local apexCommand
     apexCommand='System.debug('"${2}"');'
     if [ "$3" != "quiet" ] && [ "$3" != "q" ]; then
-        >&2 echo "${COLOR_BLUE}${BOLD}Executing:${COLOR_RESET}"
+        >&2 echo "${COLOR_BLUE}${BOLD}Executing against ${COLOR_PURPLE}${BOLD}${1}${COLOR_BLUE}:${COLOR_RESET}"
         >&2 echo "${COLOR_BLUE}${apexCommand}${COLOR_RESET}"
         >&2 echo
     fi
@@ -88,7 +88,7 @@ stmt() {
     local apexCommand
     apexCommand=${2}
     if [ "$3" != "quiet" ] && [ "$3" != "q" ]; then
-        >&2 echo "${COLOR_BLUE}${BOLD}Executing:${COLOR_RESET}"
+        >&2 echo "${COLOR_BLUE}${BOLD}Executing against ${COLOR_PURPLE}${BOLD}${1}${COLOR_BLUE}:${COLOR_RESET}"
         >&2 echo "${COLOR_BLUE}${apexCommand}${COLOR_RESET}"
         >&2 echo
     fi
@@ -108,6 +108,7 @@ stmt() {
 }
 
 alias orgls='open https://grhc.lightning.force.com/lightning/setup/DataManagementCreateTestInstance/home'
+alias orgids='open https://grhc.lightning.force.com/lightning/setup/DataManagementCreateTestInstance/home'
 
 function orgid() {
     exp "$1" 'UserInfo.getOrganizationId()'
@@ -125,6 +126,29 @@ function whodat() {
     exp "$1" "[SELECT username FROM User WHERE Id = '$2']"
 }
 
-alias dstatus='open https://grhc--uat.lightning.force.com/lightning/setup/DeployStatus/home'
-alias tflags='open https://grhc--andrewdev.lightning.force.com/lightning/setup/ApexDebugLogs/home'
+function soqldev() {
+    exp AndrewDev "[$1]"
+}
+
+function whatis() {
+    exp $1 "((Id)'${2}').getSObjectType().getDescribe().getName()"
+}
+
+declare -A INSTANCE_URLS
+INSTANCE_URLS[UAT]='https://grhc--uat.lightning.force.com'
+INSTANCE_URLS[AndrewDev]='https://grhc--andrewdev.lightning.force.com'
+# shellcheck disable=SC2034
+INSTANCE_URLS[Unused]='' # Used for shellcheck disable above :(
+
+function deploy_status() {
+    open "${INSTANCE_URLS[$1]}/lightning/setup/DeployStatus/home"
+}
+
+function trace_flags() {
+    open "${INSTANCE_URLS[$1]}/lightning/setup/ApexDebugLogs/home"
+}
+
+alias dstatus='deploy_status UAT'
+alias tstatus='deploy_status AndrewDev'
+alias tflags='trace_flags AndrewDev'
 
