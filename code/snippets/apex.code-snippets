@@ -30,13 +30,12 @@
     ],
     "description": "Debug string"
   },
-  "Console Log String": {
+  "Debug Labeled String": {
     "scope": "apex,apex-anon",
     "prefix": "d,",
     "body": [
-      "System.debug('➡➡➡ $1 ⬅⬅⬅');",
-      "System.debug(${1});"
+      "System.debug('${1/'//g}: ' + String.valueOf(${1:}$0));"
     ],
-    "description": "Console log string"
+    "description": "Debug Labeled String"
   }
 }

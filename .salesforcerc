@@ -107,6 +107,29 @@ stmt() {
     sfdx force:apex:execute -u "${1}" -f /dev/stdin<<<"$apexCommand" # Execute the statement inside a system.debug(). execute expects a file, so use <<< trick to make it seem like a file
 }
 
+
+# TODO doesn't do anything, was editing string thing below and might have to
+# build a dynamic soql query to do it
+dumpsinmytruck() {
+    read -r -d '' VAR << EOM
+    String ((Id)'${2}').getSObjectType().getDescribe().getName()
+    List<Map<String, String>> lstfieldname = new List<Map<String, String>>();
+    Map <String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+    Map <String, Schema.SObjectField> fieldMap = schemaMap.get('Task').getDescribe().fields.getMap();
+    for(Schema.SObjectField sfield : fieldMap.Values()) {
+        schema.describefieldresult dfield = sfield.getDescribe();
+        Map<String, String> field = new Map<String, String>();
+        field.put(
+            dfield.getName(),
+            dfield.getType() + ' : ' + dfield.getLabel()
+        );
+        lstfieldname.add(field);
+    }
+    System.debug('lstfieldname');
+    System.debug(lstfieldname);
+EOM
+}
+
 alias orgls='open https://grhc.lightning.force.com/lightning/setup/DataManagementCreateTestInstance/home'
 alias orgids='open https://grhc.lightning.force.com/lightning/setup/DataManagementCreateTestInstance/home'
 

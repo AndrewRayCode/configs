@@ -49,25 +49,27 @@
     "command": "extension.runFileSpecs",
     "when": "editorTextFocus"
   },
+  // Open keybindings.json file, since there's no default shortcut for it (LOL)
+  {
+    "key": "cmd+k cmd+k",
+    "command": "workbench.action.openGlobalKeybindingsFile"
+  },
   // Clear notifications
   {
     "key": "cmd+k cmd+n",
-    "command": "notifications.clearAll",
-    "when": "editorTextFocus"
+    "command": "macros.clearOutputAndNotifications"
   },
   // Rerun last apex test class
   {
     "key": "cmd+k cmd+x",
-    "command": "macros.runLastApexTestClass",
-    "when": "editorTextFocus"
+    "command": "macros.runLastApexTestClass"
   },
   // Rerun last apex test
   {
     "key": "cmd+k cmd+t",
-    "command": "macros.runLastApexTestMethod",
-    "when": "editorTextFocus"
+    "command": "macros.runLastApexTestMethod"
   },
-  // Jump around in vim
+  // Jump between change history
   {
     "key": "cmd+]",
     "command": "workbench.action.editor.nextChange",
