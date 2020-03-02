@@ -127,7 +127,7 @@ function kport() {
 # Don't wait for job termination notification
 set -o notify
 
-# vim bindings in terminal
+# vim bindings in terminal. Comment left in to help you find .inputrc
 #set -o vi
 
 # source ~/.bash_config
