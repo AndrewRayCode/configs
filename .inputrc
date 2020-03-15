@@ -1,17 +1,5 @@
 # base-files version 3.9-3
 
-# To pick up the latest recommended .inputrc content,
-# look in /etc/defaults/etc/skel/.inputrc
-
-# Modifying /etc/skel/.inputrc directly will prevent
-# setup from updating it.
-
-# The copy in your home directory (~/.inputrc) is yours, please
-# feel free to customise it to create a shell
-# environment to your liking.  If you feel a change
-# would be benifitial to all, please feel free to send
-# a patch to the cygwin mailing list.
-
 # Bind the up arrow to history search, instead of history step
 "\e[A": history-search-backward
 # And the reverse (down)
@@ -37,39 +25,7 @@
 "\eOH": beginning-of-line
 "\eOF": end-of-line
 
-# Allow 8-bit input/output
-#set meta-flag on
-#set convert-meta off
-#set input-meta on
-#set output-meta on
-#$if Bash
-  # Don't ring bell on completion
-  #set bell-style none
-
-  # or, don't beep at me - show me
-  #set bell-style visible
-
-  # Filename completion/expansion
-  #set completion-ignore-case on
-  #set show-all-if-ambiguous on
-
-  # Expand homedir name
-  #set expand-tilde on
-
-  # Append "/" to all dirnames
-  #set mark-directories on
-  #set mark-symlinked-directories on
-
-  # Match all files
-  #set match-hidden-files on
-
-  # 'Magic Space'
-  # Insert a space character then performs
-  # a history expansion in the line
-  #Space: magic-space
-#$endif
-
-#if you don't like the annoying end-of-line beeps:
+# Stoppy beepy
 set bell-style none
 
 # to show all characters like å
@@ -77,8 +33,6 @@ set meta-flag On
 set input-meta On
 set output-meta On
 set convert-meta Off
-
-"\C-v": paste-from-clipboard
 
 # Vim mode in bash with cursor improvements. Zsh has different instructions
 # First upgrade to Bash 4 on OSX http://clubmate.fi/upgrade-to-bash-4-in-mac-os-x/
