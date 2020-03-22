@@ -14,7 +14,7 @@
     "**/tmp": true
   },
   "git.autofetch": false,
-  "editor.minimap.enabled": true,
+  "editor.minimap.enabled": false,
   // NOOOOOOOO
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": false,

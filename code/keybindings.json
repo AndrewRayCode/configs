@@ -13,6 +13,11 @@
     "key": "cmd-k cmd-,",
     "command": "macros.openWorkspaceSettingsJSON"
   },
+  // Open keyboard shortcuts
+  {
+    "key": "cmd+k cmd+k",
+    "command": "workbench.action.openGlobalKeybindingsFile"
+  },
   // Clear notifications
   {
     "key": "cmd+k cmd+n",
@@ -94,11 +99,6 @@
     "command": "workbench.action.files.copyPathOfActiveFile",
     "when": "editorTextFocus"
   },
-  {
-    "key": "cmd-k l",
-    "command": "latex-workshop.tab",
-    "when": "editorTextFocus"
-  },
   /**
   * ----------------------------------------------------------------------------
   * Terminal Helpers
@@ -146,5 +146,15 @@
   {
     "key": "cmd+k cmd+t",
     "command": "macros.runLastApexTestMethod"
+  },
+  /**
+  * ----------------------------------------------------------------------------
+  * What is this?
+  * ----------------------------------------------------------------------------
+  */
+  {
+    "key": "cmd-k l",
+    "command": "latex-workshop.tab",
+    "when": "editorTextFocus"
   }
 ]
