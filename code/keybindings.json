@@ -1,73 +1,22 @@
-// Place your key bindings in this file to overwrite the defaults
 [
-  // Vim navigate backwards/forwards
+  /**
+  * ----------------------------------------------------------------------------
+  * General keybindings
+  * ----------------------------------------------------------------------------
+  */
+  // Attempt to open workspace settings.json
   {
-    "key": "ctrl+o",
-    "command": "workbench.action.navigateBack",
-    "when": "editorTextFocus"
+    "key": "cmd-,",
+    "command": "workbench.action.openSettingsJson"
   },
   {
-    "key": "ctrl+i",
-    "command": "workbench.action.navigateForward",
-    "when": "editorTextFocus"
-  },
-  {
-    "key": "cmd+k p",
-    "command": "extension.copyRelativePathOfActiveFile",
-    "when": "editorTextFocus"
-  },
-  {
-    "key": "cmd+k f",
-    "command": "workbench.action.files.copyPathOfActiveFile",
-    "when": "editorTextFocus"
-  },
-  {
-    "key": "cmd-k l",
-    "command": "latex-workshop.tab",
-    "when": "editorTextFocus"
-  },
-  {
-    "key": "cmd-alt-m",
-    "command": "workbench.action.terminal.focus"
-  },
-  {
-    "key": "cmd-alt-m",
-    "command": "workbench.action.terminal.focus"
-  },
-  {
-    "key": "cmd-shift-b",
-    "command": "editor.action.revealDefinition",
-    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
-  },
-  // terrible defaults for "rails run specs"
-  {
-    "key": "shift+cmd+t",
-    "command": "workbench.action.reopenClosedEditor"
-  },
-  {
-    "key": "cmd+k cmd+f",
-    "command": "extension.runFileSpecs",
-    "when": "editorTextFocus"
-  },
-  // Open keybindings.json file, since there's no default shortcut for it (LOL)
-  {
-    "key": "cmd+k cmd+k",
-    "command": "workbench.action.openGlobalKeybindingsFile"
+    "key": "cmd-k cmd-,",
+    "command": "macros.openWorkspaceSettingsJSON"
   },
   // Clear notifications
   {
     "key": "cmd+k cmd+n",
     "command": "macros.clearOutputAndNotifications"
-  },
-  // Rerun last apex test class
-  {
-    "key": "cmd+k cmd+x",
-    "command": "macros.runLastApexTestClass"
-  },
-  // Rerun last apex test
-  {
-    "key": "cmd+k cmd+t",
-    "command": "macros.runLastApexTestMethod"
   },
   // Jump between change history
   {
@@ -113,5 +62,89 @@
   {
     "key": "cmd+8",
     "command": "workbench.action.openEditorAtIndex8"
+  },
+  /**
+  * ----------------------------------------------------------------------------
+  * Vim Helpers
+  * ----------------------------------------------------------------------------
+  */
+  // Vim navigate backwards/forwards
+  {
+    "key": "ctrl+o",
+    "command": "workbench.action.navigateBack",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+i",
+    "command": "workbench.action.navigateForward",
+    "when": "editorTextFocus"
+  },
+  /**
+  * ----------------------------------------------------------------------------
+  * File Helpers
+  * ----------------------------------------------------------------------------
+  */
+  {
+    "key": "cmd+k p",
+    "command": "extension.copyRelativePathOfActiveFile",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "cmd+k f",
+    "command": "workbench.action.files.copyPathOfActiveFile",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "cmd-k l",
+    "command": "latex-workshop.tab",
+    "when": "editorTextFocus"
+  },
+  /**
+  * ----------------------------------------------------------------------------
+  * Terminal Helpers
+  * ----------------------------------------------------------------------------
+  */
+  {
+    "key": "cmd-alt-m",
+    "command": "workbench.action.terminal.focus"
+  },
+  {
+    "key": "cmd-alt-m",
+    "command": "workbench.action.terminal.focus"
+  },
+  {
+    "key": "cmd-shift-b",
+    "command": "editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  /**
+  * ----------------------------------------------------------------------------
+  * Rspec Helpers
+  * ----------------------------------------------------------------------------
+  */
+  // terrible defaults for "rails run specs"
+  {
+    "key": "shift+cmd+t",
+    "command": "workbench.action.reopenClosedEditor"
+  },
+  {
+    "key": "cmd+k cmd+f",
+    "command": "extension.runFileSpecs",
+    "when": "editorTextFocus"
+  },
+  /**
+  * ----------------------------------------------------------------------------
+  * Apex Helpers
+  * ----------------------------------------------------------------------------
+  */
+  // Rerun last apex test class
+  {
+    "key": "cmd+k cmd+x",
+    "command": "macros.runLastApexTestClass"
+  },
+  // Rerun last apex test
+  {
+    "key": "cmd+k cmd+t",
+    "command": "macros.runLastApexTestMethod"
   }
 ]
