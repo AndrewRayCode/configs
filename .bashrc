@@ -1069,3 +1069,6 @@ alias ga="git ls-files -m --exclude-standard | fzf --print0 -m --preview 'git di
 # Git undo changes to selected files with FZF
 alias gx="git ls-files -m --exclude-standard | fzf --print0 -m --preview 'git diff --color=always {}' | xargs -0 -t -o git checkout -- "
 
+
+alias dcr='docker-compose run'
+alias dce='docker-compose exec'
