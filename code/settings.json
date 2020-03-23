@@ -2,7 +2,9 @@
 {
   "eslint.enable": true,
   "javascript.validate.enable": false,
-  "editor.rulers": [80],
+  "editor.rulers": [
+    80
+  ],
   "window.zoomLevel": 1,
   "files.exclude": {
     "**/.DS_Store": true,
@@ -89,5 +91,12 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.formatOnSave": true,
-  "editor.multiCursorModifier": "ctrlCmd"
+  "editor.multiCursorModifier": "ctrlCmd",
+  "macros": {
+    "openWorkspaceSettingsJSON": [
+      "workbench.action.openWorkspaceSettings",
+      "workbench.action.openWorkspaceSettings",
+      "settings.switchToJSON"
+    ]
+  }
 }

@@ -1,0 +1,7 @@
+{
+  "workbench.colorCustomizations": {
+    "titleBar.activeForeground": "#fff",
+    "titleBar.activeBackground": "#1f6700"
+  },
+  "window.title": "🤟🏻 ${activeEditorShort}${separator} Configs"
+}

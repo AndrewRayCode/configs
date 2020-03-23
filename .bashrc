@@ -1072,3 +1072,6 @@ alias gx="git ls-files -m --exclude-standard | fzf --print0 -m --preview 'git di
 # Terible horrible garbage for mysql 5.6 for local service
 pathadd "/usr/local/opt/mysql@5.6/bin"
 
+alias dcr='docker-compose run'
+alias dce='docker-compose exec'
+
