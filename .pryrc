@@ -36,7 +36,7 @@ begin
     include Rails.application.routes.url_helpers
     puts "✅ #{'include'.light_yellow} #{'Rails.application.routes.url_helpers'.cyan}"
 rescue LoadError
-    puts "Warning: factory_bot_rails gem not found"
+    puts "Warning: couldn't load route helpers"
 end
 
 # -----------------------------------------------------------------------------
