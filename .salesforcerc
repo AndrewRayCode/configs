@@ -20,10 +20,10 @@ lbl() {
     # shellcheck disable=SC2181
     if [ $? -ne 0 ];
     then
-        echo "Error!"
-        echo "${result}"
+        >&2 echo "Error!"
+        >&2 echo "${result}"
     else
-        echo "All labels on ${1} matching '${2}' (case insensitive):"
+        >&2 echo "All labels on ${1} matching '${2}' (case insensitive):"
         echo "${result}" | jq -r '.result[] | select(.fullName|test("'"${2}"'"; "i")) | .fullName' | while read -r line ; do
             stmt "${1}" "'${line}: ' + Label.${line}" quiet
         done
@@ -174,4 +174,9 @@ function trace_flags() {
 alias dstatus='deploy_status UAT'
 alias tstatus='deploy_status AndrewDev'
 alias tflags='trace_flags AndrewDev'
+
+function lt() {
+    >&2 echo "${BOLD}Tailing ${COLOR_BLUE}${BOLD}${1} ${COLOR_RESET}${BOLD}logs...${COLOR_RESET}"
+    sfdx force:apex:log:tail -u "$1" | grep --color=always -E 'USER_DEBUG|ERROR'
+}
 
