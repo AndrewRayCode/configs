@@ -773,6 +773,10 @@ PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_functio
 function ding() {
     afplay /System/Library/Sounds/Glass.aiff
 }
+function blorf() {
+    afplay /System/Library/Sounds/Basso.aiff
+}
+alias blorb=blorf
 
 # Python development, requires pyenv from homebrew
 # Needs to go before GR stuff
@@ -799,7 +803,6 @@ function gr_locked_gpg() {
         echo 0
     fi
 }
-
 
 if [ -d "$GR_HOME" ]; then
     for file in ${GR_HOME}/engineering/bash/*.sh; do
