@@ -16,12 +16,6 @@ COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
 COLOR_RESET=$(tput sgr0)
 BOLD=$(tput bold)
 
-# shellcheck disable=SC1091
-ITERM_SHELL_INTEGRATION="${HOME}.iterm2_shell_integration.bash"
-if [ -f "$ITERM_SHELL_INTEGRATION" ]; then
-    source "$ITERM_SHELL_INTEGRATION"
-fi
-
 ################################################################################
 ##### Path utilities (used by all scripts) #####################################
 ################################################################################
@@ -43,6 +37,12 @@ pathrm() {
 ################################################################################
 ##### Generic Settings #########################################################
 ################################################################################
+
+# shellcheck disable=SC1091
+ITERM_SHELL_INTEGRATION="${HOME}.iterm2_shell_integration.bash"
+if [ -f "$ITERM_SHELL_INTEGRATION" ]; then
+    source "$ITERM_SHELL_INTEGRATION"
+fi
 
 # vim bindings in terminal. Comment left in to help you find .inputrc
 #set -o vi
@@ -911,3 +911,4 @@ function error_test() {
 }
 
 PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_function})\[$COLOR_RESET\] \$ "
+

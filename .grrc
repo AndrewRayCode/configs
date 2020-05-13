@@ -4,7 +4,7 @@
 function gpgrep() {
     find . -type f -name '*.gpg' -exec sh -c "gpg -q -d --no-tty \"{}\" | grep -InH --color=auto --label=\"{}\" $*" \;
 }
- /
+
 # legacy line? testing removing for new laptop setup and not linux
 # export IPSEC_SECRETS_FILE=/etc/ipsec.secrets
 export KEY_SUFFIX=grandrounds.com
