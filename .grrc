@@ -1,0 +1,82 @@
+#!/bin/bash
+
+
+function gpgrep() {
+    find . -type f -name '*.gpg' -exec sh -c "gpg -q -d --no-tty \"{}\" | grep -InH --color=auto --label=\"{}\" $*" \;
+}
+
+# legacy line? testing removing for new laptop setup and not linux
+# export IPSEC_SECRETS_FILE=/etc/ipsec.secrets
+export KEY_SUFFIX=grandrounds.com
+
+# Grand rounds stuff
+export GR_HOME=${HOME}/dev
+export GR_USERNAME=andrew.ray
+
+if [ -d "$GR_HOME" ]; then
+    for file in ${GR_HOME}/engineering/bash/*.sh; do
+        source "$file"
+    done
+
+    pathadd "${GR_HOME}/engineering/bin"
+
+    # default to aws env
+    export AWS_DEFAULT_ROLE=developer
+    aws-environment > /dev/null || aws-environment development -l
+
+    # allow for pivotal prme command
+    tracker-environment
+fi
+
+function releaseCommits() {
+    git fetch --all
+
+    # Find the latest two non-smoke non-test release branches
+    latestBranches=$(git branch -a | grep -vo '/smoke/' | grep -vo '/test/' | grep -o '.*rc/branch/\d\{4\}-.\+' | sort -r | head -n 2)
+
+    currentReleaseBranch=$(echo "$latestBranches" | head -n 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+    lastReleaseBranch=$(echo "$latestBranches" | tail -n 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+
+    # Show only the merge commits in this branch
+    gitCommand="git log --first-parent master --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit ${currentReleaseBranch}..${lastReleaseBranch}"
+    echo "Executing:"
+    echo "   ${gitCommand}"
+    echo
+
+    git log --first-parent master --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit "${currentReleaseBranch}..${lastReleaseBranch}"
+
+    # Strip out remote/ prefix of branch name to pass to github link
+    currentReleaseBranchWithoutRemote=$(echo "$currentReleaseBranch" | sed -E 's/remotes\/[^\/]+\///')
+    lastReleaseBranchWithoutRemote=$(echo "$lastReleaseBranch" | sed -E 's/remotes\/[^\/]+\///')
+
+    echo
+    echo "You can see these commits on Github:"
+    echo "    https://github.com/ConsultingMD/jarvis/compare/${lastReleaseBranchWithoutRemote}...${currentReleaseBranchWithoutRemote}"
+}
+
+function jgrep() {
+    #bundle exec rake routes > ~/dev/rake-routes
+    cat ~/dev/rake-routes | grep -i "$1"
+}
+
+
+# Salesforce stuff
+[ -f ~/.salesforcerc ] && source ~/.salesforcerc
+
+# An alias to dump globalprotect routes so you can use strongswan
+alias vpn_fix='vpn_fix'
+alias vpnfix='vpn_fix'
+# and to turn globalprotect back on when you're done
+alias gpon='launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
+# v1.0 by Marty 04/15/2020
+# Script to dump GP and routes so Strongswan will work
+function vpn_fix() {
+  echo -e "${LP}Dumping Global Protect launch agents${NC}"
+  launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*
+  echo -e "${LP}Dropping an StrongSwan VPN connections${NC}"
+  sudo ipsec down production
+  echo -e "${LP}Dropping old Global Protect routes${NC}"
+  sudo route delete 10.191/16
+  echo -e "${LP}Set your AWS Params and VPNme now${NC}"
+  echo "When you're done and want to reenable GlobalProtect, type 'gpon'"
+}

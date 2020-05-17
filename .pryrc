@@ -2,6 +2,8 @@
 # Setup
 # =============================================================================
 
+puts "#{'✨ Initializing'.green} #{'pry ✨'.cyan}"
+
 # Disabe paging in pry, to avoid having to keep hitting j/space on big output
 # on small screens
 # On second thought I want this on because printing a huge object is not

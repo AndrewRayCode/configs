@@ -70,6 +70,15 @@
   },
   /**
   * ----------------------------------------------------------------------------
+  * Unbind bad shortcuts
+  * ----------------------------------------------------------------------------
+  */
+  {
+    "key": "command+shift+c",
+    "command": "-editor.action.insertCursorBelow"
+  },
+  /**
+  * ----------------------------------------------------------------------------
   * Vim Helpers
   * ----------------------------------------------------------------------------
   */
@@ -156,5 +165,20 @@
     "key": "cmd-k l",
     "command": "latex-workshop.tab",
     "when": "editorTextFocus"
+  },
+  {
+    "key": "shift+cmd+c",
+    "command": "-workbench.action.terminal.openNativeConsole",
+    "when": "!terminalFocus"
+  },
+  {
+    "key": "shift+cmd+c",
+    "command": "-workbench.action.terminal.openNativeConsole",
+    "when": "!terminalFocus"
+  },
+  {
+    "key": "shift+cmd+c",
+    "command": "-workbench.action.terminal.openNativeConsole",
+    "when": "!terminalFocus"
   }
 ]

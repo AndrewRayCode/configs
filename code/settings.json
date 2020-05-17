@@ -98,5 +98,6 @@
       "workbench.action.openWorkspaceSettings",
       "settings.switchToJSON"
     ]
-  }
+  },
+  "workbench.activityBar.visible": true
 }
