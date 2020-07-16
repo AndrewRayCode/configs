@@ -405,7 +405,7 @@ fi
 # -----------------------------------------------------------------------------
 
 # Ripgrep refuses to build a good UI https://github.com/BurntSushi/ripgrep/issues/196
-alias rg='rg --max-columns 200'
+alias rg='rg --ignore-case --max-columns 200'
 
 ######## FZF ########
 # -----------------------------------------------------------------------------

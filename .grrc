@@ -80,3 +80,25 @@ function vpn_fix() {
   echo -e "${LP}Set your AWS Params and VPNme now${NC}"
   echo "When you're done and want to reenable GlobalProtect, type 'gpon'"
 }
+
+schedule_production_deploy() {
+  local last_production_commit="$1"
+  local time_to_deploy="$2"
+  # git fetch --all
+  local master_commit
+  master_commit=$(git rev-parse origin/master)
+  local commits
+  commits=$(gl --merges "$last_production_commit".."$master_commit")
+  commits=$(echo "$commits" | sed "s/Megan Bananzadeh/<@megan.bananzadeh>/g")
+  commits=$(echo "$commits" | sed "s/Delphine Foo-Matkin/<@delphine.foo-matkin>/g")
+  commits=$(echo "$commits" | sed "/Merge branch 'master'/d")
+  commits=$(echo "$commits" | sed "s/^/• /g")
+  local merge_count
+  merge_count=$(echo "$commits" | wc -l)
+
+  local message
+  message=":redlight: :clock3: A *Production deploy has been scheduled for ${time_to_deploy} PT today.* Say '<@placebo> pause deploy' to cancel\\n\\nThe difference between production (${last_production_commit}) and UAT (${master_commit}) is *${merge_count} stories:*\\n\\n${commits}"
+
+  go_tell_placebo "$message"
+}
+

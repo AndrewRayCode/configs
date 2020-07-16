@@ -99,5 +99,15 @@
       "settings.switchToJSON"
     ]
   },
-  "workbench.activityBar.visible": true
+  "workbench.activityBar.visible": true,
+  "githubIssues.queries": [
+    {
+      "label": "My Issues",
+      "query": "default"
+    },
+    {
+      "label": "Created Issues",
+      "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+    }
+  ]
 }
