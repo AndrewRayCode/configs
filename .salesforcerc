@@ -180,3 +180,6 @@ function lt() {
     sfdx force:apex:log:tail -u "$1" | grep --color=always -E 'USER_DEBUG|ERROR'
 }
 
+function my_user_id() {
+    exp AndrewDev "[SELECT Id FROM User WHERE Email = 'andrew.ray@grandrounds.com']"
+}

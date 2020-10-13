@@ -28,6 +28,9 @@ if [ -d "$GR_HOME" ]; then
     tracker-environment
 fi
 
+# For asdf
+. $(brew --prefix asdf)/asdf.sh
+
 function releaseCommits() {
     git fetch --all
 

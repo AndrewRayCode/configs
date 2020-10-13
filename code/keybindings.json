@@ -11,7 +11,7 @@
   },
   {
     "key": "cmd-k cmd-,",
-    "command": "macros.openWorkspaceSettingsJSON"
+    "command": "workbench.action.openWorkspaceSettingsFile"
   },
   // Open keyboard shortcuts
   {

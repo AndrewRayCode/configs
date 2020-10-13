@@ -19,7 +19,7 @@
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "workbench.colorTheme": "rainbow",
-  "editor.renderWhitespace": "none",
+  "editor.renderWhitespace": "all",
   "gitlens.advanced.messages": {
     "suppressShowKeyBindingsNotice": true
   },
@@ -109,5 +109,7 @@
       "label": "Created Issues",
       "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
     }
-  ]
+  ],
+  "terminal.integrated.inheritEnv": false,
+  "salesforcedx-vscode-core.telemetry.enabled": false
 }
