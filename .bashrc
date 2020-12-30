@@ -102,8 +102,13 @@ function alert() {
     if [[ -z "$message" ]]; then
         message='Completed'
     fi
-    osascript -e "display notification \"${message}\" with title \"${message}\""
+    toast $1
     say -v Bells ${message}
+}
+
+function toast() {
+    message=$1
+    osascript -e "display notification \"${message}\" with title \"${message}\""
 }
 
 # make sound good

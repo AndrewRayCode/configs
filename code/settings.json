@@ -5,7 +5,7 @@
   "editor.rulers": [
     80
   ],
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 2,
   "files.exclude": {
     "**/.DS_Store": true,
     "**/.git": true,
@@ -31,6 +31,10 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  // not ready for prime time
+  // "[pegjs]": {
+  //     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
   "editor.tabSize": 2,
   "editor.tabCompletion": "on",
   "editor.snippetSuggestions": "top",
@@ -111,5 +115,33 @@
     }
   ],
   "terminal.integrated.inheritEnv": false,
-  "salesforcedx-vscode-core.telemetry.enabled": false
+  "salesforcedx-vscode-core.telemetry.enabled": false,
+
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": false,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+      {
+        "before": ["j", "j"],
+        "after": ["<Esc>"]
+      }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+      {
+        "before": ["<leader>", "d"],
+        "after": ["d", "d"]
+      },
+      {
+        "before": ["<C-n>"],
+        "commands": [":nohl"]
+      }
+    ],
+    "vim.leader": "<space>",
+    "vim.handleKeys": {
+      "<C-a>": false,
+      "<C-f>": false
+    },
+    "vim.smartRelativeLine": true
 }
