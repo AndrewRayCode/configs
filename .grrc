@@ -106,3 +106,17 @@ schedule_production_deploy() {
   go_tell_placebo "$message"
 }
 
+[ -f "$HOME/.jiracreds" ] && source "$HOME/.jiracreds"
+[ -f "$HOME/.gitaccesstoken" ] && source "$HOME/.gitaccesstoken"
+
+# From BOBs repo
+alias bazel=bazelisk
+
+# From BOBs repo
+export GO111MODULE=on
+export GOPROXY=direct
+export GOPRIVATE=github.com/ConsultingMD
+
+alias stopgp='launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
+alias startgp='launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
+

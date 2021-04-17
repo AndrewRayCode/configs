@@ -68,6 +68,10 @@
     "key": "cmd+8",
     "command": "workbench.action.openEditorAtIndex8"
   },
+  {
+    "key": "alt+cmd+o",
+    "command": "workbench.panel.output.focus"
+  },
   /**
   * ----------------------------------------------------------------------------
   * Unbind bad shortcuts

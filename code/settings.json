@@ -5,7 +5,6 @@
   "editor.rulers": [
     80
   ],
-  "window.zoomLevel": 1,
   "files.exclude": {
     "**/.DS_Store": true,
     "**/.git": true,
@@ -90,7 +89,6 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.formatOnSave": true,
   "editor.multiCursorModifier": "ctrlCmd",
   "macros": {
     "openWorkspaceSettingsJSON": [
@@ -111,5 +109,17 @@
     }
   ],
   "terminal.integrated.inheritEnv": false,
-  "salesforcedx-vscode-core.telemetry.enabled": false
+  "salesforcedx-vscode-core.telemetry.enabled": false,
+  "workbench.editor.wrapTabs": true,
+  "workbench.editor.decorations.badges": true,
+  "workbench.editor.decorations.colors": true,
+  "window.zoomLevel": 1,
+  "editor.codeActionsOnSave": {},
+  "go.toolsManagement.autoUpdate": true,
+  "workbench.editorAssociations": [
+    {
+      "viewType": "jupyter.notebook.ipynb",
+      "filenamePattern": "*.ipynb"
+    }
+  ]
 }
