@@ -5,6 +5,7 @@
   "editor.rulers": [
     80
   ],
+  "window.zoomLevel": 1,
   "files.exclude": {
     "**/.DS_Store": true,
     "**/.git": true,
@@ -30,6 +31,10 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  // not ready for prime time
+  // "[pegjs]": {
+  //     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
   "editor.tabSize": 2,
   "editor.tabCompletion": "on",
   "editor.snippetSuggestions": "top",
@@ -109,6 +114,7 @@
     }
   ],
   "terminal.integrated.inheritEnv": false,
+<<<<<<< HEAD
   "salesforcedx-vscode-core.telemetry.enabled": false,
   "workbench.editor.wrapTabs": true,
   "workbench.editor.decorations.badges": true,
@@ -123,3 +129,38 @@
     }
   ]
 }
+||||||| bc09cba
+  "salesforcedx-vscode-core.telemetry.enabled": false
+}
+=======
+  "salesforcedx-vscode-core.telemetry.enabled": false,
+
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": false,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+      {
+        "before": ["j", "j"],
+        "after": ["<Esc>"]
+      }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+      {
+        "before": ["<leader>", "d"],
+        "after": ["d", "d"]
+      },
+      {
+        "before": ["<C-n>"],
+        "commands": [":nohl"]
+      }
+    ],
+    "vim.leader": "<space>",
+    "vim.handleKeys": {
+      "<C-a>": false,
+      "<C-f>": false
+    },
+    "vim.smartRelativeLine": true
+}
+>>>>>>> 6a36f56087b79f22a29182485b43ca1f601403ca
