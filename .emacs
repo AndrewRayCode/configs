@@ -1,15 +1,17 @@
-;(add-to-list 'load-path "~/.emacs.d/evil")
-;(require 'evil)
-;(evil-mode 1)
-
 (require 'package)
-(add-to-list 'package-archives 
-    '("marmalade" .
-      "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-(add-to-list 'load-path "/path/to/color-theme.el/file")
-(require 'color-theme)
-;(eval-after-load "color-theme"
-;  '(progn
-;     (color-theme-vividchalk)))
+(setq inferior-lisp-program "/usr/local/bin/sbcl")
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(slime)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
