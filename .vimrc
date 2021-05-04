@@ -1474,27 +1474,10 @@ let g:project_use_nerdtree = 1
 " default starting path (the home directory)
 call project#rc("~/")
 
-Project  '~/ray/fq'                           , 'fq'
-Project  '~/ray/shader-studio'                , 'shader-studio'
-Project  '~/ray/runtime-shaderfrog'           , 'shaderfrog-runtime'
-Project  '~/ray/doopy-butts'                  , 'doopy-butts'
-Project  '~/ray/cats-react'                   , 'cats-react'
-Project  '~/ray/big-bubble'                   , 'bubble'
-Project  '~/ray/glsl2js'                      , 'parser'
-Project  '~/ray/mood-engine'                  , 'mood engine'
 Project  '~/ray/blog'                         , 'blog'
-Project  '~/ray/blag'                         , 'blag'
-Project  '~/ray/dev'                          , 'gr-dev'
-Project  '~/ray/dev/engineering'              , 'gr-engineering'
-Project  '~/ray/dev/brizo'                    , 'gr-brizo'
-Project  '~/ray/dev/tp'                       , 'tp'
-Project  '~/ray/dev/monger-cordova'           , 'monger-cordova'
-Project  '~/ray/dev/jarvis'                   , 'jarvis'
-Project  '~/ray/dev/devise-two-factor/demo'   , 'devise-two-factor-demo'
-Project  '~/ray/workerbee/OpusWeb/mvp_webpack', 'bee site'
-Project  '~/ray/rails-tutorial'               , 'rails tutorial'
-Project  '~/ray/dev/onboarding-tech-notes'    , 'onboarding tech notes'
 Project  '~/ray/closed-source-projects'       , 'closed source projects'
+Project  '~/dev/onboarding-tech-notes'        , 'onboarding tech notes'
+Project  '~/closed-source-projects'           , 'closed source projects'
 
 "------------------------------------------------------------------------------
 " Script-runner (I don't really use this anymore)
