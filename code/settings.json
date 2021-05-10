@@ -126,5 +126,5 @@
     }
   ],
   "salesforcedx-vscode-core.telemetry.enabled": false,
-  "window.zoomLevel": 1
+  "window.zoomLevel": 2
 }
