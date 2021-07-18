@@ -118,13 +118,14 @@
   "workbench.editor.decorations.badges": true,
   "workbench.editor.decorations.colors": true,
   "editor.codeActionsOnSave": {},
-  "go.toolsManagement.autoUpdate": true,
-  "workbench.editorAssociations": [
-    {
-      "viewType": "jupyter.notebook.ipynb",
-      "filenamePattern": "*.ipynb"
-    }
-  ],
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter.notebook.ipynb"
+  },
   "salesforcedx-vscode-core.telemetry.enabled": false,
-  "window.zoomLevel": 1
+  "[json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "window.zoomLevel": 1,
+  "editor.accessibilitySupport": "off"
 }
