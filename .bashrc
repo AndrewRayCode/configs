@@ -327,19 +327,6 @@ fi
 
 pathadd /Users/aray/miniconda3/bin:$PATH
 
-# Python development, requires pyenv from homebrew
-# Needs to go before GR stuff
-if [[ $(command -v pyenv) ]]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-
-    eval "$(pyenv init -)"
-
-    # Requires homebrew pyenv-virtualenv
-    if [[ -f "${PYENV_ROOT}/shims/virtualenv" ]]; then
-        eval "$(pyenv virtualenv-init -)"
-    fi
-fi
-
 ####### Scala ###########
 # -----------------------------------------------------------------------------
 
