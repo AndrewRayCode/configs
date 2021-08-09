@@ -109,7 +109,13 @@ alias bazel=bazelisk
 export GO111MODULE=on
 export GOPROXY=direct
 export GOPRIVATE=github.com/ConsultingMD
+export GOPATH="${HOME}/go"
+export GOBIN="${GOPATH}/bin"
+pathadd "${GOBIN}"
 
 alias stopgp='launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
 alias startgp='launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
+
+# For aws-environment
+export AWS_DEFAULT_ROLE=developer
 

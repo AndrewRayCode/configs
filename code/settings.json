@@ -113,18 +113,34 @@
     }
   ],
   "terminal.integrated.inheritEnv": false,
-  "salesforcedx-vscode-core.telemetry.enabled": false,
   "workbench.editor.wrapTabs": true,
   "workbench.editor.decorations.badges": true,
   "workbench.editor.decorations.colors": true,
   "editor.codeActionsOnSave": {},
   "go.toolsManagement.autoUpdate": true,
-  "workbench.editorAssociations": [
-    {
-      "viewType": "jupyter.notebook.ipynb",
-      "filenamePattern": "*.ipynb"
-    }
-  ],
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter.notebook.ipynb"
+  },
   "salesforcedx-vscode-core.telemetry.enabled": false,
-  "window.zoomLevel": 2
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // "go.lintTool":"golangci-lint",
+  // "go.lintFlags": [
+  //   "--fast"
+  // ],
+  "[go]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    }
+  },
+  "emeraldwalk.runonsave": {
+    "commands": [{
+      "match": "\\.go$",
+      "cmd": "golines ${file} -w",
+    }]
+  },
+  "security.workspace.trust.untrustedFiles": "open",
+  "window.zoomLevel": 1
 }

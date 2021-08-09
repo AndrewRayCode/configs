@@ -113,12 +113,13 @@ function toast() {
 
 # make sound good
 function ding() {
-    afplay /System/Library/Sounds/Glass.aiff
+    afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &
 }
 function blorf() {
-    afplay /System/Library/Sounds/Basso.aiff
+    afplay /System/Library/Sounds/Basso.aiff > /dev/null 2>&1 &
 }
 alias blorb=blorf
+alias blort=blorf
 
 # Networking
 # -----------------------------------------------------------------------------
@@ -314,8 +315,6 @@ if [ -d "$CHRUBY_PATH" ]; then
     # echo "ruby-2.5.1" > ~/.ruby-version
     # from https://github.com/postmodern/chruby#default-ruby
 fi
-
-[[ -s /Users/andrewray/.rsvm/rsvm.sh ]] && . /Users/andrewray/.rsvm/rsvm.sh # This loads RSVM
 
 ####### Python ##########
 # -----------------------------------------------------------------------------
