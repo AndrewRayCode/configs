@@ -82,11 +82,6 @@ alias pstop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
 ##### Generic Helpers ##########################################################
 ################################################################################
 
-# Tail a file and search for a pattern, and colorize the matches (I think?)
-t() {
-    tail -f $1 | perl -pe "s/$2/\e[1;31;43m$&\e[0m/g"
-}
-
 # Grep PS output and keep color
 psg() {
     ps axu | grep -v grep | grep "$@" -i --color=auto;
@@ -271,16 +266,6 @@ fi
 ##### Application / Intergration Specific ######################################
 ################################################################################
 
-
-#### Pivotal Tracker #####
-# -----------------------------------------------------------------------------
-
-TRACKER_FLOW_PATH="$GR_HOME/tracker-flow"
-if [ -d "$TRACKER_FLOW_PATH" ]; then
-  pathadd "$TRACKER_FLOW_PATH"
-  . "$TRACKER_FLOW_PATH/tracker_completion.bash"
-fi
-
 # Check out file to branch and unstage it
 function fb() {
     if [[ -z "$1" || -z "$2" ]]; then
@@ -335,23 +320,8 @@ if [ -s "$BAZEL_COMPLETION" ]; then
     source "${HOME}/usr/local/etc/bash_completion.d/bazel-complete.bash"
 fi
 
-####### Perl ############
-# -----------------------------------------------------------------------------
-
-# Hack to show the version of an installed perl module.
-function cpanversion() {
-    perl -le 'eval "require $ARGV[0]" and print $ARGV[0]->VERSION' $1
-}
-
-####### Android #########
-# -----------------------------------------------------------------------------
-
-# Android SDK
-pathadd "${HOME}/Library/Android/sdk/tools:${HOME}/Library/Android/sdk/platform-tools"
-
 ####### Node ############
 # -----------------------------------------------------------------------------
-
 
 export NVM_DIR="$HOME/.nvm"
 
@@ -368,7 +338,7 @@ fi
 ##### Utility CLI Specific #####################################################
 ################################################################################
 
-###### Terraform ########
+###### Bat ########
 # -----------------------------------------------------------------------------
 
 if type "bat" > /dev/null 2>&1; then
@@ -380,14 +350,6 @@ else
 fi
 
 alias cat='bat --theme=TwoDark'
-
-###### Terraform ########
-# -----------------------------------------------------------------------------
-
-LEGACY_TERRAFORM_PATH="/usr/local/opt/terraform@0.11/bin"
-if [ -d "$LEGACY_TERRAFORM_PATH" ]; then
-  pathadd "$LEGACY_TERRAFORM_PATH"
-fi
 
 ################################################################################
 ##### Command Line Tooling #####################################################
@@ -431,14 +393,14 @@ function vc() {
     (cd $_git_root && mvim -n -c 'call EditConflitedArgs()' $(git diff --name-only --diff-filter=U))
 }
 
-#Git ProTip - Delete all local branches that have been merged into HEAD
+# Git ProTip - Delete all local branches that have been merged into HEAD
 git_purge_local_branches() {
     BRANCHES=`git branch --merged | grep -v '^*' | grep -v 'master' | grep -v 'dev' | tr -d '\n'`
     echo "Running: git branch -d $BRANCHES"
     git branch -d $BRANCHES
 }
 
-#Bonus - Delete all remote branches that are merged into HEAD (thanks +Kyle Neath)
+# Bonus - Delete all remote branches that are merged into HEAD
 git_purge_remote_branches() {
     [ -z $1 ] && return
     git remote prune origin
@@ -585,7 +547,6 @@ deadbash() {
 ##### GR #######################################################################
 ################################################################################
 [ -f ~/.grrc ] && source ~/.grrc
-
 
 #######################################
 # distributed version control section #

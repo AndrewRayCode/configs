@@ -126,6 +126,5 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "window.zoomLevel": 1,
   "editor.accessibilitySupport": "off"
 }
