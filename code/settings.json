@@ -142,5 +142,5 @@
     }]
   },
   "security.workspace.trust.untrustedFiles": "open",
-  "window.zoomLevel": 1
+  "window.zoomLevel": 2
 }
