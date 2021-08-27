@@ -119,3 +119,5 @@ alias startgp='launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pang
 # For aws-environment
 export AWS_DEFAULT_ROLE=developer
 
+# Auth0 bearer token is in closed source
+
