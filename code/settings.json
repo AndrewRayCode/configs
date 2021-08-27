@@ -122,9 +122,6 @@
     "*.ipynb": "jupyter.notebook.ipynb"
   },
   "salesforcedx-vscode-core.telemetry.enabled": false,
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   // "go.lintTool":"golangci-lint",
   // "go.lintFlags": [
   //   "--fast"
@@ -142,5 +139,10 @@
     }]
   },
   "security.workspace.trust.untrustedFiles": "open",
-  "window.zoomLevel": 2
+  "window.zoomLevel": 2,
+  "[json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.accessibilitySupport": "off"
 }
