@@ -17,7 +17,6 @@
   // NOOOOOOOO
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": false,
-  "workbench.colorTheme": "rainbow",
   "editor.renderWhitespace": "all",
   "gitlens.advanced.messages": {
     "suppressShowKeyBindingsNotice": true
@@ -143,5 +142,6 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.accessibilitySupport": "off"
+  "editor.accessibilitySupport": "off",
+  "workbench.colorTheme": "rainbow"
 }

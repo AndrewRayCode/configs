@@ -650,7 +650,7 @@ function dvcs_commit_all {
 # Requirements (other than git, svn and hg):
 #   hg-prompt: https://bitbucket.org/sjl/hg-prompt/src
 #   svnversion (you probably have it if you have svn)
-#   ack
+#   ripgrep
 # props to http://www.codeography.com/2009/05/26/speedy-bash-prompt-git-and-subversion-integration.html
 
 MAX_CONFLICTED_FILES=2
@@ -762,7 +762,7 @@ dvcs_function="
 
         if [ -z \"\$is_rebase\" ]; then
             # changed *tracked* files in local directory?
-            gitChange=\$(echo \$gitStatus | ack 'modified:|deleted:|new file:')
+            gitChange=\$(echo \$gitStatus | rg 'modified:|deleted:|new file:')
             if [ -n \"\$gitChange\" ]; then
                 gitChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
             fi
@@ -835,9 +835,9 @@ dvcs_function="
 
     # If we are in subversion ...
     if [ -n \"\$_svn_dir\" ]; then
-
+        echo 'hi this is svn'
         # changed files in local directory? NOTE: This command is the slowest of the bunch
-        svnChange=\$(svn status | ack \"^M|^!\" | wc -l)
+        svnChange=\$(svn status | rg \"^M|^!\" | wc -l)
         if [[ \"\$svnChange\" != \"       0\" ]]; then
             svnChange=\" \\[`tput sc`\\]  \\[`tput rc`\\]\\[\$DELTA_CHAR\\] \"
         else
