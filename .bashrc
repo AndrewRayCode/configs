@@ -16,6 +16,9 @@ COLOR_LIGHT_CYAN=$(tput sgr0 && tput bold && tput setaf 6)
 COLOR_RESET=$(tput sgr0)
 BOLD=$(tput bold)
 
+# For MacOS to hide zsh "The default interactive shell is now zsh." warning
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 ################################################################################
 ##### Path utilities (used by all scripts) #####################################
 ################################################################################

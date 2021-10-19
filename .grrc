@@ -14,11 +14,11 @@ export GR_HOME=${HOME}/src
 export GR_USERNAME=andrew.ray
 
 if [ -d "$GR_HOME" ]; then
+    pathadd "${GR_HOME}/engineering/bin"
+
     for file in ${GR_HOME}/engineering/bash/*.sh; do
         source "$file"
     done
-
-    pathadd "${GR_HOME}/engineering/bin"
 fi
 
 # For asdf
