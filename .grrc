@@ -10,7 +10,7 @@ function gpgrep() {
 export KEY_SUFFIX=grandrounds.com
 
 # Grand rounds stuff
-export GR_HOME=${HOME}/dev
+export GR_HOME=${HOME}/src
 export GR_USERNAME=andrew.ray
 
 if [ -d "$GR_HOME" ]; then
