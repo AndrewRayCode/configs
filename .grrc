@@ -22,7 +22,12 @@ if [ -d "$GR_HOME" ]; then
 fi
 
 # For asdf
-. $(brew --prefix asdf)/asdf.sh
+if type "asdf" > /dev/null 2>&1; then
+    . $(brew --prefix asdf)/asdf.sh
+else
+    echo 'asdf not found'
+    echo 'Suggest: brew install asdf'
+fi
 
 function releaseCommits() {
     git fetch --all

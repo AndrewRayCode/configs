@@ -17,7 +17,6 @@
   // NOOOOOOOO
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": false,
-  "workbench.colorTheme": "rainbow",
   "editor.renderWhitespace": "all",
   "gitlens.advanced.messages": {
     "suppressShowKeyBindingsNotice": true
@@ -145,4 +144,5 @@
   },
   "editor.accessibilitySupport": "off",
   "window.zoomLevel": 1
+  "workbench.colorTheme": "rainbow"
 }
