@@ -838,7 +838,6 @@ dvcs_function="
 
     # If we are in subversion ...
     if [ -n \"\$_svn_dir\" ]; then
-        echo 'hi this is svn'
         # changed files in local directory? NOTE: This command is the slowest of the bunch
         svnChange=\$(svn status | rg \"^M|^!\" | wc -l)
         if [[ \"\$svnChange\" != \"       0\" ]]; then

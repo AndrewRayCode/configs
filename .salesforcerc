@@ -157,7 +157,7 @@ function whatis() {
     exp $1 "((Id)'${2}').getSObjectType().getDescribe().getName()"
 }
 
-declare -A INSTANCE_URLS
+declare -a INSTANCE_URLS
 INSTANCE_URLS[UAT]='https://grhc--uat.lightning.force.com'
 INSTANCE_URLS[AndrewDev]='https://grhc--andrewdev.lightning.force.com'
 # shellcheck disable=SC2034

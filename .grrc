@@ -60,7 +60,6 @@ function jgrep() {
     cat ~/dev/rake-routes | grep -i "$1"
 }
 
-
 # Salesforce stuff
 [ -f ~/.salesforcerc ] && source ~/.salesforcerc
 
