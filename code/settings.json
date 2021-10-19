@@ -143,5 +143,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.accessibilitySupport": "off",
+  "window.zoomLevel": 1
   "workbench.colorTheme": "rainbow"
 }
