@@ -878,4 +878,10 @@ PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_functio
 [[ -s ~/.fig/fig.sh ]] && source ~/.fig/fig.sh
 #### END FIG ENV VARIABLES ####
 
-
+function file-to-clipboard() {
+    osascript \
+        -e 'on run args' \
+        -e 'set the clipboard to POSIX file (first item of args)' \
+        -e end \
+        "$@"
+}

@@ -23,7 +23,9 @@ fi
 
 # For asdf
 if type "asdf" > /dev/null 2>&1; then
-    . $(brew --prefix asdf)/asdf.sh
+    # Inline brew prefix calls for speed
+    # . $(brew --prefix asdf)/asdf.sh
+    . /usr/local/opt/asdf/asdf.sh
 else
     echo 'asdf not found'
     echo 'Suggest: brew install asdf'
