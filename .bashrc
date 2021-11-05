@@ -304,6 +304,10 @@ if [ -d "$CHRUBY_PATH" ]; then
     # from https://github.com/postmodern/chruby#default-ruby
 fi
 
+####### MacVim mvim #####
+# -----------------------------------------------------------------------------
+pathadd /Applications/MacVim.app/Contents/bin
+
 ####### Python ##########
 # -----------------------------------------------------------------------------
 
