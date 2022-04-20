@@ -8,7 +8,7 @@ async def main(connection):
     items = []
 
     for i in connections:
-      items.append({ 'arg': i, 'title': i })
+      items.append({ 'arg': i, 'title': 'Restore arrangement "' + i + '"' })
 
     print(dumps({ 'items': items }))
 

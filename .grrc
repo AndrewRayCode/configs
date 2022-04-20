@@ -23,7 +23,9 @@ fi
 
 # For asdf
 if type "asdf" > /dev/null 2>&1; then
-    . $(brew --prefix asdf)/asdf.sh
+    # Inline brew prefix calls for speed
+    # . $(brew --prefix asdf)/asdf.sh
+    . /usr/local/opt/asdf/asdf.sh
 else
     echo 'asdf not found'
     echo 'Suggest: brew install asdf'
@@ -122,6 +124,15 @@ alias startgp='launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pang
 
 # For aws-environment
 export AWS_DEFAULT_ROLE=developer
+
+function go_tell_placebo {
+  local text_to_post=$1
+  # This is one way to nest double quotes in bash :(
+  local dqt='"'
+  curl -X POST -H 'Content-type: application/json' \
+    --data "{${dqt}text${dqt}:${dqt}${text_to_post}${dqt}}" \
+    `cat ~/.placebo-webhook`
+}
 
 # Auth0 bearer token is in closed source
 

@@ -111,13 +111,26 @@ function toast() {
 
 # make sound good
 function ding() {
-    afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &
+    (afplay /System/Library/Sounds/Glass.aiff & ) > /dev/null 2>&1
+    (say ding & ) > /dev/null 2>&1
 }
 function blorf() {
-    afplay /System/Library/Sounds/Basso.aiff > /dev/null 2>&1 &
+    (afplay /System/Library/Sounds/Basso.aiff & ) > /dev/null 2>&1
+    (say blorf & ) > /dev/null 2>&1
 }
 alias blorb=blorf
 alias blort=blorf
+
+function plorp() {
+    retVal=$?
+    if [ $retVal -ne 0 ]; then
+        blorb
+    else
+        ding
+    fi
+}
+alias plop=plorp
+alias p=plorp
 
 # Networking
 # -----------------------------------------------------------------------------
@@ -303,6 +316,10 @@ if [ -d "$CHRUBY_PATH" ]; then
     # echo "ruby-2.5.1" > ~/.ruby-version
     # from https://github.com/postmodern/chruby#default-ruby
 fi
+
+####### MacVim mvim #####
+# -----------------------------------------------------------------------------
+pathadd /Applications/MacVim.app/Contents/bin
 
 ####### Python ##########
 # -----------------------------------------------------------------------------
@@ -877,3 +894,11 @@ PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_functio
 #### END FIG ENV VARIABLES ####
 
 [[ -s ~/env-secrets.sh ]] && source ~/env-secrets.sh
+
+function file-to-clipboard() {
+    osascript \
+        -e 'on run args' \
+        -e 'set the clipboard to POSIX file (first item of args)' \
+        -e end \
+        "$@"
+}
