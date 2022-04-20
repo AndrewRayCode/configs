@@ -184,5 +184,15 @@
     "key": "shift+cmd+c",
     "command": "-workbench.action.terminal.openNativeConsole",
     "when": "!terminalFocus"
+  },
+  /**
+  * ----------------------------------------------------------------------------
+  * GO (no language specific bindings)
+  * ----------------------------------------------------------------------------
+  */
+  {
+    "key": "cmd+k cmd+g",
+    "command": "go.test.cursorOrPrevious",
+    "when": "!terminalFocus"
   }
 ]

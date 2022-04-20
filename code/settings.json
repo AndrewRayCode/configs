@@ -29,6 +29,10 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[css]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   // not ready for prime time
   // "[pegjs]": {
   //     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -86,6 +90,7 @@
   "files.autoSave": "off",
   "breadcrumbs.symbolPath": "off",
   "[javascriptreact]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
@@ -129,12 +134,16 @@
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
-    }
+    },
+  },
+  "go.useLanguageServer": true,
+  "gopls": {
+    "formatting.gofumpt": true,
   },
   "emeraldwalk.runonsave": {
     "commands": [{
       "match": "\\.go$",
-      "cmd": "golines ${file} -w",
+      "cmd": "/Users/andrew.ray/go/bin/golines ${file} -w",
     }]
   },
   "security.workspace.trust.untrustedFiles": "open",
@@ -144,5 +153,5 @@
   },
   "editor.accessibilitySupport": "off",
   "workbench.colorTheme": "rainbow",
-  "window.zoomLevel": 1
+  "window.zoomLevel": 3
 }

@@ -111,13 +111,26 @@ function toast() {
 
 # make sound good
 function ding() {
-    afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &
+    (afplay /System/Library/Sounds/Glass.aiff & ) > /dev/null 2>&1
+    (say ding & ) > /dev/null 2>&1
 }
 function blorf() {
-    afplay /System/Library/Sounds/Basso.aiff > /dev/null 2>&1 &
+    (afplay /System/Library/Sounds/Basso.aiff & ) > /dev/null 2>&1
+    (say blorf & ) > /dev/null 2>&1
 }
 alias blorb=blorf
 alias blort=blorf
+
+function plorp() {
+    retVal=$?
+    if [ $retVal -ne 0 ]; then
+        blorb
+    else
+        ding
+    fi
+}
+alias plop=plorp
+alias p=plorp
 
 # Networking
 # -----------------------------------------------------------------------------
