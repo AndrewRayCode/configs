@@ -872,10 +872,8 @@ function error_test() {
 
 PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_function})\[$COLOR_RESET\] \$ "
 
-
-
 #### FIG ENV VARIABLES ####
 [[ -s ~/.fig/fig.sh ]] && source ~/.fig/fig.sh
 #### END FIG ENV VARIABLES ####
 
-
+[[ -s ~/env-secrets.sh ]] && source ~/env-secrets.sh
