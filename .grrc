@@ -23,9 +23,11 @@ fi
 
 # For asdf
 if type "asdf" > /dev/null 2>&1; then
-    # Inline brew prefix calls for speed
-    # . $(brew --prefix asdf)/asdf.sh
-    . /usr/local/opt/asdf/asdf.sh
+    # Apparently this is the new right way to source asdf, based on
+    # https://github.com/asdf-vm/asdf/issues/1103#issuecomment-1093094933
+    # source "$(brew --prefix asdf)/libexec/asdf.sh"
+    # Below, we inline the above brew prefix calls for shell startup speed
+    source "/usr/local/opt/asdf/libexec/asdf.sh"
 else
     echo 'asdf not found'
     echo 'Suggest: brew install asdf'

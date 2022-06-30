@@ -93,6 +93,7 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "ruby.specCommand": "docker compose run --rm -e RAILS_ENV=test -e AWS_ENVIRONMENT=test web bundle exec rspec",
   "[typescript]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -153,5 +154,8 @@
   },
   "editor.accessibilitySupport": "off",
   "workbench.colorTheme": "rainbow",
-  "window.zoomLevel": 3
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "window.zoomLevel": 1
 }
