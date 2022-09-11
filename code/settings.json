@@ -25,15 +25,13 @@
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "breadcrumbs.enabled": true,
+  "window.commandCenter": true,
+  "terminal.integrated.shellIntegration.enabled": true,
   "[css]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascript]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[css]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -165,7 +163,6 @@
   "terminal.integrated.env.osx": {
     "FIG_NEW_SESSION": "1"
   },
-  "window.zoomLevel": 1,
   "audioCues.lineHasError": "off",
-  "workbench.statusBar.visible": false
+  "window.zoomLevel": 1
 }
