@@ -29,11 +29,13 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[javascript]": {
+  "window.commandCenter": true,
+  "terminal.integrated.shellIntegration.enabled": true,
+  "[css]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[css]": {
+  "[javascript]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -120,12 +122,17 @@
   "errorLens.gutterIconsEnabled": true,
   "files.autoSave": "off",
   "breadcrumbs.symbolPath": "off",
+  // Languages
   "[javascriptreact]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "ruby.specCommand": "docker compose run --rm -e RAILS_ENV=test -e AWS_ENVIRONMENT=test web bundle exec rspec",
   "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -192,4 +199,8 @@
   "editor.lineNumbers": "relative",
   "workbench.editor.untitled.hint": "hidden",
   "window.zoomLevel": 1
+  "terminal.integrated.env.osx": {
+    "FIG_NEW_SESSION": "1"
+  },
+  "audioCues.lineHasError": "off"
 }
