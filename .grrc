@@ -138,3 +138,10 @@ function go_tell_placebo {
 
 # Auth0 bearer token is in closed source
 
+# Maven
+export M2_HOME="/Users/andrew.ray/apache-maven-3.8.6/bin"
+pathadd "$M2_HOME"
+
+# Java
+JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home"
+pathadd "${JAVA_HOME}/bin"
