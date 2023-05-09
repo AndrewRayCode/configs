@@ -25,6 +25,10 @@
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "breadcrumbs.enabled": true,
+  "[apex]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "window.commandCenter": true,
   "terminal.integrated.shellIntegration.enabled": true,
   "[css]": {
@@ -44,7 +48,34 @@
   "editor.snippetSuggestions": "top",
   "terminal.integrated.rendererType": "dom",
   "editor.tokenColorCustomizations": {
-    "comments": "#d152ff"
+    "comments": "#d152ff",
+    "textMateRules": [
+      {
+          "scope": "heading.1.markdown entity.name.section.markdown, heading.1.markdown punctuation.definition.heading.markdown",
+          "settings": {
+              "foreground": "#FF003C",
+              "fontStyle": "bold",
+          }
+      },
+      {
+         "scope": "heading.2.markdown entity.name.section.markdown, heading.2.markdown punctuation.definition.heading.markdown",
+         "settings": {
+             "foreground": "#FF8A00",
+         }
+      },
+      {
+          "scope": "heading.3.markdown entity.name.section.markdown, heading.3.markdown punctuation.definition.heading.markdown",
+          "settings": {
+              "foreground": "#FABE28",
+          }
+      },
+      {
+          "scope": "heading.4.markdown entity.name.section.markdown, heading.4.markdown punctuation.definition.heading.markdown",
+          "settings": {
+              "foreground": "#88C100",
+          }
+      }
+    ]
   },
   "prettier.requireConfig": true,
   "workbench.colorCustomizations": {
@@ -96,6 +127,7 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "ruby.specCommand": "docker compose run --rm -e RAILS_ENV=test -e AWS_ENVIRONMENT=test web bundle exec rspec",
   "[typescript]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -157,6 +189,13 @@
   },
   "editor.accessibilitySupport": "off",
   "workbench.colorTheme": "rainbow",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.stickyScroll.enabled": true,
+  "editor.lineNumbers": "relative",
+  "workbench.editor.untitled.hint": "hidden",
+  "window.zoomLevel": 1,
   "terminal.integrated.env.osx": {
     "FIG_NEW_SESSION": "1"
   },

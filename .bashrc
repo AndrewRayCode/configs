@@ -902,3 +902,7 @@ function file-to-clipboard() {
         -e end \
         "$@"
 }
+
+# This loads the Included Health shell augmentations into your interactive shell
+. "$HOME/.ih/augment.sh"
+
