@@ -144,9 +144,6 @@
     },
   },
   "go.useLanguageServer": true,
-  "gopls": {
-    "formatting.gofumpt": true,
-  },
   "emeraldwalk.runonsave": {
     "commands": [{
       "match": "\\.go$",
@@ -164,5 +161,7 @@
     "FIG_NEW_SESSION": "1"
   },
   "audioCues.lineHasError": "off",
-  "window.zoomLevel": 1
+  "[python]": {
+    "editor.formatOnType": true
+  }
 }
