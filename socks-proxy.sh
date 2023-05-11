@@ -1,10 +1,13 @@
 #!/bin/bash
 PROXY_PORT=1808
 
+source ~/.bashrc
+
 disable_proxy() {
+  blorf&
   networksetup -setsocksfirewallproxystate Wi-Fi off
   # networksetup -setsocksfirewallproxystate Ethernet off
-  echo "SOCKS proxy disabled."
+  printf "\nSOCKS proxy disabled."
 }
 trap disable_proxy INT
 
