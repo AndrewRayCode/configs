@@ -195,7 +195,6 @@
   "editor.stickyScroll.enabled": true,
   "editor.lineNumbers": "relative",
   "workbench.editor.untitled.hint": "hidden",
-  "window.zoomLevel": 1,
   "terminal.integrated.env.osx": {
     "FIG_NEW_SESSION": "1"
   },
