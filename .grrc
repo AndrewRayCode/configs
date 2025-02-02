@@ -28,9 +28,6 @@ if type "asdf" > /dev/null 2>&1; then
     # source "$(brew --prefix asdf)/libexec/asdf.sh"
     # Below, we inline the above brew prefix calls for shell startup speed
     source "/usr/local/opt/asdf/libexec/asdf.sh"
-else
-    echo 'asdf not found'
-    echo 'Suggest: brew install asdf'
 fi
 
 function releaseCommits() {
