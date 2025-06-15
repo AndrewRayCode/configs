@@ -14,8 +14,6 @@
   },
   "git.autofetch": false,
   "editor.minimap.enabled": false,
-  // NOOOOOOOO
-  "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "editor.renderWhitespace": "all",
   "gitlens.advanced.messages": {
@@ -201,5 +199,10 @@
   "audioCues.lineHasError": "off",
   "[python]": {
     "editor.formatOnType": true
-  }
+  },
+  "git.openRepositoryInParentFolders": "never",
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "search.followSymlinks": true
 }
