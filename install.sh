@@ -44,7 +44,7 @@ if [ -z "$1" ]; then
     let xx=0
 
     # Find all system config files that aren't vim swap files and loop through them
-    for file in $(find . -type f -depth 1 -name ".bash_config*" | grep -v .swp)
+    for file in $(find . -type f -maxdepth 1 -name ".bash_config*" | grep -v .swp)
     do
         # Show them in a list with a counter
         xx=$(expr $xx + 1)
@@ -104,7 +104,7 @@ if [[ -d "$vsCodeDir" ]]; then
 fi
 
 # Loop through all dotfiles...
-for f in `find . -type f -depth 1 -name ".*" | grep -v .swp`
+for f in `find . -type f -maxdepth 1 -name ".*" | grep -v .swp`
 do
     # If it's not a config file...
     if ! [[ -n `echo $f | grep bash_config` ]]; then
@@ -135,7 +135,7 @@ fonts=/Library/Fonts
 if [[ ! -d $fonts ]]; then
     echo $COLOR_LIGHT_RED$fonts$COLOR_RED" does not exist! Please manually install the fonts in this dir that I'm too lazy to list"$COLOR_RESET
 else
-    for font in `find . -type f -depth 1 -name "*.otf"`
+    for font in `find . -type f -maxdepth 1 -name "*.otf"`
     do
         echo $COLOR_GREEN"Installing font $COLOR_LIGHT_GREEN$font$COLOR_GREEN to$COLOR_LIGHT_GREEN $fonts$COLOR_GREEN...$COLOR_RESET"
         cp $font $fonts
