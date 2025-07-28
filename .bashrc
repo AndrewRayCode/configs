@@ -906,3 +906,7 @@ function file-to-clipboard() {
 # This loads the Included Health shell augmentations into your interactive shell
 . "$HOME/.ih/augment.sh"
 
+# lol
+alias rayws='docker run --rm -it -v /Users/andrew.ray/ray/haskell/aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
+
+[ -f "/Users/andrew.ray/.ghcup/env" ] && . "/Users/andrew.ray/.ghcup/env" # ghcup-env
