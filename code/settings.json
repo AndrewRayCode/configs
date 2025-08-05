@@ -202,7 +202,6 @@
     "sound": "off"
   },
   "haskell.manageHLS": "GHCup",
-  "audioCues.lineHasError": "off",
   "[python]": {
     "editor.formatOnType": true
   },
