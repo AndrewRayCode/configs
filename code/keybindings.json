@@ -194,5 +194,9 @@
     "key": "cmd+k cmd+g",
     "command": "go.test.cursorOrPrevious",
     "when": "!terminalFocus"
+  },
+  {
+    "key": "cmd+i",
+    "command": "composerMode.agent"
   }
 ]
