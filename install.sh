@@ -92,7 +92,22 @@ vsCodeDir=$HOME/Library/Application\ Support/Code/User/
 if [[ -d "$vsCodeDir" ]]; then
     # Link ~/.bash_config to the specified one in our dir
     echo "${COLOR_GREEN}Linking ${COLOR_LIGHT_GREEN}${vsCodeDir} ${COLOR_GREEN}...${COLOR_RESET}"
-    ln -sf "${pw}settings.json ${vsCodeDir}"
+    ln -sf "${pw}code/settings.json" "${vsCodeDir}"
+
+    # putting these here for easy working with later
+    #ln -fs /Users/andrewray/configs/code/settings.json /Users/andrewray/Library/Application\ Support/Code/User/
+    #ln -fs /Users/andrewray/configs/code/snippets/javascript.json "/Users/andrewray/Library/Application Support/Code/User/snippets/javascript.json"
+    # ln -fs "${HOME}/configs/code/snippets/ecmascript.code-snippets" "${HOME}/Library/Application Support/Code/User/snippets/ecmascript.code-snippets"
+    # ln -fs "${HOME}/configs/code/snippets/apex.code-snippets" "${HOME}/Library/Application Support/Code/User/snippets/apex.code-snippets"
+
+    let "symlinks+=1"
+fi
+
+cursorCodeDir=$HOME/Library/Application\ Support/Cursor/User/
+if [[ -d "$cursorCodeDir" ]]; then
+    # Link ~/.bash_config to the specified one in our dir
+    echo "${COLOR_GREEN}Linking ${COLOR_LIGHT_GREEN}${cursorCodeDir} ${COLOR_GREEN}...${COLOR_RESET}"
+    ln -sf "${pw}code/settings.json" "${cursorCodeDir}"
 
     # putting these here for easy working with later
     #ln -fs /Users/andrewray/configs/code/settings.json /Users/andrewray/Library/Application\ Support/Code/User/

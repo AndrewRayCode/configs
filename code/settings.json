@@ -142,7 +142,6 @@
       "settings.switchToJSON"
     ]
   },
-  "workbench.activityBar.visible": true,
   "githubIssues.queries": [
     {
       "label": "My Issues",
@@ -170,7 +169,7 @@
   "[go]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.organizeImports": true
+      "source.organizeImports": "explicit"
     },
   },
   "go.useLanguageServer": true,
@@ -196,7 +195,13 @@
   "terminal.integrated.env.osx": {
     "FIG_NEW_SESSION": "1"
   },
-  "audioCues.lineHasError": "off",
+  "salesforcedx-vscode-apex.java.home": "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home",
+  "workbench.editor.empty.hint": "hidden",
+  "window.zoomLevel": 1,
+  "accessibility.signals.lineHasError": {
+    "sound": "off"
+  },
+  "haskell.manageHLS": "GHCup",
   "[python]": {
     "editor.formatOnType": true
   },

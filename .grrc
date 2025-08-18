@@ -1,35 +1,34 @@
 #!/bin/bash
 
-
+# ?
 function gpgrep() {
     find . -type f -name '*.gpg' -exec sh -c "gpg -q -d --no-tty \"{}\" | grep -InH --color=auto --label=\"{}\" $*" \;
 }
 
 # legacy line? testing removing for new laptop setup and not linux
 # export IPSEC_SECRETS_FILE=/etc/ipsec.secrets
-export KEY_SUFFIX=grandrounds.com
+# export KEY_SUFFIX=grandrounds.com
 
 # Grand rounds stuff
-export GR_HOME=${HOME}/src
-export GR_USERNAME=andrew.ray
+# export GR_HOME=${HOME}/src
+# export GR_USERNAME=andrew.ray
 
-if [ -d "$GR_HOME" ]; then
-    pathadd "${GR_HOME}/engineering/bin"
+# if [ -d "$GR_HOME" ]; then
+#     pathadd "${GR_HOME}/engineering/bin"
 
-    for file in ${GR_HOME}/engineering/bash/*.sh; do
-        source "$file"
-    done
-fi
+#     for file in ${GR_HOME}/engineering/bash/*.sh; do
+#         source "$file"
+#     done
+# fi
 
 # For asdf
-if type "asdf" > /dev/null 2>&1; then
-    # Apparently this is the new right way to source asdf, based on
-    # https://github.com/asdf-vm/asdf/issues/1103#issuecomment-1093094933
-    # source "$(brew --prefix asdf)/libexec/asdf.sh"
-    # Below, we inline the above brew prefix calls for shell startup speed
-    source "/usr/local/opt/asdf/libexec/asdf.sh"
-fi
-
+# if type "asdf" > /dev/null 2>&1; then
+#     # Apparently this is the new right way to source asdf, based on
+#     # https://github.com/asdf-vm/asdf/issues/1103#issuecomment-1093094933
+#     # source "$(brew --prefix asdf)/libexec/asdf.sh"
+#     # Below, we inline the above brew prefix calls for shell startup speed
+#     source "/usr/local/opt/asdf/libexec/asdf.sh"
+# fi
 function releaseCommits() {
     git fetch --all
 
@@ -111,15 +110,15 @@ schedule_production_deploy() {
 alias bazel=bazelisk
 
 # From BOBs repo
-export GO111MODULE=on
-export GOPROXY=direct
-export GOPRIVATE=github.com/ConsultingMD
-export GOPATH="${HOME}/go"
-export GOBIN="${GOPATH}/bin"
-pathadd "${GOBIN}"
+# export GO111MODULE=on
+# export GOPROXY=direct
+# export GOPRIVATE=github.com/ConsultingMD
+# export GOPATH="${HOME}/go"
+# export GOBIN="${GOPATH}/bin"
+# pathadd "${GOBIN}"
 
-alias stopgp='launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
-alias startgp='launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
+# alias stopgp='launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
+# alias startgp='launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*'
 
 # For aws-environment
 export AWS_DEFAULT_ROLE=developer
@@ -136,9 +135,9 @@ function go_tell_placebo {
 # Auth0 bearer token is in closed source
 
 # Maven
-export M2_HOME="/Users/andrew.ray/apache-maven-3.8.6/bin"
-pathadd "$M2_HOME"
+# export M2_HOME="/Users/andrew.ray/apache-maven-3.8.6/bin"
+# pathadd "$M2_HOME"
 
-# Java
-JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home"
-pathadd "${JAVA_HOME}/bin"
+# # Java
+# JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home"
+# pathadd "${JAVA_HOME}/bin"
