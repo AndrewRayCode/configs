@@ -1,213 +1,205 @@
-// Place your settings in this file to overwrite the default settings
 {
-  "eslint.enable": true,
-  "javascript.validate.enable": false,
-  "editor.rulers": [
-    80
-  ],
-  "files.exclude": {
-    "**/.DS_Store": true,
-    "**/.git": true,
-    "**/node_modules": true,
-    "**/old_dist_find_assets": true,
-    "**/tmp": true
-  },
-  "git.autofetch": false,
-  "editor.minimap.enabled": false,
-  "workbench.editor.enablePreviewFromQuickOpen": false,
-  "editor.renderWhitespace": "all",
-  "gitlens.advanced.messages": {
-    "suppressShowKeyBindingsNotice": true
-  },
-  "window.title": "${activeEditorMedium}${separator}${rootName}",
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "breadcrumbs.enabled": true,
-  "[apex]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "window.commandCenter": true,
-  "terminal.integrated.shellIntegration.enabled": true,
-  "[css]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  // not ready for prime time
-  // "[pegjs]": {
-  //     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  // },
-  "editor.tabSize": 2,
-  "editor.tabCompletion": "on",
-  "editor.snippetSuggestions": "top",
-  "terminal.integrated.rendererType": "dom",
-  "editor.tokenColorCustomizations": {
-    "comments": "#d152ff",
-    "textMateRules": [
-      {
-          "scope": "heading.1.markdown entity.name.section.markdown, heading.1.markdown punctuation.definition.heading.markdown",
-          "settings": {
-              "foreground": "#FF003C",
-              "fontStyle": "bold",
-          }
-      },
-      {
-         "scope": "heading.2.markdown entity.name.section.markdown, heading.2.markdown punctuation.definition.heading.markdown",
-         "settings": {
-             "foreground": "#FF8A00",
-         }
-      },
-      {
-          "scope": "heading.3.markdown entity.name.section.markdown, heading.3.markdown punctuation.definition.heading.markdown",
-          "settings": {
-              "foreground": "#FABE28",
-          }
-      },
-      {
-          "scope": "heading.4.markdown entity.name.section.markdown, heading.4.markdown punctuation.definition.heading.markdown",
-          "settings": {
-              "foreground": "#88C100",
-          }
-      }
-    ]
-  },
-  "prettier.requireConfig": true,
-  "workbench.colorCustomizations": {
-    "[rainbow]": {
-      "editor.background": "#000"
-    }
-  },
-  "workbench.sideBar.location": "left",
-  "gitlens.menus": {
-    "editor": {
-      "blame": false,
-      "clipboard": true,
-      "compare": true,
-      "details": false,
-      "history": false,
-      "remote": false
+    "eslint.enable": true,
+    "javascript.validate.enable": false,
+    "editor.rulers": [
+        80
+    ],
+    "files.exclude": {
+        "**/.DS_Store": true,
+        "**/.git": true,
+        "**/node_modules": true,
+        "**/old_dist_find_assets": true,
+        "**/tmp": true
     },
-    "editorGroup": {
-      "blame": true,
-      "compare": true
+    "git.autofetch": false,
+    "editor.minimap.enabled": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "editor.renderWhitespace": "all",
+    "gitlens.advanced.messages": {
+        "suppressShowKeyBindingsNotice": true
     },
-    "editorTab": {
-      "clipboard": true,
-      "compare": true,
-      "history": true,
-      "remote": true
+    "window.title": "${activeEditorMedium}${separator}${rootName}",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "breadcrumbs.enabled": true,
+    "[apex]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "explorer": {
-      "clipboard": true,
-      "compare": true,
-      "history": true,
-      "remote": true
+    "window.commandCenter": true,
+    "terminal.integrated.shellIntegration.enabled": true,
+    "[css]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "scmGroup": {
-      "compare": true,
-      "openClose": true,
-      "stash": true,
-      "stashInline": true
-    }
-  },
-  "gitlens.currentLine.enabled": false,
-  "gitlens.hovers.currentLine.over": "line",
-  "gitlens.codeLens.enabled": false,
-  "errorLens.gutterIconsEnabled": true,
-  "files.autoSave": "off",
-  "breadcrumbs.symbolPath": "off",
-  // Languages
-  "[javascriptreact]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "ruby.specCommand": "docker compose run --rm -e RAILS_ENV=test -e AWS_ENVIRONMENT=test web bundle exec rspec",
-  "[typescript]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "editor.multiCursorModifier": "ctrlCmd",
-  "macros": {
-    "openWorkspaceSettingsJSON": [
-      "workbench.action.openWorkspaceSettings",
-      "workbench.action.openWorkspaceSettings",
-      "settings.switchToJSON"
-    ]
-  },
-  "githubIssues.queries": [
-    {
-      "label": "My Issues",
-      "query": "default"
+    "[javascript]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    {
-      "label": "Created Issues",
-      "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
-    }
-  ],
-  "terminal.integrated.inheritEnv": false,
-  "workbench.editor.wrapTabs": true,
-  "workbench.editor.decorations.badges": true,
-  "workbench.editor.decorations.colors": true,
-  "editor.codeActionsOnSave": {},
-  "go.toolsManagement.autoUpdate": true,
-  "workbench.editorAssociations": {
-    "*.ipynb": "jupyter.notebook.ipynb"
-  },
-  "salesforcedx-vscode-core.telemetry.enabled": false,
-  // "go.lintTool":"golangci-lint",
-  // "go.lintFlags": [
-  //   "--fast"
-  // ],
-  "[go]": {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit"
+    "editor.tabSize": 2,
+    "editor.tabCompletion": "on",
+    "editor.snippetSuggestions": "top",
+    "terminal.integrated.rendererType": "dom",
+    "editor.tokenColorCustomizations": {
+        "comments": "#d152ff",
+        "textMateRules": [
+            {
+                "scope": "heading.1.markdown entity.name.section.markdown, heading.1.markdown punctuation.definition.heading.markdown",
+                "settings": {
+                    "foreground": "#FF003C",
+                    "fontStyle": "bold"
+                }
+            },
+            {
+                "scope": "heading.2.markdown entity.name.section.markdown, heading.2.markdown punctuation.definition.heading.markdown",
+                "settings": {
+                    "foreground": "#FF8A00"
+                }
+            },
+            {
+                "scope": "heading.3.markdown entity.name.section.markdown, heading.3.markdown punctuation.definition.heading.markdown",
+                "settings": {
+                    "foreground": "#FABE28"
+                }
+            },
+            {
+                "scope": "heading.4.markdown entity.name.section.markdown, heading.4.markdown punctuation.definition.heading.markdown",
+                "settings": {
+                    "foreground": "#88C100"
+                }
+            }
+        ]
     },
-  },
-  "go.useLanguageServer": true,
-  "emeraldwalk.runonsave": {
-    "commands": [{
-      "match": "\\.go$",
-      "cmd": "/Users/andrew.ray/go/bin/golines ${file} -w",
-    }]
-  },
-  "security.workspace.trust.untrustedFiles": "open",
-  "[json]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "editor.accessibilitySupport": "off",
-  "workbench.colorTheme": "rainbow",
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "editor.stickyScroll.enabled": true,
-  "editor.lineNumbers": "relative",
-  "workbench.editor.untitled.hint": "hidden",
-  "terminal.integrated.env.osx": {
-    "FIG_NEW_SESSION": "1"
-  },
-  "salesforcedx-vscode-apex.java.home": "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home",
-  "workbench.editor.empty.hint": "hidden",
-  "window.zoomLevel": 1,
-  "accessibility.signals.lineHasError": {
-    "sound": "off"
-  },
-  "haskell.manageHLS": "GHCup",
-  "[python]": {
-    "editor.formatOnType": true
-  },
-  "git.openRepositoryInParentFolders": "never",
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "search.followSymlinks": true
+    "prettier.requireConfig": true,
+    "workbench.colorCustomizations": {
+        "[rainbow]": {
+            "editor.background": "#000"
+        }
+    },
+    "workbench.sideBar.location": "left",
+    "gitlens.menus": {
+        "editor": {
+            "blame": false,
+            "clipboard": true,
+            "compare": true,
+            "details": false,
+            "history": false,
+            "remote": false
+        },
+        "editorGroup": {
+            "blame": true,
+            "compare": true
+        },
+        "editorTab": {
+            "clipboard": true,
+            "compare": true,
+            "history": true,
+            "remote": true
+        },
+        "explorer": {
+            "clipboard": true,
+            "compare": true,
+            "history": true,
+            "remote": true
+        },
+        "scmGroup": {
+            "compare": true,
+            "openClose": true,
+            "stash": true,
+            "stashInline": true
+        }
+    },
+    "gitlens.currentLine.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.codeLens.enabled": false,
+    "errorLens.gutterIconsEnabled": true,
+    "files.autoSave": "off",
+    "breadcrumbs.symbolPath": "off",
+    "[javascriptreact]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "ruby.specCommand": "docker compose run --rm -e RAILS_ENV=test -e AWS_ENVIRONMENT=test web bundle exec rspec",
+    "[typescript]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.multiCursorModifier": "ctrlCmd",
+    "macros": {
+        "openWorkspaceSettingsJSON": [
+            "workbench.action.openWorkspaceSettings",
+            "workbench.action.openWorkspaceSettings",
+            "settings.switchToJSON"
+        ]
+    },
+    "githubIssues.queries": [
+        {
+            "label": "My Issues",
+            "query": "default"
+        },
+        {
+            "label": "Created Issues",
+            "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+        }
+    ],
+    "terminal.integrated.inheritEnv": false,
+    "workbench.editor.wrapTabs": true,
+    "workbench.editor.decorations.badges": true,
+    "workbench.editor.decorations.colors": true,
+    "editor.codeActionsOnSave": {},
+    "go.toolsManagement.autoUpdate": true,
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
+    "salesforcedx-vscode-core.telemetry.enabled": false,
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "go.useLanguageServer": true,
+    "emeraldwalk.runonsave": {
+        "commands": [
+            {
+                "match": "\\.go$",
+                "cmd": "/Users/andrew.ray/go/bin/golines ${file} -w"
+            }
+        ]
+    },
+    "security.workspace.trust.untrustedFiles": "open",
+    "[json]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.accessibilitySupport": "off",
+    "workbench.colorTheme": "rainbow",
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.stickyScroll.enabled": true,
+    "editor.lineNumbers": "relative",
+    "workbench.editor.untitled.hint": "hidden",
+    "terminal.integrated.env.osx": {
+        "FIG_NEW_SESSION": "1"
+    },
+    "salesforcedx-vscode-apex.java.home": "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home",
+    "workbench.editor.empty.hint": "hidden",
+    "window.zoomLevel": 1,
+    "accessibility.signals.lineHasError": {
+        "sound": "off"
+    },
+    "haskell.manageHLS": "GHCup",
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "git.openRepositoryInParentFolders": "never",
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "search.followSymlinks": true
 }
