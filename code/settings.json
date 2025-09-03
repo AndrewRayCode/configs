@@ -1,4 +1,5 @@
 {
+    "openInGitHub.useLocalLine": true,
     "eslint.enable": true,
     "javascript.validate.enable": false,
     "editor.rulers": [
@@ -201,5 +202,9 @@
     "[jsonc]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "search.followSymlinks": true
+    "search.followSymlinks": true,
+    "security.promptForLocalFileProtocolHandling": false,
+    "makefile.configureOnOpen": true,
+    "containers.containerClient": "com.microsoft.visualstudio.containers.docker",
+    "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose"
 }

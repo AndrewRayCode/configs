@@ -887,26 +887,74 @@ function error_test() {
     fi
 }
 
-PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_function})\[$COLOR_RESET\] \$ "
+export PS1="\n\[$COLOR_YELLOW\]\u\[\$(error_test)\]@\[$COLOR_GREEN\]\w\$(${dvcs_function})\[$COLOR_RESET\] \$ "
+
+# Maybe show status lines after a command has been executed
+# $1: 0 if the last command was empty command (e.g. just enter on empty command line)
+# $2: time in seconds the start of command (PS0 timing)
+# $3: current time in seconds
+# $4: status of last executed command
+function maybeshowstatus()
+{
+    hadcommand="$1"
+    starttime="$2"
+    current="$3"
+    status=$4
+    elapsed="$((current - starttime))"
+    if (($hadcommand > 0)); then
+        # Get the last command run using `history`. Update the below if statement
+        # to skip if the command contains "git" or "less"
+        last_command=$(history | tail -n 1 | awk '{print $2}')
+        if [[ $last_command == "git" || $last_command == "less" ]]; then
+            return
+        fi
+        if (($elapsed > 2)); then
+            printf "😐 Elapsed: %dmin %dsec (now: %s)\n" "$(($elapsed%3600/60))" "$(($elapsed%60))" "$(date +'%F %T')"
+            (say -v bells "$elapsed, idiot" & ) > /dev/null 2>&1
+        fi
+    #else
+        # extra actions you want to run if enter is pressed on empty prompt
+        #date +'%F %T'
+    fi
+}
+
+case "$TERM" in
+xterm*|rxvt*|screen*)
+
+    # set initial state at the start of shell session
+    PS0time=$SECONDS
+    PS0hadcommand=0
+    # whenever PS0 is evaluated (non-empty command) set flag and timestamp
+    PS0='\[${PS1:$((PS0time=$SECONDS, PS0hadcommand=1, 0)):0}\]'
+    # before showing prompt, maybe show the extra status lines, avoid losing existing $PROMPT_COMMAND
+    PROMPT_COMMAND="maybeshowstatus \"\$PS0hadcommand\" \"\$PS0time\" \"\$SECONDS\" \"\$?\"; $PROMPT_COMMAND"
+    # reset PS0hadcommand to zero via PS1 (Bash doesn't evaluate PS0 with empty command line), avoid losing existing PS1
+    RESET_PS0HADCOMMAND='${PS1:PS0hadcommand=0:0}'
+    PS1="$RESET_PS0HADCOMMAND$PS1"
+    ;;
+*)
+    # do nothing
+    ;;
+esac
 
 #### FIG ENV VARIABLES ####
 [[ -s ~/.fig/fig.sh ]] && source ~/.fig/fig.sh
 #### END FIG ENV VARIABLES ####
 
-[[ -s ~/env-secrets.sh ]] && source ~/env-secrets.sh
+# [[ -s ~/env-secrets.sh ]] && source ~/env-secrets.sh
 
-function file-to-clipboard() {
-    osascript \
-        -e 'on run args' \
-        -e 'set the clipboard to POSIX file (first item of args)' \
-        -e end \
-        "$@"
-}
+# function file-to-clipboard() {
+#     osascript \
+#         -e 'on run args' \
+#         -e 'set the clipboard to POSIX file (first item of args)' \
+#         -e end \
+#         "$@"
+# }
 
 # This loads the Included Health shell augmentations into your interactive shell
 . "$HOME/.ih/augment.sh"
 
-# lol
-alias rayws='docker run --rm -it -v /Users/andrew.ray/ray/haskell/aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
+# # lol
+# alias rayws='docker run --rm -it -v /Users/andrew.ray/ray/haskell/aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
 
 [ -f "/Users/andrew.ray/.ghcup/env" ] && . "/Users/andrew.ray/.ghcup/env" # ghcup-env
