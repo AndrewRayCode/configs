@@ -31,3 +31,8 @@ if [ -e /Users/andrewray/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/andr
 #### END FIG ENV VARIABLES ####
 
 
+
+# Setting PATH for Python 3.14
+# The original version is saved in .bash_profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/3.14/bin:${PATH}"
+export PATH
