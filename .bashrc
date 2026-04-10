@@ -177,7 +177,7 @@ function audiosize() {
     declare -a files
     let xx=0
 
-    mroot="/Users/andrewray/Music/Extended Mixes"
+    mroot="$HOME/Music/Extended Mixes"
     # Find all system config files that aren't vim swap files and loop through them
     for file in $mroot
     do
@@ -270,13 +270,13 @@ extract () {
 }
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f /Users/andrewray/google-cloud-sdk/path.bash.inc ]; then
-  source '/Users/andrewray/google-cloud-sdk/path.bash.inc'
+if [ -f $HOME/google-cloud-sdk/path.bash.inc ]; then
+  source '$HOME/google-cloud-sdk/path.bash.inc'
 fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f /Users/andrewray/google-cloud-sdk/completion.bash.inc ]; then
-  source '/Users/andrewray/google-cloud-sdk/completion.bash.inc'
+if [ -f $HOME/google-cloud-sdk/completion.bash.inc ]; then
+  source '$HOME/google-cloud-sdk/completion.bash.inc'
 fi
 
 ################################################################################
@@ -956,4 +956,7 @@ esac
 
 [ -f "/Users/andrew.ray/.ghcup/env" ] && . "/Users/andrew.ray/.ghcup/env" # ghcup-env
 
-alias ccat='bat --plain'
+alias ccat='bat --plain'export PATH="$HOME/.local/bin:$PATH"
+
+# Claude
+pathadd "$HOME/.local/bin"
